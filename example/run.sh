@@ -15,19 +15,19 @@ echo "-- run conflate --";
 cat $OPENADDRESSES | time -p node "$DIR/../conflate_csv.js" $DB;
 
 echo "-- search for: (glasgow st, wellington, nz) --";
-sqlite3 example.db < rtree.sql;
+sqlite3 $DB < "$DIR/rtree.sql";
 
 echo "-- search for addresses: (glasgow st, wellington, nz) --";
-sqlite3 example.db < addresses.sql;
+sqlite3 $DB < "$DIR/addresses.sql";
 
 # echo "-- street_rtree --";
-# sqlite3 example.db "SELECT * FROM street_rtree;";
+# sqlite3 $DB "SELECT * FROM street_rtree;";
 
 # echo "-- street_polyline --";
-# sqlite3 example.db "SELECT * FROM street_polyline;";
+# sqlite3 $DB "SELECT * FROM street_polyline;";
 
 # echo "-- street_names --";
-# sqlite3 example.db "SELECT * FROM street_names;";
+# sqlite3 $DB "SELECT * FROM street_names;";
 
 # echo "-- street_address --";
-# sqlite3 example.db "SELECT * FROM street_address;";
+# sqlite3 $DB "SELECT * FROM street_address;";
