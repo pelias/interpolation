@@ -1,6 +1,11 @@
 
 var through = require('through2'),
-    postal = require('node-postal');
+    postal = require('node-postal'),
+    polyline = require('polyline'),
+    project = require('../lib/project');
+
+// polyline precision
+var PRECISION = 6;
 
 var sql = [
   "SELECT street_polyline.id, street_names.name, street_polyline.line FROM street_polyline",
@@ -31,7 +36,7 @@ function streamFactory(db){
 
   // prepared statement
   var statement = {
-    address: db.prepare("INSERT INTO street_address (rowid, id, source, housenumber, lat, lon) VALUES (NULL, $id, $source, $housenumber, $lat, $lon);")
+    address: db.prepare("INSERT INTO street_address (rowid, id, source, housenumber, lat, lon, proj_lat, proj_lon, along) VALUES (NULL, $id, $source, $housenumber, $lat, $lon, $proj_lat, $proj_lon, $along);")
   };
 
   return through.obj(function( batch, _, next ){
@@ -41,8 +46,12 @@ function streamFactory(db){
       return next();
     }
 
+    // we could potentially use any batch member?
+    // so just choose the first since it doesn't matter.
+    var firstBatchSesult = batch[0];
+
     // all street names in batch should be the same
-    var streetName = batch[0].STREET;
+    var streetName = firstBatchSesult.STREET;
 
     // perform libpostal normalization
     var names = postal.expand.expand_address( streetName );
@@ -62,8 +71,8 @@ function streamFactory(db){
     // create a variable array of args to bind to query
     var args = [
       query.join(" ") + ";",
-      batch[0].LON, batch[0].LON,
-      batch[0].LAT, batch[0].LAT
+      firstBatchSesult.LON, firstBatchSesult.LON,
+      firstBatchSesult.LAT, firstBatchSesult.LAT
     ].concat(names);
 
     // call db.all(), appending the callback function
@@ -75,16 +84,43 @@ function streamFactory(db){
           line: 't}e`rA}cdehIcI_dCuJsnC[iIWiJ{Ko|DgMkdEuLcyC' } ]
       **/
 
-      // @todo: select best row instead of first (unlikely to find >1 anyway)
       if( rows && rows.length ){
+
+        // @todo: select best row instead of first (unlikely to find >1 anyway)
+        // could choose longest or closest instead?
+        var firstStreetMatch = rows[0];
+
+        // decode polyline
+        var linestring = polyline.toGeoJSON(firstStreetMatch.line, PRECISION).coordinates;
+
         db.parallelize(function(){
           batch.forEach( function( item ){
+
+            // @note: removes letters such as '2a' -> 2
+            var housenumber = parseFloat( item.NUMBER );
+
+            // if the house number is followed by a single letter [a-i] then we
+            // add a fraction to the house number representing the offset.
+            // @todo: tests for this
+            var apartment = item.NUMBER.match(/^[0-9]+([abcdefghi])$/);
+            if( apartment ){
+              var offset = apartment[1].charCodeAt(0) - 96; // gives a:1, b:2 etc..
+              housenumber += offset / 10; // add fraction to housenumber for apt;
+            }
+
+            // project point on to line string
+            var point = [ parseFloat(item.LON), parseFloat(item.LAT) ];
+            var proj = project.pointOnLine( linestring, point );
+
             statement.address.run({
               $id: rows[0].id,
               $source: 'OA',
-              $housenumber: parseInt( item.NUMBER, 10 ), // @note: removes letters such as '2a' -> 2
-              $lat: batch[0].LAT,
-              $lon: batch[0].LON,
+              $housenumber: housenumber,
+              $lon: point[0],
+              $lat: point[1],
+              $proj_lon: proj.point[0],
+              $proj_lat: proj.point[1],
+              $along: project.lineDistance( project.sliceLineAtProjection( linestring, proj ) )
             }, function(){
               // debug
               process.stderr.write('.');
@@ -109,7 +145,7 @@ function onError(label){
     if( err ){
       console.error( err );
     }
-  }
+  };
 }
 
 module.exports = streamFactory;

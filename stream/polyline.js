@@ -38,7 +38,7 @@ function parse( row ){
         bbox: extent( geojson ), // [WSEN]
         line: cols[0],
         // geojson: geojson
-      }
+      };
 
     } else if( cols.length ) {
       console.error( 'invalid polyline row', row );

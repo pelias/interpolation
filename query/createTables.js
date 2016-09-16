@@ -24,5 +24,5 @@ module.exports = function( db, rebuild ){
 
   // create street_address table
   if( rebuild ){ db.run("DROP TABLE IF EXISTS street_address;"); }
-  db.run("CREATE TABLE IF NOT EXISTS street_address (rowid INTEGER PRIMARY KEY, id INTEGER, source TEXT, housenumber INTEGER, lat REAL, lon REAL);");
-}
+  db.run("CREATE TABLE IF NOT EXISTS street_address (rowid INTEGER PRIMARY KEY, id INTEGER, source TEXT, housenumber REAL, lat REAL, lon REAL, proj_lat REAL, proj_lon REAL, along REAL);");
+};
