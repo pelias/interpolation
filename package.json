@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cli-table2": "^0.2.0",
     "csv-parse": "^1.1.7",
     "geojson-extent": "^0.3.2",
     "node-postal": "^0.3.0",

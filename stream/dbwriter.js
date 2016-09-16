@@ -11,7 +11,7 @@ function streamFactory(db, done){
     names: db.prepare("INSERT INTO street_names (rowid, id, name) VALUES (NULL, $id, $name);"),
     line: db.prepare("INSERT INTO street_polyline (id, line, minX, maxX, minY, maxY) VALUES ($id, $line, $minX, $maxX, $minY, $maxY);"),
     // geometry: db.prepare("INSERT INTO street_geometry (id, geometry) VALUES ($id, LineStringFromText($geom, 4326));")
-  }
+  };
 
   return through.obj(function( batch, _, next ){
 
@@ -60,10 +60,9 @@ function streamFactory(db, done){
           //   $geom: parsed.geom
           // }, onError('geometry'));
         });
-      });
-
+      }); // parallelize
       db.run("COMMIT", onError('COMMIT'));
-      next()
+      next();
     });
   }, function(){
 
@@ -77,17 +76,17 @@ function streamFactory(db, done){
 
       // we are done
       done();
-    })
+    });
 
   });
-};
+}
 
 function onError( title ){
   return function( err ){
     if( err ){
       console.error( "stmt " + title + ": " + err );
-    };
-  }
+    }
+  };
 }
 
 module.exports = streamFactory;

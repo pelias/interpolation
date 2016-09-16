@@ -36,7 +36,7 @@ function streamFactory(db){
 
   // prepared statement
   var statement = {
-    address: db.prepare("INSERT INTO street_address (rowid, id, source, housenumber, lat, lon, proj_lat, proj_lon, along) VALUES (NULL, $id, $source, $housenumber, $lat, $lon, $proj_lat, $proj_lon, $along);")
+    address: db.prepare("INSERT INTO street_address (rowid, id, source, housenumber, lat, lon, proj_lat, proj_lon) VALUES (NULL, $id, $source, $housenumber, $lat, $lon, $proj_lat, $proj_lon);")
   };
 
   return through.obj(function( batch, _, next ){
@@ -94,6 +94,11 @@ function streamFactory(db){
         var linestring = polyline.toGeoJSON(firstStreetMatch.line, PRECISION).coordinates;
 
         db.parallelize(function(){
+
+          // store an array of housenumbers and their distance along the linestring
+          var distances = [];
+
+          // process all house number entries in batch
           batch.forEach( function( item ){
 
             // @note: removes letters such as '2a' -> 2
@@ -112,20 +117,91 @@ function streamFactory(db){
             var point = [ parseFloat(item.LON), parseFloat(item.LAT) ];
             var proj = project.pointOnLine( linestring, point );
 
+            // compute the distance along the linestring to the projected point (in meters)
+            var dist = project.lineDistance( project.sliceLineAtProjection( linestring, proj ) );
+            distances.push({ housenumber: housenumber, dist: dist });
+
+            // insert openaddresses values in db
             statement.address.run({
               $id: rows[0].id,
               $source: 'OA',
               $housenumber: housenumber,
-              $lon: point[0],
-              $lat: point[1],
-              $proj_lon: proj.point[0],
-              $proj_lat: proj.point[1],
-              $along: project.lineDistance( project.sliceLineAtProjection( linestring, proj ) )
+              $lon: point[0].toFixed(7),
+              $lat: point[1].toFixed(7),
+              $proj_lon: proj.point[0].toFixed(7),
+              $proj_lat: proj.point[1].toFixed(7)
             }, function(){
               // debug
               process.stderr.write('.');
             });
           });
+
+
+          // ensure distances are sorted by distance ascending
+          distances.sort( function( a, b ){
+            return a.dist > b.dist;
+          });
+
+          // insert each point on linestring in table
+          // note: this allows us to ignore the linestring and simply linearly
+          // interpolation between matched values at query time.
+          linestring.forEach( function( vertex, i ){
+
+            // not a line, just a single point;
+            if( 0 === i ){ return; }
+
+            // distance along line to vertex
+            var dist = project.lineDistance( linestring.slice(0, i+1) );
+
+            // projected fractional housenumber
+            var housenumber;
+
+            // cycle through calculated distances and interpolate a fractional housenumber
+            // value which would sit at this vertex.
+            for( var x=0; x<distances.length-1; x++ ){
+
+              var thisDist = distances[x],
+                  nextDist = distances[x+1];
+
+              // the vertex distance is less that the lowest housenumber
+              // @extrapolation
+              if( dist < thisDist.dist ){
+                break;
+              }
+
+              // vertex distance is between two house number distance
+              if( nextDist.dist > dist ){
+                var ratio = (dist - thisDist.dist) / (nextDist.dist - thisDist.dist);
+                // console.error( 'ratio', ratio );
+                var minHouseNumber = Math.min( thisDist.housenumber, nextDist.housenumber );
+                var maxHouseNumber = Math.max( thisDist.housenumber, nextDist.housenumber );
+                housenumber = minHouseNumber + (( maxHouseNumber - minHouseNumber ) * ratio);
+              }
+
+              // else the vertex is greater than the highest housenumber
+              // @extrapolation
+            }
+
+            // skip undefined housenumbers
+            if( !housenumber ){
+              return;
+            }
+
+            // insert point values in db
+            statement.address.run({
+              $id: rows[0].id,
+              $source: 'VERTEX',
+              $housenumber: housenumber.toFixed(3),
+              $lon: undefined,
+              $lat: undefined,
+              $proj_lon: vertex[0].toFixed(7),
+              $proj_lat: vertex[1].toFixed(7)
+            }, function(){
+              // debug
+              process.stderr.write('.');
+            });
+          });
+
         });
       }
 

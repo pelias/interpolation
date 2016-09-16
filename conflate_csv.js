@@ -9,7 +9,7 @@ var dbfile = ( process.argv.length > 2 ) ? process.argv[2] : 'example.db';
 
 // connect to db
 sqlite3.verbose();
-var db = new sqlite3.Database(dbfile/*, sqlite3.OPEN_READONLY*/);
+var db = new sqlite3.Database(dbfile);
 
 function main(){
   db.serialize(function() {

@@ -39,7 +39,7 @@ function map( parsed, id ){
     maxX: parsed.bbox[2] +FUDGE_FACTOR,
     maxY: parsed.bbox[3] +FUDGE_FACTOR,
     names: names
-  }
+  };
 }
 
 module.exports = streamFactory;
