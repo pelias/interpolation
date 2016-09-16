@@ -150,6 +150,11 @@ function streamFactory(db){
             // not a line, just a single point;
             if( 0 === i ){ return; }
 
+            // ignore successive duplicate points in linestring
+            if( vertex[0] === linestring[i-1][0] &&vertex[1] === linestring[i-1][1] ){
+              return;
+            }
+
             // distance along line to vertex
             var dist = project.lineDistance( linestring.slice(0, i+1) );
 
@@ -175,7 +180,7 @@ function streamFactory(db){
                 // console.error( 'ratio', ratio );
                 var minHouseNumber = Math.min( thisDist.housenumber, nextDist.housenumber );
                 var maxHouseNumber = Math.max( thisDist.housenumber, nextDist.housenumber );
-                housenumber = minHouseNumber + (( maxHouseNumber - minHouseNumber ) * ratio);
+                housenumber = minHouseNumber + (( maxHouseNumber - minHouseNumber ) * ( 1-ratio ));
               }
 
               // else the vertex is greater than the highest housenumber
