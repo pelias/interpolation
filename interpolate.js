@@ -77,7 +77,7 @@ function printTable( res ){
 function geojsonify( res ){
 
   var point = function( row ){
-    return {
+    var p = {
       "type": "Feature",
       "properties": row,
       "geometry": {
@@ -88,6 +88,12 @@ function geojsonify( res ){
         ]
       }
     };
+
+    if( row.source === 'VERTEX' ){
+      p.properties['marker-color'] = "FFA500";
+    }
+
+    return p;
   };
 
   var geojson = {
