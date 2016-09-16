@@ -42,7 +42,7 @@ function streamFactory(db){
     }
 
     // all street names in batch should be the same
-    var streetName = batch[0]["STREET"];
+    var streetName = batch[0].STREET;
 
     // perform libpostal normalization
     var names = postal.expand.expand_address( streetName );
@@ -62,8 +62,8 @@ function streamFactory(db){
     // create a variable array of args to bind to query
     var args = [
       query.join(" ") + ";",
-      batch[0]["LON"], batch[0]["LON"],
-      batch[0]["LAT"], batch[0]["LAT"]
+      batch[0].LON, batch[0].LON,
+      batch[0].LAT, batch[0].LAT
     ].concat(names);
 
     // call db.all(), appending the callback function
@@ -83,8 +83,8 @@ function streamFactory(db){
               $id: rows[0].id,
               $source: 'OA',
               $housenumber: parseInt( item.NUMBER, 10 ), // @note: removes letters such as '2a' -> 2
-              $lat: batch[0]["LAT"],
-              $lon: batch[0]["LON"],
+              $lat: batch[0].LAT,
+              $lon: batch[0].LON,
             }, function(){
               // debug
               process.stderr.write('.');

@@ -24,7 +24,7 @@ function streamFactory(){
   return through.obj(function( csvrow, _, next ){
 
     // invalid row
-    if( !csvrow || !csvrow["STREET"] || !csvrow["LON"] || !csvrow["LAT"] ){
+    if( !csvrow || !csvrow.STREET || !csvrow.LON || !csvrow.LAT ){
       return next();
     }
 
@@ -32,10 +32,10 @@ function streamFactory(){
     // @note: it is not sufficient to only check the name as (in rare occasions)
     // there may be consecutive values which should not legitimately be grouped.
     var hash = [
-      csvrow["STREET"].toLowerCase(),
-      csvrow["CITY"].toLowerCase(),
-      csvrow["DISTRICT"].toLowerCase(),
-      csvrow["REGION"].toLowerCase()
+      csvrow.STREET.toLowerCase(),
+      csvrow.CITY.toLowerCase(),
+      csvrow.DISTRICT.toLowerCase(),
+      csvrow.REGION.toLowerCase()
     ].join('|');
 
     if( hash != currentHash ){
