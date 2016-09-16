@@ -43,9 +43,8 @@ function main(){
 
     query.address( db, params, function( err, res ){
 
+      // geojsonify( res );
       printTable( res );
-
-      // console.error( err, res );
     });
 
     db.close();
@@ -73,4 +72,35 @@ function printTable( res ){
   });
 
   console.error(table.toString());
+}
+
+function geojsonify( res ){
+
+  var point = function( row ){
+    return {
+      "type": "Feature",
+      "properties": row,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          row.proj_lon,
+          row.proj_lat
+        ]
+      }
+    };
+  };
+
+  var geojson = {
+    "type": "FeatureCollection",
+    "features": []
+  };
+
+  // invalid results
+  if( Array.isArray(res) && res.length ){
+    res.forEach( function( row ){
+      geojson.features.push( point( row ) );
+    });
+  }
+
+  console.log( JSON.stringify( geojson, null, 2 ) );
 }
