@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>point on line demo</title>
+    <style type="text/css">
+      html, body, #drawing {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="drawing"></div>
+
+    <script src="https://rawgit.com/wout/svg.js/2.0.1/dist/svg.js"></script>
+    <script src="https://rawgit.com/wout/svg.draggable.js/master/dist/svg.draggable.min.js"></script>
+
+    <script>
+      function algo( v, u, p ){
+
+        var bx = v[0] - u[0];
+        var by = v[1] - u[1];
+        var sq = bx*bx + by*by;
+
+        var scale = ( sq > 0 ) ? (( (p[0] - u[0])*bx + (p[1] - u[1])*by ) / sq) : 0.0;
+
+        if( scale <= 0.0 ){
+          bx = u[0];
+          by = u[1];
+        }
+        else if( scale >= 1.0 ){
+          bx = v[0];
+          by = v[1];
+        }
+        else {
+          bx = bx*scale + u[0];
+          by = by*scale + u[1];
+        }
+
+        return [bx, by];
+      }
+    </script>
+
+    <script>
+      var draw = SVG('drawing').attr({ 'font-size': 10 });
+
+      var r = 20;
+      var point = [200, 300];
+      var handles = [];
+      var lines = [];
+
+      var lineString = [
+        [100, 100],
+        [220, 200],
+        [260, 220],
+        [300, 220],
+        [340, 210],
+        [380, 190],
+        [460, 150],
+        [600, 100],
+        [800, 80]
+      ];
+
+      var l2 = draw.line(0,0,0,0).stroke({ width: 1, color: '#f00' }).attr({ "stroke-dasharray": "5, 5" });
+      var p = draw.circle(r,r).center(point[0], point[1]).fill('#f00').draggable();
+
+      var update = function(){
+
+        var px = p.x() +r/2;
+        var py = p.y() +r/2;
+
+        var distance = Infinity;
+        var edge;
+        var edgeI;
+
+        for( var x=0; x<lineString.length-1; x++ ){
+
+          var ax = handles[x+0].x() +r/2;
+          var ay = handles[x+0].y() +r/2;
+          var bx = handles[x+1].x() +r/2;
+          var by = handles[x+1].y() +r/2;
+
+          lines[x].plot( ax, ay, bx, by );
+
+          var res = algo( [ ax, ay ], [ bx, by ], [ px, py ] );
+          var dist = Math.sqrt( Math.pow(px-res[0], 2) + Math.pow(py-res[1], 2) );
+          // console.log( x, dist );
+
+          if( dist < distance ){
+            distance = dist;
+            edge = res;
+            edgeI = x;
+          }
+
+          lines[x].stroke({ width: 4, color: '#60f' });
+        }
+
+        l2.plot( px, py, edge[0], edge[1] );
+        lines[edgeI].stroke({ width: 4, color: '#69f' });
+      }
+
+      for( var x=0; x<lineString.length-1; x++ ){
+        lines.push( draw.line(0,0,0,0).stroke({ width: 4, color: '#60f' }) );
+      }
+
+      for( var x=0; x<lineString.length; x++ ){
+        handles.push( draw.circle(r,r).center(lineString[x][0], lineString[x][1]).fill('#60f').draggable().on('dragmove', update ) );
+      }
+
+      p.on('dragmove', update );
+      update();
+
+    </script>
+  </body>
+</html>
