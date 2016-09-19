@@ -210,7 +210,7 @@ function streamFactory(db){
         });
       }
 
-      next();
+      setTimeout(next, 1); // yield CPU to sqlite (or it won't write to disk)
     }));
 
   }, function(){

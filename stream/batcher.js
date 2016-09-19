@@ -1,7 +1,7 @@
 
 var batchify = require('through2-batch');
 
-var BATCH_OPTIONS = { batchSize: 10000 };
+var BATCH_OPTIONS = { batchSize: 1000 };
 
 function streamFactory(){
   return batchify.obj(BATCH_OPTIONS, function( batch, _, next ){

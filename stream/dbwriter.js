@@ -62,7 +62,7 @@ function streamFactory(db, done){
         });
       }); // parallelize
       db.run("COMMIT", onError('COMMIT'));
-      next();
+      setTimeout(next, 1); // yield CPU to sqlite (or it won't write to disk)
     });
   }, function(){
 
