@@ -12,7 +12,7 @@ echo "-- run import --";
 cat $POLYLINES | time -p node "$DIR/../import.js" $DB;
 
 echo "-- run conflate --";
-cat $OPENADDRESSES | time -p node "$DIR/../conflate_csv.js" $DB;
+cat $OPENADDRESSES | time -p node "$DIR/../conflate_oa.js" $DB;
 
 echo "-- search for: (glasgow st, wellington, nz) --";
 sqlite3 $DB < "$DIR/rtree.sql";
