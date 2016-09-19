@@ -7,7 +7,7 @@ var sqlite3 = require('sqlite3'),
 if( process.argv.length < 5 ){
   console.error("invalid args.");
   console.error("usage: {dbname} {lat} {lon} {name}");
-  console.error("example: node interpolate example/example.db \"-41.288788\" \"174.766843\" \"glasgow street\"");
+  console.error("example: node search example/example.db \"-41.288788\" \"174.766843\" \"glasgow street\"");
   process.exit(1);
 }
 
