@@ -4,20 +4,7 @@ var sqlite3 = require('sqlite3'),
     requireDir = require('require-dir'),
     query = requireDir('./query');
 
-// // wellington, nz
-// var params = {
-//   $lat: -41.288788,
-//   $lon: 174.766843,
-//   $name: 'glasgow street'
-// };
-
-// // nyc
-// var params = {
-//   $lat: 40.747625,
-//   $lon: -73.9981,
-//   $name: 'west 26th street'
-// };
-
+// help text
 if( process.argv.length < 5 ){
   console.error("invalid args.");
   console.error("usage: {dbname} {lat} {lon} {name}");
@@ -35,13 +22,12 @@ var db = new sqlite3.Database(dbfile, sqlite3.OPEN_READONLY);
 function main(){
   db.serialize(function() {
 
-    var params = {
+    // perform a db lookup for the specified street
+    query.address( db, {
       $lat: process.argv[3],
       $lon: process.argv[4],
       $name: process.argv[5]
-    };
-
-    query.address( db, params, function( err, res ){
+    }, function( err, res ){
 
       // geojsonify( res );
       printTable( res );
@@ -51,9 +37,9 @@ function main(){
   });
 }
 
-// db.loadExtension('mod_spatialite', main);
 main();
 
+// print a pretty table of results
 function printTable( res ){
 
   // invalid results
@@ -74,6 +60,7 @@ function printTable( res ){
   console.error(table.toString());
 }
 
+// print results as geojson
 function geojsonify( res ){
 
   var point = function( row ){
