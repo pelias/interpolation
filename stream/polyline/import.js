@@ -46,8 +46,9 @@ function streamFactory(db, done){
             $minY: parsed.minY,
             $maxY: parsed.maxY
           }, onError("line"));
-        });
-      });
+
+        }); // foreach
+      }); // BEGIN
 
       // commit transaction
       db.run("COMMIT", function(err){
@@ -55,26 +56,27 @@ function streamFactory(db, done){
 
         // wait for transaction to complete before continuing
         next();
-      });
-    });
+      }); // COMMIT
+    });// serialize
 
-  }, function flush(){
+  }, function( next ){
+    db.serialize(function(){
 
-    // finalize prepared statements
-    stmt.names.finalize( onError("finalize names") );
-    stmt.line.finalize( onError("finalize line") );
+      // finalize prepared statements
+      stmt.names.finalize( onError("finalize names") );
+      stmt.line.finalize( onError("finalize line") );
 
-    // copy bbox data from 'street_polyline' to 'street_rtree' in a single statement.
-    // this uses more disk (as the floats are stored twice) but presumably yeild better performance
-    // than building the rtree incrementally; because rtrees need to be rebalanced as they are built.
-    // note: after this operation it should be safe to drop those columns from 'street_polyline'.
-    // see: https://www.sqlite.org/faq.html#q11
-    db.run("INSERT INTO street_rtree (id, minX, maxX, minY, maxY) SELECT id, minX, maxX, minY, maxY FROM street_polyline;", function(){
+      // copy bbox data from 'street_polyline' to 'street_rtree' in a single statement.
+      // this uses more disk (as the floats are stored twice) but presumably yeild better performance
+      // than building the rtree incrementally; because rtrees need to be rebalanced as they are built.
+      // note: after this operation it should be safe to drop those columns from 'street_polyline'.
+      // see: https://www.sqlite.org/faq.html#q11
+      db.run("INSERT INTO street_rtree (id, minX, maxX, minY, maxY) SELECT id, minX, maxX, minY, maxY FROM street_polyline;");
 
       // we are done
-      done();
+      db.wait(done);
+      next();
     });
-
   });
 }
 

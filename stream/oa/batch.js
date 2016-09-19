@@ -55,10 +55,11 @@ function streamFactory(){
 
     next();
 
-  }, function(){
+  }, function flush( next ){
     // @todo: write unit tests for this
     // tested manually and confirmed it gets pushed downstream
     this.push( batch ); // flush last batch
+    next();
   });
 }
 

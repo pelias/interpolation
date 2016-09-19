@@ -68,6 +68,11 @@ function streamFactory(db){
     // call db.all(), appending the callback function
     db.all.apply(db, args.concat(function( err, rows ){
 
+      // error debug
+      if( err ){
+        console.error( err );
+      }
+
       /**
       [ { id: 9155,
           name: 'elizabeth street',

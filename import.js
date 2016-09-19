@@ -1,7 +1,7 @@
 
 var sqlite3 = require('sqlite3'),
     requireDir = require('require-dir'),
-    stream = requireDir('./stream', {recurse: true}),
+    stream = requireDir('./stream', { recurse: true }),
     query = requireDir('./query');
 
 // name of sqlite file
@@ -22,7 +22,7 @@ function main(){
     .pipe( stream.split() ) // split on newline
     .pipe( stream.polyline.parse() ) // parse polyline data
     .pipe( stream.polyline.augment() ) // augment data with libpostal
-    .pipe( stream.polyline.batch() ) // batch up transactions
+    .pipe( stream.batch( 1000 ) ) // batch up data to import
     .pipe( stream.polyline.import( db, function(){
 
       // create the indexes after the data is imported
@@ -36,5 +36,4 @@ function main(){
     })); // save to db
 }
 
-// db.loadExtension('mod_spatialite', main);
 main();
