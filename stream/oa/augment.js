@@ -6,6 +6,10 @@ var through = require('through2'),
 // polyline precision
 var PRECISION = 6;
 
+/**
+  this stream performs all the interpolation math for a road segment and pushes
+  downstream rows to be inserted in the 'street_address' table.
+**/
 function streamFactory(db, done){
 
   // create a new stream
