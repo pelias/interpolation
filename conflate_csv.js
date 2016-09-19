@@ -1,7 +1,7 @@
 
 var sqlite3 = require('sqlite3'),
     requireDir = require('require-dir'),
-    stream = requireDir('./stream'),
+    stream = requireDir('./stream', {recurse: true}),
     query = requireDir('./query');
 
 // name of sqlite file
@@ -18,9 +18,9 @@ function main(){
 
   // run pipeline
   process.stdin
-    .pipe( stream.csv() ) // parse csv data
-    .pipe( stream.batchstreets() ) // batch records on the same street
-    .pipe( stream.dblookup( db ) ); // look up from db
+    .pipe( stream.oa.parse() ) // parse openaddresses csv data
+    .pipe( stream.oa.batch() ) // batch records on the same street
+    .pipe( stream.oa.dblookup( db ) ); // look up from db
 }
 
 // db.loadExtension('mod_spatialite', main);

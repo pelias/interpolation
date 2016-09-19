@@ -1,7 +1,7 @@
 
 var sqlite3 = require('sqlite3'),
     requireDir = require('require-dir'),
-    stream = requireDir('./stream'),
+    stream = requireDir('./stream', {recurse: true}),
     query = requireDir('./query');
 
 // name of sqlite file
@@ -20,10 +20,10 @@ function main(){
   // run pipeline
   process.stdin
     .pipe( stream.split() ) // split on newline
-    .pipe( stream.polyline() ) // parse polyline data
-    .pipe( stream.augmenter() ) // augment data with libpostal
-    .pipe( stream.batcher() ) // batch up transactions
-    .pipe( stream.dbwriter( db, function(){
+    .pipe( stream.polyline.parse() ) // parse polyline data
+    .pipe( stream.polyline.augment() ) // augment data with libpostal
+    .pipe( stream.polyline.batch() ) // batch up transactions
+    .pipe( stream.polyline.import( db, function(){
 
       // create the indexes after the data is imported
       // for performance reasons.

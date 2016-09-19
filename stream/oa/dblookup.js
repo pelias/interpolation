@@ -2,7 +2,7 @@
 var through = require('through2'),
     postal = require('node-postal'),
     polyline = require('polyline'),
-    project = require('../lib/project');
+    project = require('../../lib/project');
 
 // polyline precision
 var PRECISION = 6;
@@ -220,11 +220,11 @@ function streamFactory(db){
   });
 }
 
-function onError(label){
-  return function(err){
-    process.stderr.write(label);
+// generic error handler
+function onError( title ){
+  return function( err ){
     if( err ){
-      console.error( err );
+      console.error( "stmt " + title + ": " + err );
     }
   };
 }
