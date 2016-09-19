@@ -58,7 +58,7 @@ function streamFactory(db, done){
       });
     });
 
-  }, function done(){
+  }, function flush(){
 
     // finalize prepared statements
     stmt.names.finalize( onError("finalize names") );
