@@ -21,7 +21,7 @@ echo "-- search for addresses: (glasgow st, wellington, nz) --";
 sqlite3 $DB < "$DIR/addresses.sql";
 
 echo "-- interpolation table: (glasgow st, wellington, nz) --";
-node "$DIR/../interpolate.js" "$DIR/example.db" "-41.288788" "174.766843" "glasgow street";
+node "$DIR/../search.js" "$DIR/example.db" "-41.288788" "174.766843" "glasgow street";
 
 # echo "-- street_rtree --";
 # sqlite3 $DB "SELECT * FROM street_rtree;";
