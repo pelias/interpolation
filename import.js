@@ -12,10 +12,8 @@ sqlite3.verbose();
 var db = new sqlite3.Database(dbfile);
 
 function main(){
-  db.serialize(function() {
-    query.configure(db); // configure database
-    query.createTables(db, true); // reset database and create tables
-  });
+  query.configure(db); // configure database
+  query.createTables(db, true); // reset database and create tables
 
   // run pipeline
   process.stdin

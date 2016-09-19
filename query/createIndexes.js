@@ -1,15 +1,11 @@
 
-module.exports = function( db, cb ){
+module.exports = function( db, done ){
+  db.serialize(function(){
 
-  //@todo: wrap in serialize?
+    db.run("CREATE INDEX name_idx ON street_names(name);");
+    db.run("CREATE INDEX source_idx ON street_address(housenumber);");
+    db.run("CREATE INDEX housenumber_idx ON street_address(housenumber);");
 
-  // create index on name (major performance improvement)
-  db.run("CREATE INDEX name_index ON street_names(name);", function(){
-
-    // create indexes on street_address table
-    db.run("CREATE INDEX source_index ON street_address(source);", function(){
-      db.run("CREATE INDEX housenumber_index ON street_address(housenumber);", cb);
-    });
+    db.wait(done);
   });
-
 };

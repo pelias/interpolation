@@ -12,9 +12,7 @@ sqlite3.verbose();
 var db = new sqlite3.Database(dbfile);
 
 function main(){
-  db.serialize(function() {
-    query.configure(db); // configure database
-  });
+  query.configure(db); // configure database
 
   // run pipeline
   process.stdin
