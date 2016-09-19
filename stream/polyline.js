@@ -1,43 +1,48 @@
 
-var concurrent = require('through2-concurrent'),
-    polyline = require('polyline'),
-    extent = require('geojson-extent');
-
-var CONCURRENCY_OPTIONS = { maxConcurrency: 8 };
+var through = require('through2'),
+    polyline = require('polyline')
 
 // polyline precision
 var PRECISION = 6;
 
 function streamFactory(){
-  return concurrent.obj(CONCURRENCY_OPTIONS, function( row, _, next ){
+  return through.obj({ highWaterMark: 32 }, function( row, _, next ){
+
+    // parse polyline row
     var parsed = parse( row );
 
-    // invalid row
-    if( !parsed || !parsed.hasOwnProperty('names') || !parsed.hasOwnProperty('bbox') || !parsed.hasOwnProperty('line') ){
-      return next();
-    }
+    // valid row
+    if( parsed ){
 
-    // push hash of data downstream
-    this.push( parsed );
+      // push parsed row data downstream
+      this.push( parsed );
+    }
 
     next();
   });
 }
 
+/**
+  attempt to parse data row, returns:
+  on success: { names: Array, bbox: Array, line: String }
+  on error: undefined
+**/
 function parse( row ){
-  var cols = row.toString('utf8').split('\0').filter(function(x){ return x; });
+
+  // split data in to columns
+  var cols = row.toString('utf8') // convert buffer to utf8 string
+                .split('\0') // split on delimeter
+                .filter(function(x){ return x; }); // remove empty columns
+
+  // run parser
   try {
     // must contain a polyline and at least one name
     if( cols.length > 1 ){
 
-      // decode polyline
-      var geojson = polyline.toGeoJSON(cols[0], PRECISION);
-
       return {
         names: cols.slice(1),
-        bbox: extent( geojson ), // [WSEN]
-        line: cols[0],
-        // geojson: geojson
+        bbox: bboxify( polyline.decode( cols[0], PRECISION ) ),
+        line: cols[0]
       };
 
     } else if( cols.length ) {
@@ -46,6 +51,38 @@ function parse( row ){
   } catch( e ){
     console.error( 'polyline parsing error', e );
   }
+}
+
+/*
+  return bbox.
+  note: same format as 'geojson-extent' without format shifting to geojson first.
+*/
+function bboxify( coords ){
+
+  // compute coordinate extremes
+  var minLat = Infinity; var maxLat = -Infinity;
+  var minLng = Infinity; var maxLng = -Infinity;
+
+  coords.forEach( function( coord ){
+
+    // latitude
+    if( coord[0] > maxLat ){
+      maxLat = coord[0];
+    }
+    if( coord[0] < minLat ){
+      minLat = coord[0];
+    }
+
+    // longitude
+    if( coord[1] > maxLng ){
+      maxLng = coord[1];
+    }
+    if( coord[1] < minLng ){
+      minLng = coord[1];
+    }
+  });
+
+  return [ minLng, minLat, maxLng, maxLat ]; // [WSEN]
 }
 
 module.exports = streamFactory;

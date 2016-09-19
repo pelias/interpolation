@@ -1,5 +1,5 @@
 
-var concurrent = require('through2-concurrent'),
+var through = require('through2'),
     postal = require('node-postal');
 
 var CONCURRENCY_OPTIONS = { maxConcurrency: 8 };
@@ -13,7 +13,7 @@ var FUDGE_FACTOR = 0.001;
 var inc = 0;
 
 function streamFactory(){
-  return concurrent.obj(CONCURRENCY_OPTIONS, function( parsed, _, next ){
+  return through.obj({ highWaterMark: 32 }, function( parsed, _, next ){
 
     // push augmented data downstream
     this.push( map( parsed, inc ) );
