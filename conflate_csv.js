@@ -20,7 +20,8 @@ function main(){
   process.stdin
     .pipe( stream.oa.parse() ) // parse openaddresses csv data
     .pipe( stream.oa.batch() ) // batch records on the same street
-    .pipe( stream.oa.dblookup( db ) ); // look up from db
+    .pipe( stream.oa.lookup( db ) ) // look up from db
+    .pipe( stream.oa.import( db ) ); // import interpolation data in to db
 }
 
 // db.loadExtension('mod_spatialite', main);
