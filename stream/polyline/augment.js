@@ -19,7 +19,7 @@ var inc = 0;
    - apply 'fudge factor' to bbox
 **/
 function streamFactory(){
-  return through.obj({ highWaterMark: 32 }, function( parsed, _, next ){
+  return through.obj({ highWaterMark: 32 }, function( parsed, enc, next ){
 
     // push augmented data downstream
     this.push( map( parsed, inc ) );

@@ -7,6 +7,8 @@ var sqlite3 = require('sqlite3'),
 // name of sqlite file
 var dbfile = ( process.argv.length > 2 ) ? process.argv[2] : 'example.db';
 
+console.error( 'dbfile', dbfile );
+
 // connect to db
 sqlite3.verbose();
 var db = new sqlite3.Database(dbfile);
