@@ -2,14 +2,15 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 DB="$DIR/example.db";
-POLYLINES="/data/new_zealand.polylines";
+# POLYLINES="/data/new_zealand.polylines";
+POLYLINES="/data/polyline/new_zealand.polyline";
 OPENADDRESSES="/data/oa/nz/countrywide.csv";
 
 # clean up old db files
 rm "$DB*" &>/dev/null;
 
 echo "-- run import --";
-cat $POLYLINES | time -p node "$DIR/../polyline_import_master.js" $DB;
+cat $POLYLINES | time -p node "$DIR/../shim.js" $DB;
 
 # echo "-- run conflate --";
 # cat $OPENADDRESSES | time -p node "$DIR/../conflate_oa.js" $DB;

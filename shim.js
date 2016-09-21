@@ -13,9 +13,9 @@ var parsers = [];
 
 // database import worker
 var importer = fork( 'node', [ path.resolve( __dirname, './polyline_import_worker.js' ), 'foo.db' ] );
-importer.stdin.pipe( process.stdout );
-importer.stdout.pipe( process.stdout );
-importer.stderr.pipe( process.stderr );
+importer.child.stdin.pipe( process.stdout );
+importer.child.stdout.pipe( process.stdout );
+importer.child.stderr.pipe( process.stderr );
 
 // parser workers
 for( var x=0; x<maxWorkers; x++ ){
@@ -29,13 +29,16 @@ for( var x=0; x<maxWorkers; x++ ){
     // console.error( 'parser pipe', chunk.toString('utf8'), typeof chunk );
     importer.write( chunk );
     next();
+  }, function flush(next){
+    importer.end();
+    next();
   }));
 
   parsers.push( parser );
 }
 
 // roundrobin
-var rr = 0
+var rr = 0;
 
 process.stdin.pipe( stream.split() ) // split on newline
              .pipe( through( function( chunk, _, next ){
