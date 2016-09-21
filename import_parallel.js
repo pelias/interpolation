@@ -2,7 +2,7 @@
 var os = require('os');
 var path = require('path');
 var through = require('through2');
-var fork = require('./lib/through2-fork');
+var child = require('./lib/through2-child');
 
 var requireDir = require('require-dir'),
     stream = requireDir('./stream', { recurse: true });
@@ -12,14 +12,14 @@ var maxWorkers = 1;
 var parsers = [];
 
 // database import worker
-var importer = fork( 'node', [ path.resolve( __dirname, './polyline_import_worker.js' ), 'foo.db' ] );
+var importer = child.spawn( 'node', [ path.resolve( __dirname, './worker/polyline_import.js' ), 'foo.db' ] );
 importer.child.stdin.pipe( process.stdout );
 importer.child.stdout.pipe( process.stdout );
 importer.child.stderr.pipe( process.stderr );
 
 // parser workers
 for( var x=0; x<maxWorkers; x++ ){
-  var parser = fork( 'node', [ path.resolve( __dirname, './polyline_parser_worker.js' ) ] );
+  var parser = child.spawn( 'node', [ path.resolve( __dirname, './worker/polyline_parser.js' ) ] );
 
   // parser.stdin.pipe( process.stdout );
   // parser.stdout.pipe( process.stdout );

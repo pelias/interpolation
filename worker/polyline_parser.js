@@ -1,6 +1,6 @@
 
 var requireDir = require('require-dir'),
-    stream = requireDir('./stream', { recurse: true });
+    stream = requireDir('../stream', { recurse: true });
 
 // run pipeline
 process.stdin

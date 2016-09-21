@@ -10,7 +10,7 @@ OPENADDRESSES="/data/oa/nz/countrywide.csv";
 rm "$DB*" &>/dev/null;
 
 echo "-- run import --";
-cat $POLYLINES | time -p node "$DIR/../shim.js" $DB;
+cat $POLYLINES | time -p node "$DIR/../import_parallel.js" $DB;
 
 # echo "-- run conflate --";
 # cat $OPENADDRESSES | time -p node "$DIR/../conflate_oa.js" $DB;
