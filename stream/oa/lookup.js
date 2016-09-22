@@ -3,11 +3,11 @@ var through = require('through2'),
     analyze = require('../../lib/analyze');
 
 var sql = [
-  "SELECT street_polyline.id, street_names.name, street_polyline.line FROM street_polyline",
-  "JOIN street_rtree ON street_rtree.id = street_polyline.id",
-  "JOIN street_names ON street_names.id = street_rtree.id",
-  "WHERE ( street_rtree.minX<=? AND street_rtree.maxX>=? AND street_rtree.minY<=? AND street_rtree.maxY>=? )",
-  "AND ( street_names.name = ?"
+  "SELECT street.polyline.id, street.names.name, street.polyline.line FROM street.polyline",
+  "JOIN street.rtree ON street.rtree.id = street.polyline.id",
+  "JOIN street.names ON street.names.id = street.rtree.id",
+  "WHERE ( street.rtree.minX<=? AND street.rtree.maxX>=? AND street.rtree.minY<=? AND street.rtree.maxY>=? )",
+  "AND ( street.names.name = ?"
 ];
 
 // { LON: '174.5805754',
@@ -23,7 +23,7 @@ var sql = [
 //   HASH: '' }
 
 /*
-$ sqlite3 example.db "select id, * from street_rtree WHERE ( street_rtree.minX<=174.7668435 AND street_rtree.maxX>=174.7668435 AND street_rtree.minY<=-41.2887878 AND street_rtree.maxY>=-41.2887878 );"
+$ sqlite3 example.db "select id, * from street.rtree WHERE ( street.rtree.minX<=174.7668435 AND street.rtree.maxX>=174.7668435 AND street.rtree.minY<=-41.2887878 AND street.rtree.maxY>=-41.2887878 );"
 136|136|174.765075683594|174.768371582031|-41.2904777526855|-41.2861595153809
 */
 
@@ -54,7 +54,7 @@ function streamFactory(db){
     // copy base query and add OR statements for multiple names
     var query = sql.slice();
     for( var x=1; x<names.length; x++ ){
-      query.push("OR street_names.name = ?");
+      query.push("OR street.names.name = ?");
     }
     query.push(")"); // close OR group
 

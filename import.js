@@ -17,7 +17,7 @@ var seq = 1;
 
 function main(){
   query.configure(db); // configure database
-  query.createTables(db, true); // reset database and create tables
+  query.tables.street(db, true); // reset database and create tables
 
   // run pipeline
   process.stdin
@@ -33,7 +33,7 @@ function main(){
 
       // create the indexes after the data is imported
       // for performance reasons.
-      query.createIndexes(db, function(){
+      query.indexes.street(db, function(){
 
         // close the db handle when done
         db.close();

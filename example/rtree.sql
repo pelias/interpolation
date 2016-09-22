@@ -1,7 +1,7 @@
-SELECT street_polyline.id, street_names.name, street_polyline.line FROM street_rtree
-JOIN street_names ON street_names.id = street_rtree.id
-JOIN street_polyline ON street_polyline.id = street_rtree.id
+SELECT street.polyline.id, street.names.name, street.polyline.line FROM street.rtree
+JOIN street.names ON street.names.id = street.rtree.id
+JOIN street.polyline ON street.polyline.id = street.rtree.id
 WHERE (
-  street_rtree.minX<=174.766843 AND street_rtree.maxX>=174.766843 AND
-  street_rtree.minY<=-41.288788 AND street_rtree.maxY>=-41.288788
-) AND street_names.name = "glasgow street";
+  street.rtree.minX<=174.766843 AND street.rtree.maxX>=174.766843 AND
+  street.rtree.minY<=-41.288788 AND street.rtree.maxY>=-41.288788
+) AND street.names.name = "glasgow street";

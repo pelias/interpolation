@@ -4,15 +4,22 @@ var sqlite3 = require('sqlite3'),
     stream = requireDir('./stream', { recurse: true }),
     query = requireDir('./query');
 
-// name of sqlite file
-var dbfile = ( process.argv.length > 2 ) ? process.argv[2] : 'example.db';
+// help text
+if( process.argv.length < 4 ){
+  console.error("invalid args.");
+  console.error("usage: {addressdb} {streetdb}");
+  console.error("example: cat openaddresses.csv | node conflate_oa oa.db planet.db");
+  process.exit(1);
+}
 
 // connect to db
 sqlite3.verbose();
-var db = new sqlite3.Database(dbfile);
+var db = new sqlite3.Database( process.argv[2] );
 
 function main(){
   query.configure(db); // configure database
+  query.tables.address(db, true); // reset database and create tables
+  query.attach(db, process.argv[3], 'street'); // attach street database
 
   // run pipeline
   process.stdin

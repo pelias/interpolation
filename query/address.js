@@ -14,16 +14,16 @@
 module.exports = function( db, params, cb ){
 
   var sql = [
-    "SELECT street_address.* FROM street_address",
-    "JOIN street_rtree ON street_address.id = street_rtree.id",
-    "JOIN street_names ON street_names.id = street_rtree.id",
-    "JOIN street_polyline ON street_polyline.id = street_rtree.id",
+    "SELECT address.* FROM address",
+    "JOIN street.rtree ON address.id = street.rtree.id",
+    "JOIN street.names ON street.names.id = street.rtree.id",
+    "JOIN street.polyline ON street.polyline.id = street.rtree.id",
     "WHERE (",
-      "street_rtree.minX<=$lon AND street_rtree.maxX>=$lon AND",
-      "street_rtree.minY<=$lat AND street_rtree.maxY>=$lat",
+      "street.rtree.minX<=$lon AND street.rtree.maxX>=$lon AND",
+      "street.rtree.minY<=$lat AND street.rtree.maxY>=$lat",
     ")",
-    "AND street_names.name = $name",
-    "ORDER BY street_address.housenumber ASC;"
+    "AND street.names.name = $name",
+    "ORDER BY address.housenumber ASC;"
   ].join(' ');
 
   db.all( sql, params, cb );

@@ -1,9 +1,9 @@
-SELECT street_address.* FROM street_address
-JOIN street_rtree ON street_address.id = street_rtree.id
-JOIN street_names ON street_names.id = street_rtree.id
-JOIN street_polyline ON street_polyline.id = street_rtree.id
+SELECT address.* FROM address
+JOIN street.rtree ON address.id = street.rtree.id
+JOIN street.names ON street.names.id = street.rtree.id
+JOIN street.polyline ON street.polyline.id = street.rtree.id
 WHERE (
-  street_rtree.minX<=174.766843 AND street_rtree.maxX>=174.766843 AND
-  street_rtree.minY<=-41.288788 AND street_rtree.maxY>=-41.288788
-) AND street_names.name = "glasgow street"
-ORDER BY street_address.housenumber ASC;
+  street.rtree.minX<=174.766843 AND street.rtree.maxX>=174.766843 AND
+  street.rtree.minY<=-41.288788 AND street.rtree.maxY>=-41.288788
+) AND street.names.name = "glasgow street"
+ORDER BY address.housenumber ASC;

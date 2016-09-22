@@ -7,9 +7,9 @@ function streamFactory(db, done){
 
   // sqlite3 prepared statements
   var stmt = {
-    rtree: db.prepare("INSERT INTO street_rtree (id, minX, maxX, minY, maxY) VALUES ($id, $minX, $maxX, $minY, $maxY);"),
-    names: db.prepare("INSERT INTO street_names (rowid, id, name) VALUES (NULL, $id, $name);"),
-    line: db.prepare("INSERT INTO street_polyline (id, line) VALUES ($id, $line);")
+    rtree: db.prepare("INSERT INTO rtree (id, minX, maxX, minY, maxY) VALUES ($id, $minX, $maxX, $minY, $maxY);"),
+    names: db.prepare("INSERT INTO names (rowid, id, name) VALUES (NULL, $id, $name);"),
+    line: db.prepare("INSERT INTO polyline (id, line) VALUES ($id, $line);")
   };
 
   // tick import stats
