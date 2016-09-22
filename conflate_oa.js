@@ -30,8 +30,14 @@ function main(){
     .pipe( stream.batch( 1000 ) ) // batch up data to import
     .pipe( stream.oa.import( db, function(){
 
-      // close the db handle when done
-      db.close();
+      // create the indexes after the data is imported
+      // for performance reasons.
+      query.indexes.address(db, function(){
+
+        // close the db handle when done
+        db.close();
+
+      });
 
     })); // save to db
 }
