@@ -1,5 +1,8 @@
 
 #### install dependencies
+
+*note:* [libpostal](https://github.com/openvenues/node-postal#troubleshooting) must be installed on your system.
+
 ```bash
 npm install;
 ```
