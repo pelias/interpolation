@@ -12,7 +12,7 @@ var dbfile = ( process.argv.length > 2 ) ? process.argv[2] : 'example.db';
 sqlite3.verbose();
 var db = new sqlite3.Database(dbfile);
 
-// append line numbers
+// prepend line numbers
 var seq = 0;
 
 function main(){
