@@ -15,12 +15,8 @@ function streamFactory(db, done){
   // create a new stream
   return through.obj(function( lookup, _, next ){
 
-    // @todo: select best row instead of first (unlikely to find >1 anyway)
-    // could choose longest or closest instead?
-    var firstStreetMatch = lookup.matched[0];
-
     // decode polyline
-    var linestring = polyline.toGeoJSON(firstStreetMatch.line, PRECISION).coordinates;
+    var linestring = polyline.toGeoJSON(lookup.street.line, PRECISION).coordinates;
 
     // store an array of housenumbers and their distance along the linestring
     var distances = [];
@@ -28,16 +24,19 @@ function streamFactory(db, done){
     // process all house number entries in batch
     lookup.batch.forEach( function( item ){
 
+      // remove spaces from housenumber. eg: '2 A' -> '2A'
+      var number = item.NUMBER.replace(/\s+/g, '').toLowerCase();
+
       // @note: removes letters such as '2a' -> 2
-      var housenumber = parseFloat( item.NUMBER );
+      var housenumber = parseFloat( number );
 
       // if the house number is followed by a single letter [a-i] then we
       // add a fraction to the house number representing the offset.
       // @todo: tests for this
-      var apartment = item.NUMBER.match(/^[0-9]+([abcdefghi])$/);
+      var apartment = number.match(/^[0-9]+([abcdefghi])$/);
       if( apartment ){
         var offset = apartment[1].charCodeAt(0) - 96; // gives a:1, b:2 etc..
-        housenumber += offset / 10; // add fraction to housenumber for apt;
+        housenumber += ( offset / 10 ); // add fraction to housenumber for apt;
       }
 
       // project point on to line string
@@ -50,7 +49,7 @@ function streamFactory(db, done){
 
       // push openaddresses values to db
       this.push({
-        $id: lookup.matched[0].id,
+        $id: lookup.street.id,
         $source: 'OA',
         $housenumber: housenumber,
         $lon: point[0].toFixed(7),
@@ -80,6 +79,7 @@ function streamFactory(db, done){
       }
 
       // distance along line to vertex
+      // @optimization
       var dist = project.lineDistance( linestring.slice(0, i+1) );
 
       // projected fractional housenumber
@@ -100,11 +100,12 @@ function streamFactory(db, done){
 
         // vertex distance is between two house number distance
         if( nextDist.dist > dist ){
-          var ratio = (dist - thisDist.dist) / (nextDist.dist - thisDist.dist);
-          // console.error( 'ratio', ratio );
+          var ratio = 1 - ((dist - thisDist.dist) / (nextDist.dist - thisDist.dist));
+          if( ratio >= 1 || ratio <= 0 ){ break; } // will result in a duplicate value
           var minHouseNumber = Math.min( thisDist.housenumber, nextDist.housenumber );
           var maxHouseNumber = Math.max( thisDist.housenumber, nextDist.housenumber );
-          housenumber = minHouseNumber + (( maxHouseNumber - minHouseNumber ) * ( 1-ratio ));
+          housenumber = minHouseNumber + (( maxHouseNumber - minHouseNumber ) * ratio);
+          break;
         }
 
         // else the vertex is greater than the highest housenumber
@@ -118,7 +119,7 @@ function streamFactory(db, done){
 
       // insert point values in db
       this.push({
-        $id: lookup.matched[0].id,
+        $id: lookup.street.id,
         $source: 'VERTEX',
         $housenumber: housenumber.toFixed(3),
         $lon: undefined,

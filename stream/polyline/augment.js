@@ -2,9 +2,9 @@
 var through = require('through2'),
     analyze = require('../../lib/analyze');
 
-// increase/decrease bbox bounds by this much
-// in order to find houses which might be slighly
-// outside the bounds.
+// increase/decrease bbox bounds by this much in order to find houses which
+// might be slighly outside the bounds.
+// eg: http://geojson.io/#id=gist:anonymous/f01e10438309317b231d3b765fc339c9
 var FUDGE_FACTOR = 0.001;
 
 /**

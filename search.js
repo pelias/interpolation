@@ -2,7 +2,8 @@
 var sqlite3 = require('sqlite3'),
     requireDir = require('require-dir'),
     pretty = require('./lib/pretty'),
-    query = requireDir('./query');
+    query = requireDir('./query'),
+    analyze = require('./lib/analyze');
 
 // help text
 if( process.argv.length < 7 ){
@@ -28,11 +29,11 @@ function main(){
   query.address( db, {
     $lat: process.argv[4],
     $lon: process.argv[5],
-    $name: process.argv[6]
+    $name: analyze(process.argv[6])[0]
   }, function( err, res ){
 
-    // console.log( pretty.geojson( res ) );
-    console.log( pretty.table( res ) );
+    console.log( pretty.geojson( res ) );
+    // console.log( pretty.table( res ) );
   });
 
   db.close();

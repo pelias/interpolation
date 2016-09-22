@@ -1,69 +1,69 @@
 
-var through = require("through2");
+var through = require("through2"),
+    assert = require('../../lib/assert'),
+    Statistics = require('../../lib/statistics');
 
 function streamFactory(db, done){
-
-  // vanity statistics
-  var total_saved = 0;
 
   // sqlite3 prepared stmt
   var stmt = {
     address: db.prepare("INSERT INTO address (rowid, id, source, housenumber, lat, lon, proj_lat, proj_lon) VALUES (NULL, $id, $source, $housenumber, $lat, $lon, $proj_lat, $proj_lon);")
   };
 
+  // tick import stats
+  var stats = new Statistics();
+  stats.tick();
+
   // create a new stream
   return through.obj(function( batch, _, next ){
-
-    // vanity statistics
-    total_saved += batch.length;
-    // console.error( total_saved );
 
     // run serially so we can use transactions
     db.serialize(function() {
 
       // start transaction
-      db.run("BEGIN", function(err){
-        onError("BEGIN")(err);
+      db.run("BEGIN TRANSACTION", function(err){
+
+        // error checking
+        assert.transaction.start(err);
 
         // import batch
         batch.forEach( function( address ){
 
-          // insert point values in db
-          stmt.address.run (address, function(err){
-            onError("address")(err);
-            process.stderr.write('.');
-          });
+          // insert points in address table
+          stmt.address.run(address, assert.statement.address);
         });
       });
 
       // commit transaction
-      db.run("COMMIT", function(err){
-        onError("COMMIT")(err);
+      db.run("END TRANSACTION", function(err){
+
+        // error checking
+        assert.transaction.end(err);
+
+        // update statistics
+        stats.inc( batch.length );
 
         // wait for transaction to complete before continuing
         next();
       });
     });
 
-  }, function flush( next ){
+  }, function( next ){
 
-    // finalize prepared stmt
-    stmt.address.finalize( onError("finalize address") );
+    // stop stats ticker
+    stats.tick( false );
 
-    // we are done
-    db.wait(done);
-    next();
+    // clean up
+    db.serialize(function(){
 
+      // finalize prepared statements
+      stmt.address.finalize( assert.log("finalize address") );
+
+      // we are done
+      db.wait(done);
+      next();
+    });
   });
-}
-
-// generic error handler
-function onError( title ){
-  return function( err ){
-    if( err ){
-      console.error( "stmt " + title + ": " + err );
-    }
-  };
 }
 
 module.exports = streamFactory;

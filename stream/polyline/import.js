@@ -1,6 +1,6 @@
 
 var through = require("through2"),
-    assert = require('../../lib/assert');
+    assert = require('../../lib/assert'),
     Statistics = require('../../lib/statistics');
 
 function streamFactory(db, done){
@@ -68,7 +68,6 @@ function streamFactory(db, done){
 
         // wait for transaction to complete before continuing
         next();
-
       });
     });
 
