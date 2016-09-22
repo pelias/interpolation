@@ -7,6 +7,7 @@ module.exports = function( db, done ){
     // init spatialite extension
     // db.run("SELECT InitSpatialMetaData(1);"); // required for mod_spatialite
 
+    db.run('PRAGMA foreign_keys=OFF;'); // we don't enforce foreign key constraints
     db.run('PRAGMA main.page_size=4096;'); // (default: 1024)
     db.run('PRAGMA main.cache_size=-2000;'); // (default: -2000, 2GB)
     db.run('PRAGMA main.synchronous=OFF;');
