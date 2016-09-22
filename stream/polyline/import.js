@@ -4,7 +4,7 @@ var through = require("through2");
 function streamFactory(db, done){
 
   // vanity statistics
-  var total_saved = 0;
+  // var total_saved = 0;
 
   // sqlite3 prepared statements
   var stmt = {
@@ -13,18 +13,25 @@ function streamFactory(db, done){
     line: db.prepare("INSERT INTO street_polyline (id, line) VALUES ($id, $line);")
   };
 
+  var stats = { total: 0, prev: 0 };
+  var ticker = setInterval( function(){
+    console.error( stats.total + '\t' + (stats.total - stats.prev) + '/sec' );
+    stats.prev = stats.total;
+  }, 1000);
+
   // create a new stream
-  return through.obj({ highWaterMark: 8 }, function( batch, _, next ){
+  return through.obj(function( batch, _, next ){
 
     // vanity statistics
-    total_saved += batch.length;
-    console.error( total_saved );
+    // stats.total += batch.length;
+    // total_saved += batch.length;
+    // console.error( total_saved );
 
     // run serially so we can use transactions
     db.serialize(function() {
 
       // start transaction
-      db.run("BEGIN", function(err){
+      db.run("BEGIN TRANSACTION", function(err){
         onError("BEGIN")(err);
 
         // import batch
@@ -57,15 +64,20 @@ function streamFactory(db, done){
       }); // BEGIN
 
       // commit transaction
-      db.run("COMMIT", function(err){
+      db.run("END TRANSACTION", function(err){
         onError("COMMIT")(err);
 
-        // wait for transaction to complete before continuing
+        stats.total += batch.length;
         next();
+        // wait for transaction to complete before continuing
       }); // COMMIT
     });// serialize
 
+
   }, function( next ){
+
+    clearInterval( ticker );
+
     db.serialize(function(){
 
       // finalize prepared statements

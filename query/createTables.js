@@ -11,8 +11,8 @@ module.exports = function( db, rebuild, done ){
     db.run("CREATE TABLE IF NOT EXISTS street_names (rowid INTEGER PRIMARY KEY, id INTEGER, name TEXT);");
 
     // create street_fts table
-    // if( rebuild ){ db.run("DROP TABLE IF EXISTS street_fts;"); }
-    // db.run("CREATE VIRTUAL TABLE IF NOT EXISTS street_fts USING fts4(rowid INTEGER PRIMARY KEY, id INTEGER, name TEXT, notindexed=id, tokenize=simple);");
+    // if( rebuild ){ db.run("DROP TABLE IF EXISTS street_names;"); }
+    // db.run("CREATE VIRTUAL TABLE IF NOT EXISTS street_names USING fts4(rowid INTEGER PRIMARY KEY, id INTEGER, name TEXT, notindexed=id, tokenize=simple);");
 
     // create street_polyline table
     if( rebuild ){ db.run("DROP TABLE IF EXISTS street_polyline;"); }

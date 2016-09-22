@@ -7,8 +7,7 @@ var child = require('./lib/through2-child');
 var requireDir = require('require-dir'),
     stream = requireDir('./stream', { recurse: true });
 
-// var maxWorkers = os.cpus().length -1;
-var maxWorkers = 1;
+var maxWorkers = Math.max( os.cpus().length -3, 1 );
 console.error( 'maxWorkers', maxWorkers );
 var parsers = [];
 

@@ -14,7 +14,8 @@ process.title = process.argv[1];
 sqlite3.verbose();
 var db = new sqlite3.Database(dbfile);
 
-var codec = require('../lib/codec');
+var prev = 0;
+var total = 0;
 
 function main(){
   query.configure(db); // configure database
