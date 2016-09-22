@@ -13,7 +13,7 @@ sqlite3.verbose();
 var db = new sqlite3.Database(dbfile);
 
 // prepend line numbers
-var seq = 0;
+var seq = 1;
 
 function main(){
   query.configure(db); // configure database
@@ -23,7 +23,7 @@ function main(){
   process.stdin
     .pipe( stream.split() ) // split on newline
     .pipe( through.obj( function( chunk, _, next ){
-       this.push( (seq++) + '\0' + chunk.toString('utf8') + '\n' );
+       this.push( (seq++) + '\0' + chunk + '\n' );
        next();
      }))
     .pipe( stream.polyline.parse() ) // parse polyline data
