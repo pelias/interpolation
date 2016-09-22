@@ -1,6 +1,5 @@
 
 var sqlite3 = require('sqlite3'),
-    through = require('through2'),
     requireDir = require('require-dir'),
     stream = requireDir('./stream', { recurse: true }),
     query = requireDir('./query');
@@ -12,9 +11,6 @@ var dbfile = ( process.argv.length > 2 ) ? process.argv[2] : 'example.db';
 sqlite3.verbose();
 var db = new sqlite3.Database(dbfile);
 
-// prepend line numbers
-var seq = 1;
-
 function main(){
   query.configure(db); // configure database
   query.tables.street(db, true); // reset database and create tables
@@ -22,10 +18,7 @@ function main(){
   // run pipeline
   process.stdin
     .pipe( stream.split() ) // split on newline
-    .pipe( through.obj( function( chunk, _, next ){
-       this.push( (seq++) + '\0' + chunk + '\n' );
-       next();
-     }))
+    .pipe( stream.polyline.autoincrement() ) // prepend line numbers
     .pipe( stream.polyline.parse() ) // parse polyline data
     .pipe( stream.polyline.augment() ) // augment data with libpostal
     .pipe( stream.batch( 1000 ) ) // batch up data to import
