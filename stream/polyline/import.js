@@ -8,8 +8,9 @@ function streamFactory(db, done){
 
   // sqlite3 prepared statements
   var stmt = {
+    rtree: db.prepare("INSERT INTO street_rtree (id, minX, maxX, minY, maxY) VALUES ($id, $minX, $maxX, $minY, $maxY);"),
     names: db.prepare("INSERT INTO street_names (rowid, id, name) VALUES (NULL, $id, $name);"),
-    line: db.prepare("INSERT INTO street_polyline (id, line, minX, maxX, minY, maxY) VALUES ($id, $line, $minX, $maxX, $minY, $maxY);")
+    line: db.prepare("INSERT INTO street_polyline (id, line) VALUES ($id, $line);")
   };
 
   // create a new stream
@@ -38,13 +39,18 @@ function streamFactory(db, done){
           });
 
           // insert line in to polyline table
-          stmt.line.run({
+          stmt.rtree.run({
             $id:   parsed.id,
-            $line: parsed.line,
             $minX: parsed.minX,
             $maxX: parsed.maxX,
             $minY: parsed.minY,
             $maxY: parsed.maxY
+          }, onError("line"));
+
+          // insert line in to polyline table
+          stmt.line.run({
+            $id:   parsed.id,
+            $line: parsed.line
           }, onError("line"));
 
         }); // foreach
@@ -63,15 +69,9 @@ function streamFactory(db, done){
     db.serialize(function(){
 
       // finalize prepared statements
+      stmt.rtree.finalize( onError("finalize rtree") );
       stmt.names.finalize( onError("finalize names") );
       stmt.line.finalize( onError("finalize line") );
-
-      // copy bbox data from 'street_polyline' to 'street_rtree' in a single statement.
-      // this uses more disk (as the floats are stored twice) but presumably yeild better performance
-      // than building the rtree incrementally; because rtrees need to be rebalanced as they are built.
-      // note: after this operation it should be safe to drop those columns from 'street_polyline'.
-      // see: https://www.sqlite.org/faq.html#q11
-      db.run("INSERT INTO street_rtree (id, minX, maxX, minY, maxY) SELECT id, minX, maxX, minY, maxY FROM street_polyline;");
 
       // we are done
       db.wait(done);

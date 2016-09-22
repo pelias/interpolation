@@ -9,7 +9,8 @@ OPENADDRESSES="$DIR/oa_nz_glasgow_streets.csv";
 rm "$DB*" &>/dev/null;
 
 echo "-- run import --";
-cat $POLYLINES | time -p node "$DIR/../import.js" $DB;
+# cat $POLYLINES | time -p node "$DIR/../import.js" $DB;
+cat $POLYLINES | time -p node "$DIR/../import_parallel.js" $DB;
 
 echo "-- run conflate --";
 cat $OPENADDRESSES | time -p node "$DIR/../conflate_oa.js" $DB;

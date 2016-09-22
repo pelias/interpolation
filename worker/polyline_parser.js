@@ -2,6 +2,8 @@
 var requireDir = require('require-dir'),
     stream = requireDir('../stream', { recurse: true });
 
+process.title = process.argv[1];
+
 // run pipeline
 process.stdin
   .pipe( stream.split() ) // split on newline

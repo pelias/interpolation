@@ -1,13 +1,12 @@
 
-var through = require('through2');
+var through = require('through2'),
+    codec = require('../lib/codec');
 
 function deserializeFactory(){
   return through.obj( function( chunk, _, next ){
-    if( chunk.length ){
-      if( Buffer.isBuffer( chunk ) ){
-        chunk = chunk.toString('utf8');
-      }
-      this.push( JSON.parse( chunk ) );
+    var msg = codec.decode( chunk );
+    if( msg ){
+      this.push( msg );
     }
     next();
  });
@@ -15,7 +14,7 @@ function deserializeFactory(){
 
 function serializeFactory(){
   return through.obj( function( chunk, enc, next ){
-    this.push( JSON.stringify( chunk ) + '\n' );
+    this.push( codec.encode( chunk ) );
     next();
   });
 }

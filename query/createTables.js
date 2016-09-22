@@ -16,7 +16,7 @@ module.exports = function( db, rebuild, done ){
 
     // create street_polyline table
     if( rebuild ){ db.run("DROP TABLE IF EXISTS street_polyline;"); }
-    db.run("CREATE TABLE IF NOT EXISTS street_polyline (id INTEGER PRIMARY KEY, line TEXT, minX REAL, maxX REAL, minY REAL, maxY REAL);");
+    db.run("CREATE TABLE IF NOT EXISTS street_polyline (id INTEGER PRIMARY KEY, line TEXT);");
 
     // create street_geometry table
     // if( rebuild ){ db.run("DROP TABLE IF EXISTS street_geometry;"); }

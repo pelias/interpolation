@@ -1,2 +1,6 @@
 
-module.exports = require('split');
+var split = require('split2');
+
+module.exports = function(){
+  return split();
+};

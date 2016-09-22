@@ -1,5 +1,6 @@
 
 var sqlite3 = require('sqlite3'),
+    through = require('through2'),
     requireDir = require('require-dir'),
     stream = requireDir('../stream', { recurse: true }),
     query = requireDir('../query');
@@ -7,9 +8,13 @@ var sqlite3 = require('sqlite3'),
 // name of sqlite file
 var dbfile = ( process.argv.length > 2 ) ? process.argv[2] : 'example.db';
 
+process.title = process.argv[1];
+
 // connect to db
 sqlite3.verbose();
 var db = new sqlite3.Database(dbfile);
+
+var codec = require('../lib/codec');
 
 function main(){
   query.configure(db); // configure database
