@@ -12,4 +12,4 @@ var CSV_OPTIONS = {
 // csv parser configured for openaddresses data
 module.exports = function(){
   return parser(CSV_OPTIONS);
-}
+};

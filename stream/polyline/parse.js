@@ -1,12 +1,12 @@
 
 var through = require('through2'),
-    polyline = require('polyline')
+    polyline = require('polyline');
 
 // polyline precision
 var PRECISION = 6;
 
 function streamFactory(){
-  return through.obj({ highWaterMark: 32 }, function( row, _, next ){
+  return through.obj(function( row, _, next ){
 
     // parse polyline row
     var parsed = parse( row );
@@ -37,12 +37,13 @@ function parse( row ){
   // run parser
   try {
     // must contain a polyline and at least one name
-    if( cols.length > 1 ){
+    if( cols.length > 2 ){
 
       return {
-        names: cols.slice(1),
-        bbox: bboxify( polyline.decode( cols[0], PRECISION ) ),
-        line: cols[0]
+        id: cols[0],
+        names: cols.slice(2),
+        bbox: bboxify( polyline.decode( cols[1], PRECISION ) ),
+        line: cols[1]
       };
 
     } else if( cols.length ) {

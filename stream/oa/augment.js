@@ -13,7 +13,7 @@ var PRECISION = 6;
 function streamFactory(db, done){
 
   // create a new stream
-  return through.obj({ highWaterMark: 8 }, function( lookup, _, next ){
+  return through.obj(function( lookup, _, next ){
 
     // @todo: select best row instead of first (unlikely to find >1 anyway)
     // could choose longest or closest instead?

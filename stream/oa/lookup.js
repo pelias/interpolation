@@ -1,6 +1,6 @@
 
 var through = require('through2'),
-    postal = require('node-postal');
+    analyze = require('../../lib/analyze');
 
 var sql = [
   "SELECT street_polyline.id, street_names.name, street_polyline.line FROM street_polyline",
@@ -44,7 +44,7 @@ function streamFactory(db){
     var streetName = firstBatchResult.STREET;
 
     // perform libpostal normalization
-    var names = postal.expand.expand_address( streetName );
+    var names = analyze( streetName );
 
     // ensure at least one name was produced
     if( !names.length ){

@@ -12,7 +12,7 @@ function streamFactory(db, done){
   };
 
   // create a new stream
-  return through.obj({ highWaterMark: 8 }, function( batch, _, next ){
+  return through.obj(function( batch, _, next ){
 
     // vanity statistics
     total_saved += batch.length;

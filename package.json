@@ -14,7 +14,7 @@
     "node-postal": "^0.3.0",
     "polyline": "^0.2.0",
     "require-dir": "^0.3.0",
-    "split": "^1.0.0",
+    "split2": "^2.1.0",
     "sqlite3": "^3.1.4",
     "through2": "^2.0.1",
     "through2-batch": "^1.0.1",
