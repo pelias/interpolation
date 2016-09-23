@@ -3,8 +3,8 @@ var index = require('../index');
 
 module.exports.interface = {};
 
-module.exports.interface.defaults = function(test) {
-  test('defaults', function(t) {
+module.exports.interface.exports = function(test) {
+  test('exports', function(t) {
     t.equal(typeof index, 'object', 'valid object');
     t.equal(typeof index.stream, 'object', 'valid object');
     t.equal(typeof index.query, 'object', 'valid object');
