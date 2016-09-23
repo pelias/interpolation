@@ -102,7 +102,7 @@ function streamFactory(db, done){
         }
 
         // distance along line to this vertex
-        var edge = street.coordinates.slice(i-2, i);
+        var edge = street.coordinates.slice(i-1, i+1);
         if( edge.length == 2 ){
           distance += project.lineDistance( edge );
         }
