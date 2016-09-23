@@ -189,6 +189,27 @@ module.exports.project.parity = function(test) {
   });
 };
 
+module.exports.project.bearing = function(test) {
+  test('bearing: simple', function(t) {
+
+    var p1 = [ 0.0, 0.0 ],
+        p2 = [ 1.0, 0.0 ];
+
+    var res = project.bearing( p1, p2 );
+    t.equal(res, 90);
+    t.end();
+  });
+  test('bearing: complex', function(t) {
+
+    var p1 = [ -2.2, 1.1 ],
+        p2 = [ -8.1, 9.2 ];
+
+    var res = project.bearing( p1, p2 );
+    t.equal(res, -35.740257158176355);
+    t.end();
+  });
+};
+
 module.exports.all = function (tape) {
 
   function test(name, testFunction) {

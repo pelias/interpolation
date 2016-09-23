@@ -70,6 +70,8 @@ module.exports.interface.lib = function(test) {
     t.equal(typeof index.lib.project.distance, 'function', 'valid function');
     t.equal(typeof index.lib.project.lineDistance, 'function', 'valid function');
     t.equal(typeof index.lib.project.sliceLineAtProjection, 'function', 'valid function');
+    t.equal(typeof index.lib.project.parity, 'function', 'valid function');
+    t.equal(typeof index.lib.project.bearing, 'function', 'valid function');
     t.equal(typeof index.lib.statistics, 'function', 'valid function');
     t.end();
   });
