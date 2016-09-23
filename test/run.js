@@ -4,7 +4,8 @@ var common = {};
 
 var tests = [
   require('./interface.js'),
-  require('./lib/analyze.js')
+  require('./lib/analyze.js'),
+  require('./functional/basic/run.js')
 ];
 
 tests.map(function(t) {
