@@ -32,8 +32,8 @@ function main(){
     $name: analyze.street(process.argv[6])[0]
   }, function( err, res ){
 
-    // console.log( pretty.geojson( res ) );
-    console.log( pretty.table( res ) );
+    console.log( pretty.geojson( res ) );
+    // console.log( pretty.table( res ) );
   });
 
   db.close();

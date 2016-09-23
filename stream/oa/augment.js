@@ -87,7 +87,6 @@ function streamFactory(db, done){
               └─┬─┴─┬─┴─┬─┴─┬─┘
                 9   8   7   6
     **/
-    var scheme = [];
     distances.forEach( function( d, i ){
 
       // store a memo of where the odd/even values lie
@@ -110,8 +109,8 @@ function streamFactory(db, done){
       var zz1 = ( ord.R.odd == ord.R.total && ord.L.even == ord.L.total ),
           zz2 = ( ord.L.odd == ord.L.total && ord.R.even == ord.R.total );
 
-      // assign correct scheme
-      scheme[i] = ( zz1 || zz2 ) ? 'zigzag' : 'updown';
+      // assign correct scheme to street
+      lookup.streets[i].scheme = ( zz1 || zz2 ) ? 'zigzag' : 'updown';
     });
 
     // loop over all linestrings
@@ -140,58 +139,79 @@ function streamFactory(db, done){
           distance += project.lineDistance( edge );
         }
 
-        // projected fractional housenumber
-        var housenumber;
+        // projected fractional housenumber(s)
+        var housenumbers = [];
+        var num;
 
-        // cycle through calculated distances and interpolate a fractional housenumber
-        // value which would sit at this vertex.
-        for( var x=0; x<distances[si].length-1; x++ ){
-
-          var thisDist = distances[si][x],
-              nextDist = distances[si][x+1];
-
-          // the vertex distance is less that the lowest housenumber
-          // @extrapolation
-          if( distance < thisDist.dist ){
-            break;
-          }
-
-          // vertex distance is between two house number distance
-          if( nextDist.dist > distance ){
-            var ratio = 1 - ((distance - thisDist.dist) / (nextDist.dist - thisDist.dist));
-            if( ratio >= 1 || ratio <= 0 ){ break; } // will result in a duplicate value
-            var minHouseNumber = Math.min( thisDist.housenumber, nextDist.housenumber );
-            var maxHouseNumber = Math.max( thisDist.housenumber, nextDist.housenumber );
-            housenumber = minHouseNumber + (( maxHouseNumber - minHouseNumber ) * ratio);
-            break;
-          }
-
-          // else the vertex is greater than the highest housenumber
-          // @extrapolation
+        // zigzag interpolation
+        // (one vertex interpolation produced)
+        if( street.scheme === 'zigzag' ){
+          housenumbers.push( interpolate( distances[si], distance ) );
         }
+        // updown interpolation
+        // (two vertex interpolations produced)
+        else {
+          // left side
+          housenumbers.push( interpolate( distances[si].filter( function( d ){
+            return d.parity === 'L';
+          }), distance ) );
 
-        // skip undefined housenumbers
-        if( !housenumber ){
-          return;
+          // right side
+          housenumbers.push( interpolate( distances[si].filter( function( d ){
+            return d.parity === 'R';
+          }), distance ) );
         }
 
         // insert point values in db
-        this.push({
-          $id: street.id,
-          $source: 'VERTEX',
-          $housenumber: housenumber.toFixed(3),
-          $lon: undefined,
-          $lat: undefined,
-          $parity: undefined,
-          $proj_lon: vertex[0].toFixed(7),
-          $proj_lat: vertex[1].toFixed(7)
-        });
+        housenumbers.forEach( function( num ){
+          if( !num ){ return; } // skip null interpolations
+          this.push({
+            $id: street.id,
+            $source: 'VERTEX',
+            $housenumber: num.toFixed(3),
+            $lon: undefined,
+            $lat: undefined,
+            $parity: undefined,
+            $proj_lon: vertex[0].toFixed(7),
+            $proj_lat: vertex[1].toFixed(7)
+          });
+        }, this);
 
       }, this);
     }, this);
 
     next();
   });
+}
+
+function interpolate( distances, distance ){
+
+  // cycle through calculated distances and interpolate a fractional housenumber
+  // value which would sit at this vertex.
+  for( var x=0; x<distances.length-1; x++ ){
+
+    var thisDist = distances[x],
+        nextDist = distances[x+1];
+
+    // the vertex distance is less that the lowest housenumber
+    // @extrapolation
+    if( distance < thisDist.dist ){
+      break;
+    }
+
+    // vertex distance is between two house number distance
+    if( nextDist.dist > distance ){
+      var ratio = 1 - ((distance - thisDist.dist) / (nextDist.dist - thisDist.dist));
+      if( ratio >= 1 || ratio <= 0 ){ break; } // will result in a duplicate value
+      var minHouseNumber = Math.min( thisDist.housenumber, nextDist.housenumber );
+      var maxHouseNumber = Math.max( thisDist.housenumber, nextDist.housenumber );
+      return minHouseNumber + (( maxHouseNumber - minHouseNumber ) * ratio);
+    }
+
+    // else the vertex is greater than the highest housenumber
+    // @extrapolation
+  }
+  return null;
 }
 
 module.exports = streamFactory;
