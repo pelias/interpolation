@@ -63,6 +63,27 @@ module.exports.project.pointOnLine = function(test) {
   });
 };
 
+module.exports.project.distance = function(test) {
+  test('distance: simple', function(t) {
+
+    var p1 = [ 0.0, 1.0 ],
+        p2 = [ 1.0, 0.0 ];
+
+    var res = project.distance( p1, p2 );
+    t.equal(res, Math.hypot( 1, 1 ));
+    t.end();
+  });
+  test('distance: complex', function(t) {
+
+    var p1 = [ -2.2, 1.1 ],
+        p2 = [ -8.1, 9.2 ];
+
+    var res = project.distance( p1, p2 );
+    t.equal(res, Math.hypot( -5.9, 8.1 ));
+    t.end();
+  });
+};
+
 module.exports.all = function (tape) {
 
   function test(name, testFunction) {
