@@ -15,7 +15,7 @@ function streamFactory(db, done){
   stats.tick();
 
   // create a new stream
-  return through.obj(function( batch, _, next ){
+  return through.obj({ highWaterMark: 2 }, function( batch, _, next ){
 
     // run serially so we can use transactions
     db.serialize(function() {
