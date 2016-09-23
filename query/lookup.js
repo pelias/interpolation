@@ -1,45 +1,41 @@
 
 // maximum names to match on
-var MAX_CONDITIONS = 20;
+var MAX_NAMES = 10;
 
-var sql = [
+var SQL = [
   "SELECT DISTINCT street.polyline.id, street.polyline.line FROM street.polyline",
   "JOIN street.rtree ON street.rtree.id = street.polyline.id",
   "JOIN street.names ON street.names.id = street.rtree.id",
   "WHERE ( street.rtree.minX<=? AND street.rtree.maxX>=? AND street.rtree.minY<=? AND street.rtree.maxY>=? )",
-  "AND ( %%AND_CONDITIONS%% )",
-  "ORDER BY ( ", // distance from the center of the street
-  "ABS(? - (street.rtree.minX + ( street.rtree.maxX - street.rtree.minX )/2 )) + ",
-  "ABS(? - (street.rtree.minY + ( street.rtree.maxY - street.rtree.minY )/2 ))",
-  " ) ASC",
-  "LIMIT 1"
+  "AND ( %%NAME_CONDITIONS%% );",
 ].join(" ");
+
+var NAME_SQL = '( street.names.name = ? )';
 
 // sqlite3 prepared statements
 var stmt = [];
 
-module.exports = function( db, names, focus, cb ){
+module.exports = function( db, names, bbox, cb ){
 
   // error checking
-  if( !names || !names.length || !focus || !focus.hasOwnProperty('lat') || !focus.hasOwnProperty('lon') ){
+  if( !names || !names.length || !bbox ){
     return cb( null, [] );
   }
 
   // max conditions to search on
-  var max = Math.min( names.length, MAX_CONDITIONS );
+  var max = { names: Math.min( names.length, MAX_NAMES ) };
 
   // lazy create prepared statements
-  if( !stmt[max] ){
-    var conditions = Array.apply(null, Array(max)).map(function(){ return 'street.names.name = ?'; });
-    stmt[max] = db.prepare( sql.replace( '%%AND_CONDITIONS%%', conditions.join(" OR ") ) );
+  if( !stmt[max.names] ){
+    var nameConditions = Array.apply(null, Array(max.names)).map(function(){ return NAME_SQL; });
+    var sql = SQL.replace( '%%NAME_CONDITIONS%%', nameConditions.join(" OR ") );
+    stmt[max.names] = db.prepare( sql );
   }
 
-  var timer = (new Date()).getTime();
-
   // create a variable array of args to bind to query
-  var args = [ focus.lon, focus.lon, focus.lat, focus.lat ].concat( names.slice(0, max), focus.lon, focus.lat, cb);
+  var args = [bbox.lon.max, bbox.lon.min, bbox.lat.max, bbox.lat.min].concat(names.slice(0, max.names), cb);
 
-  stmt[max].get.apply(stmt[max], args);
+  stmt[max.names].all.apply(stmt[max.names], args);
 };
 
 module.exports.finalize = function(){

@@ -27,13 +27,22 @@ function streamFactory(db){
       return next();
     }
 
-    var focus = {
-      lat: result.LAT,
-      lon: result.LON
-    };
+    // compute bbox
+    var bbox = batch.reduce( function( memo, res ){
+      var lat = parseFloat( res.LAT );
+      var lon = parseFloat( res.LON );
+      if( lat > memo.lat.max ){ memo.lat.max = lat; }
+      if( lat < memo.lat.min ){ memo.lat.min = lat; }
+      if( lon > memo.lon.max ){ memo.lon.max = lon; }
+      if( lon < memo.lon.min ){ memo.lon.min = lon; }
+      return memo;
+    }, {
+      lat: { min: +Infinity, max: -Infinity },
+      lon: { min: +Infinity, max: -Infinity }
+    });
 
     // call db.all(), appending the callback function
-    query.lookup(db, names, focus, function( err, row ){
+    query.lookup(db, names, bbox, function( err, rows ){
 
       // error debug
       if( err ){
@@ -42,7 +51,7 @@ function streamFactory(db){
       }
 
       // no results found
-      if( !row ){
+      if( !rows || !rows.length ){
         return next();
       }
 
@@ -53,7 +62,7 @@ function streamFactory(db){
       // push downstream
       this.push({
         batch: batch,
-        street: row
+        streets: rows
       });
 
       next();
