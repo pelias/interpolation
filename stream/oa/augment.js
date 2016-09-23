@@ -141,7 +141,6 @@ function streamFactory(db, done){
 
         // projected fractional housenumber(s)
         var housenumbers = [];
-        var num;
 
         // zigzag interpolation
         // (one vertex interpolation produced)
