@@ -22,7 +22,13 @@ var sqlite3 = {
     conditions = ( conditions || '' ).replace(/\"/g, '\\"');
     var cmd = [ 'sqlite3', dbpath, '"SELECT COUNT(*) FROM', table, conditions, ';"' ];
     var res = child.execSync( cmd.join(' '), { encoding: 'utf8' } );
-    return parseInt( res, 10 );
+    return parseInt( res.trim(), 10 );
+  },
+  exec: function( dbpath, sql ){
+    sql = sql.replace(/\"/g, '\\"');
+    var cmd = [ 'sqlite3', dbpath, '"', sql, ';"' ];
+    var res = child.execSync( cmd.join(' '), { encoding: 'utf8' } );
+    return res.trim().split('\n');
   }
 };
 
@@ -40,6 +46,53 @@ module.exports.functional.import = function(test) {
   });
 };
 
+module.exports.functional.street_schema = function(test) {
+  test('street db table schemas', function(t) {
+
+    // polyline schema
+    var polyline = sqlite3.exec( db.street, 'PRAGMA table_info(polyline)' );
+    t.deepEqual(polyline, [
+      '0|id|INTEGER|0||1',
+      '1|line|TEXT|0||0'
+    ]);
+
+    // names schema
+    var names = sqlite3.exec( db.street, 'PRAGMA table_info(names)' );
+    t.deepEqual(names, [
+      '0|rowid|INTEGER|0||1',
+      '1|id|INTEGER|0||0',
+      '2|name|TEXT|0||0'
+    ]);
+
+    // rtree schema
+    var rtree = sqlite3.exec( db.street, 'PRAGMA table_info(rtree)' );
+    t.deepEqual(rtree, [
+      '0|id||0||0',
+      '1|minX||0||0',
+      '2|maxX||0||0',
+      '3|minY||0||0',
+      '4|maxY||0||0'
+    ]);
+
+    t.end();
+  });
+};
+
+module.exports.functional.street_indexes = function(test) {
+  test('street db table indexes', function(t) {
+
+    // names_id_idx index
+    var namesId = sqlite3.exec( db.street, 'PRAGMA index_info(names_id_idx)' );
+    t.deepEqual(namesId, ['0|1|id']);
+
+    // names_name_idx index
+    var namesName = sqlite3.exec( db.street, 'PRAGMA index_info(names_name_idx)' );
+    t.deepEqual(namesName, ['0|2|name']);
+
+    t.end();
+  });
+};
+
 module.exports.functional.street_counts = function(test) {
   test('street db table counts', function(t) {
 
@@ -50,6 +103,10 @@ module.exports.functional.street_counts = function(test) {
     // count names table
     var names = sqlite3.count( db.street, 'names' );
     t.equal(names, 165);
+
+    // count rtree table
+    var rtree = sqlite3.count( db.street, 'rtree' );
+    t.equal(rtree, 144);
 
     t.end();
   });
@@ -64,6 +121,45 @@ module.exports.functional.conflate = function(test) {
     // spawn child process
     var proc = child.spawn( 'sh', [ '-c', cmd ] );
     proc.stdout.on( 'end', t.end );
+  });
+};
+
+module.exports.functional.address_schema = function(test) {
+  test('address db table schemas', function(t) {
+
+    // address schema
+    var address = sqlite3.exec( db.address, 'PRAGMA table_info(address)' );
+    t.deepEqual(address, [
+      '0|rowid|INTEGER|0||1',
+      '1|id|INTEGER|0||0',
+      '2|source|TEXT|0||0',
+      '3|housenumber|REAL|0||0',
+      '4|lat|REAL|0||0',
+      '5|lon|REAL|0||0',
+      '6|proj_lat|REAL|0||0',
+      '7|proj_lon|REAL|0||0'
+    ]);
+
+    t.end();
+  });
+};
+
+module.exports.functional.address_indexes = function(test) {
+  test('address db table indexes', function(t) {
+
+    // address_id_idx index
+    var addressId = sqlite3.exec( db.address, 'PRAGMA index_info(address_id_idx)' );
+    t.deepEqual(addressId, ['0|1|id']);
+
+    // address_source_idx index
+    var addressSource = sqlite3.exec( db.address, 'PRAGMA index_info(address_source_idx)' );
+    t.deepEqual(addressSource, ['0|2|source']);
+
+    // address_housenumber_idx index
+    var addressHousenumber = sqlite3.exec( db.address, 'PRAGMA index_info(address_housenumber_idx)' );
+    t.deepEqual(addressHousenumber, ['0|3|housenumber']);
+
+    t.end();
   });
 };
 
