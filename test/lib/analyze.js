@@ -21,6 +21,39 @@ module.exports.analyze.street = function(test) {
   });
 };
 
+module.exports.analyze.housenumber = function(test) {
+  test('housenumber: invalid', function(t) {
+    var float = analyze.housenumber("no numbers");
+    t.true(isNaN(float), 'return NaN');
+    t.end();
+  });
+  test('housenumber: empty', function(t) {
+    var float = analyze.housenumber("");
+    t.true(isNaN(float), 'return NaN');
+    t.end();
+  });
+  test('housenumber: numeric', function(t) {
+    var float = analyze.housenumber("22");
+    t.equal(float, 22);
+    t.end();
+  });
+  test('housenumber: junk', function(t) {
+    var float = analyze.housenumber("22 foo");
+    t.equal(float, 22);
+    t.end();
+  });
+  test('housenumber: apartment', function(t) {
+    var float = analyze.housenumber("22a");
+    t.equal(float, 22.1);
+    t.end();
+  });
+  test('housenumber: apartment with space', function(t) {
+    var float = analyze.housenumber("22 B");
+    t.equal(float, 22.2);
+    t.end();
+  });
+};
+
 module.exports.all = function (tape) {
 
   function test(name, testFunction) {

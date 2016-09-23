@@ -1,7 +1,8 @@
 
 var through = require('through2'),
     polyline = require('polyline'),
-    project = require('../../lib/project');
+    project = require('../../lib/project'),
+    analyze = require('../../lib/analyze');
 
 // polyline precision
 var PRECISION = 6;
@@ -28,20 +29,8 @@ function streamFactory(db, done){
     // process all house number entries in batch
     lookup.batch.forEach( function( item ){
 
-      // remove spaces from housenumber. eg: '2 A' -> '2A'
-      var number = item.NUMBER.replace(/\s+/g, '').toLowerCase();
-
-      // @note: removes letters such as '2a' -> 2
-      var housenumber = parseFloat( number );
-
-      // if the house number is followed by a single letter [a-i] then we
-      // add a fraction to the house number representing the offset.
-      // @todo: tests for this
-      var apartment = number.match(/^[0-9]+([abcdefghi])$/);
-      if( apartment ){
-        var offset = apartment[1].charCodeAt(0) - 96; // gives a:1, b:2 etc..
-        housenumber += ( offset / 10 ); // add fraction to housenumber for apt;
-      }
+      // parse housenumber
+      var housenumber = analyze.housenumber( item.NUMBER );
 
       // project point on to line string
       var point = [ parseFloat(item.LON), parseFloat(item.LAT) ];
