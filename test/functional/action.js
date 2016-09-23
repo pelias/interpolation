@@ -1,7 +1,9 @@
 
-var path = require('path'),
+var fs = require('fs'),
+    path = require('path'),
+    sqlite3 = require('./sqlite3'),
     child = require('child_process'),
-    sqlite3 = require('./sqlite3');
+    pretty = require('../../lib/pretty');
 
 var exec = {
   import: path.resolve( __dirname, '../../import.js' ),
@@ -119,6 +121,20 @@ module.exports.check.indexes = function(test, db) {
     var addressHousenumber = sqlite3.exec( db.address, 'PRAGMA index_info(address_housenumber_idx)' );
     t.deepEqual(addressHousenumber, ['0|3|housenumber'], 'index_info(address_housenumber_idx)');
 
+    t.end();
+  });
+};
+
+module.exports.geojson = function(test, rows, destination) {
+  test('produce geojson', function(t) {
+
+    // convert to geojson
+    var geojson = pretty.geojson( rows.map( function( row ){ return row.split('|'); }));
+
+    // write to disk
+    fs.writeFileSync( destination, JSON.stringify( geojson, null, 2 ) );
+
+    t.pass('wrote geojson');
     t.end();
   });
 };

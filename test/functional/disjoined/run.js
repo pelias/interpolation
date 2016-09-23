@@ -1,5 +1,6 @@
 
-var path = require('path'),
+var fs = require('fs'),
+    path = require('path'),
     sqlite3 = require('../sqlite3'),
     action = require('../action');
 
@@ -173,6 +174,18 @@ module.exports.functional.end_to_end_south = function(test) {
 
     t.end();
   });
+};
+
+// write geojson to disk
+module.exports.functional.geojson = function(test) {
+
+  // full interpolation for a single street
+  var rows = sqlite3.exec( db.address, 'SELECT * FROM address WHERE id=2 ORDER BY housenumber' );
+
+  // destination path
+  var destination = path.resolve(__dirname, 'street.geojson');
+
+  action.geojson(test, rows, destination);
 };
 
 module.exports.all = function (tape) {
