@@ -18,7 +18,7 @@ var db = new sqlite3.Database( process.argv[2] );
 
 function main(){
   query.configure(db); // configure database
-  query.tables.address(db, true); // reset database and create tables
+  query.tables.address(db); // create tables only if not already created
   query.attach(db, process.argv[3], 'street'); // attach street database
 
   // run pipeline

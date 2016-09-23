@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OAPATH='/data/oa_global';
+OAPATH='/data/oa';
 rm 'planet_conflate.out' 'planet_conflate.err' &>/dev/null;
 
 find $OAPATH -type f -iname "*.csv" -print0 | while IFS= read -r -d $'\0' filename; do
