@@ -20,7 +20,7 @@ function streamFactory(db){
 
     // all street names in batch should be the same
     // perform libpostal normalization
-    var names = analyze( result.STREET );
+    var names = analyze.street( result.STREET );
 
     // ensure at least one name was produced
     if( !names.length ){

@@ -31,7 +31,7 @@ function map( parsed ){
 
   var names = [];
   parsed.names.forEach( function( name ){
-    names = names.concat( analyze( name ) );
+    names = names.concat( analyze.street( name ) );
   });
 
   return {

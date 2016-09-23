@@ -29,7 +29,7 @@ function main(){
   query.address( db, {
     $lat: process.argv[4],
     $lon: process.argv[5],
-    $name: analyze(process.argv[6])[0]
+    $name: analyze.street(process.argv[6])[0]
   }, function( err, res ){
 
     // console.log( pretty.geojson( res ) );

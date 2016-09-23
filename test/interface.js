@@ -56,7 +56,8 @@ module.exports.interface.query = function(test) {
 
 module.exports.interface.lib = function(test) {
   test('libs', function(t) {
-    t.equal(typeof index.lib.analyze, 'function', 'valid function');
+    t.equal(typeof index.lib.analyze, 'object', 'valid function');
+    t.equal(typeof index.lib.analyze.street, 'function', 'valid function');
     t.equal(typeof index.lib.assert, 'object', 'valid function');
     t.equal(typeof index.lib.assert.log, 'function', 'valid function');
     t.equal(typeof index.lib.pretty, 'object', 'valid function');
