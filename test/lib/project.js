@@ -184,7 +184,7 @@ module.exports.project.parity = function(test) {
         proj = project.pointOnLine( l, p );
 
     var res = project.parity( proj, p );
-    t.equal(res, '?');
+    t.equal(res, null);
     t.end();
   });
 };
