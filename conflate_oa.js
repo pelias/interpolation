@@ -27,7 +27,7 @@ function main(){
     .pipe( stream.oa.batch() ) // batch records on the same street
     .pipe( stream.oa.lookup( db ) ) // look up from db
     .pipe( stream.oa.augment() ) // perform interpolation
-    .pipe( stream.batch( 200 ) ) // batch up data to import
+    .pipe( stream.batch( 100 ) ) // batch up data to import
     .pipe( stream.oa.import( db, function(){
 
       // create the indexes after the data is imported

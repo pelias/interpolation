@@ -84,6 +84,9 @@ function streamFactory(db, done){
     // loop over all linestrings
     lookup.streets.forEach( function( street, si ){
 
+      // distance travelled along the line string
+      var distance = 0;
+
       // insert each point on linestring in table
       // note: this allows us to ignore the linestring and simply linearly
       // interpolation between matched values at query time.
@@ -97,9 +100,8 @@ function streamFactory(db, done){
           return;
         }
 
-        // distance along line to vertex
-        // @optimization
-        var dist = project.lineDistance( street.coordinates.slice(0, i+1) );
+        // distance along line to this vertex
+        distance += project.lineDistance( street.coordinates.slice(i, i+1) );
 
         // projected fractional housenumber
         var housenumber;
@@ -113,13 +115,13 @@ function streamFactory(db, done){
 
           // the vertex distance is less that the lowest housenumber
           // @extrapolation
-          if( dist < thisDist.dist ){
+          if( distance < thisDist.dist ){
             break;
           }
 
           // vertex distance is between two house number distance
-          if( nextDist.dist > dist ){
-            var ratio = 1 - ((dist - thisDist.dist) / (nextDist.dist - thisDist.dist));
+          if( nextDist.dist > distance ){
+            var ratio = 1 - ((distance - thisDist.dist) / (nextDist.dist - thisDist.dist));
             if( ratio >= 1 || ratio <= 0 ){ break; } // will result in a duplicate value
             var minHouseNumber = Math.min( thisDist.housenumber, nextDist.housenumber );
             var maxHouseNumber = Math.max( thisDist.housenumber, nextDist.housenumber );
