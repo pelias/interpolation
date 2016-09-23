@@ -152,7 +152,7 @@ module.exports.project.parity = function(test) {
           [   0.0, 0.0 ],
           [ +10.0, 0.0 ],
         ],
-        p = [ 0, 10 ],
+        p = [ 0, -10 ],
         proj = project.pointOnLine( l, p );
 
     var res = project.parity( proj, p );
@@ -166,7 +166,7 @@ module.exports.project.parity = function(test) {
           [   0.0, 0.0 ],
           [ +10.0, 0.0 ],
         ],
-        p = [ 0, -10 ],
+        p = [ 0, +10 ],
         proj = project.pointOnLine( l, p );
 
     var res = project.parity( proj, p );
