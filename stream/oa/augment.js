@@ -57,6 +57,7 @@ function streamFactory(db, done){
         $housenumber: housenumber,
         $lon: point[0].toFixed(7),
         $lat: point[1].toFixed(7),
+        $parity: project.parity( nearest.projection, point ),
         $proj_lon: nearest.projection.point[0].toFixed(7),
         $proj_lat: nearest.projection.point[1].toFixed(7)
       });
@@ -138,6 +139,7 @@ function streamFactory(db, done){
           $housenumber: housenumber.toFixed(3),
           $lon: undefined,
           $lat: undefined,
+          $parity: undefined,
           $proj_lon: vertex[0].toFixed(7),
           $proj_lat: vertex[1].toFixed(7)
         });
