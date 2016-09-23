@@ -1,6 +1,7 @@
 
 var path = require('path'),
-    child = require('child_process');
+    child = require('child_process'),
+    sqlite3 = require('../sqlite3');
 
 var fixture = {
   oa: path.resolve( __dirname, './oa.csv' ),
@@ -15,21 +16,6 @@ var db = {
 var exec = {
   import: path.resolve( __dirname, '../../../import.js' ),
   oa: path.resolve( __dirname, '../../../conflate_oa.js' )
-};
-
-var sqlite3 = {
-  count: function( dbpath, table, conditions ){
-    conditions = ( conditions || '' ).replace(/\"/g, '\\"');
-    var cmd = [ 'sqlite3', dbpath, '"SELECT COUNT(*) FROM', table, conditions, ';"' ];
-    var res = child.execSync( cmd.join(' '), { encoding: 'utf8' } );
-    return parseInt( res.trim(), 10 );
-  },
-  exec: function( dbpath, sql ){
-    sql = sql.replace(/\"/g, '\\"');
-    var cmd = [ 'sqlite3', dbpath, '"', sql, ';"' ];
-    var res = child.execSync( cmd.join(' '), { encoding: 'utf8' } );
-    return res.trim().split('\n');
-  }
 };
 
 module.exports.functional = {};
@@ -196,7 +182,7 @@ module.exports.functional.spotcheck = function(test) {
 module.exports.all = function (tape) {
 
   function test(name, testFunction) {
-    return tape('functional: ' + name, testFunction);
+    return tape('functional: basic: ' + name, testFunction);
   }
 
   for( var testCase in module.exports.functional ){
