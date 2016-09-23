@@ -144,6 +144,51 @@ module.exports.project.sliceLineAtProjection = function(test) {
   });
 };
 
+module.exports.project.parity = function(test) {
+  test('parity: simple right', function(t) {
+
+    var l = [
+          [ -10.0, 0.0 ],
+          [   0.0, 0.0 ],
+          [ +10.0, 0.0 ],
+        ],
+        p = [ 0, 10 ],
+        proj = project.pointOnLine( l, p );
+
+    var res = project.parity( proj, p );
+    t.equal(res, 'R');
+    t.end();
+  });
+  test('parity: simple left', function(t) {
+
+    var l = [
+          [ -10.0, 0.0 ],
+          [   0.0, 0.0 ],
+          [ +10.0, 0.0 ],
+        ],
+        p = [ 0, -10 ],
+        proj = project.pointOnLine( l, p );
+
+    var res = project.parity( proj, p );
+    t.equal(res, 'L');
+    t.end();
+  });
+  test('parity: simple neither', function(t) {
+
+    var l = [
+          [ -10.0, 0.0 ],
+          [   0.0, 0.0 ],
+          [ +10.0, 0.0 ],
+        ],
+        p = [ 0, 0 ],
+        proj = project.pointOnLine( l, p );
+
+    var res = project.parity( proj, p );
+    t.equal(res, '?');
+    t.end();
+  });
+};
+
 module.exports.all = function (tape) {
 
   function test(name, testFunction) {
