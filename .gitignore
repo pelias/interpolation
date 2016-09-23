@@ -5,4 +5,3 @@ play
 *.err
 *.out
 todo.txt
-test/functional/*/street.geojson
