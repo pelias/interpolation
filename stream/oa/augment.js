@@ -46,9 +46,12 @@ function streamFactory(db, done){
         }
       });
 
+      // compute L/R parity of house on street
+      var parity = project.parity( nearest.projection, point );
+
       // compute the distance along the linestring to the projected point
       var dist = project.lineDistance( project.sliceLineAtProjection( nearest.street.coordinates, nearest.projection ) );
-      distances[nearest.index].push({ housenumber: housenumber, dist: dist });
+      distances[nearest.index].push({ housenumber: housenumber, dist: dist, parity: parity });
 
       // push openaddresses values to db
       this.push({
@@ -57,7 +60,7 @@ function streamFactory(db, done){
         $housenumber: housenumber,
         $lon: point[0].toFixed(7),
         $lat: point[1].toFixed(7),
-        $parity: project.parity( nearest.projection, point ),
+        $parity: parity,
         $proj_lon: nearest.projection.point[0].toFixed(7),
         $proj_lat: nearest.projection.point[1].toFixed(7)
       });
@@ -69,6 +72,33 @@ function streamFactory(db, done){
       return d.sort( function( a, b ){
         return a.dist > b.dist;
       });
+    });
+
+    // compute the scheme (zig-zag vs. updown) of each road based on
+    // the house number parity.
+    var scheme = [];
+    distances.forEach( function( d, i ){
+
+      // reduce distances to enumerate odd/even on L/R
+      var ord = d.reduce( function( memo, cur ){
+        if( cur.parity && cur.housenumber ){
+          var isEven = parseInt( cur.housenumber, 10 ) %2;
+          if( isEven ){ memo[cur.parity].even++; }
+          else { memo[cur.parity].odd++; }
+          memo[cur.parity].total++;
+        }
+        return memo;
+      }, {
+        R: { odd: 0, even: 0, total: 0 },
+        L: { odd: 0, even: 0, total: 0 }
+      });
+
+      // zigzag schemes
+      var zz1 = ( ord.R.odd == ord.R.total && ord.L.even == ord.L.total ),
+          zz2 = ( ord.L.odd == ord.L.total && ord.R.even == ord.R.total );
+
+      // assign correct scheme
+      scheme[i] = ( zz1 || zz2 ) ? 'zigzag' : 'updown';
     });
 
     // loop over all linestrings
