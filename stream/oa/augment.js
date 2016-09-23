@@ -96,12 +96,16 @@ function streamFactory(db, done){
         if( 0 === i ){ return; }
 
         // ignore successive duplicate points in linestring
-        if( vertex[0] === street.coordinates[i-1][0] &&vertex[1] === street.coordinates[i-1][1] ){
+        var previousVertex = street.coordinates[i-1];
+        if( previousVertex && vertex[0] === previousVertex[0] && vertex[1] === previousVertex[1] ){
           return;
         }
 
         // distance along line to this vertex
-        distance += project.lineDistance( street.coordinates.slice(i, i+1) );
+        var edge = street.coordinates.slice(i-2, i);
+        if( edge.length == 2 ){
+          distance += project.lineDistance( edge );
+        }
 
         // projected fractional housenumber
         var housenumber;
