@@ -129,7 +129,7 @@ module.exports.functional.geojson = function(test) {
   var rows = sqlite3.exec( db.address, 'SELECT * FROM address WHERE id=137 ORDER BY housenumber' );
 
   // destination path
-  var destination = path.resolve(__dirname, 'street.geojson');
+  var destination = path.resolve(__dirname, 'preview.geojson');
 
   action.geojson(test, rows, destination);
 };
