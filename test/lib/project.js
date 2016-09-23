@@ -113,6 +113,37 @@ module.exports.project.lineDistance = function(test) {
   });
 };
 
+module.exports.project.sliceLineAtProjection = function(test) {
+  test('sliceLineAtProjection: simple', function(t) {
+
+    var l = [
+          [ -10.0, 0.0 ],
+          [   0.0, 0.0 ],
+          [ +10.0, 0.0 ],
+        ],
+        proj = project.pointOnLine( l, [ 0, 0 ] );
+
+    var res = project.sliceLineAtProjection( l, proj );
+    t.deepEqual(res, [ [ -10, 0 ], [ 0, 0 ] ]);
+    t.end();
+  });
+  test('sliceLineAtProjection: complex', function(t) {
+
+    var l = [
+          [ -2.2, 0.0 ],
+          [ -3.3, 0.0 ],
+          [ -4.4, 0.0 ],
+          [ -5.5, 0.0 ],
+          [ -6.6, 0.0 ],
+        ],
+        proj = project.pointOnLine( l, [ -3.8, 10 ] );
+
+    var res = project.sliceLineAtProjection( l, proj );
+    t.deepEqual(res, [ [ -2.2, 0 ], [ -3.3, 0 ], [ -3.8, 0 ] ]);
+    t.end();
+  });
+};
+
 module.exports.all = function (tape) {
 
   function test(name, testFunction) {
