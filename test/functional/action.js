@@ -134,14 +134,14 @@ module.exports.geojson = function(test, rows, destination) {
     }).map( function( row ){
       return {
         // rowid:        row[0],
-        id:           row[1],
+        // id:           parseInt( row[1], 10),
         source:       row[2],
-        housenumber:  row[3],
-        lat:          row[4],
-        lon:          row[5],
+        housenumber:  parseFloat( row[3] ),
+        lat:          parseFloat( row[4] ),
+        lon:          parseFloat( row[5] ),
         parity:       row[6],
-        proj_lat:     row[7],
-        proj_lon:     row[8]
+        proj_lat:     parseFloat( row[7] ),
+        proj_lon:     parseFloat( row[8] )
       };
     }));
 

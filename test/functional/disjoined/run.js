@@ -180,7 +180,7 @@ module.exports.functional.end_to_end_south = function(test) {
 module.exports.functional.geojson = function(test) {
 
   // full interpolation for a single street
-  var rows = sqlite3.exec( db.address, 'SELECT * FROM address WHERE id=2 ORDER BY housenumber' );
+  var rows = sqlite3.exec( db.address, 'SELECT * FROM address WHERE ( id=1 OR id=2 ) ORDER BY housenumber' );
 
   // destination path
   var destination = path.resolve(__dirname, 'street.geojson');
