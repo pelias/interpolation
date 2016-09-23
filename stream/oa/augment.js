@@ -79,18 +79,20 @@ function streamFactory(db, done){
     var scheme = [];
     distances.forEach( function( d, i ){
 
-      // reduce distances to enumerate odd/even on L/R
-      var ord = d.reduce( function( memo, cur ){
-        if( cur.parity && cur.housenumber ){
-          var isEven = parseInt( cur.housenumber, 10 ) %2;
-          if( isEven ){ memo[cur.parity].even++; }
-          else { memo[cur.parity].odd++; }
-          memo[cur.parity].total++;
-        }
-        return memo;
-      }, {
+      // store a memo of where the odd/even values lie
+      var ord = {
         R: { odd: 0, even: 0, total: 0 },
         L: { odd: 0, even: 0, total: 0 }
+      };
+
+      // iterate distances to enumerate odd/even on L/R
+      d.forEach( function( cur ){
+        if( cur.parity && cur.housenumber ){
+          var isEven = parseInt( cur.housenumber, 10 ) %2;
+          if( isEven ){ ord[cur.parity].even++; }
+          else { ord[cur.parity].odd++; }
+          ord[cur.parity].total++;
+        }
       });
 
       // zigzag schemes
