@@ -74,8 +74,19 @@ function streamFactory(db, done){
       });
     });
 
-    // compute the scheme (zig-zag vs. updown) of each road based on
-    // the house number parity.
+    /**
+      compute the scheme (zig-zag vs. updown) of each road based on
+      the house number parity.
+      @see: https://en.wikipedia.org/wiki/House_numbering
+
+      zigzag: 1   3   5   7   9
+              └─┬─┴─┬─┴─┬─┴─┬─┘
+                2   4   5   8
+
+      updown: 1   2   3   4   5
+              └─┬─┴─┬─┴─┬─┴─┬─┘
+                9   8   7   6
+    **/
     var scheme = [];
     distances.forEach( function( d, i ){
 
