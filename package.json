@@ -19,8 +19,7 @@
     "split2": "^2.1.0",
     "sqlite3": "^3.1.4",
     "through2": "^2.0.1",
-    "through2-batch": "^1.0.1",
-    "turf-line-distance": "^3.0.12"
+    "through2-batch": "^1.0.1"
   },
   "devDependencies": {
     "tap-dot": "^1.0.5",

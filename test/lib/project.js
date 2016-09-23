@@ -84,6 +84,35 @@ module.exports.project.distance = function(test) {
   });
 };
 
+module.exports.project.lineDistance = function(test) {
+  test('lineDistance: simple', function(t) {
+
+    var l = [
+          [ -10.0, 0.0 ],
+          [   0.0, 0.0 ],
+          [ +10.0, 0.0 ],
+        ];
+
+    var res = project.lineDistance( l );
+    t.equal(res, 20.0);
+    t.end();
+  });
+  test('lineDistance: complex', function(t) {
+
+    var l = [
+          [ -2.2, 1.1 ],
+          [ -8.1, 9.2 ],
+          [ -2.2, 1.1 ],
+          [ -8.1, 9.2 ],
+          [ -2.2, 1.1 ],
+        ];
+
+    var res = project.lineDistance( l );
+    t.equal(res, Math.hypot( -5.9, 8.1 )*4);
+    t.end();
+  });
+};
+
 module.exports.all = function (tape) {
 
   function test(name, testFunction) {
