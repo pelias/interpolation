@@ -4,8 +4,9 @@
   "description": "",
   "main": "import.js",
   "scripts": {
-    "test": "npm run units",
-    "units": "node test/run.js | tap-spec"
+    "test": "npm run units; npm run funcs;",
+    "funcs": "node test/_func.js | tap-spec",
+    "units": "node test/_unit.js | tap-spec"
   },
   "author": "",
   "license": "ISC",
