@@ -27,12 +27,12 @@ module.exports.functional.conflate = function(test) {
 
 // check table schemas
 module.exports.functional.schema = function(test) {
-  action.schema(test, db);
+  action.check.schema(test, db);
 };
 
 // check table indexes
 module.exports.functional.indexes = function(test) {
-  action.indexes(test, db);
+  action.check.indexes(test, db);
 };
 
 module.exports.functional.street_counts = function(test) {

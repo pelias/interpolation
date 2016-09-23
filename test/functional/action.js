@@ -34,7 +34,9 @@ module.exports.conflate = function(test, db, fixture) {
   });
 };
 
-module.exports.schema = function(test, db) {
+module.exports.check = {};
+
+module.exports.check.schema = function(test, db) {
   test('street db table schemas', function(t) {
 
     // polyline schema
@@ -84,7 +86,7 @@ module.exports.schema = function(test, db) {
   });
 };
 
-module.exports.indexes = function(test, db) {
+module.exports.check.indexes = function(test, db) {
   test('street db table indexes', function(t) {
 
     // names_id_idx index
