@@ -129,10 +129,24 @@ module.exports.geojson = function(test, rows, destination) {
   test('produce geojson', function(t) {
 
     // convert to geojson
-    var geojson = pretty.geojson( rows.map( function( row ){ return row.split('|'); }));
+    var geojson = pretty.geojson( rows.map( function( row ){
+      return row.split('|');
+    }).map( function( row ){
+      return {
+        // rowid:        row[0],
+        id:           row[1],
+        source:       row[2],
+        housenumber:  row[3],
+        lat:          row[4],
+        lon:          row[5],
+        parity:       row[6],
+        proj_lat:     row[7],
+        proj_lon:     row[8]
+      };
+    }));
 
     // write to disk
-    fs.writeFileSync( destination, JSON.stringify( geojson, null, 2 ) );
+    fs.writeFileSync( destination, geojson );
 
     t.pass('wrote geojson');
     t.end();
