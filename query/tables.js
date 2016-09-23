@@ -32,7 +32,7 @@ module.exports.address = function( db, rebuild, done ){
 
     // create address table
     if( rebuild ){ db.run("DROP TABLE IF EXISTS address;"); }
-    db.run("CREATE TABLE IF NOT EXISTS address (rowid INTEGER PRIMARY KEY, id INTEGER, source TEXT, housenumber REAL, lat REAL, lon REAL, proj_lat REAL, proj_lon REAL);");
+    db.run("CREATE TABLE IF NOT EXISTS address (rowid INTEGER PRIMARY KEY, id INTEGER, source TEXT, housenumber REAL, lat REAL, lon REAL, parity TEXT, proj_lat REAL, proj_lon REAL);");
 
     db.wait(done);
   });

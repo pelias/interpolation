@@ -78,8 +78,9 @@ module.exports.check.schema = function(test, db) {
       '3|housenumber|REAL|0||0',
       '4|lat|REAL|0||0',
       '5|lon|REAL|0||0',
-      '6|proj_lat|REAL|0||0',
-      '7|proj_lon|REAL|0||0'
+      '6|parity|TEXT|0||0',
+      '7|proj_lat|REAL|0||0',
+      '8|proj_lon|REAL|0||0'
     ], 'table_info(address)');
 
     t.end();
@@ -109,6 +110,10 @@ module.exports.check.indexes = function(test, db) {
     // address_source_idx index
     var addressSource = sqlite3.exec( db.address, 'PRAGMA index_info(address_source_idx)' );
     t.deepEqual(addressSource, ['0|2|source'], 'index_info(address_source_idx)');
+
+    // address_parity_idx index
+    var addressParity = sqlite3.exec( db.address, 'PRAGMA index_info(address_parity_idx)' );
+    t.deepEqual(addressParity, ['0|6|parity'], 'index_info(address_parity_idx)');
 
     // address_housenumber_idx index
     var addressHousenumber = sqlite3.exec( db.address, 'PRAGMA index_info(address_housenumber_idx)' );
