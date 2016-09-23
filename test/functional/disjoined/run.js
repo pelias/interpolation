@@ -59,7 +59,7 @@ module.exports.functional.address_counts = function(test) {
 
     // count address table
     var addresses = sqlite3.count( db.address, 'address' );
-    t.equal(addresses, 46, 'count(address)');
+    t.equal(addresses, 47, 'count(address)');
 
     t.end();
   });
@@ -97,16 +97,16 @@ module.exports.functional.end_to_end_north = function(test) {
       '4|1|OA|16.0|52.5081581|13.3198748|L|52.5085085|13.3203169',
       '5|1|OA|16.1|52.5082819|13.3201859|L|52.5084331|13.3203767',
       '6|1|OA|17.0|52.5081537|13.3202902|L|52.5083036|13.3204793',
+      '45|1|VERTEX|17.024||||52.50827|13.320506',
       '7|1|OA|18.0|52.5079936|13.3204206|L|52.5081415|13.3206076',
       '8|1|OA|19.0|52.5078514|13.3205362|L|52.5079977|13.3207213',
+      '44|1|VERTEX|19.87||||52.507606|13.321031',
       '9|1|OA|20.0|52.5076588|13.3206779|L|52.5078103|13.3208695',
+      '43|1|VERTEX|20.616||||52.507431|13.321167',
+      '42|1|VERTEX|20.983||||52.507347|13.321237',
       '10|1|OA|21.0|52.5071733|13.3210882|L|52.507314|13.3212635',
       '11|1|OA|22.0|52.5069494|13.3212704|L|52.507089|13.3214442',
       '12|1|OA|23.0|52.5067409|13.32144|L|52.5068794|13.3216125',
-      '45|1|VERTEX|28.788||||52.50827|13.320506',
-      '44|1|VERTEX|43.178||||52.507606|13.321031',
-      '43|1|VERTEX|46.946||||52.507431|13.321167',
-      '42|1|VERTEX|48.805||||52.507347|13.321237',
       '31|1|OA|50.0|52.5067516|13.3219716|R|52.5066261|13.3218172',
       '32|1|OA|51.0|52.5070123|13.3217595|R|52.5068884|13.3216053',
       '33|1|OA|52.0|52.5072582|13.3215594|R|52.5071356|13.3214068',
@@ -129,7 +129,7 @@ module.exports.functional.spotcheck_south = function(test) {
 
     // counts for a specific street
     var count1 = sqlite3.count( db.address, 'address', 'WHERE id=2' );
-    t.equal(count1, 19);
+    t.equal(count1, 20);
 
     // counts for a specific street (open addresses)
     var count2 = sqlite3.count( db.address, 'address', 'WHERE id=2 AND source="OA"' );
@@ -137,7 +137,7 @@ module.exports.functional.spotcheck_south = function(test) {
 
     // counts for a specific street (vertexes)
     var count3 = sqlite3.count( db.address, 'address', 'WHERE id=2 AND source="VERTEX"' );
-    t.equal(count3, 0);
+    t.equal(count3, 1);
 
     t.end();
   });
@@ -152,6 +152,7 @@ module.exports.functional.end_to_end_south = function(test) {
       '13|2|OA|27.0|52.5046393|13.3231349|R|52.5047998|13.3233192',
       '14|2|OA|28.0|52.5044741|13.3232845|L|52.5046223|13.3234668',
       '15|2|OA|29.0|52.5042391|13.3234757|R|52.5043873|13.3236579',
+      '47|2|VERTEX|29.739||||52.504745|13.323367',
       '16|2|OA|30.0|52.504004|13.3236668|R|52.5041523|13.3238491',
       '17|2|OA|31.0|52.5039014|13.3237503|R|52.5040496|13.3239326',
       '18|2|OA|32.0|52.5037822|13.3238472|R|52.5039304|13.3240295',
