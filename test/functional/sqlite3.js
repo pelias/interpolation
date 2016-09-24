@@ -11,8 +11,9 @@ var sqlite3 = {};
 
 sqlite3.exec = function( dbpath, sql ){
   sql = sql.replace(/\"/g, '\\"');
-  var cmd = [ 'sqlite3', dbpath, '"', sql, ';"' ];
-  var res = child.execSync( cmd.join(' '), { encoding: 'utf8' } );
+  var cmd = [ 'sqlite3', dbpath, '"', sql, ';"' ], res = '';
+  try { res = child.execSync( cmd.join(' '), { encoding: 'utf8' } ); }
+  catch( e ){ console.error( e.message ); }
   return res.trim().split('\n');
 };
 

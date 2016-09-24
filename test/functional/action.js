@@ -17,9 +17,10 @@ module.exports.import = function(test, db, fixture) {
     var cmd = [ 'rm -f', db.street, ';', 'cat', fixture.street, '|', 'node', exec.import, db.street ].join(' ');
 
     // spawn child process
-    var proc = child.spawn( 'sh', [ '-c', cmd ] );
-    proc.stdout.on( 'end', t.end );
+    child.spawnSync( 'sh', [ '-c', cmd ] );
+
     t.pass('perform import');
+    t.end();
   });
 };
 
@@ -30,9 +31,10 @@ module.exports.conflate = function(test, db, fixture) {
     var cmd = [ 'rm -f', db.address, ';', 'cat', fixture.oa, '|', 'node', exec.oa, db.address, db.street ].join(' ');
 
     // spawn child process
-    var proc = child.spawn( 'sh', [ '-c', cmd ] );
-    proc.stdout.on( 'end', t.end );
+    child.spawnSync( 'sh', [ '-c', cmd ] );
+
     t.pass('perform conflate');
+    t.end();
   });
 };
 
