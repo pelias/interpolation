@@ -11,7 +11,8 @@
         "parity": "R",
         "proj_lat": -41.2873014,
         "proj_lon": 174.7666946,
-        "marker-color": "FF0000"
+        "marker-color": "#ff0000",
+        "marker-symbol": "e"
       },
       "geometry": {
         "type": "Point",
@@ -28,7 +29,8 @@
         "housenumber": 2.373,
         "proj_lat": -41.287388,
         "proj_lon": 174.766845,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -45,7 +47,8 @@
         "housenumber": 3.207,
         "proj_lat": -41.287461,
         "proj_lon": 174.766921,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -62,7 +65,8 @@
         "housenumber": 3.959,
         "proj_lat": -41.287533,
         "proj_lon": 174.766983,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -79,7 +83,8 @@
         "housenumber": 4.637,
         "proj_lat": -41.287606,
         "proj_lon": 174.767028,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -99,7 +104,8 @@
         "parity": "R",
         "proj_lat": -41.2878827,
         "proj_lon": 174.7671406,
-        "marker-color": "FF0000"
+        "marker-color": "#ff0000",
+        "marker-symbol": "e"
       },
       "geometry": {
         "type": "Point",
@@ -119,7 +125,8 @@
         "parity": "R",
         "proj_lat": -41.2878858,
         "proj_lon": 174.7671419,
-        "marker-color": "FF0000"
+        "marker-color": "#ff0000",
+        "marker-symbol": "e"
       },
       "geometry": {
         "type": "Point",
@@ -136,7 +143,8 @@
         "housenumber": 9.599,
         "proj_lat": -41.287945,
         "proj_lon": 174.767166,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -156,7 +164,8 @@
         "parity": "L",
         "proj_lat": -41.2882844,
         "proj_lon": 174.7672309,
-        "marker-color": "3366FF"
+        "marker-color": "#3366ff",
+        "marker-symbol": "o"
       },
       "geometry": {
         "type": "Point",
@@ -173,7 +182,8 @@
         "housenumber": 10.378,
         "proj_lat": -41.288304,
         "proj_lon": 174.767227,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -193,7 +203,8 @@
         "parity": "R",
         "proj_lat": -41.2880839,
         "proj_lon": 174.7672213,
-        "marker-color": "FF0000"
+        "marker-color": "#ff0000",
+        "marker-symbol": "e"
       },
       "geometry": {
         "type": "Point",
@@ -210,7 +221,8 @@
         "housenumber": 11.773,
         "proj_lat": -41.288136,
         "proj_lon": 174.767242,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -230,7 +242,8 @@
         "parity": "L",
         "proj_lat": -41.2884589,
         "proj_lon": 174.7671618,
-        "marker-color": "3366FF"
+        "marker-color": "#3366ff",
+        "marker-symbol": "o"
       },
       "geometry": {
         "type": "Point",
@@ -247,7 +260,8 @@
         "housenumber": 12.242,
         "proj_lat": -41.28817,
         "proj_lon": 174.767242,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -264,7 +278,8 @@
         "housenumber": 13.042,
         "proj_lat": -41.288228,
         "proj_lon": 174.767242,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -281,7 +296,8 @@
         "housenumber": 14.14,
         "proj_lat": -41.288487,
         "proj_lon": 174.76715,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -298,7 +314,8 @@
         "housenumber": 15.758,
         "proj_lat": -41.288567,
         "proj_lon": 174.76712,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -315,7 +332,8 @@
         "housenumber": 17.598,
         "proj_lat": -41.288659,
         "proj_lon": 174.767089,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -335,7 +353,8 @@
         "parity": "L",
         "proj_lat": -41.288758,
         "proj_lon": 174.767089,
-        "marker-color": "3366FF"
+        "marker-color": "#3366ff",
+        "marker-symbol": "o"
       },
       "geometry": {
         "type": "Point",
@@ -352,7 +371,8 @@
         "housenumber": 18.602,
         "proj_lat": -41.288712,
         "proj_lon": 174.767089,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -369,7 +389,8 @@
         "housenumber": 19.473,
         "proj_lat": -41.288758,
         "proj_lon": 174.767089,
-        "marker-color": "FFA500"
+        "marker-size": "small",
+        "marker-color": "#ffa500"
       },
       "geometry": {
         "type": "Point",
@@ -389,7 +410,8 @@
         "parity": "L",
         "proj_lat": -41.2887843,
         "proj_lon": 174.767098,
-        "marker-color": "3366FF"
+        "marker-color": "#3366ff",
+        "marker-symbol": "o"
       },
       "geometry": {
         "type": "Point",
@@ -409,7 +431,8 @@
         "parity": "L",
         "proj_lat": -41.288845,
         "proj_lon": 174.7671186,
-        "marker-color": "3366FF"
+        "marker-color": "#3366ff",
+        "marker-symbol": "o"
       },
       "geometry": {
         "type": "Point",
@@ -429,7 +452,8 @@
         "parity": "L",
         "proj_lat": -41.2889837,
         "proj_lon": 174.7672284,
-        "marker-color": "3366FF"
+        "marker-color": "#3366ff",
+        "marker-symbol": "o"
       },
       "geometry": {
         "type": "Point",
@@ -449,7 +473,8 @@
         "parity": "L",
         "proj_lat": -41.2891548,
         "proj_lon": 174.7673099,
-        "marker-color": "3366FF"
+        "marker-color": "#3366ff",
+        "marker-symbol": "o"
       },
       "geometry": {
         "type": "Point",
