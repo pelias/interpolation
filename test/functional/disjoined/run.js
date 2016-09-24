@@ -188,6 +188,18 @@ module.exports.functional.geojson = function(test) {
   action.geojson(test, rows, destination);
 };
 
+// write tsv to disk
+module.exports.functional.tsv = function(test) {
+
+  // full interpolation for a single street
+  var rows = sqlite3.exec( db.address, 'SELECT * FROM address WHERE ( id=1 OR id=2 ) ORDER BY housenumber' );
+
+  // destination path
+  var destination = path.resolve(__dirname, 'preview.tsv');
+
+  action.tsv(test, rows, destination);
+};
+
 module.exports.all = function (tape) {
 
   function test(name, testFunction) {

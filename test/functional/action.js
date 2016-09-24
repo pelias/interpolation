@@ -152,3 +152,25 @@ module.exports.geojson = function(test, rows, destination) {
     t.end();
   });
 };
+
+module.exports.tsv = function(test, rows, destination) {
+  test('produce tsv', function(t) {
+
+    // convert to tsv
+    var tsv = rows.map( function( row ){
+      return row.split('|').join('\t');
+    }).join('\n');
+
+    // tsv header
+    var header = [
+      'rowid', 'id', 'source', 'housenumber', 'lat', 'lon',
+      'parity', 'proj_lat', 'proj_lon'
+    ].join('\t');
+
+    // write to disk
+    fs.writeFileSync( destination, header + '\n' + tsv );
+
+    t.pass('wrote tsv');
+    t.end();
+  });
+};
