@@ -1,0 +1,2312 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 2,
+        "lat": 40.7435261,
+        "lon": -73.9886446,
+        "parity": "R",
+        "proj_lat": 40.7436228,
+        "proj_lon": -73.9886036,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9886446,
+          40.7435261
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "VERTEX",
+        "housenumber": 5.644,
+        "proj_lat": 40.743755,
+        "proj_lon": -73.988915,
+        "marker-color": "FFA500"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.988915,
+          40.743755
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "VERTEX",
+        "housenumber": 6.803,
+        "proj_lat": 40.743797,
+        "proj_lon": -73.989014,
+        "marker-color": "FFA500"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.989014,
+          40.743797
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "VERTEX",
+        "housenumber": 7.875,
+        "proj_lat": 40.743835,
+        "proj_lon": -73.989106,
+        "marker-color": "FFA500"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.989106,
+          40.743835
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 9,
+        "lat": 40.7440243,
+        "lon": -73.989311,
+        "parity": "L",
+        "proj_lat": 40.7439362,
+        "proj_lon": -73.9893479,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.989311,
+          40.7440243
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 10,
+        "lat": 40.7438118,
+        "lon": -73.9893296,
+        "parity": "R",
+        "proj_lat": 40.7439112,
+        "proj_lon": -73.989288,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9893296,
+          40.7438118
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 13,
+        "lat": 40.744086,
+        "lon": -73.9894501,
+        "parity": "L",
+        "proj_lat": 40.743995,
+        "proj_lon": -73.9894882,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9894501,
+          40.744086
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 15,
+        "lat": 40.7441065,
+        "lon": -73.9894991,
+        "parity": "L",
+        "proj_lat": 40.7440155,
+        "proj_lon": -73.9895372,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9894991,
+          40.7441065
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 16,
+        "lat": 40.7440144,
+        "lon": -73.9898646,
+        "parity": "R",
+        "proj_lat": 40.7441319,
+        "proj_lon": -73.9898154,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9898646,
+          40.7440144
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 17,
+        "lat": 40.7441277,
+        "lon": -73.9895494,
+        "parity": "L",
+        "proj_lat": 40.7440365,
+        "proj_lon": -73.9895876,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9895494,
+          40.7441277
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 19,
+        "lat": 40.744174,
+        "lon": -73.9896595,
+        "parity": "L",
+        "proj_lat": 40.7440826,
+        "proj_lon": -73.9896977,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9896595,
+          40.744174
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 20,
+        "lat": 40.7440595,
+        "lon": -73.9899511,
+        "parity": "R",
+        "proj_lat": 40.7441694,
+        "proj_lon": -73.9899051,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9899511,
+          40.7440595
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 21,
+        "lat": 40.7442178,
+        "lon": -73.9897307,
+        "parity": "L",
+        "proj_lat": 40.7441145,
+        "proj_lon": -73.9897739,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9897307,
+          40.7442178
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 22,
+        "lat": 40.7440904,
+        "lon": -73.9900235,
+        "parity": "R",
+        "proj_lat": 40.7441998,
+        "proj_lon": -73.9899777,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9900235,
+          40.7440904
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 23,
+        "lat": 40.7442446,
+        "lon": -73.9898152,
+        "parity": "L",
+        "proj_lat": 40.7441486,
+        "proj_lon": -73.9898554,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9898152,
+          40.7442446
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 24,
+        "lat": 40.7441106,
+        "lon": -73.990071,
+        "parity": "R",
+        "proj_lat": 40.7442197,
+        "proj_lon": -73.9900253,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.990071,
+          40.7441106
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 25,
+        "lat": 40.7442835,
+        "lon": -73.9899408,
+        "parity": "L",
+        "proj_lat": 40.7441991,
+        "proj_lon": -73.9899761,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9899408,
+          40.7442835
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 28,
+        "lat": 40.7441933,
+        "lon": -73.9902611,
+        "parity": "R",
+        "proj_lat": 40.7442998,
+        "proj_lon": -73.9902165,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9902611,
+          40.7441933
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 29,
+        "lat": 40.7443326,
+        "lon": -73.9900578,
+        "parity": "L",
+        "proj_lat": 40.7442481,
+        "proj_lon": -73.9900932,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9900578,
+          40.7443326
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 30,
+        "lat": 40.74427,
+        "lon": -73.9904095,
+        "parity": "R",
+        "proj_lat": 40.744364,
+        "proj_lon": -73.9903701,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9904095,
+          40.74427
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 31,
+        "lat": 40.7443699,
+        "lon": -73.9901353,
+        "parity": "L",
+        "proj_lat": 40.7442813,
+        "proj_lon": -73.9901724,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9901353,
+          40.7443699
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 33,
+        "lat": 40.7444036,
+        "lon": -73.9902155,
+        "parity": "L",
+        "proj_lat": 40.7443149,
+        "proj_lon": -73.9902526,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9902155,
+          40.7444036
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 35,
+        "lat": 40.7444364,
+        "lon": -73.9902936,
+        "parity": "L",
+        "proj_lat": 40.7443476,
+        "proj_lon": -73.9903308,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9902936,
+          40.7444364
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 37,
+        "lat": 40.744513,
+        "lon": -73.9904912,
+        "parity": "L",
+        "proj_lat": 40.7444294,
+        "proj_lon": -73.9905262,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9904912,
+          40.744513
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 38,
+        "lat": 40.7443843,
+        "lon": -73.9906741,
+        "parity": "R",
+        "proj_lat": 40.7444753,
+        "proj_lon": -73.990636,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9906741,
+          40.7443843
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 43,
+        "lat": 40.7445503,
+        "lon": -73.99058,
+        "parity": "L",
+        "proj_lat": 40.7444665,
+        "proj_lon": -73.9906151,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.99058,
+          40.7445503
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 45,
+        "lat": 40.7447413,
+        "lon": -73.9910188,
+        "parity": "L",
+        "proj_lat": 40.7446511,
+        "proj_lon": -73.991056,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9910188,
+          40.7447413
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "VERTEX",
+        "housenumber": 55.392,
+        "proj_lat": 40.744518,
+        "proj_lon": -73.990738,
+        "marker-color": "FFA500"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.990738,
+          40.744518
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "VERTEX",
+        "housenumber": 59.957,
+        "proj_lat": 40.744564,
+        "proj_lon": -73.990845,
+        "marker-color": "FFA500"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.990845,
+          40.744564
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "VERTEX",
+        "housenumber": 84.212,
+        "proj_lat": 40.7448,
+        "proj_lon": -73.991417,
+        "marker-color": "FFA500"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.991417,
+          40.7448
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 99,
+        "lat": 40.7449546,
+        "lon": -73.9915342,
+        "parity": "L",
+        "proj_lat": 40.7448654,
+        "proj_lon": -73.9915719,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9915342,
+          40.7449546
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 101,
+        "lat": 40.7450163,
+        "lon": -73.9916791,
+        "parity": "L",
+        "proj_lat": 40.7449267,
+        "proj_lon": -73.9917169,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9916791,
+          40.7450163
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 103,
+        "lat": 40.7450435,
+        "lon": -73.9917429,
+        "parity": "L",
+        "proj_lat": 40.7449537,
+        "proj_lon": -73.9917808,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9917429,
+          40.7450435
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 104,
+        "lat": 40.7444663,
+        "lon": -73.9920505,
+        "parity": "R",
+        "proj_lat": 40.7449765,
+        "proj_lon": -73.991835,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9920505,
+          40.7444663
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 107,
+        "lat": 40.7450997,
+        "lon": -73.9918748,
+        "parity": "L",
+        "proj_lat": 40.7450094,
+        "proj_lon": -73.9919129,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9918748,
+          40.7450997
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 109,
+        "lat": 40.7451497,
+        "lon": -73.9919922,
+        "parity": "L",
+        "proj_lat": 40.7450591,
+        "proj_lon": -73.9920305,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9919922,
+          40.7451497
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 110,
+        "lat": 40.7449881,
+        "lon": -73.9921126,
+        "parity": "R",
+        "proj_lat": 40.7450778,
+        "proj_lon": -73.9920747,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9921126,
+          40.7449881
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 114,
+        "lat": 40.7450728,
+        "lon": -73.9923134,
+        "parity": "R",
+        "proj_lat": 40.7451626,
+        "proj_lon": -73.9922755,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9923134,
+          40.7450728
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 117,
+        "lat": 40.7452165,
+        "lon": -73.9921491,
+        "parity": "L",
+        "proj_lat": 40.7451254,
+        "proj_lon": -73.9921876,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9921491,
+          40.7452165
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 121,
+        "lat": 40.7454118,
+        "lon": -73.9922795,
+        "parity": "L",
+        "proj_lat": 40.7452017,
+        "proj_lon": -73.9923682,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9922795,
+          40.7454118
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 122,
+        "lat": 40.7451749,
+        "lon": -73.9925553,
+        "parity": "R",
+        "proj_lat": 40.7452647,
+        "proj_lon": -73.9925174,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9925553,
+          40.7451749
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 127,
+        "lat": 40.7453957,
+        "lon": -73.9925637,
+        "parity": "L",
+        "proj_lat": 40.7453012,
+        "proj_lon": -73.9926036,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9925637,
+          40.7453957
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 128,
+        "lat": 40.7452372,
+        "lon": -73.992703,
+        "parity": "R",
+        "proj_lat": 40.7453271,
+        "proj_lon": -73.992665,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.992703,
+          40.7452372
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 130,
+        "lat": 40.7452714,
+        "lon": -73.9927839,
+        "parity": "R",
+        "proj_lat": 40.7453613,
+        "proj_lon": -73.9927459,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9927839,
+          40.7452714
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 134,
+        "lat": 40.7453659,
+        "lon": -73.9930101,
+        "parity": "R",
+        "proj_lat": 40.7454567,
+        "proj_lon": -73.9929718,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9930101,
+          40.7453659
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 135,
+        "lat": 40.7454881,
+        "lon": -73.992784,
+        "parity": "L",
+        "proj_lat": 40.7453941,
+        "proj_lon": -73.9928237,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.992784,
+          40.7454881
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 141,
+        "lat": 40.745542,
+        "lon": -73.9929126,
+        "parity": "L",
+        "proj_lat": 40.7454484,
+        "proj_lon": -73.9929521,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9929126,
+          40.745542
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 142,
+        "lat": 40.7454504,
+        "lon": -73.9932104,
+        "parity": "R",
+        "proj_lat": 40.7455412,
+        "proj_lon": -73.993172,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9932104,
+          40.7454504
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 145,
+        "lat": 40.7455733,
+        "lon": -73.9929899,
+        "parity": "L",
+        "proj_lat": 40.7454808,
+        "proj_lon": -73.993029,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9929899,
+          40.7455733
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 147,
+        "lat": 40.7456074,
+        "lon": -73.9930644,
+        "parity": "L",
+        "proj_lat": 40.7455127,
+        "proj_lon": -73.9931044,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9930644,
+          40.7456074
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 150,
+        "lat": 40.7455264,
+        "lon": -73.9933905,
+        "parity": "R",
+        "proj_lat": 40.7456173,
+        "proj_lon": -73.9933521,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9933905,
+          40.7455264
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 151,
+        "lat": 40.7457268,
+        "lon": -73.9933489,
+        "parity": "L",
+        "proj_lat": 40.7456327,
+        "proj_lon": -73.9933886,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9933489,
+          40.7457268
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 152,
+        "lat": 40.7456356,
+        "lon": -73.9936494,
+        "parity": "R",
+        "proj_lat": 40.7457266,
+        "proj_lon": -73.993611,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9936494,
+          40.7456356
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 164,
+        "lat": 40.7457762,
+        "lon": -73.9939826,
+        "parity": "R",
+        "proj_lat": 40.7458673,
+        "proj_lon": -73.9939441,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9939826,
+          40.7457762
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 165,
+        "lat": 40.7458564,
+        "lon": -73.9936574,
+        "parity": "L",
+        "proj_lat": 40.7457629,
+        "proj_lon": -73.9936969,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9936574,
+          40.7458564
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 171,
+        "lat": 40.745927,
+        "lon": -73.9938255,
+        "parity": "L",
+        "proj_lat": 40.7458338,
+        "proj_lon": -73.9938648,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9938255,
+          40.745927
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 177,
+        "lat": 40.7459998,
+        "lon": -73.9939991,
+        "parity": "L",
+        "proj_lat": 40.7459071,
+        "proj_lon": -73.9940383,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9939991,
+          40.7459998
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "VERTEX",
+        "housenumber": 189.4,
+        "proj_lat": 40.746002,
+        "proj_lon": -73.994263,
+        "marker-color": "FFA500"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.994263,
+          40.746002
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 200,
+        "lat": 40.746085,
+        "lon": -73.9947263,
+        "parity": "R",
+        "proj_lat": 40.7461812,
+        "proj_lon": -73.9946855,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9947263,
+          40.746085
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 206,
+        "lat": 40.7462685,
+        "lon": -73.9951578,
+        "parity": "R",
+        "proj_lat": 40.7463644,
+        "proj_lon": -73.9951171,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9951578,
+          40.7462685
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 221,
+        "lat": 40.7465322,
+        "lon": -73.9952701,
+        "parity": "L",
+        "proj_lat": 40.7464449,
+        "proj_lon": -73.9953071,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9952701,
+          40.7465322
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 226,
+        "lat": 40.7464492,
+        "lon": -73.9955766,
+        "parity": "R",
+        "proj_lat": 40.7465425,
+        "proj_lon": -73.995537,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9955766,
+          40.7464492
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 229,
+        "lat": 40.7466814,
+        "lon": -73.9956266,
+        "parity": "L",
+        "proj_lat": 40.7465959,
+        "proj_lon": -73.9956629,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9956266,
+          40.7466814
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 231,
+        "lat": 40.7467134,
+        "lon": -73.995703,
+        "parity": "L",
+        "proj_lat": 40.7466282,
+        "proj_lon": -73.9957391,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.995703,
+          40.7467134
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 233,
+        "lat": 40.7467632,
+        "lon": -73.9958218,
+        "parity": "L",
+        "proj_lat": 40.7466785,
+        "proj_lon": -73.9958577,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9958218,
+          40.7467632
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 234,
+        "lat": 40.7465239,
+        "lon": -73.9957546,
+        "parity": "R",
+        "proj_lat": 40.7466179,
+        "proj_lon": -73.9957147,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9957546,
+          40.7465239
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 236,
+        "lat": 40.7465919,
+        "lon": -73.9959168,
+        "parity": "R",
+        "proj_lat": 40.7466866,
+        "proj_lon": -73.9958766,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9959168,
+          40.7465919
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 237,
+        "lat": 40.7468092,
+        "lon": -73.9959359,
+        "parity": "L",
+        "proj_lat": 40.7467266,
+        "proj_lon": -73.995971,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9959359,
+          40.7468092
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 239,
+        "lat": 40.7468447,
+        "lon": -73.9960166,
+        "parity": "L",
+        "proj_lat": 40.746761,
+        "proj_lon": -73.9960521,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9960166,
+          40.7468447
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 245,
+        "lat": 40.7469032,
+        "lon": -73.996156,
+        "parity": "L",
+        "proj_lat": 40.74682,
+        "proj_lon": -73.9961913,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.996156,
+          40.7469032
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 247,
+        "lat": 40.7469615,
+        "lon": -73.9962953,
+        "parity": "L",
+        "proj_lat": 40.746879,
+        "proj_lon": -73.9963303,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9962953,
+          40.7469615
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 248,
+        "lat": 40.7466817,
+        "lon": -73.9961388,
+        "parity": "R",
+        "proj_lat": 40.7467801,
+        "proj_lon": -73.9960971,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9961388,
+          40.7466817
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 249,
+        "lat": 40.7470057,
+        "lon": -73.9964008,
+        "parity": "L",
+        "proj_lat": 40.7469237,
+        "proj_lon": -73.9964356,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9964008,
+          40.7470057
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 250,
+        "lat": 40.7467046,
+        "lon": -73.9961853,
+        "parity": "R",
+        "proj_lat": 40.7468003,
+        "proj_lon": -73.9961447,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9961853,
+          40.7467046
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 251,
+        "lat": 40.7470286,
+        "lon": -73.9964545,
+        "parity": "L",
+        "proj_lat": 40.7469465,
+        "proj_lon": -73.9964893,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9964545,
+          40.7470286
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 260,
+        "lat": 40.7469443,
+        "lon": -73.9967622,
+        "parity": "R",
+        "proj_lat": 40.7470443,
+        "proj_lon": -73.9967198,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9967622,
+          40.7469443
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "VERTEX",
+        "housenumber": 273.498,
+        "proj_lat": 40.747203,
+        "proj_lon": -73.997094,
+        "marker-color": "FFA500"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.997094,
+          40.747203
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 300,
+        "lat": 40.7472023,
+        "lon": -73.99762,
+        "parity": "R",
+        "proj_lat": 40.7473907,
+        "proj_lon": -73.9975409,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.99762,
+          40.7472023
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 301,
+        "lat": 40.7474685,
+        "lon": -73.9974137,
+        "parity": "L",
+        "proj_lat": 40.7473569,
+        "proj_lon": -73.9974606,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9974137,
+          40.7474685
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 348,
+        "lat": 40.7479166,
+        "lon": -73.9990561,
+        "parity": "R",
+        "proj_lat": 40.7480105,
+        "proj_lon": -73.9990167,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9990561,
+          40.7479166
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 367,
+        "lat": 40.7483412,
+        "lon": -73.9994435,
+        "parity": "L",
+        "proj_lat": 40.7482125,
+        "proj_lon": -73.9994976,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9994435,
+          40.7483412
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "VERTEX",
+        "housenumber": 372.976,
+        "proj_lat": 40.748363,
+        "proj_lon": -73.999856,
+        "marker-color": "FFA500"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.999856,
+          40.748363
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "VERTEX",
+        "housenumber": 377.66,
+        "proj_lat": 40.74842,
+        "proj_lon": -73.999985,
+        "marker-color": "FFA500"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.999985,
+          40.74842
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 400,
+        "lat": 40.7484513,
+        "lon": -74.0003033,
+        "parity": "R",
+        "proj_lat": 40.7485377,
+        "proj_lon": -74.0002673,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0003033,
+          40.7484513
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "VERTEX",
+        "housenumber": 410.616,
+        "proj_lat": 40.748802,
+        "proj_lon": -74.000901,
+        "marker-color": "FFA500"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.000901,
+          40.748802
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 420,
+        "lat": 40.7485596,
+        "lon": -74.0009495,
+        "parity": "R",
+        "proj_lat": 40.7487833,
+        "proj_lon": -74.0008562,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0009495,
+          40.7485596
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 427,
+        "lat": 40.749222,
+        "lon": -74.0012189,
+        "parity": "L",
+        "proj_lat": 40.7489771,
+        "proj_lon": -74.001321,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0012189,
+          40.749222
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 428,
+        "lat": 40.7488434,
+        "lon": -74.0014509,
+        "parity": "R",
+        "proj_lat": 40.7490034,
+        "proj_lon": -74.0013842,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0014509,
+          40.7488434
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 430,
+        "lat": 40.7488737,
+        "lon": -74.001528,
+        "parity": "R",
+        "proj_lat": 40.7490352,
+        "proj_lon": -74.0014602,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.001528,
+          40.7488737
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 441,
+        "lat": 40.7495486,
+        "lon": -74.0015106,
+        "parity": "L",
+        "proj_lat": 40.74913,
+        "proj_lon": -74.0016862,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0015106,
+          40.7495486
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 446,
+        "lat": 40.7489735,
+        "lon": -74.0020666,
+        "parity": "R",
+        "proj_lat": 40.7492423,
+        "proj_lon": -74.0019538,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0020666,
+          40.7489735
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 455,
+        "lat": 40.7494834,
+        "lon": -74.0022422,
+        "parity": "L",
+        "proj_lat": 40.7493813,
+        "proj_lon": -74.002285,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0022422,
+          40.7494834
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 459,
+        "lat": 40.7495454,
+        "lon": -74.0023976,
+        "parity": "L",
+        "proj_lat": 40.749446,
+        "proj_lon": -74.0024393,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0023976,
+          40.7495454
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 466,
+        "lat": 40.7492158,
+        "lon": -74.0026324,
+        "parity": "R",
+        "proj_lat": 40.7494804,
+        "proj_lon": -74.0025214,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0026324,
+          40.7492158
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 500,
+        "lat": 40.7496425,
+        "lon": -74.0031615,
+        "parity": "R",
+        "proj_lat": 40.7497332,
+        "proj_lon": -74.0031234,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0031615,
+          40.7496425
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 501,
+        "lat": 40.7498547,
+        "lon": -74.0029253,
+        "parity": "L",
+        "proj_lat": 40.7496806,
+        "proj_lon": -74.0029984,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0029253,
+          40.7498547
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 505,
+        "lat": 40.7498973,
+        "lon": -74.0030583,
+        "parity": "L",
+        "proj_lat": 40.7497345,
+        "proj_lon": -74.0031267,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0030583,
+          40.7498973
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 508,
+        "lat": 40.7498521,
+        "lon": -74.0036555,
+        "parity": "R",
+        "proj_lat": 40.7499416,
+        "proj_lon": -74.0036176,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0036555,
+          40.7498521
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 513,
+        "lat": 40.7499851,
+        "lon": -74.0034576,
+        "parity": "L",
+        "proj_lat": 40.7498908,
+        "proj_lon": -74.0034975,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0034576,
+          40.7499851
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 515,
+        "lat": 40.7500429,
+        "lon": -74.0035984,
+        "parity": "L",
+        "proj_lat": 40.7499501,
+        "proj_lon": -74.0036376,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0035984,
+          40.7500429
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 521,
+        "lat": 40.7501122,
+        "lon": -74.0037672,
+        "parity": "L",
+        "proj_lat": 40.7500212,
+        "proj_lon": -74.0038057,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0037672,
+          40.7501122
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 524,
+        "lat": 40.7500905,
+        "lon": -74.0042259,
+        "parity": "R",
+        "proj_lat": 40.7501824,
+        "proj_lon": -74.004187,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0042259,
+          40.7500905
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 525,
+        "lat": 40.7501948,
+        "lon": -74.0039684,
+        "parity": "L",
+        "proj_lat": 40.7501059,
+        "proj_lon": -74.004006,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0039684,
+          40.7501948
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 526,
+        "lat": 40.7501667,
+        "lon": -74.0044081,
+        "parity": "R",
+        "proj_lat": 40.7502593,
+        "proj_lon": -74.0043689,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0044081,
+          40.7501667
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 528,
+        "lat": 40.7501929,
+        "lon": -74.004471,
+        "parity": "R",
+        "proj_lat": 40.7502859,
+        "proj_lon": -74.0044317,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.004471,
+          40.7501929
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 533,
+        "lat": 40.7502821,
+        "lon": -74.0041812,
+        "parity": "L",
+        "proj_lat": 40.7501954,
+        "proj_lon": -74.0042178,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0041812,
+          40.7502821
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 534,
+        "lat": 40.7502174,
+        "lon": -74.0045296,
+        "parity": "R",
+        "proj_lat": 40.7503106,
+        "proj_lon": -74.0044902,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0045296,
+          40.7502174
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 537,
+        "lat": 40.7504506,
+        "lon": -74.0045915,
+        "parity": "L",
+        "proj_lat": 40.7503682,
+        "proj_lon": -74.0046264,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0045915,
+          40.7504506
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 542,
+        "lat": 40.7503053,
+        "lon": -74.0047397,
+        "parity": "R",
+        "proj_lat": 40.7503993,
+        "proj_lon": -74.0047,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0047397,
+          40.7503053
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 544,
+        "lat": 40.750349,
+        "lon": -74.0048444,
+        "parity": "R",
+        "proj_lat": 40.7504435,
+        "proj_lon": -74.0048044,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0048444,
+          40.750349
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 549,
+        "lat": 40.7505053,
+        "lon": -74.0047247,
+        "parity": "L",
+        "proj_lat": 40.7504243,
+        "proj_lon": -74.004759,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0047247,
+          40.7505053
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 551,
+        "lat": 40.7505707,
+        "lon": -74.0048841,
+        "parity": "L",
+        "proj_lat": 40.7504914,
+        "proj_lon": -74.0049177,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0048841,
+          40.7505707
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 559,
+        "lat": 40.7507249,
+        "lon": -74.0052214,
+        "parity": "L",
+        "proj_lat": 40.7506357,
+        "proj_lon": -74.0052591,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0052214,
+          40.7507249
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 601,
+        "lat": 40.7517344,
+        "lon": -74.0076165,
+        "parity": "L",
+        "proj_lat": 40.7516429,
+        "proj_lon": -74.0076549,
+        "marker-color": "3366FF"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0076165,
+          40.7517344
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 620,
+        "lat": 40.7509502,
+        "lon": -74.006275,
+        "parity": "R",
+        "proj_lat": 40.7510465,
+        "proj_lon": -74.0062346,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.006275,
+          40.7509502
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 624,
+        "lat": 40.7508708,
+        "lon": -74.0060857,
+        "parity": "R",
+        "proj_lat": 40.750967,
+        "proj_lon": -74.0060453,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0060857,
+          40.7508708
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 640,
+        "lat": 40.7513326,
+        "lon": -74.007187,
+        "parity": "R",
+        "proj_lat": 40.7514293,
+        "proj_lon": -74.0071464,
+        "marker-color": "FF0000"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.007187,
+          40.7513326
+        ]
+      }
+    }
+  ]
+}
