@@ -10,7 +10,8 @@
         "lon": 174.766753,
         "parity": "R",
         "proj_lat": -41.2873014,
-        "proj_lon": 174.7666946
+        "proj_lon": 174.7666946,
+        "marker-color": "FF0000"
       },
       "geometry": {
         "type": "Point",
@@ -97,7 +98,8 @@
         "lon": 174.7674712,
         "parity": "R",
         "proj_lat": -41.2878827,
-        "proj_lon": 174.7671406
+        "proj_lon": 174.7671406,
+        "marker-color": "FF0000"
       },
       "geometry": {
         "type": "Point",
@@ -116,7 +118,8 @@
         "lon": 174.7673061,
         "parity": "R",
         "proj_lat": -41.2878858,
-        "proj_lon": 174.7671419
+        "proj_lon": 174.7671419,
+        "marker-color": "FF0000"
       },
       "geometry": {
         "type": "Point",
@@ -152,7 +155,8 @@
         "lon": 174.7670996,
         "parity": "L",
         "proj_lat": -41.2882844,
-        "proj_lon": 174.7672309
+        "proj_lon": 174.7672309,
+        "marker-color": "3366FF"
       },
       "geometry": {
         "type": "Point",
@@ -188,7 +192,8 @@
         "lon": 174.7674035,
         "parity": "R",
         "proj_lat": -41.2880839,
-        "proj_lon": 174.7672213
+        "proj_lon": 174.7672213,
+        "marker-color": "FF0000"
       },
       "geometry": {
         "type": "Point",
@@ -224,7 +229,8 @@
         "lon": 174.7670334,
         "parity": "L",
         "proj_lat": -41.2884589,
-        "proj_lon": 174.7671618
+        "proj_lon": 174.7671618,
+        "marker-color": "3366FF"
       },
       "geometry": {
         "type": "Point",
@@ -328,7 +334,8 @@
         "lon": 174.7668435,
         "parity": "L",
         "proj_lat": -41.288758,
-        "proj_lon": 174.767089
+        "proj_lon": 174.767089,
+        "marker-color": "3366FF"
       },
       "geometry": {
         "type": "Point",
@@ -381,7 +388,8 @@
         "lon": 174.7667798,
         "parity": "L",
         "proj_lat": -41.2887843,
-        "proj_lon": 174.767098
+        "proj_lon": 174.767098,
+        "marker-color": "3366FF"
       },
       "geometry": {
         "type": "Point",
@@ -400,7 +408,8 @@
         "lon": 174.7667528,
         "parity": "L",
         "proj_lat": -41.288845,
-        "proj_lon": 174.7671186
+        "proj_lon": 174.7671186,
+        "marker-color": "3366FF"
       },
       "geometry": {
         "type": "Point",
@@ -419,7 +428,8 @@
         "lon": 174.7671263,
         "parity": "L",
         "proj_lat": -41.2889837,
-        "proj_lon": 174.7672284
+        "proj_lon": 174.7672284,
+        "marker-color": "3366FF"
       },
       "geometry": {
         "type": "Point",
@@ -438,7 +448,8 @@
         "lon": 174.7671712,
         "parity": "L",
         "proj_lat": -41.2891548,
-        "proj_lon": 174.7673099
+        "proj_lon": 174.7673099,
+        "marker-color": "3366FF"
       },
       "geometry": {
         "type": "Point",
