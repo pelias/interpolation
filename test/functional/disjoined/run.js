@@ -179,25 +179,19 @@ module.exports.functional.end_to_end_south = function(test) {
 // write geojson to disk
 module.exports.functional.geojson = function(test) {
 
-  // full interpolation for a single street
-  var rows = sqlite3.exec( db.address, 'SELECT * FROM address WHERE ( id=1 OR id=2 ) ORDER BY housenumber' );
-
   // destination path
   var destination = path.resolve(__dirname, 'preview.geojson');
 
-  action.geojson(test, rows, destination);
+  action.geojson(test, db, '(id=1 OR id=2)', destination);
 };
 
 // write tsv to disk
 module.exports.functional.tsv = function(test) {
 
-  // full interpolation for a single street
-  var rows = sqlite3.exec( db.address, 'SELECT * FROM address WHERE ( id=1 OR id=2 ) ORDER BY housenumber' );
-
   // destination path
   var destination = path.resolve(__dirname, 'preview.tsv');
 
-  action.tsv(test, rows, destination);
+  action.tsv(test, db, '(id=1 OR id=2)', destination);
 };
 
 module.exports.all = function (tape) {

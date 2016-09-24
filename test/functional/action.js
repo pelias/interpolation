@@ -127,8 +127,11 @@ module.exports.check.indexes = function(test, db) {
   });
 };
 
-module.exports.geojson = function(test, rows, destination) {
+module.exports.geojson = function(test, db, condition, destination) {
   test('produce geojson', function(t) {
+
+    // full interpolation for a single street
+    var rows = sqlite3.exec( db.address, 'SELECT * FROM address WHERE ' + condition + ' ORDER BY housenumber' );
 
     // convert to geojson
     var geojson = pretty.geojson( rows.map( function( row ){
@@ -155,8 +158,11 @@ module.exports.geojson = function(test, rows, destination) {
   });
 };
 
-module.exports.tsv = function(test, rows, destination) {
+module.exports.tsv = function(test, db, condition, destination) {
   test('produce tsv', function(t) {
+
+    // full interpolation for a single street
+    var rows = sqlite3.exec( db.address, 'SELECT * FROM address WHERE ' + condition + ' ORDER BY housenumber' );
 
     // convert to tsv
     var tsv = rows.map( function( row ){
