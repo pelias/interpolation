@@ -353,10 +353,10 @@
         "housenumber": 28,
         "lat": 52.5044741,
         "lon": 13.3232845,
-        "parity": "L",
+        "parity": "R",
         "proj_lat": 52.5046223,
         "proj_lon": 13.3234668,
-        "marker-color": "3366FF"
+        "marker-color": "FF0000"
       },
       "geometry": {
         "type": "Point",

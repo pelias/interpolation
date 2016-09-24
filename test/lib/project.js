@@ -1,5 +1,6 @@
 
-var project = require('../../lib/project');
+var project = require('../../lib/project'),
+    polyline = require('polyline');
 
 module.exports.project = {};
 
@@ -227,6 +228,52 @@ module.exports.project.parity = function(test) {
 
     var res = project.parity( proj, p );
     t.equal(res, null);
+    t.end();
+  });
+
+  test('parity: complex real-world', function(t) {
+
+    var poly = "{atccBwldlXjF}H|OwM??xnB}yArAcDt@cErAkQ",
+        l = polyline.toGeoJSON(poly, 6).coordinates;
+
+    var expected = [
+      { point: [ 13.3231349, 52.5046393 ], parity: 'R' },
+      { point: [ 13.3232845, 52.5044741 ], parity: 'R' },
+      { point: [ 13.3234757, 52.5042391 ], parity: 'R' },
+      { point: [ 13.3236668, 52.504004  ], parity: 'R' },
+      { point: [ 13.3237503, 52.5039014 ], parity: 'R' },
+      { point: [ 13.3238472, 52.5037822 ], parity: 'R' },
+      { point: [ 13.3238982, 52.5037196 ], parity: 'R' },
+      { point: [ 13.3240774, 52.5034993 ], parity: 'R' },
+      { point: [ 13.3242406, 52.5032985 ], parity: 'R' },
+      { point: [ 13.324596,  52.5035259 ], parity: 'L' },
+      { point: [ 13.3244426, 52.5037368 ], parity: 'L' },
+      { point: [ 13.3242319, 52.5039756 ], parity: 'L' },
+      { point: [ 13.3240857, 52.5041548 ], parity: 'L' },
+      { point: [ 13.324045,  52.5042048 ], parity: 'L' },
+      { point: [ 13.3239275, 52.5043478 ], parity: 'L' },
+      { point: [ 13.3238652, 52.5044245 ], parity: 'L' },
+      { point: [ 13.323773,  52.5045378 ], parity: 'L' },
+      { point: [ 13.3236578, 52.5046793 ], parity: 'L' },
+      { point: [ 13.3234623, 52.5050013 ], parity: 'L' },
+      { point: [ 13.3219716, 52.5067516 ], parity: 'L' },
+      { point: [ 13.3217595, 52.5070123 ], parity: 'L' },
+      { point: [ 13.3215594, 52.5072582 ], parity: 'L' },
+      { point: [ 13.3213608, 52.5075021 ], parity: 'L' },
+      { point: [ 13.3213222, 52.5075497 ], parity: 'L' },
+      { point: [ 13.3211361, 52.5077825 ], parity: 'L' },
+      { point: [ 13.3209319, 52.5080292 ], parity: 'L' },
+      { point: [ 13.3207726, 52.5082468 ], parity: 'L' },
+      { point: [ 13.3206005, 52.5084363 ], parity: 'L' },
+      { point: [ 13.3204313, 52.5086452 ], parity: 'L' },
+    ];
+
+    expected.forEach( function( exp ){
+      var proj = project.pointOnLine( l, exp.point );
+      var res = project.parity( proj, exp.point );
+      t.equal(res, exp.parity);
+    });
+
     t.end();
   });
 };
