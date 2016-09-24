@@ -159,6 +159,20 @@ module.exports.project.parity = function(test) {
     t.equal(res, 'R');
     t.end();
   });
+  test('parity: simple right', function(t) {
+
+    var l = [
+          [ 0.0, -10.0 ],
+          [ 0.0,   0.0 ],
+          [ 0.0, +10.0 ],
+        ],
+        p = [ +10, 0 ],
+        proj = project.pointOnLine( l, p );
+
+    var res = project.parity( proj, p );
+    t.equal(res, 'R');
+    t.end();
+  });
   test('parity: simple left', function(t) {
 
     var l = [
@@ -167,6 +181,20 @@ module.exports.project.parity = function(test) {
           [ +10.0, 0.0 ],
         ],
         p = [ 0, +10 ],
+        proj = project.pointOnLine( l, p );
+
+    var res = project.parity( proj, p );
+    t.equal(res, 'L');
+    t.end();
+  });
+  test('parity: simple left', function(t) {
+
+    var l = [
+          [ 0.0, -10.0 ],
+          [ 0.0,   0.0 ],
+          [ 0.0, +10.0 ],
+        ],
+        p = [ -10, 0 ],
         proj = project.pointOnLine( l, p );
 
     var res = project.parity( proj, p );
@@ -187,10 +215,42 @@ module.exports.project.parity = function(test) {
     t.equal(res, null);
     t.end();
   });
+  test('parity: simple neither', function(t) {
+
+    var l = [
+          [ 0.0, -10.0 ],
+          [ 0.0,   0.0 ],
+          [ 0.0, +10.0 ],
+        ],
+        p = [ 0, 0 ],
+        proj = project.pointOnLine( l, p );
+
+    var res = project.parity( proj, p );
+    t.equal(res, null);
+    t.end();
+  });
 };
 
 module.exports.project.bearing = function(test) {
-  test('bearing: simple', function(t) {
+  test('bearing: north', function(t) {
+
+    var p1 = [ 0.0, 0.0 ],
+        p2 = [ 0.0, 1.0 ];
+
+    var res = project.bearing( p1, p2 );
+    t.equal(res, 0);
+    t.end();
+  });
+  test('bearing: northeast', function(t) {
+
+    var p1 = [ 0.0, 0.0 ],
+        p2 = [ 1.0, 1.0 ];
+
+    var res = project.bearing( p1, p2 );
+    t.equal(res, 44.99563645534486);
+    t.end();
+  });
+  test('bearing: east', function(t) {
 
     var p1 = [ 0.0, 0.0 ],
         p2 = [ 1.0, 0.0 ];
@@ -199,6 +259,52 @@ module.exports.project.bearing = function(test) {
     t.equal(res, 90);
     t.end();
   });
+  test('bearing: southeast', function(t) {
+
+    var p1 = [ -1.0, 1.0 ],
+        p2 = [  0.0, 0.0 ];
+
+    var res = project.bearing( p1, p2 );
+    t.equal(res, 134.99563645534485);
+    t.end();
+  });
+  test('bearing: south', function(t) {
+
+    var p1 = [ 0.0,  0.0 ],
+        p2 = [ 0.0, -1.0 ];
+
+    var res = project.bearing( p1, p2 );
+    t.equal(res, 180);
+    t.end();
+  });
+  test('bearing: southwest', function(t) {
+
+    var p1 = [ 1.0, 1.0 ],
+        p2 = [ 0.0, 0.0 ];
+
+    var res = project.bearing( p1, p2 );
+    t.equal(res, -134.99563645534485);
+    t.end();
+  });
+  test('bearing: west', function(t) {
+
+    var p1 = [  0.0, 0.0 ],
+        p2 = [ -1.0, 0.0 ];
+
+    var res = project.bearing( p1, p2 );
+    t.equal(res, -90);
+    t.end();
+  });
+  test('bearing: northwest', function(t) {
+
+    var p1 = [  0.0, 0.0 ],
+        p2 = [ -1.0, 1.0 ];
+
+    var res = project.bearing( p1, p2 );
+    t.equal(res, -44.99563645534486);
+    t.end();
+  });
+
   test('bearing: complex', function(t) {
 
     var p1 = [ -2.2, 1.1 ],
