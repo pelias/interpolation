@@ -13,7 +13,7 @@ module.exports = function( db, done ){
     db.run('PRAGMA main.synchronous=OFF;');
     db.run('PRAGMA main.journal_mode=OFF;');
     db.run('PRAGMA main.temp_store=MEMORY;');
-    db.run('VACUUM');
+    // db.run('VACUUM'); // can cause long delays on subsequent jobs
 
     db.wait(done);
   });
