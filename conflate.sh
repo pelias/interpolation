@@ -1,14 +1,15 @@
 #!/bin/bash
 
-OAPATH='/data/oa';
-rm 'planet_conflate.out' 'planet_conflate.err' &>/dev/null;
+# location of sql databases
+ADDRESS_DB='/data/oa.db';
+STREET_DB='/data/planet.db';
 
-find $OAPATH -type f -iname "*.csv" -print0 | while IFS= read -r -d $'\0' filename; do
-  if [[ $filename != *"summary"* ]; then
-    echo "skip $filename";
-  else
-    echo "conflate $filename";
-    echo "$filename" >>planet_conflate.out;
-    bash -c "(cat $filename | time -p node conflate_oa.js oa.db planet.db >>planet_conflate.out) &>> planet_conflate.err";
-  fi;
-done;
+# location of stdio files
+PROC_STDOUT='/data/conflate.out';
+PROC_STDERR='/data/conflate.err';
+
+# delete stdio files
+rm $PROC_STDOUT $PROC_STDERR &>/dev/null;
+
+# run import
+bash -c "./concat_oa.sh | time -p node conflate_oa.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR";
