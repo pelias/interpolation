@@ -10,6 +10,10 @@
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pelias/interpolation.git"
+  },
   "dependencies": {
     "cli-table2": "^0.2.0",
     "csv-parse": "^1.1.7",
