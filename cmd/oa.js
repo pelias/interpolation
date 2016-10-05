@@ -1,8 +1,8 @@
 
 var sqlite3 = require('sqlite3'),
     requireDir = require('require-dir'),
-    stream = requireDir('./stream', { recurse: true }),
-    query = requireDir('./query');
+    stream = requireDir('../stream', { recurse: true }),
+    query = requireDir('../query');
 
 // help text
 if( process.argv.length < 4 ){

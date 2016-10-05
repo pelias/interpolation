@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+
+program
+  .version('0.0.1')
+  .option('-p --polyline', 'import polyline data file')
+  .option('-oa --openaddresses', 'conflate openaddresses csv file')
+  .option('-s --search [address_db] [street_db] [lat] [lon] [street_name]', 'query databases for address data')
+  .parse(process.argv);
+
+// remove cmd name from args
+process.argv.splice(2, 1);
+
+// available commands
+var command = {
+  polyline: './cmd/polyline',
+  openaddresses: './cmd/oa',
+  search: './cmd/search'
+};
+
+// run command
+for( var name in command ){
+  if( program[name] ){
+    require( command[name] );
+    break;
+  }
+}

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# location of this file in filesystem
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
+
 # location of sql databases
 ADDRESS_DB='/data/oa.db';
 STREET_DB='/data/planet.db';
@@ -18,4 +21,4 @@ SQLITE_TMPDIR='/data/tmp';
 rm $PROC_STDOUT $PROC_STDERR &>/dev/null;
 
 # run import
-./concat_oa.sh | time -p SQLITE_TMPDIR=$SQLITE_TMPDIR node conflate_oa.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR;
+$DIR/concat_oa.sh | time -p SQLITE_TMPDIR=$SQLITE_TMPDIR node $DIR/../cmd/oa.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR;

@@ -1,8 +1,8 @@
 
 var sqlite3 = require('sqlite3'),
     requireDir = require('require-dir'),
-    stream = requireDir('./stream', { recurse: true }),
-    query = requireDir('./query');
+    stream = requireDir('../stream', { recurse: true }),
+    query = requireDir('../query');
 
 // name of sqlite file
 var dbfile = ( process.argv.length > 2 ) ? process.argv[2] : 'example.db';

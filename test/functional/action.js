@@ -6,8 +6,8 @@ var fs = require('fs'),
     pretty = require('../../lib/pretty');
 
 var exec = {
-  import: path.resolve( __dirname, '../../import.js' ),
-  oa: path.resolve( __dirname, '../../conflate_oa.js' )
+  import: path.resolve( __dirname, '../../cmd/polyline' ),
+  oa: path.resolve( __dirname, '../../cmd/oa.js' )
 };
 
 module.exports.import = function(test, db, fixture) {

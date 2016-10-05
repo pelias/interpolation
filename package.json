@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "cli-table2": "^0.2.0",
+    "commander": "^2.9.0",
     "csv-parse": "^1.1.7",
     "node-postal": "^0.3.0",
     "polyline": "^0.2.0",
