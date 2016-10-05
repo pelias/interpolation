@@ -12,7 +12,7 @@ PROC_STDOUT='/data/conflate.out';
 PROC_STDERR='/data/conflate.err';
 
 # a directory with enough free space to store sqlite tmp files
-SQLITE_TMPDIR='/data/tmp';
+export SQLITE_TMPDIR='/data/tmp';
 
 # ensure tmpdir exists
 [ -d $SQLITE_TMPDIR ] || mkdir $SQLITE_TMPDIR;
@@ -21,4 +21,4 @@ SQLITE_TMPDIR='/data/tmp';
 rm $PROC_STDOUT $PROC_STDERR &>/dev/null;
 
 # run import
-$DIR/concat_oa.sh | time -p SQLITE_TMPDIR=$SQLITE_TMPDIR node $DIR/../cmd/oa.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR;
+$DIR/concat_oa.sh | time -p node $DIR/../cmd/oa.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR;
