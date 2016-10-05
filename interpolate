@@ -1,17 +1,5 @@
 #!/usr/bin/env node
 
-var program = require('commander');
-
-program
-  .version('0.0.1')
-  .option('-p --polyline', 'import polyline data file')
-  .option('-oa --openaddresses', 'conflate openaddresses csv file')
-  .option('-s --search [address_db] [street_db] [lat] [lon] [street_name]', 'query databases for address data')
-  .parse(process.argv);
-
-// remove cmd name from args
-process.argv.splice(2, 1);
-
 // available commands
 var command = {
   polyline: './cmd/polyline',
@@ -21,10 +9,26 @@ var command = {
 
 // run command
 for( var name in command ){
-  if( program[name] ){
+  if( process.argv[2] == name ){
+
+    // remove cmd name from args
+    process.argv.splice(2, 1);
+
+    // run command
     require( command[name] );
+
     break;
   }
 }
 
-program.help();
+var help = [
+  "Usage: interpolate [command] [options]",
+  "Note: you will need to pipe data in to the import/conflate commands",
+  "",
+  " help                                                       output usage information",
+  " polyline [street_db]                                       import polyline data in to [street_db]",
+  " openaddresses [address_db] [street_db]                     conflate oa csv file in to [address_db] using [street_db]",
+  " search [address_db] [street_db] [lat] [lon] [street_name]  query databases for address data",
+];
+
+console.error( '\n' + help.join('\n') + '\n' );
