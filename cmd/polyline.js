@@ -11,28 +11,24 @@ var dbfile = ( process.argv.length > 2 ) ? process.argv[2] : 'example.db';
 sqlite3.verbose();
 var db = new sqlite3.Database(dbfile);
 
-function main(){
-  query.configure(db); // configure database
-  query.tables.street(db, true); // reset database and create tables
+query.configure(db); // configure database
+query.tables.street(db, true); // reset database and create tables
 
-  // run pipeline
-  process.stdin
-    .pipe( stream.split() ) // split on newline
-    .pipe( stream.polyline.autoincrement() ) // prepend line numbers
-    .pipe( stream.polyline.parse() ) // parse polyline data
-    .pipe( stream.polyline.augment() ) // augment data with libpostal
-    .pipe( stream.batch( 1000 ) ) // batch up data to import
-    .pipe( stream.polyline.import( db, function(){
+// run pipeline
+process.stdin
+  .pipe( stream.split() ) // split on newline
+  .pipe( stream.polyline.autoincrement() ) // prepend line numbers
+  .pipe( stream.polyline.parse() ) // parse polyline data
+  .pipe( stream.polyline.augment() ) // augment data with libpostal
+  .pipe( stream.batch( 1000 ) ) // batch up data to import
+  .pipe( stream.polyline.import( db, function(){
 
-      // create the indexes after the data is imported
-      // for performance reasons.
-      query.indexes.street(db, function(){
+    // create the indexes after the data is imported
+    // for performance reasons.
+    query.indexes.street(db, function(){
 
-        // close the db handle when done
-        db.close();
+      // close the db handle when done
+      db.close();
 
-      });
-    })); // save to db
-}
-
-main();
+    });
+  })); // save to db
