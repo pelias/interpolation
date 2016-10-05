@@ -26,3 +26,5 @@ for( var name in command ){
     break;
   }
 }
+
+program.help();
