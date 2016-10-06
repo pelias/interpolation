@@ -3,7 +3,7 @@
 var MAX_NAMES = 10;
 
 // maximum points to match on
-var MAX_POINTS = 100;
+var MAX_POINTS = 4;
 
 // maximum street segments to return
 var MAX_MATCHES = 5;
@@ -21,7 +21,7 @@ var POINT_SQL = '(street.rtree.minX<?A AND street.rtree.maxX>?B AND street.rtree
 var NAME_SQL = '(street.names.name=?)';
 
 // sqlite3 prepared statements
-var stmt = [];
+var stmt = {};
 
 module.exports = function( db, names, points, cb ){
 
@@ -82,7 +82,7 @@ module.exports = function( db, names, points, cb ){
 };
 
 module.exports.finalize = function(){
-  stmt.forEach( function( s ){
-    s.finalize();
-  });
+  for( var hash in stmt ){
+    stmt[hash].finalize();
+  };
 };
