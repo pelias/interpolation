@@ -6,6 +6,12 @@ module.exports.street = function( db, done ){
     db.run("CREATE INDEX IF NOT EXISTS names_id_idx ON names(id);");
     db.run("CREATE INDEX IF NOT EXISTS names_name_idx ON names(name);");
 
+    // rtree
+    db.run("CREATE INDEX IF NOT EXISTS rtree_minx_idx ON rtree(minX);");
+    db.run("CREATE INDEX IF NOT EXISTS rtree_maxx_idx ON rtree(maxX);");
+    db.run("CREATE INDEX IF NOT EXISTS rtree_miny_idx ON rtree(minY);");
+    db.run("CREATE INDEX IF NOT EXISTS rtree_maxy_idx ON rtree(maxY);");
+
     db.wait(done);
   });
 };

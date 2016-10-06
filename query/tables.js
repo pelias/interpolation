@@ -3,8 +3,10 @@ module.exports.street = function( db, rebuild, done ){
   db.serialize(function(){
 
     // create rtree table
+    // if( rebuild ){ db.run("DROP TABLE IF EXISTS rtree;"); }
+    // db.run("CREATE VIRTUAL TABLE IF NOT EXISTS rtree USING rtree(id, minX, maxX, minY, maxY);");
     if( rebuild ){ db.run("DROP TABLE IF EXISTS rtree;"); }
-    db.run("CREATE VIRTUAL TABLE IF NOT EXISTS rtree USING rtree(id, minX, maxX, minY, maxY);");
+    db.run("CREATE TABLE IF NOT EXISTS rtree (id INTEGER PRIMARY KEY, minX REAL, maxX REAL, minY REAL, maxY REAL);");
 
     // create names table
     if( rebuild ){ db.run("DROP TABLE IF EXISTS names;"); }
