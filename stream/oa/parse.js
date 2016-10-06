@@ -11,5 +11,9 @@ var CSV_OPTIONS = {
 
 // csv parser configured for openaddresses data
 module.exports = function(){
-  return parser(CSV_OPTIONS);
+  var stream = parser(CSV_OPTIONS);
+  stream.on( 'error', function( e ){
+    console.error( 'csv parse error', e );
+  });
+  return stream;
 };
