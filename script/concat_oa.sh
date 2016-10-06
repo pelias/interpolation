@@ -3,6 +3,10 @@
 # concatenate all openaddresses csv files in to a single stream
 # note: deduplicates lines in each file
 
+# avoid locale issues with the sort command
+export LC_ALL=C;
+
+# base path of openaddresses file system
 OAPATH='/data/oa';
 
 # only output the csv header once
@@ -10,17 +14,26 @@ HAS_OUTPUT_HEADER=false;
 
 find $OAPATH -type f -iname "*.csv" ! -name '*summary*' -print0 |\
   while IFS= read -r -d $'\0' filename; do
+
+    # output the header
+    # LON,LAT,NUMBER,STREET,UNIT,CITY,DISTRICT,REGION,POSTCODE,ID,HASH
     if [ "$HAS_OUTPUT_HEADER" = false ] ; then
       HAS_OUTPUT_HEADER=true;
       head -n1 $filename;
     fi
-    # concat output (removing duplicates)
-    # Use cat -n to prepend line numbers
-    # Use sort -u remove duplicate data
-    # Use sort -n to sort by prepended number
-    # Use cut to remove the line numbering
-    # cat -n $filename | tail -n +2 | sort -uk2 | sort -nk1 | cut -f2-;
+
+    # echo filename to stderr
     >&2 echo $filename;
-    # tail -n +2 $filename;
-    tail -n +2 $filename | LC_ALL=C sort -t, -k 4,4d -k 6,6d -k 7,7d -k 8,8d -k 3,3n;
+
+    # start reading from line 2 (discard header)
+    tail -n +2 $filename |\
+
+     # remove newline characters inside quoted text
+     gawk -v RS='"' 'NR % 2 == 0 { gsub(/\r\n+/, " ") } { printf("%s%s", $0, RT) }' |\
+
+      # sort the file by STREET, CITY, DISTRICT, REGION, NUMBER
+      sort -t, -k 4,4d -k 6,6d -k 7,7d -k 8,8d -k 3,3n |\
+
+       # remove duplicates
+       uniq;
   done;
