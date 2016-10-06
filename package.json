@@ -26,7 +26,7 @@
     "express": "^4.14.0",
     "node-postal": "^0.3.0",
     "polyline": "^0.2.0",
-    "require-dir": "^0.3.0",
+    "require-dir": "^0.3.1",
     "split2": "^2.1.0",
     "sqlite3": "^3.1.4",
     "through2": "^2.0.1",
