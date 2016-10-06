@@ -95,7 +95,7 @@ function selectPoints( batch ){
 
   // return two extremes
   if( sorted.length < 5 ){
-    return [ sorted[0], sorted[last] ]
+    return [ sorted[0], sorted[last] ];
   }
 
   // half key of array
