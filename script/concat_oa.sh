@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e;
 
 # concatenate all openaddresses csv files in to a single stream
 # note: deduplicates lines in each file
@@ -29,7 +30,7 @@ find $OAPATH -type f -iname "*.csv" ! -name '*summary*' -print0 |\
     tail -n +2 $filename |\
 
      # remove newline characters inside quoted text
-     gawk -v RS='"' 'NR % 2 == 0 { gsub(/\r\n+/, " ") } { printf("%s%s", $0, RT) }' |\
+     gawk -v RS='"' 'NR % 2 == 0 { gsub(/\r?\n|\r/, " ") } { printf("%s%s", $0, RT) }' |\
 
       # sort the file by STREET, CITY, DISTRICT, REGION, NUMBER
       sort -t, -k 4,4d -k 6,6d -k 7,7d -k 8,8d -k 3,3n |\
