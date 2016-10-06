@@ -9,12 +9,12 @@ var MAX_POINTS = 4;
 var MAX_MATCHES = 5;
 
 var SQL = [
-  "SELECT DISTINCT street.polyline.id, street.polyline.line FROM street.polyline",
+  "SELECT street.polyline.id, street.polyline.line FROM street.polyline",
   "JOIN street.rtree ON street.rtree.id = street.polyline.id",
   "JOIN street.names ON street.names.id = street.rtree.id",
   "WHERE ( %%POINT_CONDITIONS%% )",
   "AND ( %%NAME_CONDITIONS%% )",
-  "LIMIT " + MAX_MATCHES + ";"
+  "LIMIT %%MAX_MATCHES%%;"
 ].join(" ");
 
 var POINT_SQL = '(street.rtree.minX<?A AND street.rtree.maxX>?B AND street.rtree.minY<?C AND street.rtree.maxY>?D)';
@@ -60,7 +60,8 @@ module.exports = function( db, names, points, cb ){
 
     // build unique sql statement
     var sql = SQL.replace( '%%NAME_CONDITIONS%%', nameConditions.join(" OR ") )
-                 .replace( '%%POINT_CONDITIONS%%', pointConditions.join(" OR ") );
+                 .replace( '%%POINT_CONDITIONS%%', pointConditions.join(" OR ") )
+                 .replace( '%%MAX_MATCHES%%', MAX_MATCHES );
 
     // create new prepared statement
     stmt[hash] = db.prepare( sql );
@@ -84,5 +85,5 @@ module.exports = function( db, names, points, cb ){
 module.exports.finalize = function(){
   for( var hash in stmt ){
     stmt[hash].finalize();
-  };
+  }
 };
