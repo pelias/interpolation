@@ -36,15 +36,34 @@ function streamFactory(db, done){
       var point = [ parseFloat(item.LON), parseFloat(item.LAT) ];
 
       // pick correct street to use (in case of multiple matches)
-      var nearest = { projection: { dist: Infinity }, street: [] };
+      var nearest = { projection: { dist: Infinity }, street: undefined };
+
       lookup.streets.forEach( function( street, i ){
         var proj = project.pointOnLine( street.coordinates, point );
+
+        // validate projection
+        if( !proj || !proj.edge || !proj.point || proj.dist === Infinity ){
+          console.error( 'unable to project point on to linestring' );
+          console.error( 'street', street );
+          console.error( 'point', point );
+          return;
+        }
+
+        // check if this is the nearest projection
         if( proj.dist < nearest.projection.dist ){
           nearest.projection = proj;
           nearest.street = street;
           nearest.index = i;
         }
       });
+
+      // ensure we have a valid street match
+      if( !nearest.street || nearest.projection.dist === Infinity ){
+        console.error( 'unable to find nearest street for point' );
+        console.error( 'streets', lookup.streets );
+        console.error( 'item', item );
+        return;
+      }
 
       // compute L/R parity of house on street
       var parity = project.parity( nearest.projection, point );
