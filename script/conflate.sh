@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e;
 
 # location of this file in filesystem
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
