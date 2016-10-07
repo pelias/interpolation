@@ -44,10 +44,10 @@ function streamFactory(db){
 
       // no results found
       if( !rows || !rows.length ){
-        // report errors.
-        // batch.forEach( function( row ){
-        //   console.error( JSON.stringify( row ) );
-        // })
+        // log items which do not conflate to stdout
+        batch.forEach( function( row ){
+          console.log( JSON.stringify( row ) );
+        });
         return next();
       }
 
