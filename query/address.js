@@ -1,36 +1,50 @@
 
-/**
+// maximum names to match on
+var MAX_NAMES = 10;
 
-  sql params:
+// maximum address records to return
+var MAX_MATCHES = 500;
 
-  {
-    $lat: 1, // a latitiude within the bbox of the street
-    $lon: 1, // a longitude within the bbox of the street
-    $name: "foo", // the name of the street ( normalized by libpostal first )
+var SQL = [
+  "SELECT address.* FROM street.rtree",
+  "JOIN street.names ON street.names.id = street.rtree.id",
+  "JOIN address ON address.id = street.rtree.id",
+  "WHERE (",
+    "street.rtree.minX<=?1 AND street.rtree.maxX>=?1 AND",
+    "street.rtree.minY<=?2 AND street.rtree.maxY>=?2",
+  ")",
+  "AND ( %%NAME_CONDITIONS%% )",
+  "ORDER BY address.housenumber",
+  "LIMIT %%MAX_MATCHES%%;"
+].join(' ');
+
+var NAME_SQL = '(street.names.name=?)';
+
+module.exports = function( db, point, names, cb ){
+
+  // error checking
+  if( !names || !names.length ){
+    return cb( null, [] );
   }
 
-  SELECT address.* FROM street.rtree
-  JOIN street.names ON street.names.id = street.rtree.id
-  JOIN address ON address.id = street.rtree.id
-  WHERE (
-    street.rtree.minX<=174.766843 AND street.rtree.maxX>=174.766843 AND
-    street.rtree.minY<=-41.288788 AND street.rtree.maxY>=-41.288788
-  ) AND street.names.name = "glasgow street";
+  // max conditions to search on
+  var max = { names: Math.min( names.length, MAX_NAMES ) };
 
-**/
+  // use named parameters to avoid sending coordinates twice for rtree conditions
+  var position = 3; // 1 and 2 are used by lon and lat.
 
-module.exports = function( db, params, cb ){
+  // add name conditions to query
+  var nameConditions = Array.apply(null, Array(max.names)).map( function(){
+    return NAME_SQL.replace('?', '?' + position++);
+  });
 
-  var sql = [
-    "SELECT address.* FROM street.rtree",
-    "JOIN street.names ON street.names.id = street.rtree.id",
-    "JOIN address ON address.id = street.rtree.id",
-    "WHERE ",
-    "street.rtree.minX<=$lon AND street.rtree.maxX>=$lon AND",
-    "street.rtree.minY<=$lat AND street.rtree.maxY>=$lat AND",
-    "street.names.name = $name",
-    "ORDER BY address.housenumber ASC;"
-  ].join(' ');
+  // build unique sql statement
+  var sql = SQL.replace( '%%NAME_CONDITIONS%%', nameConditions.join(" OR ") )
+               .replace( '%%MAX_MATCHES%%', MAX_MATCHES );
 
+  // create a variable array of params for the query
+  var params = [ point.lon, point.lat ].concat( names.slice(0, max.names) );
+
+  // execute query
   db.all( sql, params, cb );
 };

@@ -23,12 +23,15 @@ var db = new sqlite3.Database( dbfile, sqlite3.OPEN_READONLY );
 // attach street database
 query.attach(db, process.argv[3], 'street');
 
+var point = {
+  lat: parseFloat( process.argv[4] ),
+  lon: parseFloat( process.argv[5] )
+};
+
+var names = analyze.street(process.argv[6]);
+
 // perform a db lookup for the specified street
-query.address( db, {
-  $lat: parseFloat( process.argv[4] ),
-  $lon: parseFloat( process.argv[5] ),
-  $name: analyze.street(process.argv[6])[0]
-}, function( err, res ){
+query.address( db, point, names, function( err, res ){
 
   if( !res ){
     return console.error( "0 results found" );
