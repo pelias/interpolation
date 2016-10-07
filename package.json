@@ -2,7 +2,7 @@
   "name": "pelias-interpolation",
   "version": "1.0.0",
   "description": "street address interpolation service for pelias",
-  "main": "import.js",
+  "main": "index.js",
   "scripts": {
     "test": "npm run units; npm run funcs;",
     "funcs": "node test/_func.js | tap-spec",
