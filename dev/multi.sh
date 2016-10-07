@@ -2,7 +2,7 @@
 
 # perform multiple rtree lookups in a single query
 
-STREET_DB="/data/planet.db.bak";
+STREET_DB="/data/planet.db";
 
 P1="174.7526974";
 P2="-36.3702506";
