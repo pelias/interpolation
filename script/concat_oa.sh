@@ -24,7 +24,7 @@ find $OAPATH -type f -iname "*.csv" ! -name '*summary*' -print0 |\
     fi
 
     # echo filename to stderr
-    >&2 echo $filename;
+    >&2 echo $(date -u) "$filename";
 
     # start reading from line 2 (discard header)
     tail -n +2 $filename |\
