@@ -4,51 +4,53 @@ var fs = require('fs'),
     sqlite3 = require('../sqlite3'),
     action = require('../action');
 
-var fixture = {
-  oa: path.resolve( __dirname, './oa.csv' ),
-  street: path.resolve( __dirname, './osm.polylines' )
-};
-
-var db = {
-  address: path.resolve( __dirname, './address.db' ),
-  street: path.resolve( __dirname, './street.db' )
+var paths = {
+  reports: path.resolve( __dirname, './reports/' ),
+  fixture: {
+    oa: path.resolve( __dirname, './oa.csv' ),
+    polyline: path.resolve( __dirname, './osm.polylines' )
+  },
+  db: {
+    address: path.resolve( __dirname, './address.db' ),
+    street: path.resolve( __dirname, './street.db' )
+  }
 };
 
 module.exports.functional = {};
 
 // import data
 module.exports.functional.import = function(test) {
-  action.import(test, db, fixture);
+  action.import(test, paths);
 };
 
 // perform conflation
 module.exports.functional.conflate = function(test) {
-  action.conflate(test, db, fixture);
+  action.conflate(test, paths);
 };
 
 // check table schemas
 module.exports.functional.schema = function(test) {
-  action.check.schema(test, db);
+  action.check.schema(test, paths);
 };
 
 // check table indexes
 module.exports.functional.indexes = function(test) {
-  action.check.indexes(test, db);
+  action.check.indexes(test, paths);
 };
 
 module.exports.functional.street_counts = function(test) {
   test('street db table counts', function(t) {
 
     // count polyline table
-    var polylines = sqlite3.count( db.street, 'polyline' );
+    var polylines = sqlite3.count( paths.db.street, 'polyline' );
     t.equal(polylines, 4, 'count(polyline)');
 
     // count names table
-    var names = sqlite3.count( db.street, 'names' );
+    var names = sqlite3.count( paths.db.street, 'names' );
     t.equal(names, 8, 'count(names)');
 
     // count rtree table
-    var rtree = sqlite3.count( db.street, 'rtree' );
+    var rtree = sqlite3.count( paths.db.street, 'rtree' );
     t.equal(rtree, 4, 'count(rtree)');
 
     t.end();
@@ -59,7 +61,7 @@ module.exports.functional.address_counts = function(test) {
   test('address db table counts', function(t) {
 
     // count address table
-    var addresses = sqlite3.count( db.address, 'address' );
+    var addresses = sqlite3.count( paths.db.address, 'address' );
     t.equal(addresses, 47, 'count(address)');
 
     t.end();
@@ -70,15 +72,15 @@ module.exports.functional.spotcheck_north = function(test) {
   test('spot check: north side', function(t) {
 
     // counts for a specific street
-    var count1 = sqlite3.count( db.address, 'address', 'WHERE id=1' );
+    var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1' );
     t.equal(count1, 27);
 
     // counts for a specific street (open addresses)
-    var count2 = sqlite3.count( db.address, 'address', 'WHERE id=1 AND source="OA"' );
+    var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1 AND source="OA"' );
     t.equal(count2, 22);
 
     // counts for a specific street (vertexes)
-    var count3 = sqlite3.count( db.address, 'address', 'WHERE id=1 AND source="VERTEX"' );
+    var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1 AND source="VERTEX"' );
     t.equal(count3, 5);
 
     t.end();
@@ -89,7 +91,7 @@ module.exports.functional.end_to_end_north = function(test) {
   test('end to end: north side', function(t) {
 
     // full interpolation for a single street
-    var rows = sqlite3.exec( db.address, 'SELECT * FROM address WHERE id=1 ORDER BY housenumber' );
+    var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=1 ORDER BY housenumber' );
     t.deepEqual(rows, [
       '1|1|OA|14.0|52.5087751|13.3197845|L|52.50893|13.319979',
       '2|1|OA|14.1|52.5086354|13.3198981|L|52.5087927|13.320091',
@@ -129,15 +131,15 @@ module.exports.functional.spotcheck_south = function(test) {
   test('spot check: south side', function(t) {
 
     // counts for a specific street
-    var count1 = sqlite3.count( db.address, 'address', 'WHERE id=2' );
+    var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=2' );
     t.equal(count1, 20);
 
     // counts for a specific street (open addresses)
-    var count2 = sqlite3.count( db.address, 'address', 'WHERE id=2 AND source="OA"' );
+    var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=2 AND source="OA"' );
     t.equal(count2, 19);
 
     // counts for a specific street (vertexes)
-    var count3 = sqlite3.count( db.address, 'address', 'WHERE id=2 AND source="VERTEX"' );
+    var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=2 AND source="VERTEX"' );
     t.equal(count3, 1);
 
     t.end();
@@ -148,7 +150,7 @@ module.exports.functional.end_to_end_south = function(test) {
   test('end to end: south side', function(t) {
 
     // full interpolation for a single street
-    var rows = sqlite3.exec( db.address, 'SELECT * FROM address WHERE id=2 ORDER BY housenumber' );
+    var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=2 ORDER BY housenumber' );
     t.deepEqual(rows, [
       '13|2|OA|27.0|52.5046393|13.3231349|R|52.5047998|13.3233192',
       '14|2|OA|28.0|52.5044741|13.3232845|R|52.5046223|13.3234668',
@@ -178,20 +180,12 @@ module.exports.functional.end_to_end_south = function(test) {
 
 // write geojson to disk
 module.exports.functional.geojson = function(test) {
-
-  // destination path
-  var destination = path.resolve(__dirname, 'preview.geojson');
-
-  action.geojson(test, db, '(id=1 OR id=2)', destination);
+  action.geojson(test, paths, '(id=1 OR id=2)');
 };
 
 // write tsv to disk
 module.exports.functional.tsv = function(test) {
-
-  // destination path
-  var destination = path.resolve(__dirname, 'preview.tsv');
-
-  action.tsv(test, db, '(id=1 OR id=2)', destination);
+  action.tsv(test, paths, '(id=1 OR id=2)');
 };
 
 module.exports.all = function (tape) {

@@ -3,51 +3,53 @@ var path = require('path'),
     sqlite3 = require('../sqlite3'),
     action = require('../action');
 
-var fixture = {
-  oa: path.resolve( __dirname, './oa.csv' ),
-  street: path.resolve( __dirname, './osm.polylines' )
-};
-
-var db = {
-  address: path.resolve( __dirname, './address.db' ),
-  street: path.resolve( __dirname, './street.db' )
+var paths = {
+  reports: path.resolve( __dirname, './reports/' ),
+  fixture: {
+    oa: path.resolve( __dirname, './oa.csv' ),
+    polyline: path.resolve( __dirname, './osm.polylines' )
+  },
+  db: {
+    address: path.resolve( __dirname, './address.db' ),
+    street: path.resolve( __dirname, './street.db' )
+  }
 };
 
 module.exports.functional = {};
 
 // import data
 module.exports.functional.import = function(test) {
-  action.import(test, db, fixture);
+  action.import(test, paths);
 };
 
 // perform conflation
 module.exports.functional.conflate = function(test) {
-  action.conflate(test, db, fixture);
+  action.conflate(test, paths);
 };
 
 // check table schemas
 module.exports.functional.schema = function(test) {
-  action.check.schema(test, db);
+  action.check.schema(test, paths);
 };
 
 // check table indexes
 module.exports.functional.indexes = function(test) {
-  action.check.indexes(test, db);
+  action.check.indexes(test, paths);
 };
 
 module.exports.functional.street_counts = function(test) {
   test('street db table counts', function(t) {
 
     // count polyline table
-    var polylines = sqlite3.count( db.street, 'polyline' );
+    var polylines = sqlite3.count( paths.db.street, 'polyline' );
     t.equal(polylines, 100, 'count(polyline)');
 
     // count names table
-    var names = sqlite3.count( db.street, 'names' );
+    var names = sqlite3.count( paths.db.street, 'names' );
     t.equal(names, 106, 'count(names)');
 
     // count rtree table
-    var rtree = sqlite3.count( db.street, 'rtree' );
+    var rtree = sqlite3.count( paths.db.street, 'rtree' );
     t.equal(rtree, 100, 'count(rtree)');
 
     t.end();
@@ -58,7 +60,7 @@ module.exports.functional.address_counts = function(test) {
   test('address db table counts', function(t) {
 
     // count address table
-    var addresses = sqlite3.count( db.address, 'address' );
+    var addresses = sqlite3.count( paths.db.address, 'address' );
     t.equal(addresses, 117, 'count(address)');
 
     t.end();
@@ -69,15 +71,15 @@ module.exports.functional.spotcheck = function(test) {
   test('spot checks', function(t) {
 
     // counts for a specific street
-    var count1 = sqlite3.count( db.address, 'address', 'WHERE id=85' );
+    var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85' );
     t.equal(count1, 117);
 
     // counts for a specific street (open addresses)
-    var count2 = sqlite3.count( db.address, 'address', 'WHERE id=85 AND source="OA"' );
+    var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="OA"' );
     t.equal(count2, 106);
 
     // counts for a specific street (vertexes)
-    var count3 = sqlite3.count( db.address, 'address', 'WHERE id=85 AND source="VERTEX"' );
+    var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="VERTEX"' );
     t.equal(count3, 11);
 
     t.end();
@@ -88,7 +90,7 @@ module.exports.functional.end_to_end = function(test) {
   test('end to end', function(t) {
 
     // full interpolation for a single street
-    var rows = sqlite3.exec( db.address, 'SELECT * FROM address WHERE id=85 ORDER BY housenumber' );
+    var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=85 ORDER BY housenumber' );
     t.deepEqual(rows, [
       '31|85|OA|2.0|40.7435261|-73.9886446|R|40.7436228|-73.9886036',
       '117|85|VERTEX|5.644||||40.743755|-73.988915',
@@ -215,20 +217,12 @@ module.exports.functional.end_to_end = function(test) {
 
 // write geojson to disk
 module.exports.functional.geojson = function(test) {
-
-  // destination path
-  var destination = path.resolve(__dirname, 'preview.geojson');
-
-  action.geojson(test, db, 'id=85', destination);
+  action.geojson(test, paths, 'id=85');
 };
 
 // write tsv to disk
 module.exports.functional.tsv = function(test) {
-
-  // destination path
-  var destination = path.resolve(__dirname, 'preview.tsv');
-
-  action.tsv(test, db, 'id=85', destination);
+  action.tsv(test, paths, 'id=85');
 };
 
 module.exports.all = function (tape) {

@@ -4,4 +4,5 @@ play
 *.db*
 *.err
 *.out
+*.skip
 todo.txt
