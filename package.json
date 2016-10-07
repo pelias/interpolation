@@ -1,14 +1,14 @@
 {
   "name": "pelias-interpolation",
   "version": "1.0.0",
-  "description": "",
+  "description": "street address interpolation service for pelias",
   "main": "import.js",
   "scripts": {
     "test": "npm run units; npm run funcs;",
     "funcs": "node test/_func.js | tap-spec",
     "units": "node test/_unit.js | tap-spec"
   },
-  "author": "",
+  "author": "mapzen",
   "license": "ISC",
   "repository": {
     "type": "git",
