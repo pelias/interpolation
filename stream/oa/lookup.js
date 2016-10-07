@@ -1,8 +1,6 @@
 
 var fs = require('fs'),
     through = require('through2'),
-    assert = require('../../lib/assert'),
-    Statistics = require('../../lib/statistics'),
     query = { lookup: require('../../query/lookup') },
     project = require('../../lib/project'),
     analyze = require('../../lib/analyze');
