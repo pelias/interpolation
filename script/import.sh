@@ -21,7 +21,7 @@ export SQLITE_TMPDIR='/data/tmp';
 [ -d $SQLITE_TMPDIR ] || mkdir $SQLITE_TMPDIR;
 
 # delete stdio files
-rm $PROC_STDOUT $PROC_STDERR &>/dev/null;
+rm -f $PROC_STDOUT $PROC_STDERR;
 
 # run import
 cat $POLYLINE_FILE | time -p node $DIR/../cmd/polyline.js $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR;
