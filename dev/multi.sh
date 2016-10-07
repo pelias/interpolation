@@ -18,7 +18,7 @@ P8="-36.3787955";
 
 NAME="whitmore road";
 
-sqlite3 $STREET_DB "SELECT DISTINCT polyline.id, polyline.line FROM polyline \
+sqlite3 $STREET_DB "SELECT polyline.id, polyline.line FROM polyline \
   JOIN rtree ON rtree.id = polyline.id \
   JOIN names ON names.id = rtree.id \
   WHERE ( \
