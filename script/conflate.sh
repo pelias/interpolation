@@ -11,6 +11,7 @@ STREET_DB='/data/planet.db';
 # location of stdio files
 PROC_STDOUT='/data/conflate.out';
 PROC_STDERR='/data/conflate.err';
+PROC_CONFERR='/data/conflate.skip';
 
 # a directory with enough free space to store sqlite tmp files
 export SQLITE_TMPDIR='/data/tmp';
@@ -19,7 +20,7 @@ export SQLITE_TMPDIR='/data/tmp';
 [ -d $SQLITE_TMPDIR ] || mkdir $SQLITE_TMPDIR;
 
 # delete stdio files
-rm $PROC_STDOUT $PROC_STDERR &>/dev/null;
+rm -f $PROC_STDOUT $PROC_STDERR $PROC_CONFERR;
 
 # run import
-$DIR/concat_oa.sh | time -p node $DIR/../cmd/oa.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR;
+$DIR/concat_oa.sh | time -p node $DIR/../cmd/oa.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR 3>$PROC_CONFERR;
