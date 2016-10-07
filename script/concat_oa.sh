@@ -13,6 +13,7 @@ OAPATH='/data/oa';
 # only output the csv header once
 HAS_OUTPUT_HEADER=false;
 
+# recurse through filesystem listing all .csv file names not containing the text "summary"
 find $OAPATH -type f -iname "*.csv" ! -name '*summary*' -print0 |\
   while IFS= read -r -d $'\0' filename; do
 
@@ -29,12 +30,18 @@ find $OAPATH -type f -iname "*.csv" ! -name '*summary*' -print0 |\
     # start reading from line 2 (discard header)
     tail -n +2 $filename |\
 
-     # remove newline characters inside quoted text
-     gawk -v RS='"' 'NR % 2 == 0 { gsub(/\r?\n|\r/, " ") } { printf("%s%s", $0, RT) }' |\
+      # remove newline characters inside quoted text
+      awk -v RS='"' 'NR % 2 == 0 { gsub(/\r?\n|\r/, " ") } { printf("%s%s", $0, RT) }' |\
 
-      # sort the file by STREET, CITY, DISTRICT, REGION, NUMBER
-      sort -t, -k 4,4d -k 6,6d -k 7,7d -k 8,8d -k 3,3n |\
+        # sort the file by STREET, CITY, DISTRICT, REGION, NUMBER
+        sort -t, -k 4,4d -k 6,6d -k 7,7d -k 8,8d -k 3,3n |\
 
-       # remove duplicates
-       uniq;
+          # remove duplicates
+          uniq;
   done;
+
+# awk test case:
+# echo -e "name,\"foo\nbar\",0.0\n";
+
+# sort test case:
+# echo -e ",,1,b,,a,a,a\n,,2,a,,a,b,a\n,,1,a,,a,b,a\n,,1,a,,a,a,a\n";
