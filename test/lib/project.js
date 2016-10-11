@@ -22,7 +22,7 @@ module.exports.project.pointOnEdge = function(test) {
         p = [ +5.5, -5.5 ];
 
     var res = project.pointOnEdge( v, u, p );
-    t.deepEqual(res, [ 6.54510556621881, -3.5998080614203456 ]);
+    t.deepEqual(res, [ 6.552528952537812, -3.603890923895796 ]);
     t.end();
   });
 };
@@ -56,9 +56,9 @@ module.exports.project.pointOnLine = function(test) {
 
     var res = project.pointOnLine( l, p );
     t.deepEqual(res, {
-      dist: 2.1686343739747014,
+      dist: 2.1670179275017025,
       edge: [ [ 0, 0 ], [ 10, -5.5 ] ],
-      point: [ 6.54510556621881, -3.5998080614203456 ]
+      point: [ 6.552528952537812, -3.603890923895796 ]
     });
     t.end();
   });
@@ -71,7 +71,7 @@ module.exports.project.distance = function(test) {
         p2 = [ 1.0, 0.0 ];
 
     var res = project.distance( p1, p2 );
-    t.equal(res, Math.hypot( 1, 1 ));
+    t.equal(res, 1.414177660952114);
     t.end();
   });
   test('distance: complex', function(t) {
@@ -80,7 +80,7 @@ module.exports.project.distance = function(test) {
         p2 = [ -8.1, 9.2 ];
 
     var res = project.distance( p1, p2 );
-    t.equal(res, Math.hypot( -5.9, 8.1 ));
+    t.equal(res, 10.00401571386437);
     t.end();
   });
 };
@@ -95,7 +95,7 @@ module.exports.project.lineDistance = function(test) {
         ];
 
     var res = project.lineDistance( l );
-    t.equal(res, 20.0);
+    t.equal(res, 20);
     t.end();
   });
   test('lineDistance: complex', function(t) {
@@ -109,7 +109,7 @@ module.exports.project.lineDistance = function(test) {
         ];
 
     var res = project.lineDistance( l );
-    t.equal(res, Math.hypot( -5.9, 8.1 )*4);
+    t.equal(res, 40.01606285545748);
     t.end();
   });
 };

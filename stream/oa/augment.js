@@ -2,7 +2,8 @@
 var through = require('through2'),
     polyline = require('polyline'),
     project = require('../../lib/project'),
-    analyze = require('../../lib/analyze');
+    analyze = require('../../lib/analyze'),
+    interpolate = require('../../lib/interpolate');
 
 // polyline precision
 var PRECISION = 6;
@@ -22,7 +23,7 @@ function streamFactory(db, done){
 
     // decode polylines
     lookup.streets.forEach( function( street, i ){
-      street.coordinates = polyline.toGeoJSON(street.line, PRECISION).coordinates;
+      street.coordinates = project.dedupe( polyline.toGeoJSON(street.line, PRECISION).coordinates );
       distances[i] = []; // init array
     });
 
@@ -87,9 +88,11 @@ function streamFactory(db, done){
     }, this);
 
     // ensure distances are sorted by distance ascending
-    distances = distances.map( function( d ){
-      return d.sort( function( a, b ){
-        return a.dist > b.dist;
+    // this is important because now the distances and coordinates
+    // arrays will run from the start of the street to the end.
+    distances.forEach( function( d ){
+      d.sort( function( a, b ){
+        return ( a.dist > b.dist ) ? 1 : -1;
       });
     });
 
@@ -136,7 +139,7 @@ function streamFactory(db, done){
     lookup.streets.forEach( function( street, si ){
 
       // distance travelled along the line string
-      var distance = 0;
+      var vertexDistance = 0;
 
       // insert each point on linestring in table
       // note: this allows us to ignore the linestring and simply linearly
@@ -146,17 +149,11 @@ function streamFactory(db, done){
         // not a line, just a single point;
         if( 0 === i ){ return; }
 
-        // ignore successive duplicate points in linestring
-        var previousVertex = street.coordinates[i-1];
-        if( previousVertex && vertex[0] === previousVertex[0] && vertex[1] === previousVertex[1] ){
-          return;
-        }
-
         // distance along line to this vertex
         var edge = street.coordinates.slice(i-1, i+1);
         if( edge.length == 2 ){
-          distance += project.lineDistance( edge );
-        }
+          vertexDistance += project.lineDistance( edge );
+        } // else should not have else!
 
         // projected fractional housenumber(s)
         var housenumbers = [];
@@ -164,7 +161,7 @@ function streamFactory(db, done){
         // zigzag interpolation
         // (one vertex interpolation produced)
         if( street.scheme === 'zigzag' ){
-          housenumbers.push( interpolate( distances[si], distance ) );
+          housenumbers.push( interpolate( distances[si], vertexDistance ) );
         }
         // updown interpolation
         // (two vertex interpolations produced)
@@ -172,12 +169,12 @@ function streamFactory(db, done){
           // left side
           housenumbers.push( interpolate( distances[si].filter( function( d ){
             return d.parity === 'L';
-          }), distance ) );
+          }), vertexDistance ) );
 
           // right side
           housenumbers.push( interpolate( distances[si].filter( function( d ){
             return d.parity === 'R';
-          }), distance ) );
+          }), vertexDistance ) );
         }
 
         // insert point values in db
@@ -200,36 +197,6 @@ function streamFactory(db, done){
 
     next();
   });
-}
-
-function interpolate( distances, distance ){
-
-  // cycle through calculated distances and interpolate a fractional housenumber
-  // value which would sit at this vertex.
-  for( var x=0; x<distances.length-1; x++ ){
-
-    var thisDist = distances[x],
-        nextDist = distances[x+1];
-
-    // the vertex distance is less that the lowest housenumber
-    // @extrapolation
-    if( distance < thisDist.dist ){
-      break;
-    }
-
-    // vertex distance is between two house number distance
-    if( nextDist.dist > distance ){
-      var ratio = 1 - ((distance - thisDist.dist) / (nextDist.dist - thisDist.dist));
-      if( ratio >= 1 || ratio <= 0 ){ break; } // will result in a duplicate value
-      var minHouseNumber = Math.min( thisDist.housenumber, nextDist.housenumber );
-      var maxHouseNumber = Math.max( thisDist.housenumber, nextDist.housenumber );
-      return minHouseNumber + (( maxHouseNumber - minHouseNumber ) * ratio);
-    }
-
-    // else the vertex is greater than the highest housenumber
-    // @extrapolation
-  }
-  return null;
 }
 
 module.exports = streamFactory;
