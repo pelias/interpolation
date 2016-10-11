@@ -59,6 +59,16 @@ function streamFactory(db){
         return next();
       }
 
+      // dedupe array
+      // @todo: try to do this in SQL using DISTICT?
+      // tried doing this before and performance was terrible.
+      var seen = [];
+      rows = rows.filter( function( row ){
+        if( seen[ row.id ] ){ return false };
+        seen[ row.id ] = true;
+        return true;
+      });
+
       /**
       [ { id: 9155, line: 't}e`rA}cdehIcI_dCuJsnC[iIWiJ{Ko|DgMkdEuLcyC' }, ... ]
       **/
