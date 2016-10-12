@@ -1,119 +1,123 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <title>Interpolation Demo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 
-  <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>point on line demo</title>
-    <style type="text/css">
-      html, body, #drawing {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-      }
-    </style>
-  </head>
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 
-  <body>
-    <div id="drawing"></div>
+  <!-- Load Leaflet from CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>
 
-    <script src="https://rawgit.com/wout/svg.js/2.0.1/dist/svg.js"></script>
-    <script src="https://rawgit.com/wout/svg.draggable.js/master/dist/svg.draggable.min.js"></script>
+  <!-- Load geocoding plugin after Leaflet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.7.1/leaflet-geocoder-mapzen.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.7.1/leaflet-geocoder-mapzen.js"></script>
 
-    <script>
-      function algo( v, u, p ){
+  <link rel="stylesheet" href="map.css">
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    // Create a basic Leaflet map
+    var map = L.map('map', { zoomControl:false }).setView([40.7259, -73.9805], 12);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    }).addTo(map);
 
-        var bx = v[0] - u[0];
-        var by = v[1] - u[1];
-        var sq = bx*bx + by*by;
+    var API_KEY = 'search-S0p1Seg';
 
-        var scale = ( sq > 0 ) ? (( (p[0] - u[0])*bx + (p[1] - u[1])*by ) / sq) : 0.0;
+    // Add geocoding plugin
+    var params = {};
+    var options = { focus: true, expanded: true, params: params };
+    var geocoder = L.control.geocoder(API_KEY, options).addTo(map);
+    map.locate({ setView: true, maxZoom: 16 });
 
-        if( scale <= 0.0 ){
-          bx = u[0];
-          by = u[1];
+    var layer = L.geoJSON().addTo(map);
+
+    function reverse( latlng, cb ){
+      // use map center when latlng not supplied
+      if( !latlng ){ latlng = map.getCenter(); }
+
+      var qs =  '?point.lat=' + latlng.lat;
+          qs += '&point.lon=' + latlng.lng;
+          qs += '&layers=street';
+          qs += '&size=1';
+          qs += '&api_key=' + API_KEY;
+
+      // find nearest street
+      $.ajax({
+        url: "https://search.mapzen.com/v1/reverse" + qs,
+        method: "GET",
+        dataType: "json",
+        traditional: true,
+        success: function( data, status, jqxhr ){
+          // console.log( "Request received:", data );
+          cb( null, data );
+        },
+        error: function( jqxhr, status, error ){
+          // console.log( "Something went wrong!" );
+          cb( error );
         }
-        else if( scale >= 1.0 ){
-          bx = v[0];
-          by = v[1];
+      });
+    }
+
+    function search( latlng, names, cb ){
+      // use map center when latlng not supplied
+      if( !latlng ){ latlng = map.getCenter(); }
+
+      $.ajax({
+        dataType: "json",
+        url: "/search/geojson?lat="+latlng.lat+"&lon="+latlng.lng+"&names="+names.join(','),
+        success: function(data) {
+          // console.error( JSON.stringify( data, null, 2 ) );
+          cb( null, data );
         }
-        else {
-          bx = bx*scale + u[0];
-          by = by*scale + u[1];
+      }).error(function( err ) {
+        console.error( err );
+        cb( err );
+      });
+    }
+
+    function update( latlng ){
+      // use map center when latlng not supplied
+      if( !latlng ){ latlng = map.getCenter(); }
+
+      reverse( latlng, function( err, data ){
+
+        if( data && data.features.length ){
+
+
+          // var street = data.features[0];
+          // var centroid = { lng: street.geometry.coordinates[0], lat: street.geometry.coordinates[1] };
+          // var names = [ street.properties.street ];
+
+          var centroid = latlng;
+          var names = data.features.map( function( street ){
+            return street.properties.street;
+          });
+
+          // console.error( street.properties.street, street );
+
+          search( centroid, names, function( err2, data2 ){
+
+            console.error( err2, data2 );
+
+            if( !err2 && data2 ){
+              layer.clearLayers();
+              layer.addData( data2 );
+            }
+          });
+
         }
+      });
+    }
 
-        return [bx, by];
-      }
-    </script>
-
-    <script>
-      var draw = SVG('drawing').attr({ 'font-size': 10 });
-
-      var r = 20;
-      var point = [200, 300];
-      var handles = [];
-      var lines = [];
-
-      var lineString = [
-        [100, 100],
-        [220, 200],
-        [260, 220],
-        [300, 220],
-        [340, 210],
-        [380, 190],
-        [460, 150],
-        [600, 100],
-        [800, 80]
-      ];
-
-      var l2 = draw.line(0,0,0,0).stroke({ width: 1, color: '#f00' }).attr({ "stroke-dasharray": "5, 5" });
-      var p = draw.circle(r,r).center(point[0], point[1]).fill('#f00').draggable();
-
-      var update = function(){
-
-        var px = p.x() +r/2;
-        var py = p.y() +r/2;
-
-        var distance = Infinity;
-        var edge;
-        var edgeI;
-
-        for( var x=0; x<lineString.length-1; x++ ){
-
-          var ax = handles[x+0].x() +r/2;
-          var ay = handles[x+0].y() +r/2;
-          var bx = handles[x+1].x() +r/2;
-          var by = handles[x+1].y() +r/2;
-
-          lines[x].plot( ax, ay, bx, by );
-
-          var res = algo( [ ax, ay ], [ bx, by ], [ px, py ] );
-          var dist = Math.sqrt( Math.pow(px-res[0], 2) + Math.pow(py-res[1], 2) );
-          // console.log( x, dist );
-
-          if( dist < distance ){
-            distance = dist;
-            edge = res;
-            edgeI = x;
-          }
-
-          lines[x].stroke({ width: 4, color: '#60f' });
-        }
-
-        l2.plot( px, py, edge[0], edge[1] );
-        lines[edgeI].stroke({ width: 4, color: '#69f' });
-      }
-
-      for( var x=0; x<lineString.length-1; x++ ){
-        lines.push( draw.line(0,0,0,0).stroke({ width: 4, color: '#60f' }) );
-      }
-
-      for( var x=0; x<lineString.length; x++ ){
-        handles.push( draw.circle(r,r).center(lineString[x][0], lineString[x][1]).fill('#60f').draggable().on('dragmove', update ) );
-      }
-
-      p.on('dragmove', update );
-      update();
-
-    </script>
-  </body>
+    // map.on('moveend', function(e){ update() });
+    // map.on('resize', function(e){ update() });
+    map.on('click', function(e){ update( e.latlng ); });
+  </script>
+</body>
 </html>

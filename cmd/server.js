@@ -49,6 +49,9 @@ app.get('/search/table', function( req, res ){
   });
 });
 
+// serve the demo app
+app.use('/demo', express.static('demo'));
+
 app.listen( PORT, function() {
   console.log( 'server listening on port', PORT );
 });

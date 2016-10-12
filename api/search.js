@@ -34,7 +34,7 @@ function setup( addressDbPath, streetDbPath ){
     if( !normalized.length ){ return cb( 'invalid names' ); }
 
     // perform a db lookup for the specified street
-    query.address( db, point, names, cb );
+    query.address( db, point, normalized, cb );
   };
 
   // close method to close db
