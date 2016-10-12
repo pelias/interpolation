@@ -168,7 +168,7 @@ module.exports.geojson = function(test, paths, condition) {
     }));
 
     // write to disk
-    fs.writeFileSync( destination, geojson );
+    fs.writeFileSync( destination, JSON.stringify( geojson, null, 2 ) );
 
     t.pass('wrote geojson');
     t.end();
