@@ -5,7 +5,7 @@ var sqlite3 = require('sqlite3'),
     query = requireDir('../query');
 
 // export method
-function oa(addressDbPath, streetDbPath, done){
+function oa(dataStream, addressDbPath, streetDbPath, done){
 
   // connect to db
   sqlite3.verbose();
@@ -15,7 +15,7 @@ function oa(addressDbPath, streetDbPath, done){
   query.tables.address(db); // create tables only if not already created
   query.attach(db, process.argv[3], 'street'); // attach street database
 
-  process.stdin
+  dataStream
     .pipe( stream.oa.parse() ) // parse openaddresses csv data
     .pipe( stream.oa.batch() ) // batch records on the same street
     .pipe( stream.oa.lookup( db ) ) // look up from db

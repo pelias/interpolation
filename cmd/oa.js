@@ -16,4 +16,4 @@ if( tty.isatty( process.stdin ) ){
 }
 
 // run script
-oa( process.argv[2], process.argv[3] );
+oa( process.stdin, process.argv[2], process.argv[3] );

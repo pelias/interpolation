@@ -16,4 +16,4 @@ if( tty.isatty( process.stdin ) ){
 }
 
 // run script
-polyline( process.argv[2] );
+polyline( process.stdin, process.argv[2] );

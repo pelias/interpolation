@@ -5,7 +5,7 @@ var sqlite3 = require('sqlite3'),
     query = requireDir('../query');
 
 // export method
-function polyline(streetDbPath, done){
+function polyline(dataStream, streetDbPath, done){
 
   // connect to db
   sqlite3.verbose();
@@ -15,7 +15,7 @@ function polyline(streetDbPath, done){
   query.tables.street(db, true); // reset database and create tables
 
   // run pipeline
-  process.stdin
+  dataStream
     .pipe( stream.split() ) // split on newline
     .pipe( stream.polyline.autoincrement() ) // prepend line numbers
     .pipe( stream.polyline.parse() ) // parse polyline data
