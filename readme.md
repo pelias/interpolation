@@ -34,7 +34,7 @@ cat /data/oa/nz/countrywide.csv | time -p node cmd/oa oa.db street.db
 node cmd/search oa.db street.db "-41.288788" "174.766843" "glasgow street"
 ```
 
-#### run a web server which exposes the search APIs via an HTTP inetrface
+#### run a web server which exposes the search APIs via an HTTP interface
 ```bash
 node cmd/server oa.db street.db
 ```
@@ -51,7 +51,7 @@ notes:
 - `-p` controls port mapping (port `3000` in the container maps to `5000` in the host)
 - `-v` controls volume mapping (`/data` in the container maps to `/data` in the host)
 
-by default this will launch the server using the databases `/data/oa.db` and `/data/planet.db`
+by default this will launch the server using the databases `/data/oa.db` and `/data/planet.db` which must be present on the host machine
 
 ```bash
 docker run -p 5000:3000 -v /data:/data -d pelias/interpolation
