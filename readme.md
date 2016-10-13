@@ -73,3 +73,11 @@ ac9c8f607b2e        pelias/interpolation   "./interpolate server"   14 minutes a
 ```
 
 you should now be able to access the web server locally at `http://localhost:5000/demo/`
+
+#### running scripts other than `server` in the docker container
+
+you can run any command supported by `./interpolate` via the docker container, such as:
+
+```bash
+cat /data/new_zealand.polylines | docker run -i -v /data:/data pelias/interpolation polyline /data/nz.db
+```
