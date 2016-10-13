@@ -45,7 +45,7 @@ this can take some time for the first build due to installing libpostal from sou
 docker build -t pelias/interpolation .
 ```
 
-you can confirmed that worked with:
+you can confirm that worked with:
 ```bash
 docker images
 REPOSITORY             TAG                 IMAGE ID            CREATED             SIZE
@@ -65,7 +65,7 @@ by default this will launch the server using the databases `/data/oa.db` and `/d
 docker run -p 5000:3000 -v /data:/data -d pelias/interpolation
 ```
 
-you can confirmed that worked with:
+you can confirm that worked with:
 ```bash
 $ docker ps
 CONTAINER ID        IMAGE                  COMMAND                  CREATED             STATUS              PORTS                    NAMES
