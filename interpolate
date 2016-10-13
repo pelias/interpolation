@@ -4,7 +4,8 @@
 var command = {
   polyline: './cmd/polyline',
   openaddresses: './cmd/oa',
-  search: './cmd/search'
+  search: './cmd/search',
+  server: './cmd/server',
 };
 
 // run command
@@ -27,8 +28,9 @@ var help = [
   "",
   " help                                                       output usage information",
   " polyline [street_db]                                       import polyline data in to [street_db]",
-  " openaddresses [address_db] [street_db]                     conflate oa csv file in to [address_db] using [street_db]",
+  " oa [address_db] [street_db]                                conflate oa csv file in to [address_db] using [street_db]",
   " search [address_db] [street_db] [lat] [lon] [street_name]  query databases for address data",
+  " server [address_db] [street_db]                            start a web server",
 ];
 
 console.error( '\n' + help.join('\n') + '\n' );
