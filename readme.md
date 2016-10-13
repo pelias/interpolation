@@ -40,8 +40,16 @@ node cmd/server oa.db street.db
 ```
 
 #### build docker image
+this can take some time for the first build due to installing libpostal from source
 ```bash
 docker build -t pelias/interpolation .
+```
+
+you can confirmed that worked with:
+```bash
+docker images
+REPOSITORY             TAG                 IMAGE ID            CREATED             SIZE
+pelias/interpolation   latest              7ca651b86a63        16 minutes ago      3.068 GB
 ```
 
 #### run docker image
@@ -56,3 +64,12 @@ by default this will launch the server using the databases `/data/oa.db` and `/d
 ```bash
 docker run -p 5000:3000 -v /data:/data -d pelias/interpolation
 ```
+
+you can confirmed that worked with:
+```bash
+$ docker ps
+CONTAINER ID        IMAGE                  COMMAND                  CREATED             STATUS              PORTS                    NAMES
+ac9c8f607b2e        pelias/interpolation   "./interpolate server"   14 minutes ago      Up 14 minutes       0.0.0.0:5000->3000/tcp   jolly_hamilton
+```
+
+you should now be able to access the web server locally at `http://localhost:5000/demo/`
