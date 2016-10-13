@@ -31,7 +31,7 @@ function polyline(dataStream, streetDbPath, done){
         db.close();
 
         // done
-        done();
+        if( 'function' === typeof done ){ done(); }
 
       });
     })); // save to db

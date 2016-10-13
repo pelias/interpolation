@@ -31,7 +31,7 @@ function oa(dataStream, addressDbPath, streetDbPath, done){
         db.close();
 
         // done
-        done();
+        if( 'function' === typeof done ){ done(); }
 
       });
 
