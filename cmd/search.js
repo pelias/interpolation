@@ -27,7 +27,12 @@ conn.query( point, names, function( err, res ){
     return console.error( "0 results found" );
   }
 
-  console.log( JSON.stringify( renderer( res ), null, 2 ) );
+  if( renderer === pretty.geojson ){
+    console.log( JSON.stringify( renderer( res ), null, 2 ) );
+  } else {
+    console.log( renderer( res ) );
+  }
+
 });
 
 conn.close();
