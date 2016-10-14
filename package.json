@@ -1,7 +1,10 @@
 {
   "name": "pelias-interpolation",
   "version": "1.0.0",
-  "description": "street address interpolation service for pelias",
+  "description": "street address interpolation service",
+  "homepage": "https://github.com/pelias/api",
+  "author": "mapzen",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "test": "npm run units; npm run funcs;",
@@ -10,11 +13,12 @@
     "lint": "jshint .",
     "validate": "npm ls"
   },
-  "author": "mapzen",
-  "license": "ISC",
   "repository": {
     "type": "git",
     "url": "https://github.com/pelias/interpolation.git"
+  },
+  "engines": {
+    "node": ">=4.0.0"
   },
   "dependencies": {
     "cli-table2": "^0.2.0",

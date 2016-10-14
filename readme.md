@@ -1,5 +1,5 @@
 
-### getting help
+### Command Line Interface
 ```bash
 $ ./interpolate help
 
@@ -14,11 +14,12 @@ Note: you will need to pipe data in to the import/conflate commands
  server [address_db] [street_db]                                           start a web server
 ```
 
-## using the search APIs
+## Using the search APIs
 
-### search the db for an address, return an interpolated value if an exact match does not exist
+### search
+> search the db for an address, return an interpolated value if an exact match does not exist
 
-note: the lat/lon values are approximate, they must lie within the bounding boxes of the desired street.
+note: the lat/lon values you provide are in order to disambiguate the street, they must lie within the bounding boxes of the desired street.
 
 ```bash
 ./interpolate search address.db street.db "-41.288788" "174.766843" "16" "glasgow street"
@@ -30,9 +31,10 @@ lat	-41.2886487
 lon	174.7670925
 ```
 
-### extract address data from the db for a specific street
+### extract
+> extract address data from the db for a specific street
 
-note: the lat/lon values are approximate, they must lie within the bounding boxes of the desired street.
+note: the lat/lon values you provide are in order to disambiguate the street, they must lie within the bounding boxes of the desired street.
 
 ```bash
 ./interpolate extract address.db street.db "-41.288788" "174.766843" "glasgow street"
@@ -49,7 +51,9 @@ note: the lat/lon values are approximate, they must lie within the bounding boxe
 ...
 ```
 
-### run a web server which exposes the search APIs via an HTTP interface
+### server
+> run a web server which exposes the search APIs via an HTTP interface
+
 note: you can set an environment variable named 'PORT' to change the port number.
 ```bash
 ./interpolate server address.db street.db
@@ -57,15 +61,19 @@ note: you can set an environment variable named 'PORT' to change the port number
 server listening on port 3000
 ```
 
-## building the database
+## Building your own database
 
-### import polyline data
+### polyline
+> import road network data in the polyline format
+
 find data here: https://github.com/pelias/polylines
 ```bash
 ./interpolate polyline street.db < /data/new_zealand.polylines
 ```
 
-### conflate openaddresses data
+### oa
+> import openaddresses data and conflate it with the street data
+
 find data here: https://openaddresses.io/
 ```bash
 ./interpolate oa address.db street.db < /data/oa/nz/countrywide.csv
@@ -122,7 +130,7 @@ you can run any command supported by `./interpolate` via the docker container, s
 cat /data/new_zealand.polylines | docker run -i -v /data:/data pelias/interpolation polyline /data/nz.db
 ```
 
-### setting up a development environment
+### development
 
 ### install dependencies
 
@@ -135,4 +143,9 @@ npm install
 ### run tests
 ```bash
 npm test
+```
+
+### run linter
+```bash
+git commit
 ```
