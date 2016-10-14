@@ -3,7 +3,7 @@ var extract = require('../api/extract'),
     pretty = require('../lib/pretty');
 
 // help text
-if( process.argv.length < 7 ){
+if( process.argv.length !== 7 ){
   console.error('invalid args.');
   console.error('usage: {addressdb} {streetdb} {lat} {lon} {name}');
   console.error('example: node cmd/extract address.db street.db "-41.288788" "174.766843" "glasgow street"');

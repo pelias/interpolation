@@ -3,7 +3,7 @@ var tty = require('tty'),
     oa = require('../api/oa');
 
 // help text
-if( process.argv.length < 4 ){
+if( process.argv.length !== 4 ){
   console.error('invalid args.');
   console.error('usage: {addressdb} {streetdb}');
   console.error('example: cat openaddresses.csv | node cmd/oa address.db street.db');
