@@ -12,11 +12,6 @@ npm install
 npm test
 ```
 
-#### run example
-```bash
-./example/run.sh
-```
-
 #### getting help
 ```bash
 $ ./interpolate help
