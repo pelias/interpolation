@@ -20,11 +20,17 @@ var point = {
 
 conn.query( point, number, street, function( err, res ){
 
+  if( err ){
+    return console.error( err );
+  }
+
   if( !res ){
     return console.error( '0 results found' );
   }
 
-  console.log( err, res );
+  for( var attr in res ){
+    console.log( attr + '\t' + res[attr] );
+  }
 
 });
 
