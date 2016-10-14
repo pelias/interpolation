@@ -9,7 +9,7 @@ Some countries like Germany and the USA have dense address coverage while other 
 
 This project aims to 'fill in the gaps' in the data by intelligently estimating where the missing house numbers would lie on the road.
 
-The service was designed for use with the [pelias geocoder](https://github.com/pelias/pelias), it can be used as a stand-alone application or included with other geographic software / search engines.
+The service was designed for use with the [pelias geocoder](https://github.com/pelias/pelias), however it can also be used as a stand-alone application or included with other geographic software / search engines.
 
 more info: [[design doc](https://github.com/pelias/pelias/wiki/Interpolation:-design-doc)] [[relationship to pelias](https://github.com/pelias/pelias/wiki/Interpolation:-introduction)] [[existing standards](https://github.com/pelias/pelias/wiki/Interpolation:-existing-standards)] [[conflation](https://github.com/pelias/pelias/wiki/Interpolation:-conflation)]
 
@@ -46,7 +46,7 @@ You will need a polyline data file which contains all the streets you wish to im
 
 See the [building the databases](https://github.com/pelias/interpolation#building-the-databases) section below for detailed information on which commands to run.
 
-note: there is also a script names `./script/import.sh` in this repository which makes running this process much easier.
+There is also a script named `./script/import.sh` in this repository which makes running this process much easier.
 
 note: We only support the `polyline` format, you will need to format-shift data from other formats in order to import it.
 
@@ -54,11 +54,11 @@ note: We only support the `polyline` format, you will need to format-shift data 
 
 Next you need to build the `address.db` database.
 
-You will need one or more `openaddresses` csv files for the addresses you wish to import, you can find all the data on the [openaddresses website](https://openaddresses.io/).
+You will need to download one or more `openaddresses` csv files for the addresses you wish to import, you can find all the data on the [openaddresses website](https://openaddresses.io/).
 
 See the [building the databases](https://github.com/pelias/interpolation#building-the-databases) section below for detailed information on which commands to run.
 
-note: there is also a script names `./script/conflate.sh` in this repository which makes running this process much easier.
+There is also a script named `./script/conflate.sh` in this repository which makes running this process much easier.
 
 note: We only support `openaddreses` at this stage although we plan to support `openstreetmap` and other sources soon.
 
