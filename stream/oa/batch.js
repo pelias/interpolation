@@ -24,7 +24,7 @@ function streamFactory(){
   return through.obj(function( csvrow, _, next ){
 
     // invalid row
-    if( !csvrow || !csvrow.NUMBER || csvrow.NUMBER == '0' || !csvrow.STREET || !csvrow.LON || !csvrow.LAT ){
+    if( !csvrow || !csvrow.NUMBER || csvrow.NUMBER === '0' || !csvrow.STREET || !csvrow.LON || !csvrow.LAT ){
       return next();
     }
 
@@ -39,7 +39,7 @@ function streamFactory(){
       csvrow.POSTCODE.toLowerCase()
     ].join('|');
 
-    if( hash != currentHash ){
+    if( hash !== currentHash ){
 
       // flush previous batch, reset
       if( batch.length ){

@@ -1,5 +1,5 @@
 
-var through = require("through2"),
+var through = require('through2'),
     assert = require('../../lib/assert'),
     Statistics = require('../../lib/statistics');
 
@@ -7,9 +7,9 @@ function streamFactory(db, done){
 
   // sqlite3 prepared statements
   var stmt = {
-    rtree: db.prepare("INSERT INTO rtree (id, minX, maxX, minY, maxY) VALUES ($id, $minX, $maxX, $minY, $maxY);"),
-    names: db.prepare("INSERT INTO names (rowid, id, name) VALUES (NULL, $id, $name);"),
-    line: db.prepare("INSERT INTO polyline (id, line) VALUES ($id, $line);")
+    rtree: db.prepare('INSERT INTO rtree (id, minX, maxX, minY, maxY) VALUES ($id, $minX, $maxX, $minY, $maxY);'),
+    names: db.prepare('INSERT INTO names (rowid, id, name) VALUES (NULL, $id, $name);'),
+    line: db.prepare('INSERT INTO polyline (id, line) VALUES ($id, $line);')
   };
 
   // tick import stats
@@ -23,7 +23,7 @@ function streamFactory(db, done){
     db.serialize(function() {
 
       // start transaction
-      db.run("BEGIN TRANSACTION", function(err){
+      db.run('BEGIN TRANSACTION', function(err){
 
         // error checking
         assert.transaction.start(err);
@@ -58,7 +58,7 @@ function streamFactory(db, done){
       });
 
       // commit transaction
-      db.run("END TRANSACTION", function(err){
+      db.run('END TRANSACTION', function(err){
 
         // error checking
         assert.transaction.end(err);
@@ -80,9 +80,9 @@ function streamFactory(db, done){
     db.serialize(function(){
 
       // finalize prepared statements
-      stmt.rtree.finalize( assert.log("finalize rtree") );
-      stmt.names.finalize( assert.log("finalize names") );
-      stmt.line.finalize( assert.log("finalize line") );
+      stmt.rtree.finalize( assert.log('finalize rtree') );
+      stmt.names.finalize( assert.log('finalize names') );
+      stmt.line.finalize( assert.log('finalize line') );
 
       // we are done
       db.wait(done);

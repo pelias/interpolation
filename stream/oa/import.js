@@ -1,5 +1,5 @@
 
-var through = require("through2"),
+var through = require('through2'),
     assert = require('../../lib/assert'),
     Statistics = require('../../lib/statistics');
 
@@ -7,7 +7,10 @@ function streamFactory(db, done){
 
   // sqlite3 prepared stmt
   var stmt = {
-    address: db.prepare("INSERT INTO address (rowid, id, source, housenumber, lat, lon, parity, proj_lat, proj_lon) VALUES (NULL, $id, $source, $housenumber, $lat, $lon, $parity, $proj_lat, $proj_lon);")
+    address: db.prepare([
+      'INSERT INTO address (rowid, id, source, housenumber, lat, lon, parity, proj_lat, proj_lon)',
+      'VALUES (NULL, $id, $source, $housenumber, $lat, $lon, $parity, $proj_lat, $proj_lon);'
+    ].join(' '))
   };
 
   // tick import stats
@@ -21,7 +24,7 @@ function streamFactory(db, done){
     db.serialize(function() {
 
       // start transaction
-      db.run("BEGIN TRANSACTION", function(err){
+      db.run('BEGIN TRANSACTION', function(err){
 
         // error checking
         assert.transaction.start(err);
@@ -35,7 +38,7 @@ function streamFactory(db, done){
       });
 
       // commit transaction
-      db.run("END TRANSACTION", function(err){
+      db.run('END TRANSACTION', function(err){
 
         // error checking
         assert.transaction.end(err);
@@ -57,7 +60,7 @@ function streamFactory(db, done){
     db.serialize(function(){
 
       // finalize prepared statements
-      stmt.address.finalize( assert.log("finalize address") );
+      stmt.address.finalize( assert.log('finalize address') );
 
       // we are done
       db.wait(done);

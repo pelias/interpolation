@@ -128,8 +128,8 @@ function streamFactory(db, done){
       });
 
       // zigzag schemes
-      var zz1 = ( ord.R.odd == ord.R.total && ord.L.even == ord.L.total ),
-          zz2 = ( ord.L.odd == ord.L.total && ord.R.even == ord.R.total );
+      var zz1 = ( ord.R.odd === ord.R.total && ord.L.even === ord.L.total ),
+          zz2 = ( ord.L.odd === ord.L.total && ord.R.even === ord.R.total );
 
       // assign correct scheme to street
       lookup.streets[i].scheme = ( zz1 || zz2 ) ? 'zigzag' : 'updown';
@@ -151,7 +151,7 @@ function streamFactory(db, done){
 
         // distance along line to this vertex
         var edge = street.coordinates.slice(i-1, i+1);
-        if( edge.length == 2 ){
+        if( edge.length === 2 ){
           vertexDistance += project.lineDistance( edge );
         } // else should not have else!
 

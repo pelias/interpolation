@@ -4,13 +4,13 @@ var extract = require('../api/extract'),
 
 // help text
 if( process.argv.length < 7 ){
-  console.error("invalid args.");
-  console.error("usage: {addressdb} {streetdb} {lat} {lon} {name}");
-  console.error("example: node cmd/extract address.db street.db \"-41.288788\" \"174.766843\" \"glasgow street\"");
+  console.error('invalid args.');
+  console.error('usage: {addressdb} {streetdb} {lat} {lon} {name}');
+  console.error('example: node cmd/extract address.db street.db "-41.288788" "174.766843" "glasgow street"');
   process.exit(1);
 }
 
-var conn = search( process.argv[2], process.argv[3] );
+var conn = extract( process.argv[2], process.argv[3] );
 var names = [ process.argv[6] ];
 
 var point = {
@@ -18,13 +18,13 @@ var point = {
   lon: parseFloat( process.argv[5] )
 };
 
-// optionally pass "geojson" as the 7th arg to get json output
+// optionally pass 'geojson' as the 7th arg to get json output
 var renderer = ( process.argv[7] === 'geojson' ) ? pretty.geojson : pretty.table;
 
 conn.query( point, names, function( err, res ){
 
   if( !res ){
-    return console.error( "0 results found" );
+    return console.error( '0 results found' );
   }
 
   if( renderer === pretty.geojson ){

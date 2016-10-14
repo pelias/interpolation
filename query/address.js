@@ -6,16 +6,16 @@ var MAX_NAMES = 10;
 var MAX_MATCHES = 500;
 
 var SQL = [
-  "SELECT address.* FROM street.rtree",
-  "JOIN street.names ON street.names.id = street.rtree.id",
-  "JOIN address ON address.id = street.rtree.id",
-  "WHERE (",
-    "street.rtree.minX<=?1 AND street.rtree.maxX>=?1 AND",
-    "street.rtree.minY<=?2 AND street.rtree.maxY>=?2",
-  ")",
-  "AND ( %%NAME_CONDITIONS%% )",
-  "ORDER BY address.housenumber",
-  "LIMIT %%MAX_MATCHES%%;"
+  'SELECT address.* FROM street.rtree',
+  'JOIN street.names ON street.names.id = street.rtree.id',
+  'JOIN address ON address.id = street.rtree.id',
+  'WHERE (',
+    'street.rtree.minX<=?1 AND street.rtree.maxX>=?1 AND',
+    'street.rtree.minY<=?2 AND street.rtree.maxY>=?2',
+  ')',
+  'AND ( %%NAME_CONDITIONS%% )',
+  'ORDER BY address.housenumber',
+  'LIMIT %%MAX_MATCHES%%;'
 ].join(' ');
 
 var NAME_SQL = '(street.names.name=?)';
@@ -34,12 +34,12 @@ module.exports = function( db, point, names, cb ){
   var position = 3; // 1 and 2 are used by lon and lat.
 
   // add name conditions to query
-  var nameConditions = Array.apply(null, Array(max.names)).map( function(){
+  var nameConditions = Array.apply(null, new Array(max.names)).map( function(){
     return NAME_SQL.replace('?', '?' + position++);
   });
 
   // build unique sql statement
-  var sql = SQL.replace( '%%NAME_CONDITIONS%%', nameConditions.join(" OR ") )
+  var sql = SQL.replace( '%%NAME_CONDITIONS%%', nameConditions.join(' OR ') )
                .replace( '%%MAX_MATCHES%%', MAX_MATCHES );
 
   // create a variable array of params for the query

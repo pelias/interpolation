@@ -233,7 +233,7 @@ module.exports.project.parity = function(test) {
 
   test('parity: complex real-world', function(t) {
 
-    var poly = "{atccBwldlXjF}H|OwM??xnB}yArAcDt@cErAkQ",
+    var poly = '{atccBwldlXjF}H|OwM??xnB}yArAcDt@cErAkQ',
         l = polyline.toGeoJSON(poly, 6).coordinates;
 
     var expected = [

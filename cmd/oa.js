@@ -4,14 +4,14 @@ var tty = require('tty'),
 
 // help text
 if( process.argv.length < 4 ){
-  console.error("invalid args.");
-  console.error("usage: {addressdb} {streetdb}");
-  console.error("example: cat openaddresses.csv | node cmd/oa address.db street.db");
+  console.error('invalid args.');
+  console.error('usage: {addressdb} {streetdb}');
+  console.error('example: cat openaddresses.csv | node cmd/oa address.db street.db');
   process.exit(1);
 }
 
 if( tty.isatty( process.stdin ) ){
-  console.error( 'no data piped to stdin' );
+  console.error('no data piped to stdin');
   process.exit(1);
 }
 

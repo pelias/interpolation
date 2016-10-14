@@ -8,9 +8,9 @@ var PORT = process.env.PORT || 3000;
 
 // help text
 if( process.argv.length < 4 ){
-  console.error("invalid args.");
-  console.error("usage: {addressdb} {streetdb}");
-  console.error("example: node cmd/server address.db street.db");
+  console.error('invalid args.');
+  console.error('usage: {addressdb} {streetdb}');
+  console.error('example: node cmd/server address.db street.db');
   process.exit(1);
 }
 

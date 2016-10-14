@@ -64,7 +64,7 @@ function streamFactory(db){
       // tried doing this before and performance was terrible.
       var seen = [];
       rows = rows.filter( function( row ){
-        if( seen[ row.id ] ){ return false };
+        if( seen[ row.id ] ){ return false; }
         seen[ row.id ] = true;
         return true;
       });

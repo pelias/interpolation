@@ -107,7 +107,7 @@ module.exports.interpolate.basic = function(test) {
 
       // distance along line to this vertex
       var edge = street.coordinates.slice(i-1, i+1);
-      if( edge.length == 2 ){
+      if( edge.length === 2 ){
         vertexDistance += project.lineDistance( edge );
       }
 
@@ -176,7 +176,7 @@ module.exports.interpolate.disjoined = function(test) {
 
       // distance along line to this vertex
       var edge = street.coordinates.slice(i-1, i+1);
-      if( edge.length == 2 ){
+      if( edge.length === 2 ){
         vertexDistance += project.lineDistance( edge );
       }
 
