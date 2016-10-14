@@ -162,7 +162,11 @@ find data here: https://openaddresses.io/
 ./interpolate oa address.db street.db < /data/oa/nz/countrywide.csv
 ```
 
-note: you can record a log of addresses which do not find a matching street. simply create an additional file descriptor, this will trigger the process to use it for logging. eg:
+note: sorting the openaddresses files so that addresses on the same street are adjacent will significantly speed up imports, you can find an example of the commands required to sort the data in `./script/concat_oa.sh`.
+
+#### logging
+
+you can record a log of addresses which do not find a matching street. simply create an additional file descriptor, this will trigger the process to use it for logging. eg:
 
 ```bash
 cat /data/oa/nz/countrywide.csv | ./interpolate oa address.db street.db 3> skip.list
