@@ -1,7 +1,66 @@
 
+An open source + open data project to perform global street address interpolation queries. Sponsored by [mapzen](http://www.mapzen.com).
+
 # About
 
+The [Openstreetmap](http://www.openstreetmap.com) and [Openaddresses](http://www.openaddresses.com) projects provide a huge cache of street address information; between them around 250 million address points are freely available to download.
+
+Some countries like Germany and the USA have dense address coverage while other have only sparse data available.
+
+This project aims to 'fill in the gaps' in the data by intelligently estimating where the missing house numbers would lie on the road.
+
+The service was designed for use with the [pelias geocoder](https://github.com/pelias/pelias), it can be used as a stand-alone application or included with other geographic software / search engines.
+
 more info: [[design doc](https://github.com/pelias/pelias/wiki/Interpolation:-design-doc)] [[relationship to pelias](https://github.com/pelias/pelias/wiki/Interpolation:-introduction)] [[existing standards](https://github.com/pelias/pelias/wiki/Interpolation:-existing-standards)] [[conflation](https://github.com/pelias/pelias/wiki/Interpolation:-conflation)]
+
+# Architecture
+
+The software is written in javascript to run in nodejs, the storage engine is sqlite3.
+
+Client libraries can be written in any language which can read sqlite3. If you wish to write a client in another language please open an issue and we can explain which functions you will need to port.
+
+The software is split in to 3 distinct parts:
+
+- the street (polyline) importer
+- the address (openaddresses) importer
+- the client APIs (the webserver and CLI interface)
+
+The data is split in to 2 different sqlite3 databases:
+
+- street.db (holds information about streets, geometry, their names and bounding boxes)
+- address.db (holds address point data, both rooftop accuracy and pre-interpolated vertex data)
+
+# Downloading pre-built data
+
+Mapzen provides data extracts which you can download and get going immediately.
+
+[coming soon]
+
+# Workflow
+
+### street database
+
+Firstly you need to build the `street.db` database.
+
+You will need a polyline data file which contains all the streets you wish to import, you can find some pre-made extracts [here](https://github.com/pelias/polylines) and there is also information on that readme about how to generate your own extracts.
+
+See the [building the databases](https://github.com/pelias/interpolation#building-the-databases) section below for detailed information on which commands to run.
+
+note: there is also a script names `./script/import.sh` in this repository which makes running this process much easier.
+
+note: We only support the `polyline` format, you will need to format-shift data from other formats in order to import it.
+
+### address database
+
+Next you need to build the `address.db` database.
+
+You will need one or more `openaddresses` csv files for the addresses you wish to import, you can find all the data on the [openaddresses website](https://openaddresses.io/).
+
+See the [building the databases](https://github.com/pelias/interpolation#building-the-databases) section below for detailed information on which commands to run.
+
+note: there is also a script names `./script/conflate.sh` in this repository which makes running this process much easier.
+
+note: We only support `openaddreses` at this stage although we plan to support `openstreetmap` and other sources soon.
 
 # Using the command line
 
