@@ -32,17 +32,17 @@ find data here: https://openaddresses.io/
 note: you can record a log of addresses which do not find a matching street. simply create an additional file descriptor, this will trigger the process to use it for logging. eg:
 
 ```bash
-cat /data/oa/nz/countrywide.csv | ./interpolate oa oa.db street.db 3> skip.list
+cat /data/oa/nz/countrywide.csv | ./interpolate oa address.db street.db 3> skip.list
 ```
 
 #### extract address data for a specific street
 ```bash
-./interpolate extract oa.db street.db "-41.288788" "174.766843" "glasgow street"
+./interpolate extract address.db street.db "-41.288788" "174.766843" "glasgow street"
 ```
 
 #### run a web server which exposes the search APIs via an HTTP interface
 ```bash
-./interpolate server oa.db street.db
+./interpolate server address.db street.db
 ```
 
 #### build docker image
@@ -65,7 +65,7 @@ notes:
 - `-p` controls port mapping (port `3000` in the container maps to `5000` in the host)
 - `-v` controls volume mapping (`/data` in the container maps to `/data` in the host)
 
-by default this will launch the server using the databases `/data/oa.db` and `/data/planet.db` which must be present on the host machine
+by default this will launch the server using the databases `/data/address.db` and `/data/street.db` which must be present on the host machine
 
 ```bash
 docker run -p 5000:3000 -v /data:/data -d pelias/interpolation

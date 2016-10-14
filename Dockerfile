@@ -61,4 +61,4 @@ VOLUME "/data"
 # run server
 WORKDIR /usr/src/repos/interpolation
 ENTRYPOINT [ "./interpolate" ];
-CMD [ "server", "/data/oa.db", "/data/planet.db" ]
+CMD [ "server", "/data/address.db", "/data/street.db" ]
