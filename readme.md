@@ -20,29 +20,29 @@ npm test
 #### import polyline data
 find data here: https://github.com/pelias/polylines
 ```bash
-cat /data/new_zealand.polylines | time -p node cmd/polyline street.db
+./interpolate polyline street.db < /data/new_zealand.polylines
 ```
 
 #### conflate openaddresses data
 find data here: https://openaddresses.io/
 ```bash
-cat /data/oa/nz/countrywide.csv | time -p node cmd/oa oa.db street.db
+./interpolate oa address.db street.db < /data/oa/nz/countrywide.csv
 ```
 
 note: you can record a log of addresses which do not find a matching street. simply create an additional file descriptor, this will trigger the process to use it for logging. eg:
 
 ```bash
-cat /data/oa/nz/countrywide.csv | time -p node cmd/oa oa.db street.db 3> skip.list
+cat /data/oa/nz/countrywide.csv | ./interpolate oa oa.db street.db 3> skip.list
 ```
 
 #### extract address data for a specific street
 ```bash
-node cmd/extract oa.db street.db "-41.288788" "174.766843" "glasgow street"
+./interpolate extract oa.db street.db "-41.288788" "174.766843" "glasgow street"
 ```
 
 #### run a web server which exposes the search APIs via an HTTP interface
 ```bash
-node cmd/server oa.db street.db
+./interpolate server oa.db street.db
 ```
 
 #### build docker image
