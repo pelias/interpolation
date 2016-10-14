@@ -27,6 +27,51 @@ Note: you will need to pipe data in to the import/conflate commands
  server [address_db] [street_db]                                           start a web server
 ```
 
+## using the search APIs
+
+#### search the db for an address, return an interpolated value in an exact match does not exist
+
+note: the lat/lon values are approximate, they must lie within the bounding boxes of the desired street.
+
+```bash
+./interpolate search address.db street.db "-41.288788" "174.766843" "16" "glasgow street"
+
+type	interpolated
+source	mixed
+number	16
+lat	-41.2886487
+lon	174.7670925
+```
+
+#### extract address data from the db for a specific street
+
+note: the lat/lon values are approximate, they must lie within the bounding boxes of the desired street.
+
+```bash
+./interpolate extract address.db street.db "-41.288788" "174.766843" "glasgow street"
+
+┌───────┬────┬────────┬─────────────┬─────────────┬─────────────┬────────┬─────────────┬─────────────┐
+│ rowid │ id │ source │ housenumber │ lat         │ lon         │ parity │ proj_lat    │ proj_lon    │
+├───────┼────┼────────┼─────────────┼─────────────┼─────────────┼────────┼─────────────┼─────────────┤
+│ 5     │ 1  │ OA     │ 1           │ -41.2871999 │ 174.766753  │ R      │ -41.287285  │ 174.7666662 │
+├───────┼────┼────────┼─────────────┼─────────────┼─────────────┼────────┼─────────────┼─────────────┤
+│ 23    │ 1  │ VERTEX │ 2.535       │             │             │        │ -41.287388  │ 174.766845  │
+├───────┼────┼────────┼─────────────┼─────────────┼─────────────┼────────┼─────────────┼─────────────┤
+│ 22    │ 1  │ VERTEX │ 3.376       │             │             │        │ -41.287461  │ 174.766921  │
+├───────┼────┼────────┼─────────────┼─────────────┼─────────────┼────────┼─────────────┼─────────────┤
+...
+```
+
+#### run a web server which exposes the search APIs via an HTTP interface
+note: you can set an environment variable named 'PORT' to change the port number.
+```bash
+./interpolate server address.db street.db
+
+server listening on port 3000
+```
+
+## building the database
+
 #### import polyline data
 find data here: https://github.com/pelias/polylines
 ```bash
@@ -45,15 +90,7 @@ note: you can record a log of addresses which do not find a matching street. sim
 cat /data/oa/nz/countrywide.csv | ./interpolate oa address.db street.db 3> skip.list
 ```
 
-#### extract address data for a specific street
-```bash
-./interpolate extract address.db street.db "-41.288788" "174.766843" "glasgow street"
-```
-
-#### run a web server which exposes the search APIs via an HTTP interface
-```bash
-./interpolate server address.db street.db
-```
+## docker
 
 #### build docker image
 this can take some time for the first build due to installing libpostal from source
