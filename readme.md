@@ -1,17 +1,4 @@
 
-### install dependencies
-
-*note:* [libpostal](https://github.com/openvenues/node-postal#troubleshooting) *must* be installed on your system before you continue!
-
-```bash
-npm install
-```
-
-### run tests
-```bash
-npm test
-```
-
 ### getting help
 ```bash
 $ ./interpolate help
@@ -133,4 +120,19 @@ you can run any command supported by `./interpolate` via the docker container, s
 
 ```bash
 cat /data/new_zealand.polylines | docker run -i -v /data:/data pelias/interpolation polyline /data/nz.db
+```
+
+### setting up a development environment
+
+### install dependencies
+
+*note:* [libpostal](https://github.com/openvenues/node-postal#troubleshooting) **must** be installed on your system before you continue!
+
+```bash
+npm install
+```
+
+### run tests
+```bash
+npm test
 ```
