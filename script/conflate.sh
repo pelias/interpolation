@@ -5,8 +5,8 @@ set -e;
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 
 # location of sql databases
-ADDRESS_DB='/data/oa.db';
-STREET_DB='/data/planet.db';
+ADDRESS_DB='/data/address.db';
+STREET_DB='/data/street.db';
 
 # location of stdio files
 PROC_STDOUT='/data/conflate.out';

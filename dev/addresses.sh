@@ -2,8 +2,8 @@
 
 # dump address table records for a specific street
 
-ADDRESS_DB="/data/oa.db";
-STREET_DB="/data/planet.db";
+ADDRESS_DB="/data/address.db";
+STREET_DB="/data/street.db";
 
 P1="174.766843";
 P2="-41.288788";

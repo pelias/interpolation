@@ -2,7 +2,7 @@
 
 # find all streets near a lat/lon
 
-STREET_DB="/data/planet.db";
+STREET_DB="/data/street.db";
 
 LON="175.042589";
 LAT="-39.9225551";

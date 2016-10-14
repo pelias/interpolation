@@ -8,7 +8,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 POLYLINE_FILE='/data/polyline/planet.polylines';
 
 # location of sql databases
-STREET_DB='/data/planet.db';
+STREET_DB='/data/street.db';
 
 # location of stdio files
 PROC_STDOUT='/data/polyline.out';
