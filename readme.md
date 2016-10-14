@@ -69,16 +69,18 @@ server listening on port 3000
 ### GET /search/{format}
 > search the db for an address, return an interpolated value if an exact match does not exist
 
-`geojson`: http://localhost:3000/search/geojson?lat=-41.288788&lon=174.766843&number=16&street=glasgow%20street
-`html`: http://localhost:3000/search/table?lat=-41.288788&lon=174.766843&number=16&street=glasgow%20street
+`geojson`: `/search/geojson?lat=-41.288788&lon=174.766843&number=16&street=glasgow%20street`
+
+`html`: `/search/table?lat=-41.288788&lon=174.766843&number=16&street=glasgow%20street`
 
 ### GET /extract/{format}
 > extract address data from the db for a specific street
 
-`geojson`: http://localhost:3000/extract/geojson?lat=-41.288788&lon=174.766843&names=glasgow%20street
-`html`: http://localhost:3000/extract/table?lat=-41.288788&lon=174.766843&names=glasgow%20street
+`geojson`: `/extract/geojson?lat=-41.288788&lon=174.766843&names=glasgow%20street`
 
-see: https://github.com/pelias/interpolation/blob/master/cmd/server.js for more information.
+`html`: `/extract/table?lat=-41.288788&lon=174.766843&names=glasgow%20street`
+
+see: [source](https://github.com/pelias/interpolation/blob/master/cmd/server.js) for more information.
 
 ## Building your own database
 
