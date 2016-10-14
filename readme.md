@@ -1,18 +1,18 @@
 
-#### install dependencies
+### install dependencies
 
-*note:* [libpostal](https://github.com/openvenues/node-postal#troubleshooting) must be installed on your system.
+*note:* [libpostal](https://github.com/openvenues/node-postal#troubleshooting) *must* be installed on your system before you continue!
 
 ```bash
 npm install
 ```
 
-#### run tests
+### run tests
 ```bash
 npm test
 ```
 
-#### getting help
+### getting help
 ```bash
 $ ./interpolate help
 
@@ -29,7 +29,7 @@ Note: you will need to pipe data in to the import/conflate commands
 
 ## using the search APIs
 
-#### search the db for an address, return an interpolated value in an exact match does not exist
+### search the db for an address, return an interpolated value if an exact match does not exist
 
 note: the lat/lon values are approximate, they must lie within the bounding boxes of the desired street.
 
@@ -43,7 +43,7 @@ lat	-41.2886487
 lon	174.7670925
 ```
 
-#### extract address data from the db for a specific street
+### extract address data from the db for a specific street
 
 note: the lat/lon values are approximate, they must lie within the bounding boxes of the desired street.
 
@@ -62,7 +62,7 @@ note: the lat/lon values are approximate, they must lie within the bounding boxe
 ...
 ```
 
-#### run a web server which exposes the search APIs via an HTTP interface
+### run a web server which exposes the search APIs via an HTTP interface
 note: you can set an environment variable named 'PORT' to change the port number.
 ```bash
 ./interpolate server address.db street.db
@@ -72,13 +72,13 @@ server listening on port 3000
 
 ## building the database
 
-#### import polyline data
+### import polyline data
 find data here: https://github.com/pelias/polylines
 ```bash
 ./interpolate polyline street.db < /data/new_zealand.polylines
 ```
 
-#### conflate openaddresses data
+### conflate openaddresses data
 find data here: https://openaddresses.io/
 ```bash
 ./interpolate oa address.db street.db < /data/oa/nz/countrywide.csv
@@ -92,7 +92,7 @@ cat /data/oa/nz/countrywide.csv | ./interpolate oa address.db street.db 3> skip.
 
 ## docker
 
-#### build docker image
+### build docker image
 this can take some time for the first build due to installing libpostal from source
 ```bash
 docker build -t pelias/interpolation .
@@ -105,7 +105,7 @@ REPOSITORY             TAG                 IMAGE ID            CREATED          
 pelias/interpolation   latest              7ca651b86a63        16 minutes ago      3.068 GB
 ```
 
-#### run docker image
+### run docker image
 this will run a new container based off the image created above
 
 notes:
@@ -127,7 +127,7 @@ ac9c8f607b2e        pelias/interpolation   "./interpolate server"   14 minutes a
 
 you should now be able to access the web server locally at `http://localhost:5000/demo/`
 
-#### running scripts other than `server` in the docker container
+### running scripts other than `server` in the docker container
 
 you can run any command supported by `./interpolate` via the docker container, such as:
 
