@@ -17,6 +17,21 @@ npm test
 ./example/run.sh
 ```
 
+#### getting help
+```bash
+$ ./interpolate help
+
+Usage: interpolate [command] [options]
+Note: you will need to pipe data in to the import/conflate commands
+
+ help                                                                      output usage information
+ search [address_db] [street_db] [lat] [lon] [house_number] [street_name]  search database for specified housenumber + street
+ polyline [street_db]                                                      import polyline data in to [street_db]
+ oa [address_db] [street_db]                                               conflate oa csv file in to [address_db] using [street_db]
+ extract [address_db] [street_db] [lat] [lon] [street_name]                extract street address data for debugging purposes
+ server [address_db] [street_db]                                           start a web server
+```
+
 #### import polyline data
 find data here: https://github.com/pelias/polylines
 ```bash

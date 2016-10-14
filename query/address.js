@@ -14,7 +14,7 @@ var SQL = [
     'street.rtree.minY<=?2 AND street.rtree.maxY>=?2',
   ')',
   'AND ( %%NAME_CONDITIONS%% )',
-  'ORDER BY address.housenumber',
+  'ORDER BY address.housenumber ASC', // @warning business logic depends on this
   'LIMIT %%MAX_MATCHES%%;'
 ].join(' ');
 
