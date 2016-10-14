@@ -1,36 +1,37 @@
 #!/usr/bin/env node
 
 // available commands
-var command = {
+var commands = {
   polyline: './cmd/polyline',
   openaddresses: './cmd/oa',
   search: './cmd/search',
   server: './cmd/server',
 };
 
+// remove cmd name from args
+var cmd = process.argv[2];
+process.argv.splice(2, 1);
+
 // run command
-for( var name in command ){
-  if( process.argv[2] == name ){
-
-    // remove cmd name from args
-    process.argv.splice(2, 1);
-
-    // run command
-    require( command[name] );
-
-    break;
-  }
+if( cmd in commands ){
+  require( commands[cmd] );
 }
 
-var help = [
-  "Usage: interpolate [command] [options]",
-  "Note: you will need to pipe data in to the import/conflate commands",
-  "",
-  " help                                                       output usage information",
-  " polyline [street_db]                                       import polyline data in to [street_db]",
-  " oa [address_db] [street_db]                                conflate oa csv file in to [address_db] using [street_db]",
-  " search [address_db] [street_db] [lat] [lon] [street_name]  query databases for address data",
-  " server [address_db] [street_db]                            start a web server",
-];
+// invalid command
+else {
+  console.error( '\n' + helpText()  + '\n' );
+  process.exit(1);
+}
 
-console.error( '\n' + help.join('\n') + '\n' );
+function helpText(){
+  return [
+    "Usage: interpolate [command] [options]",
+    "Note: you will need to pipe data in to the import/conflate commands",
+    "",
+    " help                                                       output usage information",
+    " polyline [street_db]                                       import polyline data in to [street_db]",
+    " oa [address_db] [street_db]                                conflate oa csv file in to [address_db] using [street_db]",
+    " search [address_db] [street_db] [lat] [lon] [street_name]  query databases for address data",
+    " server [address_db] [street_db]                            start a web server",
+  ].join('\n');
+}
