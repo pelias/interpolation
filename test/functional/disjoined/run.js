@@ -62,7 +62,7 @@ module.exports.functional.address_counts = function(test) {
 
     // count address table
     var addresses = sqlite3.count( paths.db.address, 'address' );
-    t.equal(addresses, 52, 'count(address)');
+    t.equal(addresses, 42, 'count(address)');
 
     t.end();
   });
@@ -73,7 +73,7 @@ module.exports.functional.spotcheck_north = function(test) {
 
     // counts for a specific street
     var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1' );
-    t.equal(count1, 32);
+    t.equal(count1, 23);
 
     // counts for a specific street (open addresses)
     var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1 AND source="OA"' );
@@ -81,7 +81,7 @@ module.exports.functional.spotcheck_north = function(test) {
 
     // counts for a specific street (vertexes)
     var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1 AND source="VERTEX"' );
-    t.equal(count3, 10);
+    t.equal(count3, 1);
 
     t.end();
   });
@@ -94,35 +94,26 @@ module.exports.functional.end_to_end_north = function(test) {
     var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=1 ORDER BY housenumber' );
     t.deepEqual(rows, [
       '1|1|OA|14.0|52.5087751|13.3197845|L|52.5088529|13.3200419',
-      '51|1|VERTEX|14.064||||52.508762|13.320116',
+      '42|1|VERTEX|14.064||||52.508762|13.320116',
       '2|1|OA|14.1|52.5086354|13.3198981|L|52.5087112|13.3201563',
       '3|1|OA|15.0|52.5084885|13.3200177|L|52.5085636|13.3202733',
       '4|1|OA|16.0|52.5081581|13.3198748|L|52.5083296|13.3204588',
       '5|1|OA|16.1|52.5082819|13.3201859|L|52.5083559|13.3204379',
-      '49|1|VERTEX|16.58||||52.50827|13.320506',
       '6|1|OA|17.0|52.5081537|13.3202902|L|52.5082269|13.3205401',
       '7|1|OA|18.0|52.5079936|13.3204206|L|52.5080659|13.3206674',
       '8|1|OA|19.0|52.5078514|13.3205362|L|52.5079229|13.3207804',
       '9|1|OA|20.0|52.5076588|13.3206779|L|52.5077328|13.3209307',
-      '47|1|VERTEX|20.258||||52.507606|13.321031',
-      '45|1|VERTEX|20.614||||52.507431|13.321167',
-      '43|1|VERTEX|20.787||||52.507347|13.321237',
       '10|1|OA|21.0|52.5071733|13.3210882|L|52.5072425|13.3213209',
       '11|1|OA|22.0|52.5069494|13.3212704|L|52.5070181|13.3215012',
       '12|1|OA|23.0|52.5067409|13.32144|L|52.506809|13.321669',
       '31|1|OA|50.0|52.5067516|13.3219716|R|52.5066896|13.3217657',
-      '42|1|VERTEX|50.281||||52.506763|13.321706',
       '32|1|OA|51.0|52.5070123|13.3217595|R|52.5069514|13.3215547',
       '33|1|OA|52.0|52.5072582|13.3215594|R|52.5071979|13.3213567',
-      '44|1|VERTEX|52.606||||52.507347|13.321237',
-      '46|1|VERTEX|52.95||||52.507431|13.321167',
       '34|1|OA|53.0|52.5075021|13.3213608|R|52.5074435|13.3211573',
       '35|1|OA|54.0|52.5075497|13.3213222|R|52.5074915|13.32112',
-      '48|1|VERTEX|54.491||||52.507606|13.321031',
       '36|1|OA|55.0|52.5077825|13.3211361|R|52.5077243|13.3209375',
       '37|1|OA|56.0|52.5080292|13.3209319|R|52.5079732|13.3207407',
       '38|1|OA|57.0|52.5082468|13.3207726|R|52.5081878|13.320571',
-      '50|1|VERTEX|57.422||||52.50827|13.320506',
       '39|1|OA|58.0|52.5084363|13.3206005|R|52.5083824|13.3204169',
       '40|1|OA|59.0|52.5086452|13.3204313|R|52.5085921|13.3202506'
     ]);
@@ -137,7 +128,7 @@ module.exports.functional.spotcheck_south = function(test) {
 
     // counts for a specific street
     var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=2' );
-    t.equal(count1, 20);
+    t.equal(count1, 19);
 
     // counts for a specific street (open addresses)
     var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=2 AND source="OA"' );
@@ -145,7 +136,7 @@ module.exports.functional.spotcheck_south = function(test) {
 
     // counts for a specific street (vertexes)
     var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=2 AND source="VERTEX"' );
-    t.equal(count3, 1);
+    t.equal(count3, 0);
 
     t.end();
   });
@@ -175,7 +166,6 @@ module.exports.functional.end_to_end_south = function(test) {
       '27|2|OA|45.0|52.5044245|13.3238652|L|52.504367|13.3236744',
       '28|2|OA|46.0|52.5045378|13.323773|L|52.5044803|13.3235823',
       '29|2|OA|47.0|52.5046793|13.3236578|L|52.5046219|13.3234672',
-      '52|2|VERTEX|47.408||||52.504745|13.323367',
       '30|2|OA|48.0|52.5050013|13.3234623|L|52.5049211|13.3232137'
     ]);
 

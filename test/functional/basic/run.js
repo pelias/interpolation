@@ -61,7 +61,7 @@ module.exports.functional.address_counts = function(test) {
 
     // count address table
     var addresses = sqlite3.count( paths.db.address, 'address' );
-    t.equal(addresses, 26, 'count(address)');
+    t.equal(addresses, 23, 'count(address)');
 
     t.end();
   });
@@ -72,7 +72,7 @@ module.exports.functional.spotcheck = function(test) {
 
     // counts for a specific street
     var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1' );
-    t.equal(count1, 26);
+    t.equal(count1, 23);
 
     // counts for a specific street (open addresses)
     var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1 AND source="OA"' );
@@ -80,7 +80,7 @@ module.exports.functional.spotcheck = function(test) {
 
     // counts for a specific street (vertexes)
     var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1 AND source="VERTEX"' );
-    t.equal(count3, 15);
+    t.equal(count3, 12);
 
     t.end();
   });
@@ -93,18 +93,15 @@ module.exports.functional.end_to_end = function(test) {
     var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=1 ORDER BY housenumber' );
     t.deepEqual(rows, [
       '5|1|OA|1.0|-41.2871999|174.766753|R|-41.287285|174.7666662',
-      '26|1|VERTEX|2.535||||-41.287388|174.766845',
-      '25|1|VERTEX|3.376||||-41.287461|174.766921',
-      '24|1|VERTEX|4.154||||-41.287533|174.766983',
-      '23|1|VERTEX|4.884||||-41.287606|174.767028',
+      '23|1|VERTEX|2.535||||-41.287388|174.766845',
+      '22|1|VERTEX|3.376||||-41.287461|174.766921',
+      '21|1|VERTEX|4.154||||-41.287533|174.766983',
+      '20|1|VERTEX|4.884||||-41.287606|174.767028',
       '10|1|OA|7.0|-41.2877481|174.7674712|R|-41.2878291|174.7671188',
       '11|1|OA|9.0|-41.2878189|174.7673061|R|-41.2878591|174.767131',
-      '22|1|VERTEX|9.878||||-41.287945|174.767166',
+      '19|1|VERTEX|9.878||||-41.287945|174.767166',
       '1|1|OA|10.0|-41.2882585|174.7670996|L|-41.2882734|174.767233',
-      '19|1|VERTEX|10.206||||-41.288228|174.767242',
       '18|1|VERTEX|10.362||||-41.288304|174.767227',
-      '20|1|VERTEX|10.467||||-41.28817|174.767242',
-      '21|1|VERTEX|10.62||||-41.288136|174.767242',
       '2|1|OA|11.0|-41.2880114|174.7674035|R|-41.2880549|174.7672097',
       '3|1|OA|12.0|-41.2884049|174.7670334|L|-41.2884375|174.7671708',
       '17|1|VERTEX|12.946||||-41.288487|174.76715',

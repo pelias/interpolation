@@ -194,27 +194,6 @@
       "type": "Feature",
       "properties": {
         "source": "VERTEX",
-        "housenumber": 10.206,
-        "lat": null,
-        "lon": null,
-        "parity": "",
-        "proj_lat": -41.288228,
-        "proj_lon": 174.767242,
-        "marker-size": "small",
-        "marker-color": "#ffa500"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          174.767242,
-          -41.288228
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "source": "VERTEX",
         "housenumber": 10.362,
         "lat": null,
         "lon": null,
@@ -229,48 +208,6 @@
         "coordinates": [
           174.767227,
           -41.288304
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "source": "VERTEX",
-        "housenumber": 10.467,
-        "lat": null,
-        "lon": null,
-        "parity": "",
-        "proj_lat": -41.28817,
-        "proj_lon": 174.767242,
-        "marker-size": "small",
-        "marker-color": "#ffa500"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          174.767242,
-          -41.28817
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "source": "VERTEX",
-        "housenumber": 10.62,
-        "lat": null,
-        "lon": null,
-        "parity": "",
-        "proj_lat": -41.288136,
-        "proj_lon": 174.767242,
-        "marker-size": "small",
-        "marker-color": "#ffa500"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          174.767242,
-          -41.288136
         ]
       }
     },
