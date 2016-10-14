@@ -19,7 +19,7 @@ Note: you will need to pipe data in to the import/conflate commands
 ### search
 > search the db for an address, return an interpolated value if an exact match does not exist
 
-note: the lat/lon values you provide are in order to disambiguate the street, they must lie within the bounding boxes of the desired street.
+note: the lat/lon values you provide are in order to disambiguate the street, they must lie within the bounding box of the desired street.
 
 ```bash
 ./interpolate search address.db street.db "-41.288788" "174.766843" "16" "glasgow street"
@@ -34,7 +34,7 @@ lon	174.7670925
 ### extract
 > extract address data from the db for a specific street
 
-note: the lat/lon values you provide are in order to disambiguate the street, they must lie within the bounding boxes of the desired street.
+note: the lat/lon values you provide are in order to disambiguate the street, they must lie within the bounding box of the desired street.
 
 ```bash
 ./interpolate extract address.db street.db "-41.288788" "174.766843" "glasgow street"
