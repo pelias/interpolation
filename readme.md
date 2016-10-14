@@ -29,6 +29,12 @@ find data here: https://openaddresses.io/
 cat /data/oa/nz/countrywide.csv | time -p node cmd/oa oa.db street.db
 ```
 
+note: you can record a log of addresses which do not find a matching street. simply create an additional file descriptor, this will trigger the process to use it for logging. eg:
+
+```bash
+cat /data/oa/nz/countrywide.csv | time -p node cmd/oa oa.db street.db 3> skip.list
+```
+
 #### search address database for interpolation points on street
 ```bash
 node cmd/search oa.db street.db "-41.288788" "174.766843" "glasgow street"
