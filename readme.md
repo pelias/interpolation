@@ -35,9 +35,9 @@ note: you can record a log of addresses which do not find a matching street. sim
 cat /data/oa/nz/countrywide.csv | time -p node cmd/oa oa.db street.db 3> skip.list
 ```
 
-#### search address database for interpolation points on street
+#### extract address data for a specific street
 ```bash
-node cmd/search oa.db street.db "-41.288788" "174.766843" "glasgow street"
+node cmd/extract oa.db street.db "-41.288788" "174.766843" "glasgow street"
 ```
 
 #### run a web server which exposes the search APIs via an HTTP interface

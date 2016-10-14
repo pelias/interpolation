@@ -28,10 +28,10 @@ function helpText(){
     "Usage: interpolate [command] [options]",
     "Note: you will need to pipe data in to the import/conflate commands",
     "",
-    " help                                                       output usage information",
-    " polyline [street_db]                                       import polyline data in to [street_db]",
-    " oa [address_db] [street_db]                                conflate oa csv file in to [address_db] using [street_db]",
-    " search [address_db] [street_db] [lat] [lon] [street_name]  query databases for address data",
-    " server [address_db] [street_db]                            start a web server",
+    " help                                                        output usage information",
+    " polyline [street_db]                                        import polyline data in to [street_db]",
+    " oa [address_db] [street_db]                                 conflate oa csv file in to [address_db] using [street_db]",
+    " extract [address_db] [street_db] [lat] [lon] [street_name]  extract street address data for debugging purposes",
+    " server [address_db] [street_db]                             start a web server",
   ].join('\n');
 }
