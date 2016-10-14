@@ -35,7 +35,8 @@ function streamFactory(){
       csvrow.STREET.toLowerCase(),
       csvrow.CITY.toLowerCase(),
       csvrow.DISTRICT.toLowerCase(),
-      csvrow.REGION.toLowerCase()
+      csvrow.REGION.toLowerCase(),
+      csvrow.POSTCODE.toLowerCase()
     ].join('|');
 
     if( hash != currentHash ){
