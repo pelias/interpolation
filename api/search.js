@@ -16,11 +16,11 @@ function setup( addressDbPath, streetDbPath ){
   query.attach( db, streetDbPath, 'street' );
 
   // query method
-  var q = function( coords, names, cb ){
+  var q = function( coord, names, cb ){
 
     var point = {
-      lat: parseFloat( coords.lat ),
-      lon: parseFloat( coords.lon )
+      lat: parseFloat( coord.lat ),
+      lon: parseFloat( coord.lon )
     };
 
     var normalized = [];
