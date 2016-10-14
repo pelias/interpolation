@@ -16,11 +16,11 @@ function setup( addressDbPath, streetDbPath ){
   query.attach( db, streetDbPath, 'street' );
 
   // query method
-  var q = function( point, names, cb ){
+  var q = function( coords, names, cb ){
 
     var point = {
-      lat: parseFloat( point.lat ),
-      lon: parseFloat( point.lon )
+      lat: parseFloat( coords.lat ),
+      lon: parseFloat( coords.lon )
     };
 
     var normalized = [];
@@ -44,7 +44,7 @@ function setup( addressDbPath, streetDbPath ){
   return {
     query: q,
     close: close,
-  }
+  };
 }
 
 module.exports = setup;
