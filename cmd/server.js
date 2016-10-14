@@ -1,6 +1,6 @@
 
 var express = require('express'),
-    search = require('../api/search'),
+    extract = require('../api/extract'),
     pretty = require('../lib/pretty');
 
 // optionally override port using env var
@@ -15,11 +15,11 @@ if( process.argv.length < 4 ){
 }
 
 var app = express();
-var conn = search( process.argv[2], process.argv[3] );
+var conn = extract( process.argv[2], process.argv[3] );
 
-// search with json view
-// eg: http://localhost:3000/search/geojson?lat=-41.288788&lon=174.766843&names=glasgow%20street
-app.get('/search/geojson', function( req, res ){
+// extract with json view
+// eg: http://localhost:3000/extract/geojson?lat=-41.288788&lon=174.766843&names=glasgow%20street
+app.get('/extract/geojson', function( req, res ){
 
   var point = { lat: req.query.lat, lon: req.query.lon };
   var names = req.query.names ? req.query.names.split(',') : [];
@@ -32,9 +32,9 @@ app.get('/search/geojson', function( req, res ){
   });
 });
 
-// search with table view
-// eg: http://localhost:3000/search/table?lat=-41.288788&lon=174.766843&names=glasgow%20street
-app.get('/search/table', function( req, res ){
+// extract with table view
+// eg: http://localhost:3000/extract/table?lat=-41.288788&lon=174.766843&names=glasgow%20street
+app.get('/extract/table', function( req, res ){
 
   var point = { lat: req.query.lat, lon: req.query.lon };
   var names = req.query.names ? req.query.names.split(',') : [];

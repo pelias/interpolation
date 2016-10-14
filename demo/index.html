@@ -71,7 +71,7 @@
 
       $.ajax({
         dataType: "json",
-        url: "/search/geojson?lat="+latlng.lat+"&lon="+latlng.lng+"&names="+names.join(','),
+        url: "/extract/geojson?lat="+latlng.lat+"&lon="+latlng.lng+"&names="+names.join(','),
         success: function(data) {
           // console.error( JSON.stringify( data, null, 2 ) );
           cb( null, data );
