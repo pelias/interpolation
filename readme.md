@@ -1,5 +1,10 @@
 
-### Command Line Interface
+
+## Using the command line
+
+### help
+> get information about which commands are available and list the arguments they accept
+
 ```bash
 $ ./interpolate help
 
@@ -13,8 +18,6 @@ Note: you will need to pipe data in to the import/conflate commands
  extract [address_db] [street_db] [lat] [lon] [street_name]                extract street address data for debugging purposes
  server [address_db] [street_db]                                           start a web server
 ```
-
-## Using the search APIs
 
 ### search
 > search the db for an address, return an interpolated value if an exact match does not exist
@@ -51,7 +54,9 @@ note: the lat/lon values you provide are in order to disambiguate the street, th
 ...
 ```
 
-### server
+# Using the web server
+
+### Start the web server
 > run a web server which exposes the search APIs via an HTTP interface
 
 note: you can set an environment variable named 'PORT' to change the port number.
@@ -60,6 +65,20 @@ note: you can set an environment variable named 'PORT' to change the port number
 
 server listening on port 3000
 ```
+
+### GET /search/{format}
+> search the db for an address, return an interpolated value if an exact match does not exist
+
+- geojson: http://localhost:3000/search/geojson?lat=-41.288788&lon=174.766843&number=16&street=glasgow%20street
+- html: http://localhost:3000/search/table?lat=-41.288788&lon=174.766843&number=16&street=glasgow%20street
+
+### GET /extract/{format}
+> extract address data from the db for a specific street
+
+- geojson: http://localhost:3000/extract/geojson?lat=-41.288788&lon=174.766843&names=glasgow%20street
+- html: http://localhost:3000/extract/table?lat=-41.288788&lon=174.766843&names=glasgow%20street
+
+see: https://github.com/pelias/interpolation/blob/master/cmd/server.js for more information.
 
 ## Building your own database
 
