@@ -1,4 +1,7 @@
 
+# About
+
+more info: [[design doc](https://github.com/pelias/pelias/wiki/Interpolation:-design-doc)] [[relationship to pelias](https://github.com/pelias/pelias/wiki/Interpolation:-introduction)] [[existing standards](https://github.com/pelias/pelias/wiki/Interpolation:-existing-standards)] [[conflation](https://github.com/pelias/pelias/wiki/Interpolation:-conflation)]
 
 # Using the command line
 
@@ -106,7 +109,7 @@ note: you can record a log of addresses which do not find a matching street. sim
 cat /data/oa/nz/countrywide.csv | ./interpolate oa address.db street.db 3> skip.list
 ```
 
-## docker
+# docker
 
 ### build docker image
 this can take some time for the first build due to installing libpostal from source
