@@ -1,6 +1,6 @@
 
 
-## Using the command line
+# Using the command line
 
 ### help
 > get information about which commands are available and list the arguments they accept
@@ -82,7 +82,7 @@ server listening on port 3000
 
 see: [source](https://github.com/pelias/interpolation/blob/master/cmd/server.js) for more information.
 
-## Building your own database
+# Building the databases
 
 ### polyline
 > import road network data in the polyline format
@@ -151,7 +151,7 @@ you can run any command supported by `./interpolate` via the docker container, s
 cat /data/new_zealand.polylines | docker run -i -v /data:/data pelias/interpolation polyline /data/nz.db
 ```
 
-### development
+# development
 
 ### install dependencies
 
