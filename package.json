@@ -35,8 +35,5 @@
     "tap-spec": "^4.1.1",
     "tape": "^4.6.0"
   },
-  "pre-commit": [
-    "lint",
-    "test"
-  ]
+  "pre-commit": [ "lint" ]
 }
