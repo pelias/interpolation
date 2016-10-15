@@ -223,6 +223,8 @@ cat /data/new_zealand.polylines | docker run -i -v /data:/data pelias/interpolat
 
 *note:* [libpostal](https://github.com/openvenues/node-postal#troubleshooting) **must** be installed on your system before you continue!
 
+The `Dockerfile` in this repo has complete instructions on how to install everything from scratch on Ubuntu.
+
 ```bash
 npm install
 ```
