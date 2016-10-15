@@ -56,12 +56,12 @@ module.exports.analyze.housenumber = function(test) {
 module.exports.analyze.housenumberFloatToString = function(test) {
   test('housenumberFloatToString: invalid', function(t) {
     var str = analyze.housenumberFloatToString(/not a string/);
-    t.true('', 'return empty string');
+    t.equal(str, '', 'return empty string');
     t.end();
   });
   test('housenumberFloatToString: empty', function(t) {
     var str = analyze.housenumberFloatToString('');
-    t.true('', 'return empty string');
+    t.equal(str, '', 'return empty string');
     t.end();
   });
   test('housenumberFloatToString: numeric', function(t) {
