@@ -8,6 +8,12 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 ADDRESS_DB='/data/address.db';
 STREET_DB='/data/street.db';
 
+# location of archives
+ARCHIVE_DIR=$(dirname "$ADDRESS_DB");
+ARCHIVE_BASE=$(basename "$ADDRESS_DB");
+TIMESTAMP=$(date +"%m-%d-%Y-%H:%M:%S");
+ARCHIVE_NAME="$ARCHIVE_DIR/$ARCHIVE_BASE.$TIMESTAMP.gz";
+
 # location of stdio files
 PROC_STDOUT='/data/conflate.out';
 PROC_STDERR='/data/conflate.err';
@@ -24,3 +30,6 @@ rm -f $PROC_STDOUT $PROC_STDERR $PROC_CONFERR;
 
 # run import
 $DIR/concat_oa.sh | time -p node $DIR/../cmd/oa.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR 3>$PROC_CONFERR;
+
+# archive address database
+pigz -k -c --best $ADDRESS_DB > $ARCHIVE_NAME;
