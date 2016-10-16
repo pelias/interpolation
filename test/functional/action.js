@@ -125,17 +125,19 @@ module.exports.check.indexes = function(test, paths) {
     var addressId = sqlite3.exec( paths.db.address, 'PRAGMA index_info(address_id_idx)' );
     t.deepEqual(addressId, ['0|1|id'], 'index_info(address_id_idx)');
 
-    // address_source_idx index
-    var addressSource = sqlite3.exec( paths.db.address, 'PRAGMA index_info(address_source_idx)' );
-    t.deepEqual(addressSource, ['0|2|source'], 'index_info(address_source_idx)');
-
-    // address_parity_idx index
-    var addressParity = sqlite3.exec( paths.db.address, 'PRAGMA index_info(address_parity_idx)' );
-    t.deepEqual(addressParity, ['0|6|parity'], 'index_info(address_parity_idx)');
-
-    // address_housenumber_idx index
-    var addressHousenumber = sqlite3.exec( paths.db.address, 'PRAGMA index_info(address_housenumber_idx)' );
-    t.deepEqual(addressHousenumber, ['0|3|housenumber'], 'index_info(address_housenumber_idx)');
+    // this indices are not strictly required
+    
+    // // address_source_idx index
+    // var addressSource = sqlite3.exec( paths.db.address, 'PRAGMA index_info(address_source_idx)' );
+    // t.deepEqual(addressSource, ['0|2|source'], 'index_info(address_source_idx)');
+    //
+    // // address_parity_idx index
+    // var addressParity = sqlite3.exec( paths.db.address, 'PRAGMA index_info(address_parity_idx)' );
+    // t.deepEqual(addressParity, ['0|6|parity'], 'index_info(address_parity_idx)');
+    //
+    // // address_housenumber_idx index
+    // var addressHousenumber = sqlite3.exec( paths.db.address, 'PRAGMA index_info(address_housenumber_idx)' );
+    // t.deepEqual(addressHousenumber, ['0|3|housenumber'], 'index_info(address_housenumber_idx)');
 
     t.end();
   });

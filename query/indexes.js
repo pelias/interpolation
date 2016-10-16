@@ -16,9 +16,11 @@ module.exports.address = function( db, done ){
     // address
     // note: create these after complete (for performance)
     db.run('CREATE INDEX IF NOT EXISTS address_id_idx ON address(id);');
-    db.run('CREATE INDEX IF NOT EXISTS address_source_idx ON address(source);');
-    db.run('CREATE INDEX IF NOT EXISTS address_parity_idx ON address(parity);');
-    db.run('CREATE INDEX IF NOT EXISTS address_housenumber_idx ON address(housenumber);');
+
+    // this indices are not strictly required and consume a large amount of disk space
+    // db.run('CREATE INDEX IF NOT EXISTS address_source_idx ON address(source);');
+    // db.run('CREATE INDEX IF NOT EXISTS address_parity_idx ON address(parity);');
+    // db.run('CREATE INDEX IF NOT EXISTS address_housenumber_idx ON address(housenumber);');
 
     db.wait(done);
   });
