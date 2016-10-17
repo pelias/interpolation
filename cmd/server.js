@@ -98,7 +98,12 @@ app.get('/street/:id/geojson', function( req, res ){
     if( err ){ return res.status(400).json( err ); }
     if( !row ){ return res.status(404).json({}); }
 
-    res.json( polyline.toGeoJSON( row.line, 6 ) );
+    var geojson = polyline.toGeoJSON( row.line, 6 );
+    geojson.properties = {
+      name: Array.isArray( row.name ) ? row.name[0] : row.name
+    };
+
+    res.json( geojson );
   });
 });
 

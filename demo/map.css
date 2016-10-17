@@ -27,3 +27,26 @@ html.no-webgl .no-webgl-message{
   background-color: lightyellow;
   border-bottom: 1px solid gold;
 }
+
+table.marker-properties {
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 11px;
+  border: 1px solid #eee;
+  font: 12px/20px "Helvetica Neue",Arial,Helvetica,sans-serif;
+  color: #404040;
+  color: rgba(0,0,0,0.75);
+}
+
+table.marker-properties tr:nth-child(odd) {
+  background: #f7f7f7;
+}
+
+table.marker-properties td,
+table.marker-properties th {
+  padding: 5px;
+}
+
+table.marker-properties th {
+  font-weight: bold;
+}
