@@ -1,7 +1,8 @@
 
 var path = require('path'),
     sqlite3 = require('../sqlite3'),
-    action = require('../action');
+    action = require('../action'),
+    search = require('../../../api/search');
 
 var paths = {
   reports: path.resolve( __dirname, './reports/' ),
@@ -121,6 +122,74 @@ module.exports.functional.end_to_end = function(test) {
   });
 };
 
+module.exports.functional.search = function(test) {
+
+  // connect to databases
+  var conn = search( paths.db.address, paths.db.street );
+
+  test('search: exact', function(t) {
+
+    var coord = { lat: -41.288788, lon: 174.766843 }
+    var number = '18';
+    var street = 'glasgow street';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'exact',
+        source: 'OA',
+        number: '18',
+        lat: -41.2887878,
+        lon: 174.7668435
+      });
+      t.end();
+    });
+  });
+
+  test('search: close', function(t) {
+
+    var coord = { lat: -41.288788, lon: 174.766843 }
+    var number = '18a';
+    var street = 'glasgow street';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'close',
+        source: 'OA',
+        number: '18',
+        lat: -41.2887878,
+        lon: 174.7668435
+      });
+      t.end();
+    });
+  });
+
+  test('search: interpolated', function(t) {
+
+    var coord = { lat: -41.288788, lon: 174.766843 }
+    var number = '16';
+    var street = 'glasgow street';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'interpolated',
+        source: 'mixed',
+        number: '16',
+        lat: -41.2886487,
+        lon: 174.7670925
+      });
+      t.end();
+    });
+  });
+
+  test('close connection', function(t) {
+    conn.close();
+    t.pass();
+    t.end();
+  });
+};
 
 // write geojson to disk
 module.exports.functional.geojson = function(test) {
