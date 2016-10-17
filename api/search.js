@@ -42,6 +42,10 @@ function setup( addressDbPath, streetDbPath ){
     // @todo: perofmance: only query for part of the table
     query.address( db, point, normalized.street, function( err, res ){
 
+      // @todo: results can be from multiple different street ids!
+      // possibly not an issue? except maybe where there is a dual
+      // carriageway and then the projection would be on the median strip.
+
       // an error occurred or no results were found
       if( err || !res || !res.length ){ return cb( err, null ); }
 
