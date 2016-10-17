@@ -182,6 +182,57 @@ module.exports.functional.end_to_end_south = function(test) {
   });
 };
 
+// note: no interpolation available as street has 100% coverage already
+module.exports.functional.search_south = function(test) {
+
+  // connect to databases
+  var conn = search( paths.db.address, paths.db.street );
+
+  test('search: south: exact', function(t) {
+
+    var coord = { lat: 52.503, lon: 13.324 };
+    var number = '43';
+    var street = 'grolmanstrasse';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'exact',
+        source: 'OA',
+        number: '43',
+        lat: 52.5042048,
+        lon: 13.324045
+      });
+      t.end();
+    });
+  });
+
+  test('search: south: close', function(t) {
+
+    var coord = { lat: 52.503, lon: 13.324 };
+    var number = '43d';
+    var street = 'grolmanstrasse';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'close',
+        source: 'OA',
+        number: '43',
+        lat: 52.5042048,
+        lon: 13.324045
+      });
+      t.end();
+    });
+  });
+
+  test('close connection', function(t) {
+    conn.close();
+    t.pass();
+    t.end();
+  });
+};
+
 // write geojson to disk
 module.exports.functional.geojson = function(test) {
   action.geojson(test, paths, '(id=1 OR id=2)');
