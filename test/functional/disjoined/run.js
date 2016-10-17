@@ -101,6 +101,56 @@ module.exports.functional.end_to_end_north = function(test) {
   });
 };
 
+// note: no interpolation available as street has 100% coverage already
+module.exports.functional.search_north = function(test) {
+
+  // connect to databases
+  var conn = search( paths.db.address, paths.db.street );
+
+  test('search: north: exact', function(t) {
+
+    var coord = { lat: 52.507, lon: 13.32 };
+    var number = '21';
+    var street = 'grolmanstrasse';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'exact',
+        source: 'OA',
+        number: '21',
+        lat: 52.5071733,
+        lon: 13.3210882
+      });
+      t.end();
+    });
+  });
+
+  test('search: north: close', function(t) {
+
+    var coord = { lat: 52.507, lon: 13.32 };
+    var number = '21d';
+    var street = 'grolmanstrasse';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'close',
+        source: 'OA',
+        number: '21',
+        lat: 52.5071733,
+        lon: 13.3210882
+      });
+      t.end();
+    });
+  });
+
+  test('close connection', function(t) {
+    conn.close();
+    t.pass();
+    t.end();
+  });
+};
 
 module.exports.functional.spotcheck_south = function(test) {
   test('spot check: south side', function(t) {
