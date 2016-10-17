@@ -82,12 +82,12 @@
       });
     }
 
-    function streetById( id, cb ){
+    function streetById( ids, cb ){
       $.ajax({
         dataType: "json",
-        url: "/street/"+id+"/geojson",
+        url: "/street/"+ids.join(',')+"/geojson",
         success: function(data) {
-          console.error( JSON.stringify( data, null, 2 ) );
+          // console.error( JSON.stringify( data, null, 2 ) );
           cb( null, data );
         }
       }).error(function( err ) {
@@ -120,7 +120,14 @@
               // add extract geojson to layer
               layer.addData( data2 );
 
-              streetById( data2.features[0].properties.id, function( err3, data3 ){
+              var ids = [];
+              data2.features.forEach( function( feat ){
+                if( feat.properties.id && -1 === ids.indexOf( feat.properties.id ) ){
+                  ids.push( feat.properties.id );
+                }
+              });
+
+              streetById( ids, function( err3, data3 ){
 
                 console.error( err3, data3 );
                 if( !err3 && data3 ){

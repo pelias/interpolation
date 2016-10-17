@@ -11,14 +11,21 @@ function setup( streetDbPath ){
   var db = new sqlite3.Database( streetDbPath, sqlite3.OPEN_READONLY );
 
   // query method
-  var q = function( id, cb ){
+  var q = function( ids, cb ){
+
+    if( !Array.isArray( ids ) || !ids.length ){ return cb( 'invalid ids' ); }
 
     // error checking
-    id = parseInt( id, 10 );
-    if( isNaN( id ) ){ return cb( 'non-numeric id' ); }
+    var fail = false;
+    ids = ids.map( function( id ){
+      var i = parseInt( id, 10 );
+      if( isNaN( i ) ){ fail = true; }
+      return i;
+    });
+    if( fail ){ return cb( 'non-numeric id' ); }
 
     // perform a db lookup for the specified street
-    query.street( db, id, function( err, res ){
+    query.street( db, ids, function( err, res ){
 
       // an error occurred or no results were found
       if( err || !res ){ return cb( err, null ); }

@@ -94,13 +94,38 @@ app.get('/extract/table', function( req, res ){
 // eg: http://localhost:3000/street/1/geojson
 app.get('/street/:id/geojson', function( req, res ){
 
-  conn.street.query( req.params.id, function( err, row ){
+  conn.street.query( req.params.id.split(','), function( err, rows ){
     if( err ){ return res.status(400).json( err ); }
-    if( !row ){ return res.status(404).json({}); }
+    if( !rows || !rows.length ){ return res.status(404).json({}); }
 
-    var geojson = polyline.toGeoJSON( row.line, 6 );
-    geojson.properties = {
-      name: Array.isArray( row.name ) ? row.name[0] : row.name
+    console.error( 'rows', rows );
+
+    // dedupe
+    // @todo: debug and improve this by returning less results
+    // @copy-pasted
+    var deduped = [];
+    rows = rows.filter( function( row ){
+      if( deduped[ row.id ] ){ return false; }
+      deduped[ row.id ] = true;
+      return true;
+    });
+
+    console.error( 'rows', rows );
+
+    var features = rows.map( function( row ){
+
+      // console.error( 'row', row );
+
+      var gj = polyline.toGeoJSON( row.line, 6 );
+      gj.properties = {
+        name: Array.isArray( row.name ) ? row.name[0] : row.name
+      };
+      return gj;
+    });
+
+    var geojson = {
+      'type': 'FeatureCollection',
+      'features': features
     };
 
     res.json( geojson );
