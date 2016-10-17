@@ -1,7 +1,9 @@
 
 var express = require('express'),
+    polyline = require('polyline'),
     search = require('../api/search'),
     extract = require('../api/extract'),
+    street = require('../api/street'),
     pretty = require('../lib/pretty'),
     analyze = require('../lib/analyze');
 
@@ -19,7 +21,8 @@ if( process.argv.length !== 4 ){
 var app = express();
 var conn = {
   search: search( process.argv[2], process.argv[3] ),
-  extract: extract( process.argv[2], process.argv[3] )
+  extract: extract( process.argv[2], process.argv[3] ),
+  street: street( process.argv[3] )
 };
 
 // search with geojson view
@@ -84,6 +87,18 @@ app.get('/extract/table', function( req, res ){
 
     res.setHeader('Content-Type', 'text/html');
     res.send( pretty.htmltable( data ) );
+  });
+});
+
+// get street geometry as geojson
+// eg: http://localhost:3000/street/1/geojson
+app.get('/street/:id/geojson', function( req, res ){
+
+  conn.street.query( req.params.id, function( err, row ){
+    if( err ){ return res.status(400).json( err ); }
+    if( !row ){ return res.status(404).json({}); }
+
+    res.json( polyline.toGeoJSON( row.line, 6 ) );
   });
 });
 

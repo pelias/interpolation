@@ -65,7 +65,7 @@
       });
     }
 
-    function search( latlng, names, cb ){
+    function extract( latlng, names, cb ){
       // use map center when latlng not supplied
       if( !latlng ){ latlng = map.getCenter(); }
 
@@ -82,7 +82,22 @@
       });
     }
 
+    function streetById( id, cb ){
+      $.ajax({
+        dataType: "json",
+        url: "/street/"+id+"/geojson",
+        success: function(data) {
+          console.error( JSON.stringify( data, null, 2 ) );
+          cb( null, data );
+        }
+      }).error(function( err ) {
+        console.error( err );
+        cb( err );
+      });
+    }
+
     function update( latlng ){
+
       // use map center when latlng not supplied
       if( !latlng ){ latlng = map.getCenter(); }
 
@@ -90,28 +105,33 @@
 
         if( data && data.features.length ){
 
-
-          // var street = data.features[0];
-          // var centroid = { lng: street.geometry.coordinates[0], lat: street.geometry.coordinates[1] };
-          // var names = [ street.properties.street ];
-
           var centroid = latlng;
           var names = data.features.map( function( street ){
             return street.properties.street;
           });
 
-          // console.error( street.properties.street, street );
-
-          search( centroid, names, function( err2, data2 ){
+          extract( centroid, names, function( err2, data2 ){
 
             console.error( err2, data2 );
+            layer.clearLayers();
 
-            if( !err2 && data2 ){
-              layer.clearLayers();
+            if( !err2 && data2 && data2.features.length ){
+
+              // add extract geojson to layer
               layer.addData( data2 );
+
+              streetById( data2.features[0].properties.id, function( err3, data3 ){
+
+                console.error( err3, data3 );
+                if( !err3 && data3 ){
+
+                  // add street geojson to layer
+                  layer.addData( data3 );
+
+                }
+              })
             }
           });
-
         }
       });
     }

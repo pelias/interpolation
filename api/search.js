@@ -1,7 +1,6 @@
 
 var sqlite3 = require('sqlite3'),
     requireDir = require('require-dir'),
-    pretty = require('../lib/pretty'),
     query = requireDir('../query'),
     project = require('../lib/project'),
     geodesic = require('../lib/geodesic'),
