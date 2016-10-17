@@ -2,7 +2,8 @@
 var fs = require('fs'),
     path = require('path'),
     sqlite3 = require('../sqlite3'),
-    action = require('../action');
+    action = require('../action'),
+    search = require('../../../api/search');
 
 var paths = {
   reports: path.resolve( __dirname, './reports/' ),
@@ -88,7 +89,6 @@ module.exports.functional.spotcheck = function(test) {
   });
 };
 
-// @todo: some of these vertex values seem to be wrong
 module.exports.functional.end_to_end = function(test) {
   test('end to end', function(t) {
 
@@ -96,6 +96,75 @@ module.exports.functional.end_to_end = function(test) {
     var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=17 ORDER BY housenumber' );
     t.deepEqual(rows, fs.readFileSync( paths.expected ).toString('utf8').trim().split('\n') );
 
+    t.end();
+  });
+};
+
+module.exports.functional.search = function(test) {
+
+  // connect to databases
+  var conn = search( paths.db.address, paths.db.street );
+
+  test('search: exact', function(t) {
+
+    var coord = { lat: 52.517, lon: 13.458 };
+    var number = '18d';
+    var street = 'rigaer strasse';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'exact',
+        source: 'OA',
+        number: '18d',
+        lat: 52.5168882,
+        lon: 13.4585878
+      });
+      t.end();
+    });
+  });
+
+  test('search: close', function(t) {
+
+    var coord = { lat: 52.517, lon: 13.458 };
+    var number = '16c';
+    var street = 'rigaer strasse';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'close',
+        source: 'OA',
+        number: '16',
+        lat: 52.5174873,
+        lon: 13.4582345
+      });
+      t.end();
+    });
+  });
+
+  test('search: interpolated', function(t) {
+
+    var coord = { lat: 52.517, lon: 13.458 };
+    var number = '11';
+    var street = 'rigaer strasse';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'interpolated',
+        source: 'mixed',
+        number: '11',
+        lat: 52.5178399,
+        lon: 13.4568939
+      });
+      t.end();
+    });
+  });
+
+  test('close connection', function(t) {
+    conn.close();
+    t.pass();
     t.end();
   });
 };
