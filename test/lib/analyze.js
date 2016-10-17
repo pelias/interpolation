@@ -69,9 +69,24 @@ module.exports.analyze.housenumberFloatToString = function(test) {
     t.equal(str, '22');
     t.end();
   });
-  test('housenumberFloatToString: apartment', function(t) {
+  test('housenumberFloatToString: apartment A', function(t) {
     var str = analyze.housenumberFloatToString(22.1);
     t.equal(str, '22a');
+    t.end();
+  });
+  test('housenumberFloatToString: apartment B', function(t) {
+    var str = analyze.housenumberFloatToString(22.2);
+    t.equal(str, '22b');
+    t.end();
+  });
+  test('housenumberFloatToString: apartment C', function(t) {
+    var str = analyze.housenumberFloatToString(22.3);
+    t.equal(str, '22c');
+    t.end();
+  });
+  test('housenumberFloatToString: apartment D', function(t) {
+    var str = analyze.housenumberFloatToString(22.4);
+    t.equal(str, '22d');
     t.end();
   });
 };
