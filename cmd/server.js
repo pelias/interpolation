@@ -2,7 +2,8 @@
 var express = require('express'),
     search = require('../api/search'),
     extract = require('../api/extract'),
-    pretty = require('../lib/pretty');
+    pretty = require('../lib/pretty'),
+    analyze = require('../lib/analyze');
 
 // optionally override port using env var
 var PORT = process.env.PORT || 3000;
@@ -86,9 +87,16 @@ app.get('/extract/table', function( req, res ){
   });
 });
 
+// root page
+app.get('/', function( req, res ){ res.redirect('/demo'); });
+
 // serve the demo app
 app.use('/demo', express.static('demo'));
 
 app.listen( PORT, function() {
+
+  // force loading of libpostal
+  analyze.street( 'test street' );
+
   console.log( 'server listening on port', PORT );
 });
