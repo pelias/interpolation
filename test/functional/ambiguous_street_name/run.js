@@ -2,7 +2,8 @@
 var fs = require('fs'),
     path = require('path'),
     sqlite3 = require('../sqlite3'),
-    action = require('../action');
+    action = require('../action'),
+    search = require('../../../api/search');
 
 var paths = {
   reports: path.resolve( __dirname, './reports/' ),
@@ -116,6 +117,75 @@ module.exports.functional.end_to_end = function(test) {
     rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=4 ORDER BY housenumber' );
     t.deepEqual(rows, fs.readFileSync( paths.expected2 ).toString('utf8').trim().split('\n') );
 
+    t.end();
+  });
+};
+
+module.exports.functional.search = function(test) {
+
+  // connect to databases
+  var conn = search( paths.db.address, paths.db.street );
+
+  test('search: exact', function(t) {
+
+    var coord = { lat: 52.505, lon: 13.394 };
+    var number = '16';
+    var street = 'markgrafenstrasse';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'exact',
+        source: 'OA',
+        number: '16',
+        lat: 52.5064892,
+        lon: 13.3954319
+      });
+      t.end();
+    });
+  });
+
+  test('search: close', function(t) {
+
+    var coord = { lat: 52.505, lon: 13.394 };
+    var number = '14e';
+    var street = 'markgrafenstrasse';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'close',
+        source: 'OA',
+        number: '14',
+        lat: 52.5055412,
+        lon: 13.394799
+      });
+      t.end();
+    });
+  });
+
+  test('search: interpolated', function(t) {
+
+    var coord = { lat: 52.505, lon: 13.394 };
+    var number = '78D';
+    var street = 'markgrafenstrasse';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'interpolated',
+        source: 'mixed',
+        number: '78',
+        lat: 52.504402,
+        lon: 13.3947977
+      });
+      t.end();
+    });
+  });
+
+  test('close connection', function(t) {
+    conn.close();
+    t.pass();
     t.end();
   });
 };
