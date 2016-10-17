@@ -162,8 +162,8 @@ module.exports.interpolate.disjoined = function(test) {
       null,
       null,
       null,
-      16.999999997653525,
-      14.0999999996825,
+      null,
+      null,
       null
     ];
 

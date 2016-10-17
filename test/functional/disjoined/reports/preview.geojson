@@ -25,27 +25,6 @@
     {
       "type": "Feature",
       "properties": {
-        "source": "VERTEX",
-        "housenumber": 14.064,
-        "lat": null,
-        "lon": null,
-        "parity": "",
-        "proj_lat": 52.508762,
-        "proj_lon": 13.320116,
-        "marker-size": "small",
-        "marker-color": "#ffa500"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          13.320116,
-          52.508762
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "source": "OA",
         "housenumber": 14.1,
         "lat": 52.5086354,
