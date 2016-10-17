@@ -129,7 +129,7 @@ module.exports.functional.search = function(test) {
 
   test('search: exact', function(t) {
 
-    var coord = { lat: -41.288788, lon: 174.766843 }
+    var coord = { lat: -41.288788, lon: 174.766843 };
     var number = '18';
     var street = 'glasgow street';
 
@@ -148,7 +148,7 @@ module.exports.functional.search = function(test) {
 
   test('search: close', function(t) {
 
-    var coord = { lat: -41.288788, lon: 174.766843 }
+    var coord = { lat: -41.288788, lon: 174.766843 };
     var number = '18a';
     var street = 'glasgow street';
 
@@ -167,7 +167,7 @@ module.exports.functional.search = function(test) {
 
   test('search: interpolated', function(t) {
 
-    var coord = { lat: -41.288788, lon: 174.766843 }
+    var coord = { lat: -41.288788, lon: 174.766843 };
     var number = '16';
     var street = 'glasgow street';
 
