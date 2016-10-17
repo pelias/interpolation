@@ -236,6 +236,7 @@ npm test
 ```
 
 ### run linter
+note: if you are using the `atom` editor, we recommend the [jshint](https://atom.io/packages/jshint) plugin.
 ```bash
 git commit
 ```
