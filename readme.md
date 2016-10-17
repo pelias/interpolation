@@ -193,6 +193,7 @@ this will run a new container based off the image created above
 notes:
 - `-p` controls port mapping (port `3000` in the container maps to `5000` in the host)
 - `-v` controls volume mapping (`/data` in the container maps to `/data` in the host)
+- `-d` tells docker to run the container in the background (daemonize)
 
 by default this will launch the server using the databases `/data/address.db` and `/data/street.db` which must be present on the host machine
 
