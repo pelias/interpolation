@@ -150,43 +150,65 @@
     // create a geojson layer which supports the simplestyle spec
     function newSimpleStyleLayer(){
       return new L.GeoJSON( null, {
-        pointToLayer: function(f, latlon) {
-          var sizes = {
-            small: [20, 50],
-            medium: [30, 70],
-            large: [35, 90]
-          };
-          var fp = f.properties || {};
-          var size = fp['marker-size'] || 'medium';
-          var symbol = (fp['marker-symbol']) ? '-' + fp['marker-symbol'] : '';
-          var color = fp['marker-color'] || '7e7e7e';
-          color = color.replace('#', '');
-          var url = 'http://a.tiles.mapbox.com/v3/marker/' +
-                'pin-' +
-                // Internet Explorer does not support the `size[0]` syntax.
-                size.charAt(0) + symbol + '+' + color +
-                ((window.devicePixelRatio === 2) ? '@2x' : '') +
-                '.png';
+        style: style,
+        pointToLayer: pointToLayer
+      });
+    }
 
-          var table = '<table class="marker-properties"><tbody>';
-          for( var attr in f.properties ){
-            if( attr.match(/id/) ){ continue; }
-            if( attr.match(/marker/) ){ continue; }
-            if( f.properties[attr] === null || f.properties[attr] === undefined ){ continue; }
-            table += '<tr><th>' + attr + '</th><td>' + f.properties[attr] + '</td></tr>'
-          }
-          table += '</tbody></table>';
+    function pointToLayer(f, latlon) {
+      var sizes = {
+        small: [20, 50],
+        medium: [30, 70],
+        large: [35, 90]
+      };
+      var fp = f.properties || {};
+      var size = fp['marker-size'] || 'medium';
+      var symbol = (fp['marker-symbol']) ? '-' + fp['marker-symbol'] : '';
+      var color = fp['marker-color'] || '7e7e7e';
+      color = color.replace('#', '');
+      var url = 'http://a.tiles.mapbox.com/v3/marker/' +
+            'pin-' +
+            // Internet Explorer does not support the `size[0]` syntax.
+            size.charAt(0) + symbol + '+' + color +
+            ((window.devicePixelRatio === 2) ? '@2x' : '') +
+            '.png';
 
-          return new L.Marker(latlon, {
-              icon: new L.icon({
-                  iconUrl: url,
-                  iconSize: sizes[size],
-                  iconAnchor: [sizes[size][0] / 2, sizes[size][1] / 2],
-                  popupAnchor: [sizes[size][0] / 2, 0]
-              })
-          }).bindPopup(table);
-        }
-    });
+      var table = '<table class="marker-properties"><tbody>';
+      for( var attr in f.properties ){
+        if( attr.match(/id/) ){ continue; }
+        if( attr.match(/marker/) ){ continue; }
+        if( f.properties[attr] === null || f.properties[attr] === undefined ){ continue; }
+        table += '<tr><th>' + attr + '</th><td>' + f.properties[attr] + '</td></tr>'
+      }
+      table += '</tbody></table>';
+
+      return new L.Marker(latlon, {
+          icon: new L.icon({
+              iconUrl: url,
+              iconSize: sizes[size],
+              iconAnchor: [sizes[size][0] / 2, sizes[size][1] / 2],
+              popupAnchor: [sizes[size][0] / 2, 0]
+          })
+      }).bindPopup(table);
+    }
+
+    function style( f ){
+
+      if( f.properties.stroke ){
+        return {
+          weight: 2,
+          opacity: 1,
+          color: f.properties.stroke,
+          dashArray: 3
+        };
+      }
+
+      return {
+        weight: 3,
+        opacity: 1,
+        color: '#000080',
+        dashArray: 5
+      };
     }
   </script>
 </body>

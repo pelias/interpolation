@@ -98,8 +98,6 @@ app.get('/street/:id/geojson', function( req, res ){
     if( err ){ return res.status(400).json( err ); }
     if( !rows || !rows.length ){ return res.status(404).json({}); }
 
-    console.error( 'rows', rows );
-
     // dedupe
     // @todo: debug and improve this by returning less results
     // @copy-pasted
@@ -110,11 +108,7 @@ app.get('/street/:id/geojson', function( req, res ){
       return true;
     });
 
-    console.error( 'rows', rows );
-
     var features = rows.map( function( row ){
-
-      // console.error( 'row', row );
 
       var gj = polyline.toGeoJSON( row.line, 6 );
       gj.properties = {
