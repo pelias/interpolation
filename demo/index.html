@@ -31,7 +31,7 @@
 
     // Add geocoding plugin
     var params = {};
-    var options = { focus: true, expanded: true, params: params };
+    var options = { focus: false, expanded: true, params: params };
     var geocoder = L.control.geocoder(API_KEY, options).addTo(map);
     map.locate({ setView: true, maxZoom: 16 });
 
