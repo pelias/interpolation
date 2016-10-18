@@ -20,6 +20,14 @@
 </head>
 <body>
   <div id="map"></div>
+  <div id="controls">
+    <div class="leaflet-pelias-control leaflet-bar leaflet-control leaflet-pelias-expanded">
+      <input id="housenumber" type="text" min="1" max="1000" value="" />
+      <input id="streetname" disabled="disabled" value="" />
+      <input id="lat" type="hidden" />
+      <input id="lon" type="hidden" />
+    </div>
+  </div>
   <script>
     // Create a basic Leaflet map
     var map = L.map('map', { zoomControl:false }).setView([40.7259, -73.9805], 12);
@@ -35,7 +43,11 @@
     var geocoder = L.control.geocoder(API_KEY, options).addTo(map);
     map.locate({ setView: true, maxZoom: 16 });
 
-    var layer = newSimpleStyleLayer().addTo(map);
+    var layer = {
+      lines: newSimpleStyleLayer().addTo(map),
+      points: newSimpleStyleLayer().addTo(map),
+      interpolated: newSimpleStyleLayer().addTo(map)
+    }
 
     L.NumberedDivIcon = L.Icon.extend({
       options: {
@@ -129,6 +141,20 @@
       });
     }
 
+    function interpolate( number, street, lat, lon, cb ){
+      $.ajax({
+        dataType: "json",
+        url: "/search/geojson?lat="+lat+"&lon="+lon+"&number="+number+"&street="+street,
+        success: function(data) {
+          // console.error( JSON.stringify( data, null, 2 ) );
+          cb( null, data );
+        }
+      }).error(function( err ) {
+        console.error( err );
+        cb( err );
+      });
+    }
+
     function update( latlng ){
 
       // use map center when latlng not supplied
@@ -143,15 +169,22 @@
             return street.properties.street;
           });
 
+          $('#housenumber').val( data.features[0].properties.housenumber );
+          $('#streetname').val( data.features[0].properties.street );
+          $('#lon').val( data.features[0].geometry.coordinates[0] );
+          $('#lat').val( data.features[0].geometry.coordinates[1] );
+
           extract( centroid, names, function( err2, data2 ){
 
             console.error( err2, data2 );
-            layer.clearLayers();
+            layer.lines.clearLayers();
+            layer.points.clearLayers();
+            layer.interpolated.clearLayers();
 
             if( !err2 && data2 && data2.features.length ){
 
               // add extract geojson to layer
-              layer.addData( data2 );
+              layer.points.addData( data2 );
 
               var ids = [];
               data2.features.forEach( function( feat ){
@@ -166,7 +199,7 @@
                 if( !err3 && data3 ){
 
                   // add street geojson to layer
-                  layer.addData( data3 );
+                  layer.lines.addData( data3 );
 
                 }
               })
@@ -192,6 +225,20 @@
 
       return '' + Math.floor( f ) + suffix;
     }
+
+    $("#housenumber").keyup(function(){
+      var number = $('#housenumber').val();
+      var name = $('#streetname').val();
+      var lat = $('#lat').val();
+      var lon = $('#lon').val();
+
+      interpolate( number, name, lat, lon, function( err, data ){
+        layer.interpolated.clearLayers();
+        if( !err && data ){
+          layer.interpolated.addData( data );
+        }
+      });
+    });
 
     // create a geojson layer which supports the simplestyle spec
     function newSimpleStyleLayer(){
@@ -234,15 +281,18 @@
       if( fp['source'] == 'VERTEX' ){
         return new L.Marker(latlon, {
           icon: new L.icon({
-              iconUrl: url,
-              iconSize: sizes[size],
-              iconAnchor: [sizes[size][0] / 2, sizes[size][1] / 2],
-              popupAnchor: [sizes[size][0] / 2, 0]
+            iconUrl: url,
+            iconSize: sizes[size],
+            iconAnchor: [sizes[size][0] / 2, sizes[size][1] / 2],
+            popupAnchor: [sizes[size][0] / 2, 0]
           })
         }).bindPopup(table);
       } else {
         return new L.Marker(latlon, {
-          icon:	new L.NumberedDivIcon({ number: housenumberFloatToString( parseFloat( fp['housenumber'] ) ), iconUrl: url }),
+          icon:	new L.NumberedDivIcon({
+            number: housenumberFloatToString( parseFloat( fp['housenumber'] || fp['number'] ) ),
+            iconUrl: url
+          }),
         }).bindPopup(table);
       }
     }

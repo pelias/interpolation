@@ -65,3 +65,47 @@ table.marker-properties th {
   font-weight: bold;
   color: #fff;
 }
+
+#controls {
+  margin: 0; padding: 0; border: 0;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+#controls div {
+  margin: 0; padding: 0; border: 0;
+  width: 300px;
+}
+
+#controls #housenumber {
+  margin: 0; padding: 0; border: 0;
+  width: 50px;
+  height: 34px;
+  text-indent: 0px;
+  margin-left: 10px;
+  font-size: 26px;
+  border: none;
+  vertical-align: top;
+  padding-top: 6px;
+}
+
+#controls #streetname {
+  margin: 0; padding: 0; border: 0;
+  width: 230px;
+  height: 34px;
+  text-indent: 0px;
+  font-size: 26px;
+  vertical-align: top;
+  padding-top: 6px;
+  background-color: transparent;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+   opacity: 1;
+}
+
+textarea:focus, input:focus{
+  outline: none;
+}
