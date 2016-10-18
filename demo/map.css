@@ -50,3 +50,18 @@ table.marker-properties th {
 table.marker-properties th {
   font-weight: bold;
 }
+
+.leaflet-div-icon {
+  background: transparent;
+  border: none;
+}
+.leaflet-marker-icon .number{
+  position: relative;
+  top: -71px;
+  font-size: 12px;
+  width: 30px;
+  text-align: center;
+  z-index: 1000;
+  font-weight: bold;
+  color: #fff;
+}

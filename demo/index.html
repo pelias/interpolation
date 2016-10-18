@@ -37,6 +37,39 @@
 
     var layer = newSimpleStyleLayer().addTo(map);
 
+    L.NumberedDivIcon = L.Icon.extend({
+      options: {
+        iconUrl: '<%= image_path("leaflet/marker_hole.png") %>',
+        number: '',
+        shadowUrl: null,
+        iconSize: new L.Point(25, 41),
+        iconAnchor: new L.Point(13, 41),
+        popupAnchor: new L.Point(0, -33),
+        /*
+        iconAnchor: (Point)
+        popupAnchor: (Point)
+        */
+        className: 'leaflet-div-icon'
+      },
+
+      createIcon: function () {
+        var div = document.createElement('div');
+        var img = this._createImg(this.options['iconUrl']);
+        var numdiv = document.createElement('div');
+        numdiv.setAttribute ( "class", "number" );
+        numdiv.innerHTML = this.options['number'] || '';
+        div.appendChild ( img );
+        div.appendChild ( numdiv );
+        this._setIconStyles(div, 'icon');
+        return div;
+      },
+
+      //you could change this to add a shadow like in the normal marker if you really wanted
+      createShadow: function () {
+        return null;
+      }
+    });
+
     function reverse( latlng, cb ){
       // use map center when latlng not supplied
       if( !latlng ){ latlng = map.getCenter(); }
@@ -147,6 +180,19 @@
     // map.on('resize', function(e){ update() });
     map.on('click', function(e){ update( e.latlng ); });
 
+    // copied from lib/analyze.js
+    function housenumberFloatToString( f ){
+      if( 'number' !== typeof f ){ return ''; }
+
+      var suffix = '';
+      var fractional = Math.floor(( f % 1 ) * 10.1 /* add 0.1 to avoid floating point errors */ );
+      if( fractional > 0 && fractional < 10 ){
+        suffix = String.fromCharCode( 96 + fractional );
+      }
+
+      return '' + Math.floor( f ) + suffix;
+    }
+
     // create a geojson layer which supports the simplestyle spec
     function newSimpleStyleLayer(){
       return new L.GeoJSON( null, {
@@ -163,9 +209,12 @@
       };
       var fp = f.properties || {};
       var size = fp['marker-size'] || 'medium';
-      var symbol = (fp['marker-symbol']) ? '-' + fp['marker-symbol'] : '';
+
+      var symbol = '';
+      // var symbol = (fp['marker-symbol']) ? '-' + fp['marker-symbol'] : '';
       var color = fp['marker-color'] || '7e7e7e';
       color = color.replace('#', '');
+
       var url = 'http://a.tiles.mapbox.com/v3/marker/' +
             'pin-' +
             // Internet Explorer does not support the `size[0]` syntax.
@@ -182,14 +231,20 @@
       }
       table += '</tbody></table>';
 
-      return new L.Marker(latlon, {
+      if( fp['source'] == 'VERTEX' ){
+        return new L.Marker(latlon, {
           icon: new L.icon({
               iconUrl: url,
               iconSize: sizes[size],
               iconAnchor: [sizes[size][0] / 2, sizes[size][1] / 2],
               popupAnchor: [sizes[size][0] / 2, 0]
           })
-      }).bindPopup(table);
+        }).bindPopup(table);
+      } else {
+        return new L.Marker(latlon, {
+          icon:	new L.NumberedDivIcon({ number: housenumberFloatToString( parseFloat( fp['housenumber'] ) ), iconUrl: url }),
+        }).bindPopup(table);
+      }
     }
 
     function style( f ){
