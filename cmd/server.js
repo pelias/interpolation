@@ -1,5 +1,6 @@
 
 var express = require('express'),
+    directory = require('serve-index'),
     polyline = require('polyline'),
     search = require('../api/search'),
     extract = require('../api/extract'),
@@ -132,6 +133,9 @@ app.get('/', function( req, res ){ res.redirect('/demo'); });
 
 // serve the demo app
 app.use('/demo', express.static('demo'));
+
+// serve the data dir (for downloads)
+// app.use('/data', directory('/data') );
 
 app.listen( PORT, function() {
 
