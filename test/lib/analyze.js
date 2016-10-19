@@ -27,6 +27,21 @@ module.exports.analyze.housenumber = function(test) {
     t.true(isNaN(float), 'return NaN');
     t.end();
   });
+  test('housenumber: invalid (range)', function(t) {
+    var float = analyze.housenumber('1-1');
+    t.true(isNaN(float), 'return NaN');
+    t.end();
+  });
+  test('housenumber: invalid (apartment synonyms)', function(t) {
+    var float = analyze.housenumber('1 flat b');
+    t.true(isNaN(float), 'return NaN');
+    t.end();
+  });
+  test('housenumber: invalid (punctuation)', function(t) {
+    var float = analyze.housenumber('1/1');
+    t.true(isNaN(float), 'return NaN');
+    t.end();
+  });
   test('housenumber: empty', function(t) {
     var float = analyze.housenumber('');
     t.true(isNaN(float), 'return NaN');
@@ -34,11 +49,6 @@ module.exports.analyze.housenumber = function(test) {
   });
   test('housenumber: numeric', function(t) {
     var float = analyze.housenumber('22');
-    t.equal(float, 22);
-    t.end();
-  });
-  test('housenumber: junk', function(t) {
-    var float = analyze.housenumber('22 foo');
     t.equal(float, 22);
     t.end();
   });

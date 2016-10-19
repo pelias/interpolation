@@ -33,6 +33,12 @@ function streamFactory(db, done){
       // parse housenumber
       var housenumber = analyze.housenumber( item.NUMBER );
 
+      // invalid / unusual housenumber
+      if( isNaN( housenumber ) ){
+        console.error( 'could not reliably parse housenumber', item.NUMBER );
+        return;
+      }
+
       // project point on to line string
       var point = [ parseFloat(item.LON), parseFloat(item.LAT) ];
 
