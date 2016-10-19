@@ -301,8 +301,12 @@ sqlite3 test/functional/potsdamerplatz/address.db "SELECT * FROM address WHERE i
 
 if you're hunting for a specific road segment to debug, you can open up your `test/functional/potsdamerplatz/osm.polylines` file and try to find the appropriate line in there, the line numbers will correspond to the ids, so the first line in that file is id=1 in the `street.db`.
 
-to visually inspect the polylines, you can cut them before the name and paster them in the search box here: http://valhalla.github.io/demos/polyline/
-eg. `ii|ccBsskoX_@wLaAkUi@sJ{@oM??mHn@??HtL~IUvGc@zJyA|Cg@tCkAhBkA~EyDpBaDnGgIeBqEoEnGwGvEqAz@wAr@qC|@wMl@mJ^`
+to visually inspect the polylines, you can cut them before the name and paste them in the search box here: http://valhalla.github.io/demos/polyline/
+
+example:
+```
+ii|ccBsskoX_@wLaAkUi@sJ{@oM??mHn@??HtL~IUvGc@zJyA|Cg@tCkAhBkA~EyDpBaDnGgIeBqEoEnGwGvEqAz@wAr@qC|@wMl@mJ^
+```
 
 likewise if you are looking for a specific address, you can open up `test/functional/potsdamerplatz/oa.csv` and find the address in there (be aware that some very precise floating point numbers get truncated and so may not match exactly in tools like grep), you should then be able to find them in the `address.db`:
 
