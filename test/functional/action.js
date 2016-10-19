@@ -126,7 +126,7 @@ module.exports.check.indexes = function(test, paths) {
     t.deepEqual(addressId, ['0|1|id'], 'index_info(address_id_idx)');
 
     // this indices are not strictly required
-    
+
     // // address_source_idx index
     // var addressSource = sqlite3.exec( paths.db.address, 'PRAGMA index_info(address_source_idx)' );
     // t.deepEqual(addressSource, ['0|2|source'], 'index_info(address_source_idx)');
@@ -143,11 +143,13 @@ module.exports.check.indexes = function(test, paths) {
   });
 };
 
-module.exports.geojson = function(test, paths, condition) {
+module.exports.geojson = function(test, paths, condition, filename) {
   test('produce geojson', function(t) {
 
+    if( !filename ){ filename = 'preview'; }
+
     // destination path
-    var destination = path.resolve( paths.reports, 'preview.geojson');
+    var destination = path.resolve( paths.reports, filename + '.geojson');
 
     // full interpolation for a single street
     var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE ' + condition + ' ORDER BY housenumber' );
@@ -177,11 +179,13 @@ module.exports.geojson = function(test, paths, condition) {
   });
 };
 
-module.exports.tsv = function(test, paths, condition) {
+module.exports.tsv = function(test, paths, condition, filename) {
   test('produce tsv', function(t) {
 
+    if( !filename ){ filename = 'preview'; }
+
     // destination path
-    var destination = path.resolve( paths.reports, 'preview.tsv');
+    var destination = path.resolve( paths.reports, filename + '.tsv');
 
     // full interpolation for a single street
     var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE ' + condition + ' ORDER BY housenumber' );
