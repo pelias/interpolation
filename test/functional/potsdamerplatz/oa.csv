@@ -1,0 +1,370 @@
+LON,LAT,NUMBER,STREET,UNIT,CITY,DISTRICT,REGION,POSTCODE,ID,HASH
+13.3771165,52.5089803,8,Potsdamer Platz,,Berlin,,,10117,,5376552947c34f14
+13.3773049,52.5087111,9,Potsdamer Platz,,Berlin,,,10117,,8debadc4b60b8590
+13.3753185,52.5086617,1,Alte Potsdamer Straße,,Berlin,,,10785,,64d9f724a24ac900
+13.3747999,52.5083944,5,Alte Potsdamer Straße,,Berlin,,,10785,,d0fa9cd2bbf9369d
+13.3744733,52.5081213,7,Alte Potsdamer Straße,,Berlin,,,10785,,15ef8b1a1fa0328a
+13.3734668,52.5077608,13,Alte Potsdamer Straße,,Berlin,,,10785,,4d5515af4de5bece
+13.3754958,52.5091691,1,Potsdamer Platz,,Berlin,,,10785,,2ec79a6cbe2abce3
+13.3752868,52.5096934,2,Potsdamer Platz,,Berlin,,,10785,,4435fd1a944add61
+13.3753924,52.5101733,3,Potsdamer Platz,,Berlin,,,10785,,9a8f1cdf2e55e545
+13.3756481,52.510195,4,Potsdamer Platz,,Berlin,,,10785,,bea1557e7fd88d96
+13.3761822,52.5102195,5,Potsdamer Platz,,Berlin,,,10785,,e549add9ac3cfd57
+13.3771049,52.508305,10,Potsdamer Platz,,Berlin,,,10785,,1a3af8d8b7cc3e3b
+13.3758071,52.5089248,11,Potsdamer Platz,,Berlin,,,10785,,d8bff0b61ed3d089
+13.3741082,52.5080792,9,Alte Potsdamer Straße,,Berlin,,,10785,,461f7f6638d65d90
+13.3738352,52.5079497,11,Alte Potsdamer Straße,,Berlin,,,10785,,0c5775f713827eb0
+13.3745074,52.5090709,1,Potsdamer Straße,,Berlin,,,10785,,953bc648e64fec7b
+13.3736217,52.5095237,2,Potsdamer Straße,,Berlin,,,10785,,d1eccc50b82065ab
+13.3727271,52.5096577,4,Potsdamer Straße,,Berlin,,,10785,,a7318e790f3a5b2f
+13.3721053,52.5098526,6,Potsdamer Straße,,Berlin,,,10785,,7e6410240ddbb039
+13.3726184,52.5089045,7,Potsdamer Straße,,Berlin,,,10785,,b01feb30d302a762
+13.3722526,52.5094264,8,Potsdamer Straße,,Berlin,,,10785,,ce382c561fa960e1
+13.3714138,52.5082571,33,Potsdamer Straße,,Berlin,,,10785,,1210cb6f358eeb9e
+13.3698054,52.5071792,35,Potsdamer Straße,,Berlin,,,10785,,4086e83a8d6101e6
+13.3696887,52.5069134,37,Potsdamer Straße,,Berlin,,,10785,,67884327ac19dac5
+13.3680088,52.5068856,50,Potsdamer Straße,,Berlin,,,10785,,269385ca6d5663e9
+13.3682241,52.5050771,53,Potsdamer Straße,,Berlin,,,10785,,bba36336654f87c7
+13.3680047,52.5049185,55,Potsdamer Straße,,Berlin,,,10785,,f25344f5ab23ccb6
+13.3678327,52.5047743,57,Potsdamer Straße,,Berlin,,,10785,,46827b5b109fc1cc
+13.3676731,52.5046774,59,Potsdamer Straße,,Berlin,,,10785,,d58cbc03bc881003
+13.3671167,52.5051304,60,Potsdamer Straße,,Berlin,,,10785,,381b72aa35ea06e6
+13.3670722,52.5041117,61,Potsdamer Straße,,Berlin,,,10785,,5babae045cb8732f
+13.3671167,52.5051304,62,Potsdamer Straße,,Berlin,,,10785,,05cbd2416138e6df
+13.3667253,52.5037709,63,Potsdamer Straße,,Berlin,,,10785,,e634b722fb45bbcc
+13.3671167,52.5051304,64,Potsdamer Straße,,Berlin,,,10785,,82fc9b38690d5bbd
+13.3665498,52.5035991,65,Potsdamer Straße,,Berlin,,,10785,,8fafe41f7e3c16aa
+13.3669212,52.504907,66,Potsdamer Straße,,Berlin,,,10785,,c89b7dcb17715e29
+13.366311,52.5033947,67,Potsdamer Straße,,Berlin,,,10785,,0c154d2a80ae2b9d
+13.366788,52.5047172,68,Potsdamer Straße,,Berlin,,,10785,,af95c3ed0e6cbee8
+13.3661304,52.5031885,69,Potsdamer Straße,,Berlin,,,10785,,38261fb286ea149a
+13.3666919,52.5046075,70,Potsdamer Straße,,Berlin,,,10785,,4dc7ce898fe8033e
+13.3658211,52.5028402,71,Potsdamer Straße,,Berlin,,,10785,,9b7f87aa21964341
+13.3665572,52.5044538,72,Potsdamer Straße,,Berlin,,,10785,,ec1c9b3a2b6556d6
+13.3657318,52.5027377,73,Potsdamer Straße,,Berlin,,,10785,,32a9beb4873a32bd
+13.3663996,52.5042741,74,Potsdamer Straße,,Berlin,,,10785,,890268d448dbf620
+13.365609,52.5025966,75,Potsdamer Straße,,Berlin,,,10785,,dc862aba25497841
+13.3662145,52.504064,76,Potsdamer Straße,,Berlin,,,10785,,ea3457a3c87fc700
+13.3654288,52.5023762,77,Potsdamer Straße,,Berlin,,,10785,,cf27f1a623e8ce57
+13.3660941,52.5039253,78,Potsdamer Straße,,Berlin,,,10785,,75b3fff1f34ff1e5
+13.3654288,52.5023762,79,Potsdamer Straße,,Berlin,,,10785,,dc384811be62e213
+13.365939,52.5037483,80,Potsdamer Straße,,Berlin,,,10785,,da8c6aea487e1d3e
+13.3652306,52.5021486,81,Potsdamer Straße,,Berlin,,,10785,,f46aae258f4f4ebb
+13.3658346,52.5021895,81 A,Potsdamer Straße,,Berlin,,,10785,,c6c9484843852c1e
+13.3659796,52.5021582,81 B,Potsdamer Straße,,Berlin,,,10785,,e44eb1efe72d2243
+13.3661845,52.5020937,81 C,Potsdamer Straße,,Berlin,,,10785,,4ec16bff38d1e7ed
+13.3658287,52.5036217,82,Potsdamer Straße,,Berlin,,,10785,,6ec543c67bab66e2
+13.3652306,52.5021486,83,Potsdamer Straße,,Berlin,,,10785,,ab3d2a5b49d0577d
+13.3656662,52.503434,84,Potsdamer Straße,,Berlin,,,10785,,bab62b2fa32baf60
+13.3650576,52.5019637,85,Potsdamer Straße,,Berlin,,,10785,,9749fb2dca6e6ed8
+13.3655567,52.503306,86,Potsdamer Straße,,Berlin,,,10785,,4679594e199b880f
+13.3649459,52.5018361,87,Potsdamer Straße,,Berlin,,,10785,,b766efac64503a9d
+13.3652148,52.5029377,88,Potsdamer Straße,,Berlin,,,10785,,620b41c24ea5eda9
+13.3648242,52.5016944,89,Potsdamer Straße,,Berlin,,,10785,,c3abb9cdd6b6687f
+13.3650226,52.5027206,90,Potsdamer Straße,,Berlin,,,10785,,3b683e2ecf7973ac
+13.3646834,52.5015366,91,Potsdamer Straße,,Berlin,,,10785,,67edb58c4d4590d0
+13.3649054,52.5025861,92,Potsdamer Straße,,Berlin,,,10785,,da96e9ee47c375a7
+13.3645248,52.5013674,93,Potsdamer Straße,,Berlin,,,10785,,ebe7ff1049b95ee1
+13.3646562,52.5023004,94,Potsdamer Straße,,Berlin,,,10785,,fa62f3cbf3eb4498
+13.364475,52.5012171,95,Potsdamer Straße,,Berlin,,,10785,,8d2e64021f727e68
+13.3645072,52.5021296,96,Potsdamer Straße,,Berlin,,,10785,,e4194c6ecb8cb8e6
+13.3642506,52.5010426,97,Potsdamer Straße,,Berlin,,,10785,,516602e806e21e39
+13.3642313,52.5018133,98,Potsdamer Straße,,Berlin,,,10785,,2b09013fccf22aca
+13.3641392,52.5009154,99,Potsdamer Straße,,Berlin,,,10785,,bea20e98e42e0aa7
+13.3640188,52.5015698,100,Potsdamer Straße,,Berlin,,,10785,,d9950443ec6628fe
+13.3639426,52.501482,102,Potsdamer Straße,,Berlin,,,10785,,9b95a18aaf5ee9a9
+13.3637099,52.5004241,103,Potsdamer Straße,,Berlin,,,10785,,a4d2e91d95f0f727
+13.3637477,52.5012758,104,Potsdamer Straße,,Berlin,,,10785,,dbf8cb8d15f8457c
+13.3635368,52.5002236,105,Potsdamer Straße,,Berlin,,,10785,,b86dfde644314728
+13.363615,52.5011256,106,Potsdamer Straße,,Berlin,,,10785,,c7d7664b17041e8a
+13.3633897,52.5000566,107,Potsdamer Straße,,Berlin,,,10785,,d490b665eb8718df
+13.3632717,52.4998954,109,Potsdamer Straße,,Berlin,,,10785,,3049c0f25b691df7
+13.3631485,52.5005711,112,Potsdamer Straße,,Berlin,,,10785,,c859f38f417f5c5d
+13.3630227,52.5004264,114,Potsdamer Straße,,Berlin,,,10785,,3fb9c502c943fad5
+13.3629466,52.500339,116,Potsdamer Straße,,Berlin,,,10785,,4f939fa39f0ae5dd
+13.3628151,52.5001879,118,Potsdamer Straße,,Berlin,,,10785,,e615fe2ebe669e1d
+13.3626999,52.5000391,120,Potsdamer Straße,,Berlin,,,10785,,a6f5ec9ceb8f5abd
+13.3675613,52.5054928,58,Potsdamer Straße,,Berlin,,,10785,,fd5a5555d55ef09c
+13.363825,52.5005552,101,Potsdamer Straße,,Berlin,,,10785,,af1d29adf278a4fa
+13.3736991,52.5089902,3,Potsdamer Straße,,Berlin,,,10785,,043a6266269fbb54
+13.3734649,52.5089717,5,Potsdamer Straße,,Berlin,,,10785,,c95d46e83b47a6fb
+13.3630249,52.502123,98 A,Potsdamer Straße,,Berlin,,,10785,,2296a6bfa53e3c45
+13.3022784,52.4326493,1,Potsdamer Straße,,Berlin,,,12205,,718d924252816e60
+13.3022404,52.4328224,1 A,Potsdamer Straße,,Berlin,,,12205,,71b0c43c0b96b2e0
+13.3022601,52.4329896,2,Potsdamer Straße,,Berlin,,,12205,,09533a986c7d7a11
+13.3025086,52.4330792,2 A,Potsdamer Straße,,Berlin,,,12205,,3b7780d8e694e10a
+13.3022969,52.4334077,3,Potsdamer Straße,,Berlin,,,12205,,26d194d94925e9d5
+13.3023248,52.4336896,4,Potsdamer Straße,,Berlin,,,12205,,328b00ef17245cac
+13.3026508,52.434369,6,Potsdamer Straße,,Berlin,,,12205,,3b3ca85f8c98d709
+13.3024153,52.4346153,7,Potsdamer Straße,,Berlin,,,12205,,15fd3e2a835a71c7
+13.3024925,52.4347788,8,Potsdamer Straße,,Berlin,,,12205,,228b9efa4e79cfe7
+13.3025662,52.434989,9,Potsdamer Straße,,Berlin,,,12205,,573d4765b513b626
+13.3025231,52.4352092,10,Potsdamer Straße,,Berlin,,,12205,,a2b0a8c484da547b
+13.3025366,52.4353752,10 A,Potsdamer Straße,,Berlin,,,12205,,7250425a23ee2bcf
+13.3028778,52.4354761,10 B,Potsdamer Straße,,Berlin,,,12205,,928700bf5d109032
+13.3028954,52.4357796,11,Potsdamer Straße,,Berlin,,,12205,,e1d6b7508aca7384
+13.3030272,52.4356608,11 A,Potsdamer Straße,,Berlin,,,12205,,1f390e1efa442a67
+13.3021528,52.4358081,12,Potsdamer Straße,,Berlin,,,12205,,715ea44ec4e4b9a5
+13.302012,52.4359349,12 A,Potsdamer Straße,,Berlin,,,12205,,e2144c2610d27b48
+13.3025024,52.4360251,13,Potsdamer Straße,,Berlin,,,12205,,acb4c4cca1332baf
+13.302361,52.4361173,13 A,Potsdamer Straße,,Berlin,,,12205,,d7c2bf72be214cc0
+13.3022447,52.43622,13 B,Potsdamer Straße,,Berlin,,,12205,,c2795525cc0509b9
+13.302108,52.4363145,13 C,Potsdamer Straße,,Berlin,,,12205,,57774f537b09f57c
+13.3018029,52.4360852,14,Potsdamer Straße,,Berlin,,,12205,,5bf0b777959ab0a6
+13.3016865,52.4361903,14 A,Potsdamer Straße,,Berlin,,,12205,,e7f59102c97637ca
+13.3014764,52.4363205,15,Potsdamer Straße,,Berlin,,,12205,,924c167392e73f5e
+13.3013606,52.4365173,15 A,Potsdamer Straße,,Berlin,,,12205,,3a0b2050a6fb684c
+13.301175,52.4366627,16,Potsdamer Straße,,Berlin,,,12205,,d94641772df73570
+13.3010834,52.436744,17,Potsdamer Straße,,Berlin,,,12205,,0d7c0e0d62dfe3f8
+13.3014944,52.4371452,17 A,Potsdamer Straße,,Berlin,,,12205,,a2389b302550541d
+13.3009301,52.4369029,18,Potsdamer Straße,,Berlin,,,12205,,5525e40d86f25fa7
+13.3007267,52.4370682,19,Potsdamer Straße,,Berlin,,,12205,,ad37a4f7bcf5c86b
+13.3004627,52.4372607,20,Potsdamer Straße,,Berlin,,,12205,,3468a032246c6ca7
+13.3000735,52.4376751,20 A,Potsdamer Straße,,Berlin,,,12205,,a2a4b558da16ca9e
+13.2998684,52.4378554,21,Potsdamer Straße,,Berlin,,,12205,,f4dbc39ba40e9c33
+13.3005714,52.4382616,22,Potsdamer Straße,,Berlin,,,12205,,4831855434dc8efd
+13.2996419,52.4380256,22 A,Potsdamer Straße,,Berlin,,,12205,,eb8155ecb3350ff9
+13.2994284,52.4382386,23,Potsdamer Straße,,Berlin,,,12205,,23e5bfd450709df9
+13.2996369,52.4383214,23 A,Potsdamer Straße,,Berlin,,,12205,,2242b4a5eff8c2eb
+13.2998304,52.4383959,23 B,Potsdamer Straße,,Berlin,,,12205,,23ee576a030104e9
+13.3000153,52.4384769,23 C,Potsdamer Straße,,Berlin,,,12205,,2f41438a38980f1a
+13.2992697,52.4383842,24,Potsdamer Straße,,Berlin,,,12205,,68ccff8a7ab9385d
+13.2991719,52.4385979,24 A,Potsdamer Straße,,Berlin,,,12205,,954266ad68b55091
+13.2988428,52.4387082,25,Potsdamer Straße,,Berlin,,,12205,,f4104aa4712d8ed2
+13.2982717,52.4392165,27,Potsdamer Straße,,Berlin,,,12205,,55813596985483be
+13.2981799,52.4392925,27 A,Potsdamer Straße,,Berlin,,,12205,,77031cfa989a88c1
+13.2980069,52.4394637,28,Potsdamer Straße,,Berlin,,,12205,,3141399a9bd674f6
+13.2979073,52.4395613,29,Potsdamer Straße,,Berlin,,,12205,,fcdc3718fc4fff2a
+13.2977771,52.4397513,30,Potsdamer Straße,,Berlin,,,12205,,0144ca04386e977d
+13.2974977,52.4399119,31,Potsdamer Straße,,Berlin,,,12205,,bcef9529bd1dd8d1
+13.2978815,52.4401627,31 A,Potsdamer Straße,,Berlin,,,12205,,829a159989206a8c
+13.2973924,52.4403001,32,Potsdamer Straße,,Berlin,,,12205,,c4b69e8fba85d8b1
+13.297623,52.4404281,32 A,Potsdamer Straße,,Berlin,,,12205,,e17f4c24a9536dde
+13.2970167,52.44048,33,Potsdamer Straße,,Berlin,,,12205,,93ae5690658b24f5
+13.2974925,52.4406808,33 A,Potsdamer Straße,,Berlin,,,12205,,403e89c8848b696d
+13.2968328,52.4406594,34,Potsdamer Straße,,Berlin,,,12205,,ce6f785e48e11d14
+13.2966213,52.4407993,35,Potsdamer Straße,,Berlin,,,12205,,6c20a957f62b182d
+13.2964535,52.4409882,36,Potsdamer Straße,,Berlin,,,12205,,5b5a046c41ff26aa
+13.2968502,52.4411414,36 A,Potsdamer Straße,,Berlin,,,12205,,66bc557ee4d78c15
+13.2961839,52.4411449,37,Potsdamer Straße,,Berlin,,,12205,,17a3a739d312c43c
+13.2963005,52.4404247,40,Potsdamer Straße,,Berlin,,,12205,,2eadc3b3f700c21a
+13.2965133,52.440215,41,Potsdamer Straße,,Berlin,,,12205,,5793b603a0b45dec
+13.2966122,52.440127,42,Potsdamer Straße,,Berlin,,,12205,,95bd7b64e238fad6
+13.2968578,52.4399342,43,Potsdamer Straße,,Berlin,,,12205,,e5b5fb00ea3b78df
+13.296971,52.4398215,44,Potsdamer Straße,,Berlin,,,12205,,4024ea43875844f2
+13.2971304,52.4396768,45,Potsdamer Straße,,Berlin,,,12205,,f69561a5f240f98f
+13.2972714,52.4395184,46,Potsdamer Straße,,Berlin,,,12205,,59712828b30a7223
+13.2974567,52.4393555,47,Potsdamer Straße,,Berlin,,,12205,,00dbb33cc903417d
+13.2977264,52.4391007,48,Potsdamer Straße,,Berlin,,,12205,,e0956b0a704b8a30
+13.2983454,52.4385389,48 A,Potsdamer Straße,,Berlin,,,12205,,ada1f35dd53b0131
+13.2986711,52.4382668,49,Potsdamer Straße,,Berlin,,,12205,,7cff3bf4576e1240
+13.2979663,52.4381233,49 A,Potsdamer Straße,,Berlin,,,12205,,9cb39165539e16d8
+13.2987936,52.4379164,50,Potsdamer Straße,,Berlin,,,12205,,11def3b6bbc89c68
+13.2988858,52.4378365,50 A,Potsdamer Straße,,Berlin,,,12205,,816cdb9be8b9e2f7
+13.2983672,52.437751,50 B,Potsdamer Straße,,Berlin,,,12205,,93b36d34a145948c
+13.2984769,52.4376661,50 C,Potsdamer Straße,,Berlin,,,12205,,9046d6ad4abb9aa6
+13.299251,52.4377224,51,Potsdamer Straße,,Berlin,,,12205,,c3aa9c2104d308e4
+13.2994423,52.437571,52,Potsdamer Straße,,Berlin,,,12205,,674bda0392c78b16
+13.2996258,52.4374104,53,Potsdamer Straße,,Berlin,,,12205,,6e5f8366f0278be3
+13.3002007,52.436886,54,Potsdamer Straße,,Berlin,,,12205,,7ef6fd9b59b8ad11
+13.3003807,52.4367073,55,Potsdamer Straße,,Berlin,,,12205,,2337e0d5be13a9ce
+13.3005866,52.4365416,55 A,Potsdamer Straße,,Berlin,,,12205,,e2af2f00b9d1831f
+13.3007497,52.4363924,56,Potsdamer Straße,,Berlin,,,12205,,5919ed7cc60d9912
+13.3009898,52.4361592,57,Potsdamer Straße,,Berlin,,,12205,,f707923148632ace
+13.3013264,52.4358208,57 A,Potsdamer Straße,,Berlin,,,12205,,0392f57e17ad213d
+13.301516,52.4356735,58,Potsdamer Straße,,Berlin,,,12205,,aa62ca2fbc4766b8
+13.3016819,52.4355566,58 A,Potsdamer Straße,,Berlin,,,12205,,256f11c3f9c9c2f7
+13.3013571,52.4351902,59,Potsdamer Straße,,Berlin,,,12205,,9d1c8dab13807b64
+13.3017679,52.4353496,59 A,Potsdamer Straße,,Berlin,,,12205,,2896191405632f11
+13.3019216,52.4351355,60,Potsdamer Straße,,Berlin,,,12205,,a002acf5c305b304
+13.3018337,52.4349801,61,Potsdamer Straße,,Berlin,,,12205,,d6f697624f20315d
+13.3017453,52.4346124,63,Potsdamer Straße,,Berlin,,,12205,,451c6e695e06804b
+13.3017951,52.4337787,64,Potsdamer Straße,,Berlin,,,12205,,061eed59857fcc7b
+13.3017737,52.4335138,65,Potsdamer Straße,,Berlin,,,12205,,2634e7247a336a84
+13.3017168,52.4329144,66,Potsdamer Straße,,Berlin,,,12205,,9be9f793469042d6
+13.3017049,52.4327807,67,Potsdamer Straße,,Berlin,,,12205,,2f6e89f7c52506e5
+13.3022471,52.4339652,5,Potsdamer Straße,,Berlin,,,12205,,45f0c85312891d0c
+13.3030078,52.4347727,8 A,Potsdamer Straße,,Berlin,,,12205,,d7c4113b103cb376
+13.2985857,52.439681,28 A,Potsdamer Straße,,Berlin,,,12205,,36e5cfaaf59fd1bf
+13.2960073,52.4407963,38,Potsdamer Straße,,Berlin,,,12205,,910eb7fba641ad5c
+13.2962501,52.4405712,39,Potsdamer Straße,,Berlin,,,12205,,65fe440be3d8f180
+13.3018235,52.4347657,62,Potsdamer Straße,,Berlin,,,12205,,ba9cd733d42c95f9
+13.2591727,52.4354742,1,Potsdamer Straße,,Berlin,,,14163,,1d110f01692b9bef
+13.258971,52.4355094,2,Potsdamer Straße,,Berlin,,,14163,,7c7c1af03176dbd2
+13.2577861,52.4357581,3,Potsdamer Straße,,Berlin,,,14163,,a83554e0de50bde6
+13.2574516,52.4358368,4,Potsdamer Straße,,Berlin,,,14163,,aedbd94fc1de0025
+13.2570008,52.435915,6,Potsdamer Straße,,Berlin,,,14163,,e1e6cfebb55fea70
+13.2570967,52.4363531,7,Potsdamer Straße,,Berlin,,,14163,,02453e3d1674f4ce
+13.2562089,52.4367836,7 A,Potsdamer Straße,,Berlin,,,14163,,bbcc98b7edd78002
+13.2556225,52.4359227,7 B,Potsdamer Straße,,Berlin,,,14163,,5da3774166688966
+13.2550113,52.4358302,8,Potsdamer Straße,,Berlin,,,14163,,7bfa3f375b50a96f
+13.2431709,52.4334687,12,Potsdamer Straße,,Berlin,,,14163,,ac17a51ef358e9e2
+13.2433088,52.4331337,13,Potsdamer Straße,,Berlin,,,14163,,23d706d0bb1ac378
+13.2437462,52.4336123,14,Potsdamer Straße,,Berlin,,,14163,,c7920480b5eade9c
+13.2439846,52.433646,15,Potsdamer Straße,,Berlin,,,14163,,9911ac2c222ad98a
+13.2442088,52.4336629,16,Potsdamer Straße,,Berlin,,,14163,,e8f8e284bf2aa508
+13.2442653,52.433536,17,Potsdamer Straße,,Berlin,,,14163,,ff7f63b093340645
+13.2447157,52.4337287,18,Potsdamer Straße,,Berlin,,,14163,,8cc892636baeea7e
+13.246629,52.433997,23,Potsdamer Straße,,Berlin,,,14163,,af7a18a2a66197ec
+13.2470338,52.4335722,24,Potsdamer Straße,,Berlin,,,14163,,28b57b3edec56a41
+13.2470048,52.4341082,25,Potsdamer Straße,,Berlin,,,14163,,ee13107aba36e634
+13.2473022,52.4341244,26,Potsdamer Straße,,Berlin,,,14163,,52a8545f1676742a
+13.2474454,52.4338965,26 A,Potsdamer Straße,,Berlin,,,14163,,97ed4178119e2a39
+13.2485203,52.4342088,29,Potsdamer Straße,,Berlin,,,14163,,d73a99859d0d0da0
+13.2487122,52.4343426,30,Potsdamer Straße,,Berlin,,,14163,,8f5fb13902180a3e
+13.2491191,52.4342901,31,Potsdamer Straße,,Berlin,,,14163,,235b2a592bcc7c48
+13.249604,52.4345126,33,Potsdamer Straße,,Berlin,,,14163,,4b2fbf32dcea7832
+13.2497743,52.4345336,34,Potsdamer Straße,,Berlin,,,14163,,fdea689ae80d961c
+13.2499806,52.4345663,35,Potsdamer Straße,,Berlin,,,14163,,e73504b81b466403
+13.2502443,52.4345968,36,Potsdamer Straße,,Berlin,,,14163,,ad939971eac88d06
+13.2504214,52.4346223,37,Potsdamer Straße,,Berlin,,,14163,,fa45c84040290731
+13.2506644,52.4346593,38,Potsdamer Straße,,Berlin,,,14163,,b1084b5424d5b692
+13.2511245,52.4347428,39,Potsdamer Straße,,Berlin,,,14163,,f9342e815294f59a
+13.2514026,52.4347844,40,Potsdamer Straße,,Berlin,,,14163,,99926f44f38995ce
+13.2517086,52.4348306,41,Potsdamer Straße,,Berlin,,,14163,,4cd12588b9191f05
+13.2520191,52.4348819,42,Potsdamer Straße,,Berlin,,,14163,,8359bd650f419d30
+13.2529053,52.4350105,44,Potsdamer Straße,,Berlin,,,14163,,45da290ff9d3ddd6
+13.2532234,52.4349729,45,Potsdamer Straße,,Berlin,,,14163,,d26c5d13fd630237
+13.2533885,52.4349843,46,Potsdamer Straße,,Berlin,,,14163,,b66fe7d3f8368adb
+13.2550195,52.4349734,47,Potsdamer Straße,,Berlin,,,14163,,dc38d810e17afbc2
+13.2552745,52.4352745,48,Potsdamer Straße,,Berlin,,,14163,,16e915c67dfe5c3a
+13.2555933,52.4353224,48 A,Potsdamer Straße,,Berlin,,,14163,,e00d1bb9a8bee882
+13.2563784,52.4353722,49,Potsdamer Straße,,Berlin,,,14163,,f47eb672c3fb0a43
+13.2568204,52.435458,50,Potsdamer Straße,,Berlin,,,14163,,43cf9368cc60c284
+13.2573248,52.4352981,50 A,Potsdamer Straße,,Berlin,,,14163,,a0fcd3ebaa33a9f7
+13.2586043,52.4351292,51,Potsdamer Straße,,Berlin,,,14163,,7942f7d031c59ff3
+13.2590077,52.4350538,52,Potsdamer Straße,,Berlin,,,14163,,a9191cd2a78ce45f
+13.2592365,52.4350141,53,Potsdamer Straße,,Berlin,,,14163,,4bbba27a3b6db7a8
+13.2595316,52.4349626,54,Potsdamer Straße,,Berlin,,,14163,,e44ae2e774326520
+13.2428496,52.4334491,11,Potsdamer Straße,,Berlin,,,14163,,f2a7ecf4096f83e9
+13.2491584,52.4344808,32,Potsdamer Straße,,Berlin,,,14163,,88e294c71df756cb
+13.2572041,52.43588,5,Potsdamer Straße,,Berlin,,,14163,,bc4be0e9843d36be
+13.2426397,52.433037,11 A,Potsdamer Straße,,Berlin,,,14163,,c4faa552a805876e
+13.2420842,52.4331437,11 B,Potsdamer Straße,,Berlin,,,14163,,62d9cec8da0c6584
+13.2458912,52.4339841,21,Potsdamer Straße,,Berlin,,,14163,,9d818d44a42e3c87
+13.247134,52.4339758,25 A,Potsdamer Straße,,Berlin,,,14163,,0f8d43fb744e7ca8
+13.3630739,52.4994658,111,Potsdamer Straße,,Berlin,,,10783,,630c42a7a6a93e18
+13.3630153,52.4992882,113,Potsdamer Straße,,Berlin,,,10783,,a76a2afd4f353712
+13.3629349,52.4991323,115,Potsdamer Straße,,Berlin,,,10783,,42d0f6ea92a77b4e
+13.3627928,52.4988122,117,Potsdamer Straße,,Berlin,,,10783,,436d0b84edbe6044
+13.3627928,52.4988122,119,Potsdamer Straße,,Berlin,,,10783,,ad875d91788cbae4
+13.3625751,52.4983003,121,Potsdamer Straße,,Berlin,,,10783,,f40abf9b11f49320
+13.3625751,52.4983003,123,Potsdamer Straße,,Berlin,,,10783,,f6d4be2fe816cbae
+13.3624439,52.4995521,124,Potsdamer Straße,,Berlin,,,10783,,4bb7142f372108ac
+13.3625751,52.4983003,125,Potsdamer Straße,,Berlin,,,10783,,83d8ee7db7b7f54e
+13.3623802,52.4993899,126,Potsdamer Straße,,Berlin,,,10783,,868f3e10d5eada88
+13.3625751,52.4983003,127,Potsdamer Straße,,Berlin,,,10783,,4aac284cde32d19e
+13.3623232,52.499226,128,Potsdamer Straße,,Berlin,,,10783,,475cf00a7cc8ad78
+13.3622131,52.4974126,129,Potsdamer Straße,,Berlin,,,10783,,e99b79e98413d6fd
+13.3622587,52.499069,130,Potsdamer Straße,,Berlin,,,10783,,7afe7b6ba4f2ef84
+13.3615422,52.4990488,130 A,Potsdamer Straße,,Berlin,,,10783,,1124905b23696cf5
+13.3621206,52.4972332,131,Potsdamer Straße,,Berlin,,,10783,,5b67c9460695a071
+13.3621758,52.4988781,132,Potsdamer Straße,,Berlin,,,10783,,41c6435c19d99642
+13.3620601,52.4970915,133,Potsdamer Straße,,Berlin,,,10783,,4b746661939a31d0
+13.3620442,52.4986293,136,Potsdamer Straße,,Berlin,,,10783,,be43a6eb0c92e4ee
+13.3619845,52.4969144,137,Potsdamer Straße,,Berlin,,,10783,,055851e433053c03
+13.3619653,52.4983846,138,Potsdamer Straße,,Berlin,,,10783,,bc6c57b57ba9b84a
+13.3619137,52.4967487,139,Potsdamer Straße,,Berlin,,,10783,,8ca648ba134f2d82
+13.36189,52.4982033,140,Potsdamer Straße,,Berlin,,,10783,,fb8e1f1c4b22dfae
+13.3618433,52.4965839,141,Potsdamer Straße,,Berlin,,,10783,,21e3e3bed32479dd
+13.3616283,52.4975905,142,Potsdamer Straße,,Berlin,,,10783,,5cf8ea41c33aa003
+13.3617683,52.496408,143,Potsdamer Straße,,Berlin,,,10783,,671e0199ae11c4eb
+13.3615652,52.4974426,144,Potsdamer Straße,,Berlin,,,10783,,98392507a76654c8
+13.3616971,52.4962413,145,Potsdamer Straße,,Berlin,,,10783,,801375e08b4b3c40
+13.3615016,52.4972939,146,Potsdamer Straße,,Berlin,,,10783,,9ef19d604d6268cf
+13.3616111,52.4960398,147,Potsdamer Straße,,Berlin,,,10783,,95c209cfc460bff8
+13.3614159,52.4971115,148,Potsdamer Straße,,Berlin,,,10783,,b6a3c4c90475219d
+13.3613504,52.49694,150,Potsdamer Straße,,Berlin,,,10783,,9c4a7c859eddebbe
+13.3614746,52.4955224,151,Potsdamer Straße,,Berlin,,,10783,,428760db52576c6e
+13.3612775,52.4967696,152,Potsdamer Straße,,Berlin,,,10783,,bf863a9aa8b9a334
+13.3614609,52.4953608,153,Potsdamer Straße,,Berlin,,,10783,,fc2366a1aae6f50f
+13.3612192,52.4966592,154,Potsdamer Straße,,Berlin,,,10783,,9541cdbd62a79169
+13.361449,52.4952207,155,Potsdamer Straße,,Berlin,,,10783,,20f57de1fd85d4e1
+13.3611379,52.4964429,156,Potsdamer Straße,,Berlin,,,10783,,8f24ce1f63495997
+13.3614387,52.4951002,157,Potsdamer Straße,,Berlin,,,10783,,c61e8ff66d1fb58d
+13.3610654,52.4962732,158,Potsdamer Straße,,Berlin,,,10783,,f205fd8f107f3edf
+13.3614293,52.4949895,159,Potsdamer Straße,,Berlin,,,10783,,b1a494d6eab4b48e
+13.3609955,52.4961096,160,Potsdamer Straße,,Berlin,,,10783,,766bafbdeb33d5f0
+13.3614183,52.4948591,161,Potsdamer Straße,,Berlin,,,10783,,caa08a047d3d6341
+13.3608733,52.4957201,162,Potsdamer Straße,,Berlin,,,10783,,e253ae4cc6fbd047
+13.361413,52.4947093,163,Potsdamer Straße,,Berlin,,,10783,,5b26844e3c8d7c42
+13.3608623,52.4955841,164,Potsdamer Straße,,Berlin,,,10783,,544ae57cfe58b162
+13.3614136,52.4945715,165,Potsdamer Straße,,Berlin,,,10783,,f5b559fd941d3e15
+13.3608521,52.4954582,166,Potsdamer Straße,,Berlin,,,10783,,b7c820a4a049b32b
+13.3608396,52.4953036,168,Potsdamer Straße,,Berlin,,,10783,,1319daf2a914dc6b
+13.3614188,52.494057,169,Potsdamer Straße,,Berlin,,,10783,,882a80bb1f160e3a
+13.3601355,52.4954319,170,Potsdamer Straße,,Berlin,,,10783,,d4d95252c99410a9
+13.3598679,52.495443,170 A,Potsdamer Straße,,Berlin,,,10783,,e69606af779f397d
+13.3596004,52.4954543,170 B,Potsdamer Straße,,Berlin,,,10783,,efaf0b5c0092f74d
+13.3613257,52.493783,171,Potsdamer Straße,,Berlin,,,10783,,6c809c7cfe2b06e8
+13.3605787,52.4950085,172,Potsdamer Straße,,Berlin,,,10783,,796e41904a25ad79
+13.3603125,52.4950252,172 A,Potsdamer Straße,,Berlin,,,10783,,56bea46ea8143cdd
+13.3600551,52.4950378,172 B,Potsdamer Straße,,Berlin,,,10783,,6675aa339c81c770
+13.359792,52.4950586,172 C,Potsdamer Straße,,Berlin,,,10783,,b2c8460c63ee3aaf
+13.3595286,52.4950776,172 D,Potsdamer Straße,,Berlin,,,10783,,84a99656082ca154
+13.3613257,52.493783,173,Potsdamer Straße,,Berlin,,,10783,,0748777dae989032
+13.3613158,52.4934862,175,Potsdamer Straße,,Berlin,,,10783,,cea1fe4efc851aae
+13.3613005,52.493329,177,Potsdamer Straße,,Berlin,,,10783,,44cda47ab1e8e3e5
+13.3612942,52.4932142,179,Potsdamer Straße,,Berlin,,,10783,,c7150b53c1f91015
+13.3607322,52.4939236,180,Potsdamer Straße,,Berlin,,,10783,,57e8d3fd4c484f66
+13.3612644,52.4930692,181,Potsdamer Straße,,Berlin,,,10783,,f2eace6007703712
+13.3606993,52.493512,182,Potsdamer Straße,,Berlin,,,10783,,64d39140fe0bc460
+13.3612649,52.4928679,183,Potsdamer Straße,,Berlin,,,10783,,0ebd0dc0de9ca297
+13.3606749,52.493206,184,Potsdamer Straße,,Berlin,,,10783,,804a03d0b6b91462
+13.36065,52.4928958,186,Potsdamer Straße,,Berlin,,,10783,,dac01f3b80d999fb
+13.361232,52.4926927,187,Potsdamer Straße,,Berlin,,,10783,,350f8a42371399b9
+13.3605074,52.4917471,188,Potsdamer Straße,,Berlin,,,10783,,d8588508a87b2b37
+13.3612212,52.4925673,189,Potsdamer Straße,,Berlin,,,10783,,4a61afc2106ee485
+13.3604465,52.4914241,190,Potsdamer Straße,,Berlin,,,10783,,7f4eb6bb5ef3a32d
+13.3612104,52.4924717,191,Potsdamer Straße,,Berlin,,,10783,,bf535e74a03b0804
+13.360357,52.4910932,192,Potsdamer Straße,,Berlin,,,10783,,1663a228ce991705
+13.3612051,52.4923426,193,Potsdamer Straße,,Berlin,,,10783,,872102b2a74a9d1a
+13.3611948,52.4922199,195,Potsdamer Straße,,Berlin,,,10783,,99acfd0a922c73b2
+13.3611824,52.492072,197,Potsdamer Straße,,Berlin,,,10783,,f328b3a08fca65b7
+13.3611677,52.4918975,199,Potsdamer Straße,,Berlin,,,10783,,5b68b9b19bd98ba8
+13.3611616,52.4916938,203,Potsdamer Straße,,Berlin,,,10783,,939c41e504d67e1f
+13.3614881,52.4956814,149,Potsdamer Straße,,Berlin,,,10783,,22284786082eeb65
+13.4075736,52.4045058,1,Potsdamer Straße,,Berlin,,,12305,,7291df3c5657ea1d
+13.4079654,52.4043286,2,Potsdamer Straße,,Berlin,,,12305,,a1f845081c1e7c66
+13.4080765,52.4043503,2 A,Potsdamer Straße,,Berlin,,,12305,,8a811b18e7303f0e
+13.4078313,52.4045594,2 B,Potsdamer Straße,,Berlin,,,12305,,2eae4063d2f2a518
+13.4079365,52.4045808,2 C,Potsdamer Straße,,Berlin,,,12305,,32b0d211e80b8395
+13.408048,52.4046058,2 D,Potsdamer Straße,,Berlin,,,12305,,a4d4dbff9d47d071
+13.4082988,52.4046639,2 E,Potsdamer Straße,,Berlin,,,12305,,eee39bc07fa819f4
+13.4085244,52.404713,3,Potsdamer Straße,,Berlin,,,12305,,c0d06e6808913834
+13.4092367,52.4048653,4,Potsdamer Straße,,Berlin,,,12305,,09b20307f8e348fb
+13.4095,52.4049722,5,Potsdamer Straße,,Berlin,,,12305,,af23d07cd4d35e1f
+13.4098927,52.4050646,6,Potsdamer Straße,,Berlin,,,12305,,02172604009d8280
+13.4107568,52.4051243,8,Potsdamer Straße,,Berlin,,,12305,,29e4616756b3fe9f
+13.4108724,52.4051214,8 A,Potsdamer Straße,,Berlin,,,12305,,6b76b3bc7c249b9c
+13.4114977,52.4051726,10,Potsdamer Straße,,Berlin,,,12305,,5eeeab6dd9f693b3
+13.4118013,52.4051978,11,Potsdamer Straße,,Berlin,,,12305,,6f546e5a90295db8
+13.4125526,52.4052411,13,Potsdamer Straße,,Berlin,,,12305,,6fe2ff411f58f7e9
+13.4128612,52.4052566,14,Potsdamer Straße,,Berlin,,,12305,,bb645fd74732817d
+13.4133719,52.4052842,15,Potsdamer Straße,,Berlin,,,12305,,f08856782becffa6
+13.4137737,52.4053065,16,Potsdamer Straße,,Berlin,,,12305,,c124d0b850656611
+13.4140854,52.4053209,17,Potsdamer Straße,,Berlin,,,12305,,0ad3fcb02e0d6343
+13.4137286,52.4058192,20,Potsdamer Straße,,Berlin,,,12305,,2441986d40d67a43
+13.4134026,52.4057139,21,Potsdamer Straße,,Berlin,,,12305,,c73796925e73e4af
+13.4131304,52.4059357,22,Potsdamer Straße,,Berlin,,,12305,,76ad3c07259e46aa
+13.4130807,52.4056813,22 A,Potsdamer Straße,,Berlin,,,12305,,d7a4810d6e560c7f
+13.4128548,52.4056291,23,Potsdamer Straße,,Berlin,,,12305,,643689aff411fd63
+13.4127589,52.4056239,23 A,Potsdamer Straße,,Berlin,,,12305,,f0a306fda6183291
+13.411348,52.4054619,26,Potsdamer Straße,,Berlin,,,12305,,8bb894f3edf8832b
+13.4102321,52.4054865,28,Potsdamer Straße,,Berlin,,,12305,,8298015c864c2709
+13.4097825,52.4055103,29,Potsdamer Straße,,Berlin,,,12305,,2cbde9cb10d15918
+13.4098643,52.4053368,29 A,Potsdamer Straße,,Berlin,,,12305,,c528c5d19eb40f21
+13.4094931,52.4052871,30,Potsdamer Straße,,Berlin,,,12305,,4f9199d7f73d661d
+13.4091933,52.4052034,31,Potsdamer Straße,,Berlin,,,12305,,90280e285128cd9f
+13.4085701,52.4050354,32,Potsdamer Straße,,Berlin,,,12305,,51f3f0f7bdd50764
+13.4083371,52.4050167,33,Potsdamer Straße,,Berlin,,,12305,,2ce547c7292c1044
+13.4082403,52.4050146,33 A,Potsdamer Straße,,Berlin,,,12305,,b3d6535f2a9a06fc
+13.4075765,52.4048336,34 A,Potsdamer Straße,,Berlin,,,12305,,56554d74e5d5fcd2
+13.4074518,52.40479,34 B,Potsdamer Straße,,Berlin,,,12305,,9ff48183803bdfae
+13.4111731,52.4051558,9,Potsdamer Straße,,Berlin,,,12305,,587bf49016e37094
+13.4095126,52.4047892,5 A,Potsdamer Straße,,Berlin,,,12305,,1766d88e84b8c009
+13.4140357,52.4058939,19,Potsdamer Straße,,Berlin,,,12305,,1f8d69900fb1bdee
+13.4138073,52.4055876,20 A,Potsdamer Straße,,Berlin,,,12305,,6d21e117f470fbbf
+13.4137113,52.4055812,20 B,Potsdamer Straße,,Berlin,,,12305,,c99b4627fe584e32
+13.4080892,52.4049201,34,Potsdamer Straße,,Berlin,,,12305,,075afa8d70b87b46
+13.4102517,52.4050797,7,Potsdamer Straße,,Berlin,,,12305,,8417618096570cba

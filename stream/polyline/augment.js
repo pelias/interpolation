@@ -4,8 +4,8 @@ var through = require('through2'),
 
 // increase/decrease bbox bounds by this much in order to find houses which
 // might be slighly outside the bounds.
-// eg: http://geojson.io/#id=gist:anonymous/f01e10438309317b231d3b765fc339c9
-var FUDGE_FACTOR = 0.001;
+// eg: http://geojson.io/#id=gist:anonymous/ce8b0cdd2ba83ef24cfaab49d36d8cdd&map=15/52.5011/13.3222
+var FUDGE_FACTOR = 0.005;
 
 /**
   this stream augments the parsed data with additional fields.

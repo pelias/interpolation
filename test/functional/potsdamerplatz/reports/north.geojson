@@ -1,0 +1,128 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 3,
+        "lat": 52.5101733,
+        "lon": 13.3753924,
+        "parity": "L",
+        "proj_lat": 52.5100223,
+        "proj_lon": 13.3754159,
+        "marker-color": "#3366ff",
+        "marker-symbol": "o"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.3753924,
+          52.5101733
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 4,
+        "lat": 52.510195,
+        "lon": 13.3756481,
+        "parity": "L",
+        "proj_lat": 52.5100371,
+        "proj_lon": 13.3756726,
+        "marker-color": "#3366ff",
+        "marker-symbol": "e"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.3756481,
+          52.510195
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 5,
+        "lat": 52.5102195,
+        "lon": 13.3761822,
+        "parity": "L",
+        "proj_lat": 52.5100731,
+        "proj_lon": 13.3762092,
+        "marker-color": "#3366ff",
+        "marker-symbol": "o"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.3761822,
+          52.5102195
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parity": "L",
+        "stroke": "#3366ff"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.3753924,
+            52.5101733
+          ],
+          [
+            13.3754159,
+            52.5100223
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parity": "L",
+        "stroke": "#3366ff"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.3756481,
+            52.510195
+          ],
+          [
+            13.3756726,
+            52.5100371
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parity": "L",
+        "stroke": "#3366ff"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.3761822,
+            52.5102195
+          ],
+          [
+            13.3762092,
+            52.5100731
+          ]
+        ]
+      }
+    }
+  ]
+}

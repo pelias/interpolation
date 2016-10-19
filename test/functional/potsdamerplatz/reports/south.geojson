@@ -1,0 +1,46 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "OA",
+        "housenumber": 10,
+        "lat": 52.508305,
+        "lon": 13.3771049,
+        "parity": "R",
+        "proj_lat": 52.5084697,
+        "proj_lon": 13.3768711,
+        "marker-color": "#ff0000",
+        "marker-symbol": "e"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.3771049,
+          52.508305
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parity": "R",
+        "stroke": "#ff0000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.3771049,
+            52.508305
+          ],
+          [
+            13.3768711,
+            52.5084697
+          ]
+        ]
+      }
+    }
+  ]
+}

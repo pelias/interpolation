@@ -64,26 +64,51 @@ module.exports.functional.address_counts = function(test) {
 
     // count address table
     var addresses = sqlite3.count( paths.db.address, 'address' );
-    t.equal(addresses, 144, 'count(address)');
+    t.equal(addresses, 146, 'count(address)');
 
     t.end();
   });
 };
 
 module.exports.functional.spotcheck = function(test) {
-  test('spot checks', function(t) {
+  test('spot checks - main street segment', function(t) {
 
     // counts for a specific street
     var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=17' );
-    t.equal(count1, 144);
+    t.equal(count1, 133);
 
     // counts for a specific street (open addresses)
     var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=17 AND source="OA"' );
-    t.equal(count2, 140);
+    t.equal(count2, 128);
 
     // counts for a specific street (vertexes)
     var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=17 AND source="VERTEX"' );
-    t.equal(count3, 4);
+    t.equal(count3, 5);
+
+    t.end();
+  });
+
+  test('spot checks - small side street segment', function(t) {
+
+    // counts for a specific street
+    var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=18' );
+    t.equal(count1, 4);
+
+    // counts for a specific street (open addresses)
+    var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=18 AND source="OA"' );
+    t.equal(count2, 4);
+
+    // counts for a specific street (vertexes)
+    var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=18 AND source="VERTEX"' );
+    t.equal(count3, 0);
+
+    // check a specific address exists on a small off-street
+    var count4 = sqlite3.count( paths.db.address, 'address', 'WHERE id=18 AND source="OA" AND housenumber="47.1"' );
+    t.equal(count4, 1);
+
+    // check a specific address exists on a small off-street
+    var count5 = sqlite3.count( paths.db.address, 'address', 'WHERE id=18 AND source="OA" AND housenumber="47.2"' );
+    t.equal(count5, 1);
 
     t.end();
   });
@@ -93,7 +118,7 @@ module.exports.functional.end_to_end = function(test) {
   test('end to end', function(t) {
 
     // full interpolation for a single street
-    var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=17 ORDER BY housenumber' );
+    var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id IN (17,18) ORDER BY housenumber' );
     t.deepEqual(rows, fs.readFileSync( paths.expected ).toString('utf8').trim().split('\n') );
 
     t.end();
@@ -171,12 +196,14 @@ module.exports.functional.search = function(test) {
 
 // write geojson to disk
 module.exports.functional.geojson = function(test) {
-  action.geojson(test, paths, 'id=17');
+  action.geojson(test, paths, 'id=17', 'preview.main');
+  action.geojson(test, paths, 'id=18', 'preview.side');
 };
 
 // write tsv to disk
 module.exports.functional.tsv = function(test) {
-  action.tsv(test, paths, 'id=17');
+  action.tsv(test, paths, 'id=17', 'preview.main');
+  action.tsv(test, paths, 'id=16', 'preview.side');
 };
 
 module.exports.all = function (tape) {

@@ -69,6 +69,11 @@ function streamFactory(db){
         return true;
       });
 
+      // // remove short road segments (prefer larger roads)
+      var longLinesOnly = rows.filter( function( row ){
+        return row.line.length > 12;
+      });
+
       /**
       [ { id: 9155, line: 't}e`rA}cdehIcI_dCuJsnC[iIWiJ{Ko|DgMkdEuLcyC' }, ... ]
       **/
@@ -76,7 +81,7 @@ function streamFactory(db){
       // push downstream
       this.push({
         batch: batch,
-        streets: rows
+        streets: ( longLinesOnly.length > 1 ) ? longLinesOnly : rows
       });
 
       next();
