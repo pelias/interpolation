@@ -240,3 +240,84 @@ note: if you are using the `atom` editor, we recommend the [jshint](https://atom
 ```bash
 git commit
 ```
+
+# functional tests
+
+this repo contains a bunch of functional end-to-end tests in the [./test/functional](https://github.com/pelias/interpolation/tree/master/test/functional) directory.
+
+each test contains a [reports](https://github.com/pelias/interpolation/tree/master/test/functional/basic/reports) directory which contains human-readable visual output of each test case, including a geojson map view showing all the point data.
+
+### create a new functional test
+
+the easiest/best way to debug an issue is to create a new functional test case and use the test suite to assert conditions and generate visual output which you can inspect.
+
+these are the steps I took to create the `potsdamerplatz` test case:
+
+```bash
+# copy an existing test case
+cp -r test/functional/basic test/functional/potsdamerplatz
+
+# extract the relevant polylines from a large polyline source
+grep -Pia "potsdamer\s?(platz|strasse|straße)" /data/planet.polylines > test/functional/potsdamerplatz/osm.polylines
+
+# extract the relevant address points from a large openaddresses file (header line then body)
+head -n1 /data/oa/de/berlin.csv > test/functional/potsdamerplatz/oa.csv
+grep -Pia "potsdamer\s?(platz|strasse|straße)" /data/oa/de/berlin.csv >> test/functional/potsdamerplatz/oa.csv
+```
+
+next add that test case to `./test/_func.js` in order to it run every time anyone runs `npm test`.
+
+you can now edit the contents of `test/functional/potsdamerplatz/run.js` to suit your needs, you should rename the text at the bottom of the file which says something like `"functional: basic"` to be more descriptive, in this case we will call it `"functional: potsdamerplatz"`. now the output from `npm test` will include that label next to each assertion run in the file.
+
+great! you can skip the units tests and only run the functional tests with `npm run funcs`, go ahead and do that now and you will see your new tests failing; which is good! if you are going to be running that command a lot and you don't care to wait on the other tests, you can comment them out in `./test/_func.js`.
+
+now your test case is running it's time to have a poke around in that new directory you made.
+
+running the tests will produce new `street.db` & `address.db` files, you can query them directly from the command line to check what's inside them looks correct:
+
+```bash
+sqlite3 test/functional/potsdamerplatz/street.db "SELECT * FROM polyline JOIN names ON polyline.id = names.id WHERE names.name LIKE '%platz%'"
+```
+
+or you can start an interactive shell and have a poke around in there:
+
+```bash
+sqlite3 test/functional/potsdamerplatz/street.db
+
+SQLite version 3.8.11.1 2015-07-29 20:00:57
+Enter ".help" for usage hints.
+
+sqlite> select count(*) from polyline;
+64
+
+sqlite> .exit
+```
+
+you'll find a subdirectory called `./fixture` which is where all your data fixtures will live, you can query the database directly and save the response to that directory with a command such as:
+
+```bash
+sqlite3 test/functional/potsdamerplatz/address.db "SELECT * FROM address WHERE id = 1" > test/functional/potsdamerplatz/fixture/expected.dump
+```
+
+if you're hunting for a specific road segment to debug, you can open up your `test/functional/potsdamerplatz/osm.polylines` file and try to find the appropriate line in there, the line numbers will correspond to the ids, so the first line in that file is id=1 in the `street.db`.
+
+to visually inspect the polylines, you can cut them before the name and paster them in the search box here: http://valhalla.github.io/demos/polyline/
+eg. `ii|ccBsskoX_@wLaAkUi@sJ{@oM??mHn@??HtL~IUvGc@zJyA|Cg@tCkAhBkA~EyDpBaDnGgIeBqEoEnGwGvEqAz@wAr@qC|@wMl@mJ^`
+
+likewise if you are looking for a specific address, you can open up `test/functional/potsdamerplatz/oa.csv` and find the address in there (be aware that some very precise floating point numbers get truncated and so may not match exactly in tools like grep), you should then be able to find them in the `address.db`:
+
+```
+sqlite3 test/functional/potsdamerplatz/address.db "SELECT * FROM address" | grep "52.5046774"
+
+45|1|OA|59.0|52.5046774|13.3676731|R|52.5047673|13.3674717
+```
+
+you'll also find a subdirectory called `./reports` which you can use to spot check the data, if you have [geojsonio](https://github.com/mapbox/geojsonio-cli) installed you can pipe the file directly to the web:
+
+```bash
+cat test/functional/potsdamerplatz/reports/preview.geojson | geojsonio
+```
+
+once you have completed your tests and committed the files, your preview files will be visible to everyone via github.
+
+the `./reports` directory also contains the `stdio` files from each command that was executed and a list of records which failed to conflate. these files are ignored by `.gitignore` so they don't show up on github.
