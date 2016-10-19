@@ -108,18 +108,19 @@ app.get('/street/:id/geojson', function( req, res ){
       return true;
     });
 
-    var features = rows.map( function( row ){
-
-      var gj = polyline.toGeoJSON( row.line, 6 );
-      gj.properties = {
-        name: Array.isArray( row.name ) ? row.name[0] : row.name
-      };
-      return gj;
-    });
-
     var geojson = {
       'type': 'FeatureCollection',
-      'features': features
+      'features': rows.map( function( row ){
+        return {
+          'type': 'Feature',
+          'properties': {
+            'id': row.id,
+            'name': Array.isArray( row.name ) ? row.name[0] : row.name,
+            'polyline': row.line
+          },
+          'geometry': polyline.toGeoJSON( row.line, 6 )
+        };
+      })
     };
 
     res.json( geojson );
