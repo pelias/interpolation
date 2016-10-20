@@ -104,8 +104,15 @@ module.exports.functional.end_to_end_north = function(test) {
 // note: no interpolation available as street has 100% coverage already
 module.exports.functional.search_north = function(test) {
 
+  // database connection
+  var conn;
+
   // connect to databases
-  var conn = search( paths.db.address, paths.db.street );
+  test('open connection', function(t) {
+    conn = search( paths.db.address, paths.db.street );
+    t.pass();
+    t.end();
+  });
 
   test('search: north: exact', function(t) {
 
@@ -185,8 +192,15 @@ module.exports.functional.end_to_end_south = function(test) {
 // note: no interpolation available as street has 100% coverage already
 module.exports.functional.search_south = function(test) {
 
+  // database connection
+  var conn;
+
   // connect to databases
-  var conn = search( paths.db.address, paths.db.street );
+  test('open connection', function(t) {
+    conn = search( paths.db.address, paths.db.street );
+    t.pass();
+    t.end();
+  });
 
   test('search: south: exact', function(t) {
 

@@ -123,8 +123,15 @@ module.exports.functional.end_to_end = function(test) {
 
 module.exports.functional.search = function(test) {
 
+  // database connection
+  var conn;
+
   // connect to databases
-  var conn = search( paths.db.address, paths.db.street );
+  test('open connection', function(t) {
+    conn = search( paths.db.address, paths.db.street );
+    t.pass();
+    t.end();
+  });
 
   test('search: exact', function(t) {
 
