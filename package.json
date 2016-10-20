@@ -34,7 +34,7 @@
     "through2-batch": "^1.0.1"
   },
   "devDependencies": {
-    "jshint": "^2.9.3",
+    "jshint": "^2.9.4",
     "precommit-hook": "^3.0.0",
     "tap-dot": "^1.0.5",
     "tap-spec": "^4.1.1",
