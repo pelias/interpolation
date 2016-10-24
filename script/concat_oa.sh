@@ -7,8 +7,12 @@ set -e;
 # avoid locale issues with the sort command
 export LC_ALL=C;
 
-# base path of openaddresses file system
-OAPATH='/data/oa';
+# base path of openaddresses file system (use default unless param is supplied)
+OAPATH=${OAPATH:-"/data/oa"};
+if [ ! -d $OAPATH ]; then
+  echo "openaddresses data dir does not exist";
+  exit 1;
+fi
 
 # only output the csv header once
 HAS_OUTPUT_HEADER=false;

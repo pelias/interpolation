@@ -1,35 +1,47 @@
 #!/bin/bash
 set -e;
 
+# import openaddresses data and conflate it with $STREET_DB
+
 # location of this file in filesystem
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 
+# location where this build will be stored
+BUILDDIR=${BUILDDIR:-"/data"};
+if [ ! -d $BUILDDIR ]; then
+  echo "data dir does not exist";
+  exit 1;
+fi
+
 # location of sql databases
-ADDRESS_DB='/data/address.db';
-STREET_DB='/data/street.db';
+ADDRESS_DB=${ADDRESS_DB:-"$BUILDDIR/address.db"};
+STREET_DB=${STREET_DB:-"$BUILDDIR/street.db"};
 
 # location of archives
 ARCHIVE_DIR=$(dirname "$ADDRESS_DB");
 ARCHIVE_BASE=$(basename "$ADDRESS_DB");
-TIMESTAMP=$(date +"%m-%d-%Y-%H:%M:%S");
+TIMESTAMP=${TIMESTAMP:-$(date +"%m-%d-%Y-%H:%M:%S")};
 ARCHIVE_NAME="$ARCHIVE_DIR/$ARCHIVE_BASE.$TIMESTAMP.gz";
 
 # location of stdio files
-PROC_STDOUT='/data/conflate.out';
-PROC_STDERR='/data/conflate.err';
-PROC_CONFERR='/data/conflate.skip';
+PROC_STDOUT=${PROC_STDOUT:-"$BUILDDIR/conflate.out"};
+PROC_STDERR=${PROC_STDERR:-"$BUILDDIR/conflate.err"};
+PROC_CONFERR=${PROC_CONFERR:-"$BUILDDIR/conflate.skip"};
 
 # a directory with enough free space to store sqlite tmp files
-export SQLITE_TMPDIR='/data/tmp';
+export SQLITE_TMPDIR=${SQLITE_TMPDIR:-"$BUILDDIR/tmp"};
 
 # ensure tmpdir exists
 [ -d $SQLITE_TMPDIR ] || mkdir $SQLITE_TMPDIR;
 
-# delete stdio files
+# delete previous stdio files
 rm -f $PROC_STDOUT $PROC_STDERR $PROC_CONFERR;
 
 # run import
 $DIR/concat_oa.sh | time -p node $DIR/../cmd/oa.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR 3>$PROC_CONFERR;
 
-# archive address database
-pigz -k -c --best $ADDRESS_DB > $ARCHIVE_NAME;
+# archive address database (using parallel gzip when available)
+if type pigz >/dev/null
+  then pigz -k -c --best $ADDRESS_DB > $ARCHIVE_NAME;
+  else gzip -c --best $ADDRESS_DB > $ARCHIVE_NAME;
+fi
