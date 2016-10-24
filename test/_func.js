@@ -8,7 +8,8 @@ var tests = [
   require('./functional/west26th/run.js'),
   require('./functional/updown/run.js'),
   require('./functional/ambiguous_street_name/run.js'),
-  require('./functional/potsdamerplatz/run.js')
+  require('./functional/potsdamerplatz/run.js'),
+  require('./functional/willow_ave/run.js')
 ];
 
 tests.map(function(t) {

@@ -39,7 +39,9 @@ function streamFactory(){
       csvrow.POSTCODE.toLowerCase()
     ].join('|');
 
-    if( hash !== currentHash ){
+    // hash changed or not enough regional data to disambiguate
+    // see: https://github.com/pelias/interpolation/issues/13
+    if( hash !== currentHash || '||||' === hash.substr(-4) ){
 
       // flush previous batch, reset
       if( batch.length ){
