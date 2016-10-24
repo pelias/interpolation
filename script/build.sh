@@ -36,6 +36,9 @@ $DIR/import.sh;
 # run openaddresses conflation
 $DIR/conflate.sh;
 
+# clean up
+rm -rf "$SQLITE_TMPDIR"; # remove tmp files
+
 # record build meta data
 METAFILE="$BUILDDIR/build.meta";
 
