@@ -134,8 +134,9 @@ app.get('/', function( req, res ){ res.redirect('/demo'); });
 // serve the demo app
 app.use('/demo', express.static('demo'));
 
-// serve the data dir (for downloads)
-// app.use('/data', directory('/data') );
+// serve the builds dir (for downloads)
+// app.use('/data', express.static('/data/builds'));
+// app.use('/data', directory('/data/builds', { hidden: false, icons: false, view: 'details' }));
 
 app.listen( PORT, function() {
 
