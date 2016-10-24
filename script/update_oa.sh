@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e;
+export LC_ALL=C;
 
 # download all openaddresses csv files, overriding existing files
 URL="http://s3.amazonaws.com/data.openaddresses.io/openaddr-collected-global.zip";

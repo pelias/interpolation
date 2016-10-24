@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e;
+export LC_ALL=C;
 
 # import polyline data
 

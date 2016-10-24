@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e;
+export LC_ALL=C;
 
 # import openaddresses data and conflate it with $STREET_DB
 

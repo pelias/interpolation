@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e;
+export LC_ALL=C;
 
 # build a fresh version of the database files (via cronjob)
 # see: ./script/build.sh for build options.

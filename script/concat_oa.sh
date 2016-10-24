@@ -1,11 +1,9 @@
 #!/bin/bash
 set -e;
+export LC_ALL=C;
 
 # concatenate all openaddresses csv files in to a single stream
 # note: deduplicates lines in each file
-
-# avoid locale issues with the sort command
-export LC_ALL=C;
 
 # base path of openaddresses file system (use default unless param is supplied)
 OAPATH=${OAPATH:-"/data/oa"};
