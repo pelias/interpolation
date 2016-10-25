@@ -52,14 +52,21 @@ table.marker-properties th {
 }
 
 .leaflet-div-icon {
+  margin: 0;
+  padding: 0;
   background: transparent;
   border: none;
 }
+.leaflet-div-icon img {
+  margin-left: -3px;
+  margin-top: 4px;
+}
 .leaflet-marker-icon .number{
   position: relative;
-  top: -71px;
+  top: -70px;
+  left: -5px;
   font-size: 12px;
-  width: 30px;
+  width: 34px;
   text-align: center;
   z-index: 1000;
   font-weight: bold;
