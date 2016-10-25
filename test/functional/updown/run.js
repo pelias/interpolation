@@ -167,9 +167,9 @@ module.exports.functional.search = function(test) {
       t.deepEqual( res, {
         type: 'close',
         source: 'OA',
-        number: '16',
-        lat: 52.5174873,
-        lon: 13.4582345
+        number: '16a',
+        lat: 52.5167765,
+        lon: 13.4575346
       });
       t.end();
     });

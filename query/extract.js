@@ -3,7 +3,7 @@
 var MAX_NAMES = 10;
 
 // maximum address records to return
-var MAX_MATCHES = 500;
+var MAX_MATCHES = 5000; // note: this query should only be used for debugging purposes
 
 var SQL = [
   'SELECT address.* FROM street.rtree',
