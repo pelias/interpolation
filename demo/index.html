@@ -48,9 +48,9 @@
     map.locate({ setView: true, maxZoom: 16 });
 
     var layer = {
-      lines: newSimpleStyleLayer().addTo(map),
-      points: newSimpleStyleLayer().addTo(map),
-      interpolated: newSimpleStyleLayer().addTo(map)
+      lines: newSimpleStyleLayer().setZIndex(1).addTo(map),
+      points: newSimpleStyleLayer().setZIndex(2).addTo(map),
+      interpolated: newSimpleStyleLayer().setZIndex(3).addTo(map)
     }
 
     L.NumberedDivIcon = L.Icon.extend({
