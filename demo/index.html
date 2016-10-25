@@ -238,6 +238,7 @@
 
       interpolate( number, name, lat, lon, function( err, data ){
         layer.interpolated.clearLayers();
+        layer.setZIndex(999);
         if( !err && data ){
           data.properties['marker-color'] = '#008000';
           layer.interpolated.addData( data );
