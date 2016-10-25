@@ -40,7 +40,7 @@ function setup( addressDbPath, streetDbPath ){
 
     // perform a db lookup for the specified street
     // @todo: perofmance: only query for part of the table
-    query.address( db, point, normalized.street, function( err, res ){
+    query.search( db, point, normalized.number, normalized.street, function( err, res ){
 
       // @todo: results can be from multiple different street ids!
       // possibly not an issue? except maybe where there is a dual
