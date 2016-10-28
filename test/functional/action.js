@@ -7,7 +7,8 @@ var fs = require('fs'),
 
 var exec = {
   import: path.resolve( __dirname, '../../cmd/polyline' ),
-  oa: path.resolve( __dirname, '../../cmd/oa.js' )
+  oa: path.resolve( __dirname, '../../cmd/oa.js' ),
+  vertices: path.resolve( __dirname, '../../cmd/vertices.js' )
 };
 
 module.exports.import = function(test, paths) {
@@ -31,10 +32,10 @@ module.exports.import = function(test, paths) {
   });
 };
 
-module.exports.conflate = function(test, paths) {
-  test('conflate', function(t) {
+module.exports.oa = function(test, paths) {
+  test('oa', function(t) {
 
-    // perform conflation
+    // conflate openaddresses
     var cmd = [
       'rm -f', paths.db.address, ';',
       'cat', paths.fixture.oa, '|',
@@ -47,7 +48,25 @@ module.exports.conflate = function(test, paths) {
     // spawn child process
     child.spawnSync( 'sh', [ '-c', cmd ] );
 
-    t.pass('perform conflate');
+    t.pass('perform oa conflate');
+    t.end();
+  });
+};
+
+module.exports.vertices = function(test, paths) {
+  test('vertices', function(t) {
+
+    // perform vertex interpolation
+    var cmd = [
+      'node', exec.vertices, paths.db.address, paths.db.street,
+      '1>', path.resolve( paths.reports, 'vertices.out' ),
+      '2>', path.resolve( paths.reports, 'vertices.err' )
+    ].join(' ');
+
+    // spawn child process
+    child.spawnSync( 'sh', [ '-c', cmd ] );
+
+    t.pass('perform vertex interpolation');
     t.end();
   });
 };

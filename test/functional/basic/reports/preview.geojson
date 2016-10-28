@@ -26,7 +26,7 @@
       "type": "Feature",
       "properties": {
         "source": "VERTEX",
-        "housenumber": 2.535,
+        "housenumber": 2.536,
         "lat": null,
         "lon": null,
         "parity": "",
@@ -257,7 +257,7 @@
       "type": "Feature",
       "properties": {
         "source": "VERTEX",
-        "housenumber": 12.946,
+        "housenumber": 12.947,
         "lat": null,
         "lon": null,
         "parity": "",

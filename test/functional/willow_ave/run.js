@@ -29,9 +29,14 @@ module.exports.functional.import = function(test) {
   action.import(test, paths);
 };
 
-// perform conflation
-module.exports.functional.conflate = function(test) {
-  action.conflate(test, paths);
+// perform oa conflation
+module.exports.functional.oa = function(test) {
+  action.oa(test, paths);
+};
+
+// perform vertex interpolation
+module.exports.functional.vertices = function(test) {
+  action.vertices(test, paths);
 };
 
 // check table schemas
