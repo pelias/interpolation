@@ -84,11 +84,11 @@ function streamFactory(db, done){
         $id: nearest.street.id,
         $source: 'OA',
         $housenumber: housenumber,
-        $lon: point[0].toFixed(7),
-        $lat: point[1].toFixed(7),
+        $lon: point[0],
+        $lat: point[1],
         $parity: parity,
-        $proj_lon: nearest.projection.point[0].toFixed(7),
-        $proj_lat: nearest.projection.point[1].toFixed(7)
+        $proj_lon: nearest.projection.point[0],
+        $proj_lat: nearest.projection.point[1]
       });
 
     }, this);
@@ -193,8 +193,8 @@ function streamFactory(db, done){
             $lon: undefined,
             $lat: undefined,
             $parity: undefined,
-            $proj_lon: vertex[0].toFixed(7),
-            $proj_lat: vertex[1].toFixed(7)
+            $proj_lon: vertex[0],
+            $proj_lat: vertex[1]
           });
         }, this);
 
