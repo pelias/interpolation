@@ -137,8 +137,8 @@ function streamFactory(db, done){
           $lon: undefined,
           $lat: undefined,
           $parity: undefined,
-          $proj_lon: vertex[0].toFixed(7),
-          $proj_lat: vertex[1].toFixed(7)
+          $proj_lon: vertex[0],
+          $proj_lat: vertex[1]
         });
       }, this);
 
