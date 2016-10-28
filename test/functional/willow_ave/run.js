@@ -11,7 +11,6 @@ var fs = require('fs'),
 
 var paths = {
   reports: path.resolve( __dirname, './reports/' ),
-  expected: path.resolve( __dirname, './fixture/expected.dump' ),
   fixture: {
     oa: path.resolve( __dirname, './oa.csv' ),
     polyline: path.resolve( __dirname, './osm.polylines' )

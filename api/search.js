@@ -61,8 +61,8 @@ function setup( addressDbPath, streetDbPath ){
           type: 'exact',
           source: match.source,
           number: analyze.housenumberFloatToString( match.housenumber ),
-          lat: match.lat,
-          lon: match.lon
+          lat: parseFloat( match.lat.toFixed(7) ),
+          lon: parseFloat( match.lon.toFixed(7) )
         });
       }
 
@@ -78,8 +78,8 @@ function setup( addressDbPath, streetDbPath ){
           type: 'close',
           source: match.source,
           number: analyze.housenumberFloatToString( match.housenumber ),
-          lat: match.lat,
-          lon: match.lon
+          lat: parseFloat( match.lat.toFixed(7) ),
+          lon: parseFloat( match.lon.toFixed(7) )
         });
       }
 
