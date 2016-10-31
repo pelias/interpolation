@@ -34,8 +34,23 @@ export SQLITE_TMPDIR="$BUILDDIR/tmp";
 # run polyline importer
 $DIR/import.sh;
 
+# archive street database (using parallel gzip when available)
+if type pigz >/dev/null
+  then pigz -k -c --best "$BUILDDIR/street.db" > "$BUILDDIR/street.db.gz";
+  else gzip -c --best "$BUILDDIR/street.db" > "$BUILDDIR/street.db.gz";
+fi
+
 # run openaddresses conflation
 $DIR/conflate.sh;
+
+# run vertex interpolation
+$DIR/vertices.sh;
+
+# archive address database (using parallel gzip when available)
+if type pigz >/dev/null
+  then pigz -k -c --best "$BUILDDIR/address.db" > "$BUILDDIR/address.db.gz";
+  else gzip -c --best "$BUILDDIR/address.db" > "$BUILDDIR/address.db.gz";
+fi
 
 # clean up
 rm -rf "$SQLITE_TMPDIR"; # remove tmp files
@@ -45,7 +60,7 @@ METAFILE="$BUILDDIR/build.meta";
 
 echo "-- file system --" > "$METAFILE";
 ls -lah "$BUILDDIR" >> "$METAFILE";
-shasum "$BUILDDIR/*.gz" >> "$METAFILE";
+shasum "$BUILDDIR/*.*" >> "$METAFILE";
 
 echo "-- street db --" >> "$METAFILE";
 sqlite3 -echo "$BUILDDIR/street.db" "SELECT * FROM sqlite_master;" >> "$METAFILE";

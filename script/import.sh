@@ -24,12 +24,6 @@ fi
 # location of sql databases
 STREET_DB=${STREET_DB:-"$BUILDDIR/street.db"};
 
-# location of archives
-ARCHIVE_DIR=$(dirname "$STREET_DB");
-ARCHIVE_BASE=$(basename "$STREET_DB");
-TIMESTAMP=${TIMESTAMP:-$(date +"%m-%d-%Y-%H:%M:%S")};
-ARCHIVE_NAME="$ARCHIVE_DIR/$ARCHIVE_BASE.$TIMESTAMP.gz";
-
 # location of stdio files
 PROC_STDOUT=${PROC_STDOUT:-"$BUILDDIR/polyline.out"};
 PROC_STDERR=${PROC_STDERR:-"$BUILDDIR/polyline.err"};
@@ -45,9 +39,3 @@ rm -f $PROC_STDOUT $PROC_STDERR;
 
 # run import
 cat $POLYLINE_FILE | time -p node $DIR/../cmd/polyline.js $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR;
-
-# archive street database (using parallel gzip when available)
-if type pigz >/dev/null
-  then pigz -k -c --best $STREET_DB > $ARCHIVE_NAME;
-  else gzip -c --best $STREET_DB > $ARCHIVE_NAME;
-fi

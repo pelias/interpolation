@@ -2,7 +2,7 @@
 set -e;
 export LC_ALL=C;
 
-# import openaddresses data and conflate it with $STREET_DB
+# compute franctional housenumbers for street geometry vertices
 
 # location of this file in filesystem
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
@@ -19,9 +19,9 @@ ADDRESS_DB=${ADDRESS_DB:-"$BUILDDIR/address.db"};
 STREET_DB=${STREET_DB:-"$BUILDDIR/street.db"};
 
 # location of stdio files
-PROC_STDOUT=${PROC_STDOUT:-"$BUILDDIR/conflate.out"};
-PROC_STDERR=${PROC_STDERR:-"$BUILDDIR/conflate.err"};
-PROC_CONFERR=${PROC_CONFERR:-"$BUILDDIR/conflate.skip"};
+PROC_STDOUT=${PROC_STDOUT:-"$BUILDDIR/vertices.out"};
+PROC_STDERR=${PROC_STDERR:-"$BUILDDIR/vertices.err"};
+PROC_CONFERR=${PROC_CONFERR:-"$BUILDDIR/vertices.skip"};
 
 # a directory with enough free space to store sqlite tmp files
 export SQLITE_TMPDIR=${SQLITE_TMPDIR:-"$BUILDDIR/tmp"};
@@ -33,4 +33,4 @@ export SQLITE_TMPDIR=${SQLITE_TMPDIR:-"$BUILDDIR/tmp"};
 rm -f $PROC_STDOUT $PROC_STDERR $PROC_CONFERR;
 
 # run import
-$DIR/concat_oa.sh | time -p node $DIR/../cmd/oa.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR 3>$PROC_CONFERR;
+time -p node $DIR/../cmd/vertices.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR 3>$PROC_CONFERR;
