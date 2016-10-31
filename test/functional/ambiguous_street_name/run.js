@@ -107,6 +107,15 @@ module.exports.functional.spotcheck = function(test) {
     var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=4 AND source="VERTEX"' );
     t.equal(count3, 8);
 
+    // check we don't have duplicates vertices
+    var count4 = sqlite3.count( paths.db.address, 'address', [
+      'WHERE id=4 AND',
+      'source="VERTEX" AND',
+      'proj_lat=52.505725 AND',
+      'proj_lon=13.394564'
+    ].join(' '));
+    t.equal(count4, 1);
+
     t.end();
   });
 };
