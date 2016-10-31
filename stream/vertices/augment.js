@@ -103,9 +103,13 @@ function streamFactory(db, done){
       var edge = street.coordinates.slice(i-1, i+1);
       if( edge.length === 2 ){
         vertexDistance += project.lineDistance( edge );
-      } // else should not have else!
+      } else {
+        console.error( 'logic error: should never have else!' );
+        return;
+      }
 
       // projected fractional housenumber(s)
+      // note: there may be one or two values produced, depending on the scheme.
       var housenumbers = [];
 
       // zigzag interpolation

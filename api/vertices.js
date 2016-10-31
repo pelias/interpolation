@@ -19,7 +19,7 @@ function vertices(addressDbPath, streetDbPath, done){
     'SELECT * FROM street.polyline',
     'JOIN address ON street.polyline.id = address.id',
     'WHERE address.source != "VERTEX"',
-    'GROUP BY address.housenumber'
+    'ORDER BY address.id ASC, address.housenumber ASC'
   ].join(' ');
 
   var dbStream = stream.query( db, sql );
