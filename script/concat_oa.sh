@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e;
-export LC_ALL=C;
+export LC_ALL=en_US.UTF-8;
 
 # concatenate all openaddresses csv files in to a single stream
 # note: deduplicates lines in each file
