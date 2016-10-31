@@ -363,6 +363,33 @@ module.exports.project.bearing = function(test) {
   });
 };
 
+module.exports.project.dedupe = function(test) {
+
+  var encoded = 'q~|ccB{}npXhv@}H??pv@cH??xz@kI??fi@yD??tD[~Dc@??lDa@??tPaB??jZ{C??j[}C??fIeA??dE]??ze@eE??l_@cD??jVcC';
+
+  test('dedupe', function(t) {
+
+    var decoded = polyline.decode( encoded, 6 );
+    var deduped = project.dedupe( decoded );
+
+    // assert records removed
+    t.equal(decoded.length, 29);
+    t.equal(deduped.length, 16);
+
+    // count occurrences of '52.505725|13.394564'
+    t.equal(decoded.filter(function( coord ){
+      return coord[0] === 52.505725 && coord[1] === 13.394564;
+    }).length, 2);
+
+    // count occurrences of '52.505725|13.394564'
+    t.equal(deduped.filter(function( coord ){
+      return coord[0] === 52.505725 && coord[1] === 13.394564;
+    }).length, 1);
+
+    t.end();
+  });
+};
+
 module.exports.all = function (tape) {
 
   function test(name, testFunction) {
