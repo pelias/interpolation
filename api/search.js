@@ -99,11 +99,17 @@ function setup( addressDbPath, streetDbPath ){
       }
 
       // compute interpolated address
-      var ratio = ((normalized.number - before.housenumber) / (after.housenumber - before.housenumber));
       var A = { lat: project.toRad( before.proj_lat ), lon: project.toRad( before.proj_lon ) };
       var B = { lat: project.toRad( after.proj_lat ), lon: project.toRad( after.proj_lon ) };
       var distance = geodesic.distance( A, B );
-      var point = geodesic.interpolate( distance, ratio, A, B );
+
+      // if distance = 0 then we can simply use either A or B (they are the same lat/lon)
+      // else we interpolate between the two positions
+      var point = A;
+      if( distance > 0 ){
+        var ratio = ((normalized.number - before.housenumber) / (after.housenumber - before.housenumber));
+        point = geodesic.interpolate( distance, ratio, A, B );
+      }
 
       // return interpolated address
       return cb( null, {
