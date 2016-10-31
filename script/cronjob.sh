@@ -9,6 +9,9 @@ export LC_ALL=C;
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 cd "$DIR/../";
 
+# node binary path (commonly installed to a location not on the cron PATH)
+export PATH=$PATH:/usr/local/bin
+
 # update git repo
 git pull -q origin master;
 
