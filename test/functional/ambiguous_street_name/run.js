@@ -197,8 +197,8 @@ module.exports.functional.search = function(test) {
         type: 'interpolated',
         source: 'mixed',
         number: '78',
-        lat: 52.5044021,
-        lon: 13.3947977
+        lat: 52.5044258,
+        lon: 13.394794
       });
       t.end();
     });

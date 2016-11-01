@@ -110,7 +110,7 @@
       "type": "Feature",
       "properties": {
         "source": "OA",
-        "housenumber": 9.1,
+        "housenumber": 9.03,
         "lat": 52.5047729,
         "lon": 13.3949245,
         "parity": "L",
@@ -236,7 +236,7 @@
       "type": "Feature",
       "properties": {
         "source": "VERTEX",
-        "housenumber": 14.866,
+        "housenumber": 14.811,
         "lat": null,
         "lon": null,
         "parity": "",
@@ -278,7 +278,7 @@
       "type": "Feature",
       "properties": {
         "source": "OA",
-        "housenumber": 15.1,
+        "housenumber": 15.03,
         "lat": 52.5058248,
         "lon": 13.3952819,
         "parity": "L",
@@ -299,7 +299,7 @@
       "type": "Feature",
       "properties": {
         "source": "VERTEX",
-        "housenumber": 15.183,
+        "housenumber": 15.171,
         "lat": null,
         "lon": null,
         "parity": "",
@@ -320,7 +320,7 @@
       "type": "Feature",
       "properties": {
         "source": "VERTEX",
-        "housenumber": 15.739,
+        "housenumber": 15.692,
         "lat": null,
         "lon": null,
         "parity": "",
@@ -362,7 +362,7 @@
       "type": "Feature",
       "properties": {
         "source": "OA",
-        "housenumber": 16.1,
+        "housenumber": 16.03,
         "lat": 52.5061956,
         "lon": 13.3951233,
         "parity": "L",
@@ -446,7 +446,7 @@
       "type": "Feature",
       "properties": {
         "source": "OA",
-        "housenumber": 19.1,
+        "housenumber": 19.03,
         "lat": 52.5073052,
         "lon": 13.3945666,
         "parity": "L",
@@ -530,7 +530,7 @@
       "type": "Feature",
       "properties": {
         "source": "OA",
-        "housenumber": 22.1,
+        "housenumber": 22.03,
         "lat": 52.5082458,
         "lon": 13.3943829,
         "parity": "L",
