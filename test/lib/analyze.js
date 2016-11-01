@@ -24,28 +24,29 @@ module.exports.analyze.street = function(test) {
 module.exports.analyze.housenumber = function(test) {
 
   test('housenumber: invalid', function(t) {
-    t.notOk(analyze.housenumber(/not a string/), 'invalid type');
-    t.notOk(analyze.housenumber('no numbers'), 'no numbers');
-    t.notOk(analyze.housenumber(''), 'blank');
-    t.notOk(analyze.housenumber('0'), 'zero');
-    t.notOk(analyze.housenumber('0/0'), 'zero');
-    t.notOk(analyze.housenumber('NULL'), 'null');
-    t.notOk(analyze.housenumber('S/N'), 'no numbers');
-    t.notOk(analyze.housenumber('-9'), 'no house number');
-    t.notOk(analyze.housenumber('V'), 'no numbers');
-    t.notOk(analyze.housenumber('2-4'), 'possible range');
-    t.notOk(analyze.housenumber('2/1'), 'ambiguous house/apt');
-    t.notOk(analyze.housenumber('1 flat b'), 'apartment synonyms');
+    t.true(isNaN(analyze.housenumber(/not a string/)), 'invalid type');
+    t.true(isNaN(analyze.housenumber('no numbers')), 'no numbers');
+    t.true(isNaN(analyze.housenumber('')), 'blank');
+    t.true(isNaN(analyze.housenumber('0')), 'zero');
+    t.true(isNaN(analyze.housenumber('0/0')), 'zero');
+    t.true(isNaN(analyze.housenumber('NULL')), 'null');
+    t.true(isNaN(analyze.housenumber('S/N')), 'no numbers');
+    t.true(isNaN(analyze.housenumber('-9')), 'no house number');
+    t.true(isNaN(analyze.housenumber('V')), 'no numbers');
+    t.true(isNaN(analyze.housenumber('2-4')), 'possible range; possibly not');
+    t.true(isNaN(analyze.housenumber('2/1')), 'ambiguous house/apt');
+    t.true(isNaN(analyze.housenumber('1 flat b')), 'apartment synonyms');
+    t.true(isNaN(analyze.housenumber('4--')), 'unrecognised delimiter');
     t.end();
   });
 
   test('housenumber: valid', function(t) {
-    t.ok(analyze.housenumber('1'), '1');
-    t.ok(analyze.housenumber('2 A'), '2 A');
-    t.ok(analyze.housenumber('3Z'), '3Z');
-    t.ok(analyze.housenumber('4/-'), '4/-');
-    t.ok(analyze.housenumber('5/5'), '5/5');
-    t.ok(analyze.housenumber('6-6'), '6-6');
+    t.false(isNaN(analyze.housenumber('1')), 'regular');
+    t.false(isNaN(analyze.housenumber(' 2  A ')), 'spaces');
+    t.false(isNaN(analyze.housenumber('3Z')), 'unusually high apartment');
+    t.false(isNaN(analyze.housenumber('4/-')), 'null apartment');
+    t.false(isNaN(analyze.housenumber('5/5')), 'same house/apt number');
+    t.false(isNaN(analyze.housenumber('6-6')), 'same house/apt number');
     t.end();
   });
 
