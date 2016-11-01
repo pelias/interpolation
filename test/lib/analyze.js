@@ -54,12 +54,14 @@ module.exports.analyze.housenumber = function(test) {
   });
   test('housenumber: apartment', function(t) {
     var float = analyze.housenumber('22a');
-    t.equal(float, 22.1);
+    t.equal(float, 22.03);
+    var float2 = analyze.housenumber('22z');
+    t.equal(float2, 22.78);
     t.end();
   });
   test('housenumber: apartment with space', function(t) {
     var float = analyze.housenumber('22 B');
-    t.equal(float, 22.2);
+    t.equal(float, 22.06);
     t.end();
   });
   test('housenumber: apartment with a character symbolizing null', function(t) {
@@ -69,9 +71,9 @@ module.exports.analyze.housenumber = function(test) {
   });
   test('housenumber: apartment with forward slash between number and letter', function(t) {
     var float = analyze.housenumber('1/A');
-    t.equal(float, 1.1);
+    t.equal(float, 1.03);
     var float2 = analyze.housenumber('200/F');
-    t.equal(float2, 200.6);
+    t.equal(float2, 200.18);
     t.end();
   });
   test('housenumber: apartment with forward slash between number and another number', function(t) {
@@ -83,9 +85,9 @@ module.exports.analyze.housenumber = function(test) {
   });
   test('housenumber: apartment with minus between number and letter', function(t) {
     var float = analyze.housenumber('28-H');
-    t.equal(float, 28.8);
+    t.equal(float, 28.24);
     var float2 = analyze.housenumber('200-A');
-    t.equal(float2, 200.1);
+    t.equal(float2, 200.03);
     t.end();
   });
   test('housenumber: apartment with minus between number and another number', function(t) {
@@ -113,23 +115,43 @@ module.exports.analyze.housenumberFloatToString = function(test) {
     t.end();
   });
   test('housenumberFloatToString: apartment A', function(t) {
-    var str = analyze.housenumberFloatToString(22.1);
+    var str = analyze.housenumberFloatToString(22.03);
     t.equal(str, '22a');
     t.end();
   });
   test('housenumberFloatToString: apartment B', function(t) {
-    var str = analyze.housenumberFloatToString(22.2);
+    var str = analyze.housenumberFloatToString(22.06);
     t.equal(str, '22b');
     t.end();
   });
   test('housenumberFloatToString: apartment C', function(t) {
-    var str = analyze.housenumberFloatToString(22.3);
+    var str = analyze.housenumberFloatToString(22.09);
     t.equal(str, '22c');
     t.end();
   });
   test('housenumberFloatToString: apartment D', function(t) {
-    var str = analyze.housenumberFloatToString(22.4);
+    var str = analyze.housenumberFloatToString(22.12);
     t.equal(str, '22d');
+    t.end();
+  });
+  test('housenumberFloatToString: apartment W', function(t) {
+    var str = analyze.housenumberFloatToString(22.69);
+    t.equal(str, '22w');
+    t.end();
+  });
+  test('housenumberFloatToString: apartment X', function(t) {
+    var str = analyze.housenumberFloatToString(22.72);
+    t.equal(str, '22x');
+    t.end();
+  });
+  test('housenumberFloatToString: apartment Y', function(t) {
+    var str = analyze.housenumberFloatToString(22.75);
+    t.equal(str, '22y');
+    t.end();
+  });
+  test('housenumberFloatToString: apartment Z', function(t) {
+    var str = analyze.housenumberFloatToString(22.78);
+    t.equal(str, '22z');
     t.end();
   });
 };
