@@ -28,7 +28,7 @@ module.exports.analyze.housenumber = function(test) {
     t.end();
   });
   test('housenumber: invalid (range)', function(t) {
-    var float = analyze.housenumber('1-1');
+    var float = analyze.housenumber('1-2');
     t.true(isNaN(float), 'return NaN');
     t.end();
   });
@@ -38,7 +38,7 @@ module.exports.analyze.housenumber = function(test) {
     t.end();
   });
   test('housenumber: invalid (punctuation)', function(t) {
-    var float = analyze.housenumber('1/1');
+    var float = analyze.housenumber('3/1');
     t.true(isNaN(float), 'return NaN');
     t.end();
   });
@@ -79,7 +79,7 @@ module.exports.analyze.housenumber = function(test) {
   test('housenumber: apartment with forward slash between number and another number', function(t) {
     var float = analyze.housenumber('200/22');
     t.true(isNaN(float), 'return NaN');
-    var float2 = analyze.housenumber('1/1');
+    var float2 = analyze.housenumber('1/2');
     t.true(isNaN(float2), 'return NaN');
     t.end();
   });
@@ -93,8 +93,15 @@ module.exports.analyze.housenumber = function(test) {
   test('housenumber: apartment with minus between number and another number', function(t) {
     var float = analyze.housenumber('200-22');
     t.true(isNaN(float), 'return NaN');
-    var float2 = analyze.housenumber('1-1');
+    var float2 = analyze.housenumber('1-2');
     t.true(isNaN(float2), 'return NaN');
+    t.end();
+  });
+  test('housenumber: apartment with forward slash delimiting same number', function(t) {
+    var float = analyze.housenumber('1/1');
+    t.equal(float, 1);
+    var float2 = analyze.housenumber('28/28');
+    t.equal(float2, 28);
     t.end();
   });
 };
