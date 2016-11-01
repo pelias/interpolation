@@ -1,7 +1,7 @@
 
 var through = require('through2');
 
-// combine row from the same street in to a single batch.
+// combine rows from the same street in to a single batch.
 
 // { id: 9231408,
 //   line: 'qtgmsAzpxmgDtm@?l@]^m@LkB]iuA',
@@ -33,6 +33,7 @@ function streamFactory(){
 
     // invalid row
     if( !dbrow || !dbrow.id ){
+      console.error( 'invalid address row' );
       return next();
     }
 
