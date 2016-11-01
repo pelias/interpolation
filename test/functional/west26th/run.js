@@ -25,9 +25,14 @@ module.exports.functional.import = function(test) {
   action.import(test, paths);
 };
 
-// perform conflation
-module.exports.functional.conflate = function(test) {
-  action.conflate(test, paths);
+// perform oa conflation
+module.exports.functional.oa = function(test) {
+  action.oa(test, paths);
+};
+
+// perform vertex interpolation
+module.exports.functional.vertices = function(test) {
+  action.vertices(test, paths);
 };
 
 // check table schemas
@@ -64,7 +69,7 @@ module.exports.functional.address_counts = function(test) {
 
     // count address table
     var addresses = sqlite3.count( paths.db.address, 'address' );
-    t.equal(addresses, 188, 'count(address)');
+    t.equal(addresses, 121, 'count(address)');
 
     t.end();
   });
@@ -75,7 +80,7 @@ module.exports.functional.spotcheck = function(test) {
 
     // counts for a specific street
     var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85' );
-    t.equal(count1, 188);
+    t.equal(count1, 121);
 
     // counts for a specific street (open addresses)
     var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="OA"' );
@@ -83,7 +88,7 @@ module.exports.functional.spotcheck = function(test) {
 
     // counts for a specific street (vertexes)
     var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="VERTEX"' );
-    t.equal(count3, 82);
+    t.equal(count3, 15);
 
     t.end();
   });
@@ -162,8 +167,8 @@ module.exports.functional.search = function(test) {
         type: 'interpolated',
         source: 'mixed',
         number: '475',
-        lat: 40.7495759,
-        lon: -74.0027489
+        lat: 40.749529,
+        lon: -74.0026372
       });
       t.end();
     });

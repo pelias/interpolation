@@ -1,9 +1,13 @@
 #!/bin/bash
 set -e;
-export LC_ALL=C;
+export LC_ALL=en_US.UTF-8;
 
 # build a fresh version of the database files (via cronjob)
 # see: ./script/build.sh for build options.
+
+# example:
+# m h  dom mon dow   command
+# 0 17 * * * /bin/bash /home/peter/repos/interpolation/script/cronjob.sh
 
 # location of this file in filesystem
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );

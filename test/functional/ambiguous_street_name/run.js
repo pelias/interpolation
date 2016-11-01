@@ -26,9 +26,14 @@ module.exports.functional.import = function(test) {
   action.import(test, paths);
 };
 
-// perform conflation
-module.exports.functional.conflate = function(test) {
-  action.conflate(test, paths);
+// perform oa conflation
+module.exports.functional.oa = function(test) {
+  action.oa(test, paths);
+};
+
+// perform vertex interpolation
+module.exports.functional.vertices = function(test) {
+  action.vertices(test, paths);
 };
 
 // check table schemas
@@ -65,7 +70,7 @@ module.exports.functional.address_counts = function(test) {
 
     // count address table
     var addresses = sqlite3.count( paths.db.address, 'address' );
-    t.equal(addresses, 274, 'count(address)');
+    t.equal(addresses, 272, 'count(address)');
 
     t.end();
   });
@@ -92,7 +97,7 @@ module.exports.functional.spotcheck = function(test) {
 
     // counts for a specific street
     var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=4' );
-    t.equal(count1, 50);
+    t.equal(count1, 51);
 
     // counts for a specific street (open addresses)
     var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=4 AND source="OA"' );
@@ -100,7 +105,7 @@ module.exports.functional.spotcheck = function(test) {
 
     // counts for a specific street (vertexes)
     var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=4 AND source="VERTEX"' );
-    t.equal(count3, 8);
+    t.equal(count3, 9);
 
     // check we don't have duplicates vertices
     var count4 = sqlite3.count( paths.db.address, 'address', [
@@ -192,8 +197,8 @@ module.exports.functional.search = function(test) {
         type: 'interpolated',
         source: 'mixed',
         number: '78',
-        lat: 52.5044021,
-        lon: 13.3947977
+        lat: 52.5044258,
+        lon: 13.394794
       });
       t.end();
     });

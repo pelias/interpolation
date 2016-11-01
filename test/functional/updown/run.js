@@ -25,9 +25,14 @@ module.exports.functional.import = function(test) {
   action.import(test, paths);
 };
 
-// perform conflation
-module.exports.functional.conflate = function(test) {
-  action.conflate(test, paths);
+// perform oa conflation
+module.exports.functional.oa = function(test) {
+  action.oa(test, paths);
+};
+
+// perform vertex interpolation
+module.exports.functional.vertices = function(test) {
+  action.vertices(test, paths);
 };
 
 // check table schemas
@@ -103,11 +108,11 @@ module.exports.functional.spotcheck = function(test) {
     t.equal(count3, 0);
 
     // check a specific address exists on a small off-street
-    var count4 = sqlite3.count( paths.db.address, 'address', 'WHERE id=18 AND source="OA" AND housenumber="47.1"' );
+    var count4 = sqlite3.count( paths.db.address, 'address', 'WHERE id=18 AND source="OA" AND housenumber="47.03"' );
     t.equal(count4, 1);
 
     // check a specific address exists on a small off-street
-    var count5 = sqlite3.count( paths.db.address, 'address', 'WHERE id=18 AND source="OA" AND housenumber="47.2"' );
+    var count5 = sqlite3.count( paths.db.address, 'address', 'WHERE id=18 AND source="OA" AND housenumber="47.06"' );
     t.equal(count5, 1);
 
     t.end();

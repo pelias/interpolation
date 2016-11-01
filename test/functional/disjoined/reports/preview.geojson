@@ -26,7 +26,7 @@
       "type": "Feature",
       "properties": {
         "source": "OA",
-        "housenumber": 14.1,
+        "housenumber": 14.03,
         "lat": 52.5086354,
         "lon": 13.3198981,
         "parity": "L",
@@ -89,7 +89,7 @@
       "type": "Feature",
       "properties": {
         "source": "OA",
-        "housenumber": 16.1,
+        "housenumber": 16.03,
         "lat": 52.5082819,
         "lon": 13.3201859,
         "parity": "L",

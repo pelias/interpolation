@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e;
-export LC_ALL=C;
+export LC_ALL=en_US.UTF-8;
 
 # import openaddresses data and conflate it with $STREET_DB
 
@@ -18,12 +18,6 @@ fi
 ADDRESS_DB=${ADDRESS_DB:-"$BUILDDIR/address.db"};
 STREET_DB=${STREET_DB:-"$BUILDDIR/street.db"};
 
-# location of archives
-ARCHIVE_DIR=$(dirname "$ADDRESS_DB");
-ARCHIVE_BASE=$(basename "$ADDRESS_DB");
-TIMESTAMP=${TIMESTAMP:-$(date +"%m-%d-%Y-%H:%M:%S")};
-ARCHIVE_NAME="$ARCHIVE_DIR/$ARCHIVE_BASE.$TIMESTAMP.gz";
-
 # location of stdio files
 PROC_STDOUT=${PROC_STDOUT:-"$BUILDDIR/conflate.out"};
 PROC_STDERR=${PROC_STDERR:-"$BUILDDIR/conflate.err"};
@@ -40,9 +34,3 @@ rm -f $PROC_STDOUT $PROC_STDERR $PROC_CONFERR;
 
 # run import
 $DIR/concat_oa.sh | time -p node $DIR/../cmd/oa.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR 3>$PROC_CONFERR;
-
-# archive address database (using parallel gzip when available)
-if type pigz >/dev/null
-  then pigz -k -c --best $ADDRESS_DB > $ARCHIVE_NAME;
-  else gzip -c --best $ADDRESS_DB > $ARCHIVE_NAME;
-fi

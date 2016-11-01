@@ -25,9 +25,14 @@ module.exports.functional.import = function(test) {
   action.import(test, paths);
 };
 
-// perform conflation
-module.exports.functional.conflate = function(test) {
-  action.conflate(test, paths);
+// perform oa conflation
+module.exports.functional.oa = function(test) {
+  action.oa(test, paths);
+};
+
+// perform vertex interpolation
+module.exports.functional.vertices = function(test) {
+  action.vertices(test, paths);
 };
 
 // check table schemas
@@ -64,7 +69,7 @@ module.exports.functional.address_counts = function(test) {
 
     // count address table
     var addresses = sqlite3.count( paths.db.address, 'address' );
-    t.equal(addresses, 488, 'count(address)');
+    t.equal(addresses, 506, 'count(address)');
 
     t.end();
   });

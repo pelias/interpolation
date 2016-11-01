@@ -19,10 +19,11 @@ The software is written in javascript to run in nodejs, the storage engine is sq
 
 Client libraries can be written in any language which can read sqlite3. If you wish to write a client in another language please open an issue and we can explain which functions you will need to port.
 
-The software is split in to 3 distinct parts:
+The software is split in to 4 distinct parts:
 
 - the street (polyline) importer
 - the address (openaddresses) importer
+- the geometry (vertices) interpolation
 - the client APIs (the webserver and CLI interface)
 
 The data is split in to 2 different sqlite3 databases:
@@ -62,6 +63,12 @@ There is also a script named `./script/conflate.sh` in this repository which mak
 
 note: We only support `openaddreses` at this stage although we plan to support `openstreetmap` and other sources soon.
 
+### precompute geometry
+
+Finally we will compute the fractional house numbers for each vertex (corner) of the street and add them to the `address.db` database.
+
+See the [building the databases](https://github.com/pelias/interpolation#building-the-databases) section below for detailed information on which commands to run.
+
 # Using the command line
 
 ### help
@@ -77,6 +84,7 @@ Note: you will need to pipe data in to the import/conflate commands
  search [address_db] [street_db] [lat] [lon] [house_number] [street_name]  search database for specified housenumber + street
  polyline [street_db]                                                      import polyline data in to [street_db]
  oa [address_db] [street_db]                                               conflate oa csv file in to [address_db] using [street_db]
+ vertices [address_db] [street_db]                                         compute fractional house numbers for line vertices
  extract [address_db] [street_db] [lat] [lon] [street_name]                extract street address data for debugging purposes
  server [address_db] [street_db]                                           start a web server
 ```
@@ -163,6 +171,13 @@ find data here: https://openaddresses.io/
 ```
 
 note: sorting the openaddresses files so that addresses on the same street are adjacent will significantly speed up imports, you can find an example of the commands required to sort the data in `./script/concat_oa.sh`.
+
+### vertices
+> compute fractional house numbers for the street vertices
+
+```bash
+./interpolate vertices address.db street.db
+```
 
 #### logging
 
