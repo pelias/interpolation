@@ -33,10 +33,13 @@ module.exports.analyze.housenumber = function(test) {
     t.true(isNaN(analyze.housenumber('S/N')), 'no numbers');
     t.true(isNaN(analyze.housenumber('-9')), 'no house number');
     t.true(isNaN(analyze.housenumber('V')), 'no numbers');
-    t.true(isNaN(analyze.housenumber('2-4')), 'possible range; possibly not');
+    t.true(isNaN(analyze.housenumber('2-40')), 'possible range; possibly not');
     t.true(isNaN(analyze.housenumber('2/1')), 'ambiguous house/apt');
     t.true(isNaN(analyze.housenumber('1 flat b')), 'apartment synonyms');
     t.true(isNaN(analyze.housenumber('4--')), 'unrecognised delimiter');
+    t.true(isNaN(analyze.housenumber('11-19')), 'large ranges');
+    t.true(isNaN(analyze.housenumber('1-4')), 'ranges containing single digits');
+    t.true(isNaN(analyze.housenumber('22/26')), 'invalid range delimiter');
     t.end();
   });
 
@@ -47,6 +50,7 @@ module.exports.analyze.housenumber = function(test) {
     t.false(isNaN(analyze.housenumber('4/-')), 'null apartment');
     t.false(isNaN(analyze.housenumber('5/5')), 'same house/apt number');
     t.false(isNaN(analyze.housenumber('6-6')), 'same house/apt number');
+    t.false(isNaN(analyze.housenumber('22-26')), 'small ranges');
     t.end();
   });
 
@@ -105,6 +109,13 @@ module.exports.analyze.housenumber = function(test) {
     t.equal(float, 1);
     var float2 = analyze.housenumber('28/28');
     t.equal(float2, 28);
+    t.end();
+  });
+  test('housenumber: house ranges', function(t) {
+    var float = analyze.housenumber('10-16');
+    t.equal(float, 13);
+    var float2 = analyze.housenumber('218-223');
+    t.equal(float2, 220);
     t.end();
   });
 };
