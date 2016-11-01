@@ -62,6 +62,39 @@ module.exports.analyze.housenumber = function(test) {
     t.equal(float, 22.2);
     t.end();
   });
+  test('housenumber: apartment with a character symbolizing null', function(t) {
+    var float = analyze.housenumber('9/-');
+    t.equal(float, 9);
+    t.end();
+  });
+  test('housenumber: apartment with forward slash between number and letter', function(t) {
+    var float = analyze.housenumber('1/A');
+    t.equal(float, 1.1);
+    var float2 = analyze.housenumber('200/F');
+    t.equal(float2, 200.6);
+    t.end();
+  });
+  test('housenumber: apartment with forward slash between number and another number', function(t) {
+    var float = analyze.housenumber('200/22');
+    t.true(isNaN(float), 'return NaN');
+    var float2 = analyze.housenumber('1/1');
+    t.true(isNaN(float2), 'return NaN');
+    t.end();
+  });
+  test('housenumber: apartment with minus between number and letter', function(t) {
+    var float = analyze.housenumber('28-H');
+    t.equal(float, 28.8);
+    var float2 = analyze.housenumber('200-A');
+    t.equal(float2, 200.1);
+    t.end();
+  });
+  test('housenumber: apartment with minus between number and another number', function(t) {
+    var float = analyze.housenumber('200-22');
+    t.true(isNaN(float), 'return NaN');
+    var float2 = analyze.housenumber('1-1');
+    t.true(isNaN(float2), 'return NaN');
+    t.end();
+  });
 };
 module.exports.analyze.housenumberFloatToString = function(test) {
   test('housenumberFloatToString: invalid', function(t) {
