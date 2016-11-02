@@ -23,4 +23,4 @@ git pull -q origin master;
 npm --loglevel=silent install;
 
 # run build
-./script/build.sh &> build.log;
+$DIR/build.sh &> build.log;
