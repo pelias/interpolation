@@ -10,6 +10,7 @@ var paths = {
   expected: path.resolve( __dirname, './fixture/expected.dump' ),
   fixture: {
     oa: path.resolve( __dirname, './oa.csv' ),
+    osm: path.resolve( __dirname, './osm.addresses.json' ),
     polyline: path.resolve( __dirname, './osm.polylines' )
   },
   db: {
@@ -20,6 +21,11 @@ var paths = {
 
 module.exports.functional = {};
 
+// clean working directory
+module.exports.functional.clean = function(test) {
+  action.clean(test, paths);
+};
+
 // import data
 module.exports.functional.import = function(test) {
   action.import(test, paths);
@@ -28,6 +34,11 @@ module.exports.functional.import = function(test) {
 // perform oa conflation
 module.exports.functional.oa = function(test) {
   action.oa(test, paths);
+};
+
+// perform osm conflation
+module.exports.functional.osm = function(test) {
+  action.osm(test, paths);
 };
 
 // perform vertex interpolation
@@ -69,7 +80,7 @@ module.exports.functional.address_counts = function(test) {
 
     // count address table
     var addresses = sqlite3.count( paths.db.address, 'address' );
-    t.equal(addresses, 121, 'count(address)');
+    t.equal(addresses, 128, 'count(address)');
 
     t.end();
   });
@@ -80,15 +91,19 @@ module.exports.functional.spotcheck = function(test) {
 
     // counts for a specific street
     var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85' );
-    t.equal(count1, 121);
+    t.equal(count1, 128);
 
     // counts for a specific street (open addresses)
     var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="OA"' );
     t.equal(count2, 106);
 
+    // counts for a specific street (openstreetmap)
+    var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="OSM"' );
+    t.equal(count3, 7);
+
     // counts for a specific street (vertexes)
-    var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="VERTEX"' );
-    t.equal(count3, 15);
+    var count4 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="VERTEX"' );
+    t.equal(count4, 15);
 
     t.end();
   });
@@ -117,7 +132,7 @@ module.exports.functional.search = function(test) {
     t.end();
   });
 
-  test('search: exact', function(t) {
+  test('search: exact (OA)', function(t) {
 
     var coord = { lat: 40.749, lon: -74 };
     var number = '537';
@@ -136,7 +151,26 @@ module.exports.functional.search = function(test) {
     });
   });
 
-  test('search: close', function(t) {
+  test('search: exact (OSM)', function(t) {
+
+    var coord = { lat: 40.749, lon: -74 };
+    var number = '36';
+    var street = 'west 26th street';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'exact',
+        source: 'OSM',
+        number: '36',
+        lat: 40.7443525,
+        lon: -73.9906047
+      });
+      t.end();
+    });
+  });
+
+  test('search: close (OA)', function(t) {
 
     var coord = { lat: 40.749, lon: -74 };
     var number = '537f';
@@ -150,6 +184,25 @@ module.exports.functional.search = function(test) {
         number: '537',
         lat: 40.7504506,
         lon: -74.0045915
+      });
+      t.end();
+    });
+  });
+
+  test('search: close (OSM)', function(t) {
+
+    var coord = { lat: 40.749, lon: -74 };
+    var number = '352f';
+    var street = 'west 26th street';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'close',
+        source: 'OSM',
+        number: '352',
+        lat: 40.7480383,
+        lon: -73.9996074
       });
       t.end();
     });
@@ -169,6 +222,25 @@ module.exports.functional.search = function(test) {
         number: '475',
         lat: 40.749529,
         lon: -74.0026372
+      });
+      t.end();
+    });
+  });
+
+  test('search: interpolated (between two different datasets)', function(t) {
+
+    var coord = { lat: 40.749, lon: -74 };
+    var number = '257';
+    var street = 'west 26th street';
+
+    conn.query( coord, number, street, function( err, res ){
+      t.false( err );
+      t.deepEqual( res, {
+        type: 'interpolated',
+        source: 'mixed',
+        number: '257',
+        lat: 40.7470427,
+        lon: -73.996716
       });
       t.end();
     });

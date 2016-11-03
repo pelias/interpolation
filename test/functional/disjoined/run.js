@@ -21,6 +21,11 @@ var paths = {
 
 module.exports.functional = {};
 
+// clean working directory
+module.exports.functional.clean = function(test) {
+  action.clean(test, paths);
+};
+
 // import data
 module.exports.functional.import = function(test) {
   action.import(test, paths);

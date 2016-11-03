@@ -73,7 +73,7 @@ function streamFactory(db, done){
       // push openaddresses values to db
       this.push({
         $id: nearest.street.id,
-        $source: 'OA',
+        $source: item._SRC || 'OA',
         $housenumber: housenumber,
         $lon: point[0],
         $lat: point[1],
