@@ -15,34 +15,29 @@ var FUDGE_FACTOR = 0.005;
    - apply 'fudge factor' to bbox
 **/
 function streamFactory(){
-  return through.obj(function( parsed, _, next ){
+  return through.obj(function( street, _, next ){
+
+    // normalize all names
+    var names = [];
+    street.getNames().forEach( function( name ){
+      names = names.concat( analyze.street( name ) );
+    });
+    street.setNames( names );
+
+    // expand bbox
+    var bbox = street.getBbox();
+    street.setBbox({
+      minX: bbox.minX -FUDGE_FACTOR,
+      minY: bbox.minY -FUDGE_FACTOR,
+      maxX: bbox.maxX +FUDGE_FACTOR,
+      maxY: bbox.maxY +FUDGE_FACTOR
+    });
 
     // push augmented data downstream
-    this.push( map( parsed ) );
+    this.push( street );
 
     next();
   });
-}
-
-/**
-  perform libpostal normalization and apply fudge factor to bbox
-**/
-function map( parsed ){
-
-  var names = [];
-  parsed.names.forEach( function( name ){
-    names = names.concat( analyze.street( name ) );
-  });
-
-  return {
-    id: parsed.id,
-    line: parsed.line,
-    minX: parsed.bbox[0] -FUDGE_FACTOR,
-    minY: parsed.bbox[1] -FUDGE_FACTOR,
-    maxX: parsed.bbox[2] +FUDGE_FACTOR,
-    maxY: parsed.bbox[3] +FUDGE_FACTOR,
-    names: names
-  };
 }
 
 module.exports = streamFactory;

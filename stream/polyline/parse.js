@@ -1,6 +1,6 @@
 
 var through = require('through2'),
-    polyline = require('polyline');
+    Street = require('../../lib/Street');
 
 // polyline precision
 var PRECISION = 6;
@@ -39,12 +39,12 @@ function parse( row ){
     // must contain a polyline and at least one name
     if( cols.length > 2 ){
 
-      return {
-        id: cols[0],
-        names: cols.slice(2),
-        bbox: bboxify( polyline.decode( cols[1], PRECISION ) ),
-        line: cols[1]
-      };
+      var street = new Street();
+      street.setId( cols[0] )
+            .setNames( cols.slice(2) )
+            .setEncodedPolyline( cols[1], PRECISION );
+
+      return street;
 
     } else if( cols.length ) {
       console.error( 'invalid polyline row', row );
@@ -52,38 +52,6 @@ function parse( row ){
   } catch( e ){
     console.error( 'polyline parsing error', e );
   }
-}
-
-/*
-  return bbox.
-  note: same format as 'geojson-extent' without format shifting to geojson first.
-*/
-function bboxify( coords ){
-
-  // compute coordinate extremes
-  var minLat = Infinity; var maxLat = -Infinity;
-  var minLng = Infinity; var maxLng = -Infinity;
-
-  coords.forEach( function( coord ){
-
-    // latitude
-    if( coord[0] > maxLat ){
-      maxLat = coord[0];
-    }
-    if( coord[0] < minLat ){
-      minLat = coord[0];
-    }
-
-    // longitude
-    if( coord[1] > maxLng ){
-      maxLng = coord[1];
-    }
-    if( coord[1] < minLng ){
-      minLng = coord[1];
-    }
-  });
-
-  return [ minLng, minLat, maxLng, maxLat ]; // [WSEN]
 }
 
 module.exports = streamFactory;
