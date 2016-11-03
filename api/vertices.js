@@ -15,16 +15,8 @@ function vertices(addressDbPath, streetDbPath, done){
   query.tables.address(db); // create tables only if not already created
   query.attach(db, process.argv[3], 'street'); // attach street database
 
-  var sql = [
-    'SELECT * FROM street.polyline',
-    'JOIN address ON street.polyline.id = address.id',
-    'WHERE address.source != "VERTEX"',
-    'ORDER BY address.id ASC, address.housenumber ASC'
-  ].join(' ');
-
-  var dbStream = stream.query( db, sql );
-
-  dbStream.pipe( stream.vertices.batch() )
+  stream.each( db, 'street.polyline' )
+          .pipe( stream.vertices.lookup( db ) )
           .pipe( stream.vertices.augment() )
           .pipe( stream.batch( 1000 ) ) // batch up data to import
           .pipe( stream.oa.import( db, function(){

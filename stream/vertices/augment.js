@@ -15,28 +15,27 @@ var PRECISION = 6;
 function streamFactory(db, done){
 
   // create a new stream
-  return through.obj(function(rows, _, next ){
+  return through.obj( function( data, _, next ){
 
     // decode polyline
-    var street = {
-      id: rows[0].id,
-      coordinates: project.dedupe( polyline.toGeoJSON(rows[0].line, PRECISION).coordinates )
-    };
+    var coordinates = project.dedupe( polyline.toGeoJSON( data.street.line, PRECISION ).coordinates );
 
     // store an array of housenumbers and their distance along the linestring
     var distances = [];
 
     // process all house number entries in batch
-    rows.forEach( function( row ){
+    data.addresses.forEach( function( address ){
 
       // get variables from db row
-      var point = [ parseFloat(row.proj_lon), parseFloat(row.proj_lat) ];
-      var housenumber = parseFloat(row.housenumber);
-      var parity = '' + row.parity;
+      var point = [ parseFloat( address.proj_lon ), parseFloat( address.proj_lat ) ];
+      var housenumber = parseFloat( address.housenumber );
+      var parity = String( address.parity );
 
       // compute the distance along the linestring to the projected point
-      var proj = project.pointOnLine( street.coordinates, point );
-      var dist = project.lineDistance( project.sliceLineAtProjection( street.coordinates, proj ) );
+      var proj = project.pointOnLine( coordinates, point );
+      var dist = project.lineDistance( project.sliceLineAtProjection( coordinates, proj ) );
+
+      // add projection data to distances array
       distances.push({ housenumber: housenumber, dist: dist, parity: parity });
 
     }, this);
@@ -47,6 +46,8 @@ function streamFactory(db, done){
     distances.sort( function( a, b ){
       return ( a.dist > b.dist ) ? 1 : -1;
     });
+
+    // ----
 
     /**
       compute the scheme (zig-zag vs. updown) of each road based on
@@ -70,8 +71,7 @@ function streamFactory(db, done){
 
     // iterate distances to enumerate odd/even on L/R
     distances.forEach( function( cur ){
-
-      if( cur.parity && cur.housenumber ){
+      if( cur.housenumber && ( cur.parity === 'R' || cur.parity === 'L' ) ){
         var isEven = parseInt( cur.housenumber, 10 ) %2;
         if( isEven ){ ord[cur.parity].even++; }
         else { ord[cur.parity].odd++; }
@@ -84,7 +84,7 @@ function streamFactory(db, done){
         zz2 = ( ord.L.odd === ord.L.total && ord.R.even === ord.R.total );
 
     // assign correct scheme to street
-    street.scheme = ( zz1 || zz2 ) ? 'zigzag' : 'updown';
+    data.street.scheme = ( zz1 || zz2 ) ? 'zigzag' : 'updown';
 
     // ----
 
@@ -94,19 +94,14 @@ function streamFactory(db, done){
     // insert each point on linestring in table
     // note: this allows us to ignore the linestring and simply linearly
     // interpolation between matched values at query time.
-    street.coordinates.forEach( function( vertex, i ){
+    coordinates.forEach( function( vertex, i ){
 
       // not a line, just a single point;
       if( 0 === i ){ return; }
 
       // distance along line to this vertex
-      var edge = street.coordinates.slice(i-1, i+1);
-      if( edge.length === 2 ){
-        vertexDistance += project.lineDistance( edge );
-      } else {
-        console.error( 'logic error: should never have else!' );
-        return;
-      }
+      var edge = coordinates.slice(i-1, i+1);
+      vertexDistance += project.lineDistance( edge );
 
       // projected fractional housenumber(s)
       // note: there may be one or two values produced, depending on the scheme.
@@ -114,7 +109,7 @@ function streamFactory(db, done){
 
       // zigzag interpolation
       // (one vertex interpolation produced)
-      if( street.scheme === 'zigzag' ){
+      if( data.street.scheme === 'zigzag' ){
         housenumbers.push( interpolate( distances, vertexDistance ) );
       }
       // updown interpolation
@@ -135,7 +130,7 @@ function streamFactory(db, done){
       housenumbers.forEach( function( num ){
         if( !num ){ return; } // skip null interpolations
         this.push({
-          $id: street.id,
+          $id: data.street.id,
           $source: 'VERTEX',
           $housenumber: num.toFixed(3),
           $lon: undefined,
