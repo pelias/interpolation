@@ -93,6 +93,13 @@ module.exports.street.coord = function(test) {
     t.deepEqual(s.coords, { default: { lat: 1.1, lon: -2.2 } });
     t.end();
   });
+  test('setCoord - string', function(t) {
+    var s = new Address();
+    t.deepEqual(s.coords, {});
+    s.setCoord({ lat: '1.1', lon: '-2.2' });
+    t.deepEqual(s.coords, { default: { lat: 1.1, lon: -2.2 } });
+    t.end();
+  });
   test('setCoord - type', function(t) {
     var s = new Address();
     t.deepEqual(s.coords, {});
@@ -102,12 +109,13 @@ module.exports.street.coord = function(test) {
   });
   test('setCoord - invalid', function(t) {
     var s = new Address();
-    t.throws(function(){ s.setCoord(0); }, /invalid point/);
-    t.throws(function(){ s.setCoord(null); }, /invalid point/);
-    t.throws(function(){ s.setCoord(''); }, /invalid point/);
-    t.throws(function(){ s.setCoord({}); }, /invalid point/);
-    t.throws(function(){ s.setCoord({ lat: 1 }); }, /invalid point/);
-    t.throws(function(){ s.setCoord({ lat: '', lon: '' }); }, /invalid point/);
+    t.throws(function(){ s.setCoord(0); }, /invalid coord/);
+    t.throws(function(){ s.setCoord(null); }, /invalid coord/);
+    t.throws(function(){ s.setCoord(''); }, /invalid coord/);
+    t.throws(function(){ s.setCoord({}); }, /invalid coord/);
+    t.throws(function(){ s.setCoord({ lat: 1 }); }, /invalid coord/);
+    t.throws(function(){ s.setCoord({ lat: '', lon: '' }); }, /invalid lat/);
+    t.throws(function(){ s.setCoord({ lat: '1.2', lon: '' }); }, /invalid lon/);
     t.end();
   });
 };
@@ -129,12 +137,12 @@ module.exports.street.number = function(test) {
   });
   test('setNumber - invalid', function(t) {
     var s = new Address();
-    t.throws(function(){ s.setNumber(0); }, /invalid number/);
-    t.throws(function(){ s.setNumber(1); }, /invalid number/);
-    t.throws(function(){ s.setNumber(null); }, /invalid number/);
-    t.throws(function(){ s.setNumber(''); }, /invalid number/);
-    t.throws(function(){ s.setNumber([]); }, /invalid number/);
-    t.throws(function(){ s.setNumber({}); }, /invalid number/);
+    t.throws(function(){ s.setNumber(0); }, /invalid house number/);
+    t.throws(function(){ s.setNumber(1); }, /invalid house number/);
+    t.throws(function(){ s.setNumber(null); }, /invalid house number/);
+    t.throws(function(){ s.setNumber(''); }, /invalid house number/);
+    t.throws(function(){ s.setNumber([]); }, /invalid house number/);
+    t.throws(function(){ s.setNumber({}); }, /invalid house number/);
     t.end();
   });
 };

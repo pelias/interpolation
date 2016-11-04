@@ -18,12 +18,12 @@ function osm(dataStream, addressDbPath, streetDbPath, done){
   dataStream
     .pipe( stream.split() ) // split file on newline
     .pipe( stream.osm.parse() ) // parse openstreetmap json data
-    .pipe( stream.osm.convert() ) // convert OSM data to OA format
-    .pipe( stream.oa.batch() ) // batch records on the same street
-    .pipe( stream.oa.lookup( db ) ) // look up from db
-    .pipe( stream.oa.augment() ) // perform interpolation
+    .pipe( stream.osm.convert() ) // convert openstreetmap data to generic model
+    .pipe( stream.address.batch() ) // batch records on the same street
+    .pipe( stream.address.lookup( db ) ) // look up from db
+    .pipe( stream.address.augment() ) // perform interpolation
     .pipe( stream.batch( 1000 ) ) // batch up data to import
-    .pipe( stream.oa.import( db, function(){
+    .pipe( stream.address.import( db, function(){
 
       // create the indexes after the data is imported
       // for performance reasons.

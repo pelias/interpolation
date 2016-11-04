@@ -17,11 +17,12 @@ function oa(dataStream, addressDbPath, streetDbPath, done){
 
   dataStream
     .pipe( stream.oa.parse() ) // parse openaddresses csv data
-    .pipe( stream.oa.batch() ) // batch records on the same street
-    .pipe( stream.oa.lookup( db ) ) // look up from db
-    .pipe( stream.oa.augment() ) // perform interpolation
+    .pipe( stream.oa.convert() ) // convert openaddresses data to generic model
+    .pipe( stream.address.batch() ) // batch records on the same street
+    .pipe( stream.address.lookup( db ) ) // look up from db
+    .pipe( stream.address.augment() ) // perform interpolation
     .pipe( stream.batch( 1000 ) ) // batch up data to import
-    .pipe( stream.oa.import( db, function(){
+    .pipe( stream.address.import( db, function(){
 
       // create the indexes after the data is imported
       // for performance reasons.

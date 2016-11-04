@@ -1,9 +1,9 @@
 
-var through = require('through2');
+var through = require('through2'),
+    Address = require('../../lib/Address');
 
 /**
-  convert openstreetmap data to the openaddresses format so we can reuse all
-  the openaddresses code.
+  convert openstreetmap data to a generic Address model.
 **/
 
 // { "id":2549960777,
@@ -16,36 +16,53 @@ var through = require('through2');
 //     "addr:street":"West 26th Street"
 //    }}
 
-// { LON: '174.5805754',
-//   LAT: '-36.1037843',
-//   NUMBER: '30A',
-//   STREET: 'Thelma Road South',
-//   UNIT: '',
-//   CITY: 'Mangawhai Heads',
-//   DISTRICT: '',
-//   REGION: 'Kaipara District',
-//   POSTCODE: '',
-//   ID: '1939485',
-//   HASH: '' }
-
 function streamFactory(){
   return through.obj(function( json, _, next ){
 
-    this.push({
-      _SRC: 'OSM',
-      LON: json.hasOwnProperty('centroid') ? json.centroid.lon : json.lon,
-      LAT: json.hasOwnProperty('centroid') ? json.centroid.lat : json.lat,
-      NUMBER: json.tags['addr:housenumber'] || '',
-      STREET: json.tags['addr:street'] || '',
-      UNIT: json.tags['addr:unit'] || '',
-      CITY: json.tags['addr:city'] || '',
-      DISTRICT: json.tags['addr:district'] || '',
-      REGION: json.tags['addr:province'] || json.tags['addr:region'] || '',
-      POSTCODE: json.tags['addr:postcode'] || '',
-      ID: json.id,
-      HASH: String( json.id )
-    });
+    var address = new Address().setSource('OSM');
 
+    /*
+      mandatory properties
+    */
+
+    try {
+      address.setStreet( json.tags['addr:street'] );
+      address.setNumber( json.tags['addr:housenumber'] );
+      address.setCoord({
+        lon: json.hasOwnProperty('centroid') ? json.centroid.lon : json.lon,
+        lat: json.hasOwnProperty('centroid') ? json.centroid.lat : json.lat
+      });
+    }
+    catch( e ){
+      console.error( 'invalid json', e );
+      console.error( json );
+      return next();
+    }
+
+    /*
+      optional properties
+    */
+
+    try { address.setId( json.id ); }
+    catch( e ){ /* ignore error */ }
+
+    try { address.setUnit( json.tags['addr:unit'] ); }
+    catch( e ){ /* ignore error */ }
+
+    try { address.setCity( json.tags['addr:city'] ); }
+    catch( e ){ /* ignore error */ }
+
+    try { address.setDistrict( json.tags['addr:district'] ); }
+    catch( e ){ /* ignore error */ }
+
+    try { address.setRegion( json.tags['addr:province'] || json.tags['addr:region'] ); }
+    catch( e ){ /* ignore error */ }
+
+    try { address.setPostcode( json.tags['addr:postcode'] ); }
+    catch( e ){ /* ignore error */ }
+
+    // valid address; push downstream
+    this.push( address );
     next();
   });
 }
