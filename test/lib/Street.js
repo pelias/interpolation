@@ -6,7 +6,7 @@ module.exports.street = {};
 module.exports.street.constructor = function(test) {
   test('constructor', function(t) {
     var s = new Street();
-    t.equal(s.id, 0);
+    t.equal(s.id, null);
     t.deepEqual(s.names, []);
     t.equal(s.bbox, null);
     t.equal(s.encoded, null);
@@ -19,14 +19,14 @@ module.exports.street.constructor = function(test) {
 module.exports.street.id = function(test) {
   test('getId', function(t) {
     var s = new Street();
-    t.equal(s.getId(), 0);
+    t.equal(s.getId(), null);
     s.id = 1;
     t.equal(s.getId(), 1);
     t.end();
   });
   test('setId', function(t) {
     var s = new Street();
-    t.equal(s.id, 0);
+    t.equal(s.id, null);
     s.setId(1);
     t.equal(s.id, 1);
     t.end();
