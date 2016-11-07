@@ -41,6 +41,9 @@ module.exports.analyze.housenumber = function(test) {
     t.true(isNaN(analyze.housenumber('1-4')), 'ranges containing single digits');
     t.true(isNaN(analyze.housenumber('22/26')), 'invalid range delimiter');
     t.true(isNaN(analyze.housenumber('51.1')), 'arbitrary decimal suffix');
+    t.true(isNaN(analyze.housenumber('260 UNIT #33')), 'common label "unit" (followed by a number)');
+    t.true(isNaN(analyze.housenumber('1434 SUITE #2')), 'common label "suite" (followed by a number)');
+    t.true(isNaN(analyze.housenumber('5285 #1')), 'hash delimited numeric suffix');
     t.end();
   });
 
@@ -55,6 +58,9 @@ module.exports.analyze.housenumber = function(test) {
     t.false(isNaN(analyze.housenumber('51.5')), 'decimal suffix');
     t.false(isNaN(analyze.housenumber('326 1/2')), 'half suffix');
     t.false(isNaN(analyze.housenumber('8¼')), 'quarter suffix');
+    t.false(isNaN(analyze.housenumber('4701 #B')), 'hash delimited suffix');
+    t.false(isNaN(analyze.housenumber('1434 UNIT #B')), 'remove common label "unit"');
+    t.false(isNaN(analyze.housenumber('1434 SUITE #B')), 'remove common label "suite"');
     t.end();
   });
 
@@ -132,6 +138,23 @@ module.exports.analyze.housenumber = function(test) {
     t.equal(float, 326.39);
     var float2 = analyze.housenumber('1½');
     t.equal(float2, 1.39);
+    t.end();
+  });
+  test('housenumber: hash delimited suffix', function(t) {
+    var float = analyze.housenumber('4701 #B');
+    t.equal(float, 4701.06);
+    t.end();
+  });
+  // test('housenumber: hash delimited numeric suffix', function(t) {
+  //   var float = analyze.housenumber('5285 #1');
+  //   t.equal(float, 5285.03);
+  //   t.end();
+  // });
+  test('housenumber: removes common labels', function(t) {
+    var float = analyze.housenumber('4701 UNIT #B');
+    t.equal(float, 4701.06);
+    var float2 = analyze.housenumber('1 APT A');
+    t.equal(float2, 1.03);
     t.end();
   });
 };
