@@ -107,6 +107,13 @@ module.exports.analyze.housenumber = function(test) {
     t.equal(float2, 200.03);
     t.end();
   });
+  test('housenumber: apartment with hash between number and letter', function(t) {
+    var float = analyze.housenumber('100#A');
+    t.equal(float, 100.03);
+    var float2 = analyze.housenumber('14500 # N');
+    t.equal(float2, 14500.42);
+    t.end();
+  });
   test('housenumber: apartment with minus between number and another number', function(t) {
     var float = analyze.housenumber('200-22');
     t.true(isNaN(float), 'return NaN');
