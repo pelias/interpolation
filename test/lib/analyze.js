@@ -137,14 +137,18 @@ module.exports.analyze.housenumber = function(test) {
   });
   test('housenumber: decimal suffix', function(t) {
     var float = analyze.housenumber('51.5');
-    t.equal(float, 51.39);
+    t.equal(float, 51.5);
     t.end();
   });
-  test('housenumber: half suffix', function(t) {
+  test('housenumber: fractional suffix', function(t) {
     var float = analyze.housenumber('326 1/2');
-    t.equal(float, 326.39);
+    t.equal(float, 326.5);
     var float2 = analyze.housenumber('1½');
-    t.equal(float2, 1.39);
+    t.equal(float2, 1.5);
+    var float3 = analyze.housenumber('1¼');
+    t.equal(float3, 1.25);
+    var float4 = analyze.housenumber('1¾');
+    t.equal(float4, 1.74);
     t.end();
   });
   test('housenumber: hash delimited suffix', function(t) {
@@ -218,6 +222,35 @@ module.exports.analyze.housenumberFloatToString = function(test) {
   test('housenumberFloatToString: apartment Z', function(t) {
     var str = analyze.housenumberFloatToString(22.78);
     t.equal(str, '22z');
+    t.end();
+  });
+};
+
+module.exports.analyze.encode_decode = function(test) {
+
+  function encodeDecode( num ){
+    return analyze.housenumberFloatToString( analyze.housenumber( num ) );
+  }
+
+  test('encode then decode should result in same housenumber', function(t) {
+    t.equal( encodeDecode('1'), '1' );
+    t.equal( encodeDecode('10A'), '10a' );
+    t.equal( encodeDecode('3z'), '3z' );
+    t.equal( encodeDecode('4/-'), '4' );
+    t.equal( encodeDecode('5/5'), '5' );
+    t.equal( encodeDecode('6-6'), '6' );
+    t.equal( encodeDecode('22-26'), '24' );
+    t.equal( encodeDecode('51.5'), '51½' );
+    t.equal( encodeDecode('326 1/2'), '326½' );
+    t.equal( encodeDecode('8¼'), '8¼' );
+    t.equal( encodeDecode('4701 #B'), '4701b' );
+    t.equal( encodeDecode('1434 UNIT #B'), '1434b' );
+
+    // test all character house number from [a-z]
+    for( var i = 97; i < 123; i++ ){
+      var num = '100' + String.fromCharCode(i);
+      t.equal( encodeDecode(num), num );
+    }
     t.end();
   });
 };
