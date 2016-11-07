@@ -40,6 +40,7 @@ module.exports.analyze.housenumber = function(test) {
     t.true(isNaN(analyze.housenumber('11-19')), 'large ranges');
     t.true(isNaN(analyze.housenumber('1-4')), 'ranges containing single digits');
     t.true(isNaN(analyze.housenumber('22/26')), 'invalid range delimiter');
+    t.true(isNaN(analyze.housenumber('51.1')), 'arbitrary decimal suffix');
     t.end();
   });
 
@@ -51,6 +52,9 @@ module.exports.analyze.housenumber = function(test) {
     t.false(isNaN(analyze.housenumber('5/5')), 'same house/apt number');
     t.false(isNaN(analyze.housenumber('6-6')), 'same house/apt number');
     t.false(isNaN(analyze.housenumber('22-26')), 'small ranges');
+    t.false(isNaN(analyze.housenumber('51.5')), 'decimal suffix');
+    t.false(isNaN(analyze.housenumber('326 1/2')), 'half suffix');
+    t.false(isNaN(analyze.housenumber('8¼')), 'quarter suffix');
     t.end();
   });
 
@@ -116,6 +120,18 @@ module.exports.analyze.housenumber = function(test) {
     t.equal(float, 13);
     var float2 = analyze.housenumber('218-223');
     t.equal(float2, 220);
+    t.end();
+  });
+  test('housenumber: decimal suffix', function(t) {
+    var float = analyze.housenumber('51.5');
+    t.equal(float, 51.39);
+    t.end();
+  });
+  test('housenumber: half suffix', function(t) {
+    var float = analyze.housenumber('326 1/2');
+    t.equal(float, 326.39);
+    var float2 = analyze.housenumber('1½');
+    t.equal(float2, 1.39);
     t.end();
   });
 };
