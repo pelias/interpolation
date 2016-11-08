@@ -31,7 +31,7 @@
   </div>
   <script>
     // Create a basic Leaflet map
-    var map = L.map('map', { zoomControl:false }).setView([40.7259, -73.9805], 12);
+    var map = L.map('map', { zoomControl:false });
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     }).addTo(map);
@@ -45,7 +45,7 @@
     var params = {};
     var options = { focus: false, expanded: true, params: params };
     var geocoder = L.control.geocoder(API_KEY, options).addTo(map);
-    map.locate({ setView: true, maxZoom: 16 });
+    // map.locate({ setView: true, maxZoom: 16 });
 
     var layer = {
       lines: newSimpleStyleLayer().setZIndex(1).addTo(map),
@@ -92,7 +92,7 @@
 
       var qs =  '?point.lat=' + latlng.lat;
           qs += '&point.lon=' + latlng.lng;
-          qs += '&sources=oa';
+          qs += '&sources=oa,osm';
           qs += '&layers=address';
           qs += '&size=1';
           qs += '&api_key=' + API_KEY;
@@ -222,9 +222,15 @@
       if( 'number' !== typeof f ){ return ''; }
 
       var suffix = '';
-      var fractional = Math.floor(( f % 1 ) * 10.1 /* add 0.1 to avoid floating point errors */ );
-      if( fractional > 0 && fractional < 10 ){
-        suffix = String.fromCharCode( 96 + fractional );
+      var fractional = Math.floor(( f % 1 ) * 100.1 /* add 0.1 to avoid floating point errors */ );
+      if( fractional > 0 && fractional <= 78 ){
+        switch( fractional ){
+          case 25: suffix = '¼'; break;
+          case 50: suffix = '½'; break;
+          case 74: suffix = '¾'; break;
+          default:
+            suffix = String.fromCharCode( 96 + Math.round( fractional / 3 ));
+        }
       }
 
       return '' + Math.floor( f ) + suffix;
