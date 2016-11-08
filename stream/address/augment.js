@@ -2,6 +2,7 @@
 var through = require('through2'),
     polyline = require('polyline'),
     project = require('../../lib/project'),
+    proximity = require('../../lib/proximity'),
     analyze = require('../../lib/analyze'),
     interpolate = require('../../lib/interpolate');
 
@@ -34,41 +35,25 @@ function streamFactory(db, done){
         return;
       }
 
-      // project point on to line string
+      // format shift point data
       var point = [ address.getCoord().lon, address.getCoord().lat ];
 
-      // pick correct street to use (in case of multiple matches)
-      var nearest = { projection: { dist: Infinity }, street: undefined };
+      // order streets by proximity from point (by projecting it on to each line string)
+      var ordered = proximity.nearest.street( lookup.streets, point );
 
-      lookup.streets.forEach( function( street, i ){
-        var proj = project.pointOnLine( street.coordinates, point );
-
-        // validate projection
-        if( !proj || !proj.edge || !proj.point || proj.dist === Infinity ){
-          console.error( 'unable to project point on to linestring' );
-          console.error( 'street', street );
-          console.error( 'point', point );
-          return;
-        }
-
-        // check if this is the nearest projection
-        if( proj.dist < nearest.projection.dist ){
-          nearest.projection = proj;
-          nearest.street = street;
-          nearest.index = i;
-        }
-      });
-
-      // ensure we have a valid street match
-      if( !nearest.street || nearest.projection.dist === Infinity ){
+      // an error occurred
+      if( !ordered || !ordered.length ){
         console.error( 'unable to find nearest street for point' );
         console.error( 'streets', lookup.streets );
         console.error( 'address', address );
         return;
       }
 
+      // use the closest street
+      var nearest = ordered[0];
+
       // compute L/R parity of house on street
-      var parity = project.parity( nearest.projection, point );
+      var parity = project.parity( nearest.proj, point );
 
       // push openaddresses values to db
       this.push({
@@ -78,8 +63,8 @@ function streamFactory(db, done){
         $lon: point[0],
         $lat: point[1],
         $parity: parity,
-        $proj_lon: nearest.projection.point[0],
-        $proj_lat: nearest.projection.point[1]
+        $proj_lon: nearest.proj.point[0],
+        $proj_lat: nearest.proj.point[1]
       });
 
     }, this);

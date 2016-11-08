@@ -56,11 +56,11 @@ module.exports.interface.query = function(test) {
     t.equal(typeof index.query.search, 'function', 'valid function');
     t.equal(typeof index.query.attach, 'function', 'valid function');
     t.equal(typeof index.query.configure, 'function', 'valid function');
-    t.equal(typeof index.query.indexes, 'object', 'valid function');
+    t.equal(typeof index.query.indexes, 'object', 'valid object');
     t.equal(typeof index.query.indexes.street, 'function', 'valid function');
     t.equal(typeof index.query.indexes.address, 'function', 'valid function');
     t.equal(typeof index.query.lookup, 'function', 'valid function');
-    t.equal(typeof index.query.tables, 'object', 'valid function');
+    t.equal(typeof index.query.tables, 'object', 'valid object');
     t.equal(typeof index.query.tables.street, 'function', 'valid function');
     t.equal(typeof index.query.tables.address, 'function', 'valid function');
     t.end();
@@ -69,15 +69,17 @@ module.exports.interface.query = function(test) {
 
 module.exports.interface.lib = function(test) {
   test('libs', function(t) {
-    t.equal(typeof index.lib.analyze, 'object', 'valid function');
+    t.equal(typeof index.lib.analyze, 'object', 'valid object');
     t.equal(typeof index.lib.analyze.street, 'function', 'valid function');
     t.equal(typeof index.lib.analyze.housenumber, 'function', 'valid function');
-    t.equal(typeof index.lib.assert, 'object', 'valid function');
+    t.equal(typeof index.lib.assert, 'object', 'valid object');
     t.equal(typeof index.lib.assert.log, 'function', 'valid function');
-    t.equal(typeof index.lib.pretty, 'object', 'valid function');
+    t.equal(typeof index.lib.proximity, 'object', 'valid object');
+    t.equal(typeof index.lib.proximity.nearest.street, 'function', 'valid function');
+    t.equal(typeof index.lib.pretty, 'object', 'valid object');
     t.equal(typeof index.lib.pretty.table, 'function', 'valid function');
     t.equal(typeof index.lib.pretty.geojson, 'function', 'valid function');
-    t.equal(typeof index.lib.project, 'object', 'valid function');
+    t.equal(typeof index.lib.project, 'object', 'valid object');
     t.equal(typeof index.lib.project.pointOnEdge, 'function', 'valid function');
     t.equal(typeof index.lib.project.pointOnLine, 'function', 'valid function');
     t.equal(typeof index.lib.project.distance, 'function', 'valid function');
