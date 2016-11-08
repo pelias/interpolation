@@ -23,6 +23,11 @@ var paths = {
 
 module.exports.functional = {};
 
+// clean working directory
+module.exports.functional.clean = function(test) {
+  action.clean(test, paths);
+};
+
 // import data
 module.exports.functional.import = function(test) {
   action.import(test, paths);
@@ -72,7 +77,7 @@ module.exports.functional.address_counts = function(test) {
 
     // count address table
     var addresses = sqlite3.count( paths.db.address, 'address' );
-    t.equal(addresses, 2074, 'count(address)');
+    t.equal(addresses, 1517, 'count(address)');
 
     t.end();
   });
@@ -83,7 +88,7 @@ module.exports.functional.spotcheck = function(test) {
 
     // counts for a house number
     var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE source="OA" AND housenumber="1004.0"' );
-    t.equal(count1, 4); // there are 4 houses with the number 1004 in the source data
+    t.equal(count1, 1); // there are 4 houses with the number 1004 in the source data
     // note: this is actually an error in the data, see: https://github.com/pelias/interpolation/issues/13#issuecomment-255785452
 
     // ensure housenumber:560 lies on the correct street
@@ -95,7 +100,7 @@ module.exports.functional.spotcheck = function(test) {
     t.equal(count3, 1);
 
     // ensure housenumber:2 lies on the correct street
-    var count4 = sqlite3.count( paths.db.address, 'address', 'WHERE id="33" AND housenumber="2"' );
+    var count4 = sqlite3.count( paths.db.address, 'address', 'WHERE id="1" AND housenumber="2"' );
     t.equal(count4, 1);
 
     // ensure housenumber:260 lies on the correct street

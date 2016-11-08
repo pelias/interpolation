@@ -40,6 +40,10 @@ module.exports.analyze.housenumber = function(test) {
     t.true(isNaN(analyze.housenumber('11-19')), 'large ranges');
     t.true(isNaN(analyze.housenumber('1-4')), 'ranges containing single digits');
     t.true(isNaN(analyze.housenumber('22/26')), 'invalid range delimiter');
+    t.true(isNaN(analyze.housenumber('51.1')), 'arbitrary decimal suffix');
+    t.true(isNaN(analyze.housenumber('260 UNIT #33')), 'common label "unit" (followed by a number)');
+    t.true(isNaN(analyze.housenumber('1434 SUITE #2')), 'common label "suite" (followed by a number)');
+    t.true(isNaN(analyze.housenumber('5285 #1')), 'hash delimited numeric suffix');
     t.end();
   });
 
@@ -51,6 +55,12 @@ module.exports.analyze.housenumber = function(test) {
     t.false(isNaN(analyze.housenumber('5/5')), 'same house/apt number');
     t.false(isNaN(analyze.housenumber('6-6')), 'same house/apt number');
     t.false(isNaN(analyze.housenumber('22-26')), 'small ranges');
+    t.false(isNaN(analyze.housenumber('51.5')), 'decimal suffix');
+    t.false(isNaN(analyze.housenumber('326 1/2')), 'half suffix');
+    t.false(isNaN(analyze.housenumber('8¼')), 'quarter suffix');
+    t.false(isNaN(analyze.housenumber('4701 #B')), 'hash delimited suffix');
+    t.false(isNaN(analyze.housenumber('1434 UNIT #B')), 'remove common label "unit"');
+    t.false(isNaN(analyze.housenumber('1434 SUITE #B')), 'remove common label "suite"');
     t.end();
   });
 
@@ -97,6 +107,13 @@ module.exports.analyze.housenumber = function(test) {
     t.equal(float2, 200.03);
     t.end();
   });
+  test('housenumber: apartment with hash between number and letter', function(t) {
+    var float = analyze.housenumber('100#A');
+    t.equal(float, 100.03);
+    var float2 = analyze.housenumber('14500 # N');
+    t.equal(float2, 14500.42);
+    t.end();
+  });
   test('housenumber: apartment with minus between number and another number', function(t) {
     var float = analyze.housenumber('200-22');
     t.true(isNaN(float), 'return NaN');
@@ -116,6 +133,39 @@ module.exports.analyze.housenumber = function(test) {
     t.equal(float, 13);
     var float2 = analyze.housenumber('218-223');
     t.equal(float2, 220);
+    t.end();
+  });
+  test('housenumber: decimal suffix', function(t) {
+    var float = analyze.housenumber('51.5');
+    t.equal(float, 51.5);
+    t.end();
+  });
+  test('housenumber: fractional suffix', function(t) {
+    var float = analyze.housenumber('326 1/2');
+    t.equal(float, 326.5);
+    var float2 = analyze.housenumber('1½');
+    t.equal(float2, 1.5);
+    var float3 = analyze.housenumber('1¼');
+    t.equal(float3, 1.25);
+    var float4 = analyze.housenumber('1¾');
+    t.equal(float4, 1.74);
+    t.end();
+  });
+  test('housenumber: hash delimited suffix', function(t) {
+    var float = analyze.housenumber('4701 #B');
+    t.equal(float, 4701.06);
+    t.end();
+  });
+  // test('housenumber: hash delimited numeric suffix', function(t) {
+  //   var float = analyze.housenumber('5285 #1');
+  //   t.equal(float, 5285.03);
+  //   t.end();
+  // });
+  test('housenumber: removes common labels', function(t) {
+    var float = analyze.housenumber('4701 UNIT #B');
+    t.equal(float, 4701.06);
+    var float2 = analyze.housenumber('1 APT A');
+    t.equal(float2, 1.03);
     t.end();
   });
 };
@@ -172,6 +222,35 @@ module.exports.analyze.housenumberFloatToString = function(test) {
   test('housenumberFloatToString: apartment Z', function(t) {
     var str = analyze.housenumberFloatToString(22.78);
     t.equal(str, '22z');
+    t.end();
+  });
+};
+
+module.exports.analyze.encode_decode = function(test) {
+
+  function encodeDecode( num ){
+    return analyze.housenumberFloatToString( analyze.housenumber( num ) );
+  }
+
+  test('encode then decode should result in same housenumber', function(t) {
+    t.equal( encodeDecode('1'), '1' );
+    t.equal( encodeDecode('10A'), '10a' );
+    t.equal( encodeDecode('3z'), '3z' );
+    t.equal( encodeDecode('4/-'), '4' );
+    t.equal( encodeDecode('5/5'), '5' );
+    t.equal( encodeDecode('6-6'), '6' );
+    t.equal( encodeDecode('22-26'), '24' );
+    t.equal( encodeDecode('51.5'), '51½' );
+    t.equal( encodeDecode('326 1/2'), '326½' );
+    t.equal( encodeDecode('8¼'), '8¼' );
+    t.equal( encodeDecode('4701 #B'), '4701b' );
+    t.equal( encodeDecode('1434 UNIT #B'), '1434b' );
+
+    // test all character house number from [a-z]
+    for( var i = 97; i < 123; i++ ){
+      var num = '100' + String.fromCharCode(i);
+      t.equal( encodeDecode(num), num );
+    }
     t.end();
   });
 };

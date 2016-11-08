@@ -19,7 +19,7 @@ function vertices(addressDbPath, streetDbPath, done){
           .pipe( stream.vertices.lookup( db ) )
           .pipe( stream.vertices.augment() )
           .pipe( stream.batch( 1000 ) ) // batch up data to import
-          .pipe( stream.oa.import( db, function(){
+          .pipe( stream.address.import( db, function(){
 
             // create the indexes after the data is imported
             // for performance reasons.

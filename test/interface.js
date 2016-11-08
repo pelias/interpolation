@@ -6,9 +6,10 @@ module.exports.interface = {};
 module.exports.interface.exports = function(test) {
   test('exports', function(t) {
     t.equal(typeof index, 'object', 'valid object');
-    t.equal(typeof index.stream, 'object', 'valid object');
-    t.equal(typeof index.query, 'object', 'valid object');
+    t.equal(typeof index.api, 'object', 'valid object');
     t.equal(typeof index.lib, 'object', 'valid object');
+    t.equal(typeof index.query, 'object', 'valid object');
+    t.equal(typeof index.stream, 'object', 'valid object');
     t.end();
   });
 };
@@ -16,24 +17,35 @@ module.exports.interface.exports = function(test) {
 module.exports.interface.stream = function(test) {
   test('streams general', function(t) {
     t.equal(typeof index.stream.batch, 'function', 'valid function');
+    t.equal(typeof index.stream.each, 'function', 'valid function');
     t.equal(typeof index.stream.split, 'function', 'valid function');
     t.end();
   });
+  test('streams street', function(t) {
+    t.equal(typeof index.stream.street.augment, 'function', 'valid function');
+    t.equal(typeof index.stream.street.import, 'function', 'valid function');
+    t.end();
+  });
+  test('streams address', function(t) {
+    t.equal(typeof index.stream.address.augment, 'function', 'valid function');
+    t.equal(typeof index.stream.address.batch, 'function', 'valid function');
+    t.equal(typeof index.stream.address.import, 'function', 'valid function');
+    t.equal(typeof index.stream.address.lookup, 'function', 'valid function');
+    t.end();
+  });
   test('streams polyline', function(t) {
-    t.equal(typeof index.stream.polyline, 'object', 'valid object');
-    t.equal(typeof index.stream.polyline.augment, 'function', 'valid function');
     t.equal(typeof index.stream.polyline.autoincrement, 'function', 'valid function');
-    t.equal(typeof index.stream.polyline.import, 'function', 'valid function');
     t.equal(typeof index.stream.polyline.parse, 'function', 'valid function');
     t.end();
   });
   test('streams oa', function(t) {
-    t.equal(typeof index.stream.oa, 'object', 'valid object');
-    t.equal(typeof index.stream.oa.augment, 'function', 'valid function');
-    t.equal(typeof index.stream.oa.batch, 'function', 'valid function');
-    t.equal(typeof index.stream.oa.import, 'function', 'valid function');
-    t.equal(typeof index.stream.oa.lookup, 'function', 'valid function');
+    t.equal(typeof index.stream.oa.convert, 'function', 'valid function');
     t.equal(typeof index.stream.oa.parse, 'function', 'valid function');
+    t.end();
+  });
+  test('streams osm', function(t) {
+    t.equal(typeof index.stream.osm.convert, 'function', 'valid function');
+    t.equal(typeof index.stream.osm.parse, 'function', 'valid function');
     t.end();
   });
 };

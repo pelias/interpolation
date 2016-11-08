@@ -29,29 +29,30 @@ function streamFactory(db, done){
         assert.transaction.start(err);
 
         // import batch
-        batch.forEach( function( parsed ){
+        batch.forEach( function( street ){
 
           // insert names in to lookup table
-          parsed.names.forEach( function( name ){
+          street.getNames().forEach( function( name ){
             stmt.names.run({
-              $id:   parsed.id,
+              $id:   street.getId(),
               $name: name
             }, assert.statement.names);
           });
 
           // insert bbox in to rtree table
+          var bbox = street.getBbox();
           stmt.rtree.run({
-            $id:   parsed.id,
-            $minX: parsed.minX,
-            $maxX: parsed.maxX,
-            $minY: parsed.minY,
-            $maxY: parsed.maxY
+            $id:   street.getId(),
+            $minX: bbox.minX,
+            $maxX: bbox.maxX,
+            $minY: bbox.minY,
+            $maxY: bbox.maxY
           }, assert.statement.rtree);
 
           // insert line in to polyline table
           stmt.line.run({
-            $id:   parsed.id,
-            $line: parsed.line
+            $id:   street.getId(),
+            $line: street.getEncodedPolyline()
           }, assert.statement.line);
 
         });

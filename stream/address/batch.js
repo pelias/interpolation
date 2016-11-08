@@ -10,38 +10,16 @@ var through = require('through2'),
 // see: http://mapzen.github.io/leaflet-spatial-prefix-tree/
 var QUADTREE_PRECISION = 14;
 
-// { LON: '174.5805754',
-//   LAT: '-36.1037843',
-//   NUMBER: '30A',
-//   STREET: 'Thelma Road South',
-//   UNIT: '',
-//   CITY: 'Mangawhai Heads',
-//   DISTRICT: '',
-//   REGION: 'Kaipara District',
-//   POSTCODE: '',
-//   ID: '1939485',
-//   HASH: '' }
-
 function streamFactory(){
 
   var currentHash;
   var batch = [];
 
-  return through.obj(function( csvrow, _, next ){
+  return through.obj(function( address, _, next ){
 
     // invalid row
-    if( !csvrow || !csvrow.NUMBER || csvrow.NUMBER === '0' || !csvrow.STREET || !csvrow.LON || !csvrow.LAT ){
-      console.error( 'invalid csv row', csvrow );
-      return next();
-    }
-
-    // parse floating point numbers
-    csvrow.LAT = parseFloat( csvrow.LAT );
-    csvrow.LON = parseFloat( csvrow.LON );
-
-    // invalid lat/lon values
-    if( isNaN( csvrow.LAT ) || isNaN( csvrow.LON ) ){
-      console.error( 'invalid coordinates', csvrow );
+    if( !address || !address.isValid() ){
+      console.error( 'invalid address', address );
       return next();
     }
 
@@ -51,10 +29,9 @@ function streamFactory(){
     // the same name).
     // note: regional metadata from the csv row can be missing/unreliable so we
     // use a spatial index to group like entities instead.
-    var hash = [
-      csvrow.STREET.toLowerCase(),
-      quadtree.encode({ lng: csvrow.LON, lat: csvrow.LAT }, QUADTREE_PRECISION)
-    ].join('|');
+    var coord = address.getCoord();
+    var quad = quadtree.encode({ lng: coord.lon, lat: coord.lat }, QUADTREE_PRECISION);
+    var hash = [ address.getStreet().toLowerCase(), quad ].join('|');
 
     // hash changed
     if( hash !== currentHash ){
@@ -70,7 +47,7 @@ function streamFactory(){
     }
 
     // add row to batch
-    batch.push( csvrow );
+    batch.push( address );
 
     next();
 

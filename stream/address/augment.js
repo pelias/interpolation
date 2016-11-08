@@ -23,19 +23,19 @@ function streamFactory(db, done){
     });
 
     // process all house number entries in batch
-    lookup.batch.forEach( function( item ){
+    lookup.batch.forEach( function( address ){
 
       // parse housenumber
-      var housenumber = analyze.housenumber( item.NUMBER );
+      var housenumber = analyze.housenumber( address.getNumber() );
 
       // invalid / unusual housenumber
       if( isNaN( housenumber ) ){
-        console.error( 'could not reliably parse housenumber', item.NUMBER );
+        console.error( 'could not reliably parse housenumber', address.getNumber() );
         return;
       }
 
       // project point on to line string
-      var point = [ parseFloat(item.LON), parseFloat(item.LAT) ];
+      var point = [ address.getCoord().lon, address.getCoord().lat ];
 
       // pick correct street to use (in case of multiple matches)
       var nearest = { projection: { dist: Infinity }, street: undefined };
@@ -63,7 +63,7 @@ function streamFactory(db, done){
       if( !nearest.street || nearest.projection.dist === Infinity ){
         console.error( 'unable to find nearest street for point' );
         console.error( 'streets', lookup.streets );
-        console.error( 'item', item );
+        console.error( 'address', address );
         return;
       }
 
@@ -73,7 +73,7 @@ function streamFactory(db, done){
       // push openaddresses values to db
       this.push({
         $id: nearest.street.id,
-        $source: 'OA',
+        $source: address.getSource(),
         $housenumber: housenumber,
         $lon: point[0],
         $lat: point[1],

@@ -8,7 +8,27 @@ var fs = require('fs'),
 var exec = {
   import: path.resolve( __dirname, '../../cmd/polyline' ),
   oa: path.resolve( __dirname, '../../cmd/oa.js' ),
+  osm: path.resolve( __dirname, '../../cmd/osm.js' ),
   vertices: path.resolve( __dirname, '../../cmd/vertices.js' )
+};
+
+// clean working directory
+module.exports.clean = function(test, paths) {
+  test('clean', function(t) {
+
+    // remove old files
+    var cmd = [
+      'rm -f', paths.db.street, ';',
+      'rm -f', paths.db.address, ';',
+      'mkdir -p', paths.reports, ';'
+    ].join(' ');
+
+    // spawn child process
+    child.spawnSync( 'sh', [ '-c', cmd ] );
+
+    t.pass('perform clean');
+    t.end();
+  });
 };
 
 module.exports.import = function(test, paths) {
@@ -16,8 +36,6 @@ module.exports.import = function(test, paths) {
 
     // perform import
     var cmd = [
-      'rm -f', paths.db.street, ';',
-      'mkdir -p', paths.reports, ';',
       'cat', paths.fixture.polyline, '|',
       'node', exec.import, paths.db.street,
       '1>', path.resolve( paths.reports, 'polyline.out' ),
@@ -37,7 +55,6 @@ module.exports.oa = function(test, paths) {
 
     // conflate openaddresses
     var cmd = [
-      'rm -f', paths.db.address, ';',
       'cat', paths.fixture.oa, '|',
       'node', exec.oa, paths.db.address, paths.db.street,
       '1>', path.resolve( paths.reports, 'oa.out' ),
@@ -49,6 +66,26 @@ module.exports.oa = function(test, paths) {
     child.spawnSync( 'sh', [ '-c', cmd ] );
 
     t.pass('perform oa conflate');
+    t.end();
+  });
+};
+
+module.exports.osm = function(test, paths) {
+  test('osm', function(t) {
+
+    // conflate openstreetmap addresses
+    var cmd = [
+      'cat', paths.fixture.osm, '|',
+      'node', exec.osm, paths.db.address, paths.db.street,
+      '1>', path.resolve( paths.reports, 'osm.out' ),
+      '2>', path.resolve( paths.reports, 'osm.err' ),
+      '3>', path.resolve( paths.reports, 'osm.skip' )
+    ].join(' ');
+
+    // spawn child process
+    child.spawnSync( 'sh', [ '-c', cmd ] );
+
+    t.pass('perform osm conflate');
     t.end();
   });
 };

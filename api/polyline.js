@@ -19,9 +19,9 @@ function polyline(dataStream, streetDbPath, done){
     .pipe( stream.split() ) // split on newline
     .pipe( stream.polyline.autoincrement() ) // prepend line numbers
     .pipe( stream.polyline.parse() ) // parse polyline data
-    .pipe( stream.polyline.augment() ) // augment data with libpostal
+    .pipe( stream.street.augment() ) // augment data with libpostal
     .pipe( stream.batch( 1000 ) ) // batch up data to import
-    .pipe( stream.polyline.import( db, function(){
+    .pipe( stream.street.import( db, function(){
 
       // create the indexes after the data is imported
       // for performance reasons.

@@ -5,7 +5,7 @@ var sqlite3 = require('sqlite3'),
     query = requireDir('../query');
 
 // export method
-function oa(dataStream, addressDbPath, streetDbPath, done){
+function osm(dataStream, addressDbPath, streetDbPath, done){
 
   // connect to db
   sqlite3.verbose();
@@ -16,8 +16,9 @@ function oa(dataStream, addressDbPath, streetDbPath, done){
   query.attach(db, process.argv[3], 'street'); // attach street database
 
   dataStream
-    .pipe( stream.oa.parse() ) // parse openaddresses csv data
-    .pipe( stream.oa.convert() ) // convert openaddresses data to generic model
+    .pipe( stream.split() ) // split file on newline
+    .pipe( stream.osm.parse() ) // parse openstreetmap json data
+    .pipe( stream.osm.convert() ) // convert openstreetmap data to generic model
     .pipe( stream.address.batch() ) // batch records on the same street
     .pipe( stream.address.lookup( db ) ) // look up from db
     .pipe( stream.address.augment() ) // perform interpolation
@@ -39,4 +40,4 @@ function oa(dataStream, addressDbPath, streetDbPath, done){
     })); // save to db
 }
 
-module.exports = oa;
+module.exports = osm;

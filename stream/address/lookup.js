@@ -26,7 +26,7 @@ function streamFactory(db){
 
     // all street names in batch should be the same
     // perform libpostal normalization
-    var names = analyze.street( result.STREET );
+    var names = analyze.street( result.getStreet() );
 
     // ensure at least one name was produced
     if( !names.length ){
@@ -50,10 +50,10 @@ function streamFactory(db){
       // no results found
       if( !rows || !rows.length ){
 
-        // log items which do not conflate to file descriptor 3 (when available)
+        // log addresss which do not conflate to file descriptor 3 (when available)
         if( process.conferr.writable ){
-          batch.forEach( function( item ){
-            process.conferr.write( JSON.stringify( item ) + '\n' );
+          batch.forEach( function( address ){
+            process.conferr.write( JSON.stringify( address ) + '\n' );
           });
         }
         return next();
@@ -101,11 +101,8 @@ function streamFactory(db){
 function selectPoints( batch ){
 
   // sort points in the batch
-  var sorted = project.sort( batch.map( function( res ){
-    return {
-      lat: parseFloat( res.LAT ),
-      lon: parseFloat( res.LON )
-    };
+  var sorted = project.sort( batch.map( function( address ){
+    return address.getCoord();
   }));
 
   // return between 0-2 points (whatever we have)
