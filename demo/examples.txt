@@ -1,2 +1,7 @@
 curved roads, OSM (Lavender Sweep, London)
 http://localhost:3000/demo/#18/51.46254/-0.16404
+
+good coverage, OSM(Fentiman Road, London)
+http://localhost:3000/demo/#18/51.48022/-0.11724
+
+http://localhost:3000/demo/#18/51.49117/-0.19861

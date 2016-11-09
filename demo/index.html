@@ -131,6 +131,20 @@
       });
     }
 
+    function streetsNear( latlng, cb ){
+      $.ajax({
+        dataType: "json",
+        url: "/street/near/geojson?lat="+latlng.lat+"&lon="+latlng.lng,
+        success: function(data) {
+          // console.error( JSON.stringify( data, null, 2 ) );
+          cb( null, data );
+        }
+      }).error(function( err ) {
+        console.error( err );
+        cb( err );
+      });
+    }
+
     function streetById( ids, cb ){
       $.ajax({
         dataType: "json",
@@ -164,19 +178,20 @@
       // use map center when latlng not supplied
       if( !latlng ){ latlng = map.getCenter(); }
 
-      reverse( latlng, function( err, data ){
+      streetsNear( latlng, function( err, data ){
 
         if( data && data.features.length ){
 
           var centroid = latlng;
-          var names = data.features.map( function( street ){
-            return street.properties.street;
-          });
+          // var names = data.features.map( function( street ){
+          //   return street.properties.name;
+          // });
+          var names = [ data.features[0].properties.name ]; // only use first name
 
-          $('#housenumber').val( data.features[0].properties.housenumber );
-          $('#streetname').val( data.features[0].properties.street );
-          $('#lon').val( data.features[0].geometry.coordinates[0] );
-          $('#lat').val( data.features[0].geometry.coordinates[1] );
+          // $('#housenumber').val( data.features[0].properties.housenumber );
+          $('#streetname').val( data.features[0].properties.name );
+          $('#lon').val( data.features[0].geometry.coordinates[0][0] );
+          $('#lat').val( data.features[0].geometry.coordinates[0][1] );
 
           extract( centroid, names, function( err2, data2 ){
 

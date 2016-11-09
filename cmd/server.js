@@ -5,8 +5,11 @@ var express = require('express'),
     search = require('../api/search'),
     extract = require('../api/extract'),
     street = require('../api/street'),
+    near = require('../api/near'),
     pretty = require('../lib/pretty'),
-    analyze = require('../lib/analyze');
+    analyze = require('../lib/analyze'),
+    project = require('../lib/project'),
+    proximity = require('../lib/proximity');
 
 // optionally override port using env var
 var PORT = process.env.PORT || 3000;
@@ -23,7 +26,8 @@ var app = express();
 var conn = {
   search: search( process.argv[2], process.argv[3] ),
   extract: extract( process.argv[2], process.argv[3] ),
-  street: street( process.argv[3] )
+  street: street( process.argv[3] ),
+  near: near( process.argv[3] )
 };
 
 // search with geojson view
@@ -88,6 +92,38 @@ app.get('/extract/table', function( req, res ){
 
     res.setHeader('Content-Type', 'text/html');
     res.send( pretty.htmltable( data ) );
+  });
+});
+
+// get streets near point, ordered by proximity to point ASC
+// eg: http://localhost:3000/street/near/geojson
+app.get('/street/near/geojson', function( req, res ){
+
+  var point = { lat: req.query.lat, lon: req.query.lon };
+
+  conn.near.query( point, function( err, ordered ){
+    if( err ){ return res.status(400).json( err ); }
+    if( !ordered || !ordered.length ){ return res.status(404).json({}); }
+
+    var geojson = {
+      'type': 'FeatureCollection',
+      'features': ordered.map( function( o ){
+        return {
+          'type': 'Feature',
+          'properties': {
+            'id': o.street.id,
+            'name': Array.isArray( o.street.name ) ? o.street.name[0] : o.street.name,
+            'polyline': o.street.line
+          },
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': o.street.coordinates
+          }
+        };
+      })
+    };
+
+    res.json( geojson );
   });
 });
 

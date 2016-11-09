@@ -2,8 +2,8 @@
 
 # search address table records for max 3 records required to perform interpolation
 
-ADDRESS_DB="/data/address.db";
-STREET_DB="/data/street.db";
+ADDRESS_DB="/var/www/pelias/interpolation/test/functional/basic/address.db";
+STREET_DB="/var/www/pelias/interpolation/test/functional/basic/street.db";
 
 P1="174.766843";
 P2="-41.288788";
@@ -21,7 +21,11 @@ sqlite3 $ADDRESS_DB "ATTACH DATABASE '$STREET_DB' as 'street'; \
       street.rtree.minY<=$P2 AND street.rtree.maxY>=$P2
     )
     AND ( names.name='$NAME' )
-    ORDER BY address.housenumber ASC
+    AND street.rtree.id IN (
+      SELECT street.rtree.id FROM street.rtree
+      JOIN address ON address.id = street.rtree.id
+      WHERE MIN( address.housenumber ) <= '$NUMBER' AND MAX( address.housenumber ) >= '$NUMBER'
+    )
   )
   SELECT * FROM (
     (SELECT * FROM base WHERE housenumber < '$NUMBER' ORDER BY housenumber DESC LIMIT 1)
