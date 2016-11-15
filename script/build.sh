@@ -60,7 +60,7 @@ METAFILE="$BUILDDIR/build.meta";
 
 echo "-- file system --" > "$METAFILE";
 ls -lah "$BUILDDIR" >> "$METAFILE";
-shasum "$BUILDDIR/*.*" >> "$METAFILE";
+shasum "$BUILDDIR/*.db*" >> "$METAFILE";
 
 echo "-- street db --" >> "$METAFILE";
 sqlite3 -echo "$BUILDDIR/street.db" "SELECT * FROM sqlite_master;" >> "$METAFILE";
@@ -73,4 +73,4 @@ sqlite3 -echo "$BUILDDIR/address.db" "SELECT * FROM sqlite_master;" >> "$METAFIL
 sqlite3 -echo "$BUILDDIR/address.db" "SELECT COUNT(*) FROM address;" >> "$METAFILE";
 
 # update 'current' symlink
-ln -sf "$BUILDDIR" "$BUILDS/current";
+ln -sfn "$BUILDDIR" "$BUILDS/current";
