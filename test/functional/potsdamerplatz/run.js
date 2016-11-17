@@ -257,8 +257,8 @@ module.exports.functional.search = function(test) {
         type: 'interpolated',
         source: 'mixed',
         number: '6',
-        lat: 52.5096932,
-        lon: 13.3764385
+        lat: 52.509349,
+        lon: 13.375818
       });
       t.end();
     });

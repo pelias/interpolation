@@ -9,7 +9,8 @@ var tests = [
   require('./functional/updown/run.js'),
   require('./functional/ambiguous_street_name/run.js'),
   require('./functional/potsdamerplatz/run.js'),
-  require('./functional/willow_ave/run.js')
+  require('./functional/willow_ave/run.js'),
+  require('./functional/nevern_square/run.js')
 ];
 
 tests.map(function(t) {
