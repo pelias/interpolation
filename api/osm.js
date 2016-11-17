@@ -18,7 +18,7 @@ function osm(dataStream, addressDbPath, streetDbPath, done){
   dataStream
     .pipe( stream.split() ) // split file on newline
     .pipe( stream.osm.parse() ) // parse openstreetmap json data
-    .pipe( stream.osm.augment( db ) ) // find streets for records with only the housenumber
+    // .pipe( stream.osm.augment( db ) ) // find streets for records with only the housenumber
     .pipe( stream.osm.convert() ) // convert openstreetmap data to generic model
     .pipe( stream.address.batch() ) // batch records on the same street
     .pipe( stream.address.lookup( db ) ) // look up from db
