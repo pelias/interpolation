@@ -280,6 +280,10 @@ grep -Pia "potsdamer\s?(platz|strasse|straße)" /data/planet.polylines > test/fu
 # extract the relevant address points from a large openaddresses file (header line then body)
 head -n1 /data/oa/de/berlin.csv > test/functional/potsdamerplatz/oa.csv
 grep -Pia "potsdamer\s?(platz|strasse|straße)" /data/oa/de/berlin.csv >> test/functional/potsdamerplatz/oa.csv
+
+# extract the relevant address points from an openstreetmap PBF extract
+# see: https://github.com/pelias/pbf2json
+./build/pbf2json.linux-x64 -tags="addr:housenumber+addr:street" /data/extract/greater-london-latest.osm.pbf | grep -i nevern > test/functional/nevern_square/osm.addresses.json
 ```
 
 next add that test case to `./test/_func.js` in order to it run every time anyone runs `npm test`.
