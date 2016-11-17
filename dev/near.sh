@@ -4,17 +4,10 @@
 
 STREET_DB="/data/street.db";
 
-# LON="175.042589";
-# LAT="-39.9225551";
+LON="175.042589";
+LAT="-39.9225551";
 
-LON="-0.162618";
-LAT="51.462703";
-
-# sqlite3 $STREET_DB "SELECT DISTINCT polyline.id, polyline.line FROM polyline \
-#   JOIN rtree ON rtree.id = polyline.id \
-#   WHERE ( rtree.minX<$LON AND rtree.maxX>$LON AND rtree.minY<$LAT AND rtree.maxY>$LAT )";
-
-sqlite3 $STREET_DB "SELECT polyline.id, polyline.line, names.name FROM polyline \
+sqlite3 $STREET_DB "SELECT polyline.id, names.name, polyline.line FROM polyline \
   JOIN rtree ON rtree.id = polyline.id \
   JOIN names ON names.id = polyline.id \
   WHERE ( rtree.minX<$LON AND rtree.maxX>$LON AND rtree.minY<$LAT AND rtree.maxY>$LAT ) \
