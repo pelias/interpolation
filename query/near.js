@@ -32,5 +32,7 @@ module.exports = function( db, point, cb ){
 };
 
 module.exports.finalize = function(){
-  stmt.finalize();
+  if( stmt ){
+    stmt.finalize();
+  }
 };
