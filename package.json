@@ -31,7 +31,7 @@
     "serve-index": "^1.8.0",
     "split2": "^2.1.0",
     "sqlite3": "^3.1.7",
-    "through2": "^2.0.1",
+    "through2": "^2.0.2",
     "through2-batch": "^1.0.1"
   },
   "devDependencies": {
