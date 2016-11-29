@@ -42,9 +42,7 @@ function setup( addressDbPath, streetDbPath ){
     // @todo: perofmance: only query for part of the table
     query.search( db, point, normalized.number, normalized.street, function( err, res ){
 
-      // @todo: results can be from multiple different street ids!
-      // possibly not an issue? except maybe where there is a dual
-      // carriageway and then the projection would be on the median strip.
+      // @note: results can be from multiple different street ids.
 
       // an error occurred or no results were found
       if( err || !res || !res.length ){ return cb( err, null ); }
@@ -85,18 +83,41 @@ function setup( addressDbPath, streetDbPath ){
 
       // attempt to interpolate the position
 
-      // find the records before and after the desired number
-      var before, after;
-      for( var i=0; i<res.length; i++ ){
-        var row = res[i];
-        if( row.housenumber < normalized.number ){ before = row; }
-        if( row.housenumber > normalized.number ){ after = row; break; }
+      // find the records before and after the desired number (group by street segment)
+      var map = {};
+      res.forEach( function( row ){
+        if( !map.hasOwnProperty( row.id ) ){ map[row.id] = {}; }
+        if( row.housenumber < normalized.number ){ map[row.id].before = row; }
+        if( row.housenumber > normalized.number ){ map[row.id].after = row; }
+        if( map[row.id].before && map[row.id].after ){
+          map[row.id].diff = {
+            before: map[row.id].before.housenumber - normalized.number,
+            after: map[row.id].after.housenumber - normalized.number
+          };
+        }
+      });
+
+      // remove segments with less than 2 points; convert map to array
+      var segments = [];
+      for( var id in map ){
+        if( map[id].before && map[id].after ){
+          segments.push( map[id] );
+        }
       }
 
       // could not find two rows to use for interpolation
-      if( !before || !after ){
+      if( !segments.length ){
         return cb( null, null );
       }
+
+      // sort by miniumum housenumber difference from target housenumber ASC
+      segments.sort( function( a, b ){
+        return Math.abs( a.diff.before + a.diff.after ) - Math.abs( b.diff.before + b.diff.after );
+      });
+
+      // select before/after values to use for the interpolation
+      var before = segments[0].before;
+      var after = segments[0].after;
 
       // compute interpolated address
       var A = { lat: project.toRad( before.proj_lat ), lon: project.toRad( before.proj_lon ) };

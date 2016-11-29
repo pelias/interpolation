@@ -107,6 +107,8 @@ function streamFactory(db, done){
       // note: there may be one or two values produced, depending on the scheme.
       var housenumbers = [];
 
+      // console.log( data.street.scheme );
+
       // zigzag interpolation
       // (one vertex interpolation produced)
       if( data.street.scheme === 'zigzag' ){

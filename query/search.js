@@ -3,7 +3,7 @@
 var MAX_NAMES = 10;
 
 // maximum address records to return
-var MAX_MATCHES = 3;
+var MAX_MATCHES = 20;
 
 /**
   this query should only ever return max 3 rows.
@@ -24,9 +24,19 @@ var SQL = [
     'ORDER BY address.housenumber ASC', // @warning business logic depends on this
   ')',
   'SELECT * FROM (',
-    '(SELECT * FROM base WHERE housenumber < "%%TARGET_HOUSENUMBER%%" ORDER BY housenumber DESC LIMIT 1)',
+    '(',
+      'SELECT * FROM base',
+      'WHERE housenumber < "%%TARGET_HOUSENUMBER%%"',
+      'GROUP BY id HAVING( MAX( housenumber ) )',
+      'ORDER BY housenumber DESC',
+    ')',
   ') UNION SELECT * FROM (',
-    '(SELECT * FROM base WHERE housenumber >= "%%TARGET_HOUSENUMBER%%" ORDER BY housenumber ASC LIMIT 2)',
+    '(',
+      'SELECT * FROM base',
+      'WHERE housenumber >= "%%TARGET_HOUSENUMBER%%"',
+      'GROUP BY id HAVING( MIN( housenumber ) )',
+      'ORDER BY housenumber ASC',
+    ')',
   ')',
   'ORDER BY housenumber ASC', // @warning business logic depends on this
   'LIMIT %%MAX_MATCHES%%;'

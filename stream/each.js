@@ -4,7 +4,7 @@ var through = require('through2');
 /**
   query for each row in a table; one by one (with stream backpressure).
 **/
-function streamFactory( db, table ){
+function streamFactory( db, table, condition ){
 
   // create prepared statement
   var stmt = db.prepare( 'SELECT * FROM ' + table + ' WHERE id = ?' );
@@ -47,14 +47,21 @@ function streamFactory( db, table ){
     };
 
     // calculate the highest rowid in the table
-    db.get( 'SELECT MAX( rowid ) as max FROM ' + table, function( err, row ){
+
+    var sql = 'SELECT MAX( rowid ) as max, MIN( rowid ) as min FROM ' + table;
+    if( 'string' === typeof condition && condition.length ){
+      sql += ' ' + condition;
+    }
+
+    db.get( sql, function( err, row ){
 
       // an error occurred
       if( err ){ return console.error( err ); }
-      if( !row || !row.max ){ return console.error( 'no rows in table', table ); }
+      if( !row || !row.max || !row.min ){ return console.error( 'no rows in table', table ); }
 
-      // maximum rowid in table
+      // minumum/maximum rowid in table
       max = parseInt( row.max, 10 );
+      cur = parseInt( row.min, 10 );
 
       // kick off iteration
       readOne();
