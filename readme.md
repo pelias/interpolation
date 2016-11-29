@@ -21,10 +21,11 @@ The software is written in javascript to run in nodejs, the storage engine is sq
 
 Client libraries can be written in any language which can read sqlite3. If you wish to write a client in another language please open an issue and we can explain which functions you will need to port.
 
-The software is split in to 4 distinct parts:
+The software is split in to 5 distinct parts:
 
 - the street (polyline) importer
-- the address (openaddresses) importer
+- the openaddresses address importer
+- the openstreetmap address + address range importer
 - the geometry (vertices) interpolation
 - the client APIs (the webserver and CLI interface)
 
@@ -63,7 +64,7 @@ See the [building the databases](https://github.com/pelias/interpolation#buildin
 
 There is also a script named `./script/conflate.sh` in this repository which makes running this process much easier.
 
-note: We only support `openaddreses` at this stage although we plan to support `openstreetmap` and other sources soon.
+note: We only support `openaddreses` and `openstreetmap` formats, you will need to create a custom importer for other sources.
 
 ### precompute geometry
 
@@ -86,6 +87,7 @@ Note: you will need to pipe data in to the import/conflate commands
  search [address_db] [street_db] [lat] [lon] [house_number] [street_name]  search database for specified housenumber + street
  polyline [street_db]                                                      import polyline data in to [street_db]
  oa [address_db] [street_db]                                               conflate oa csv file in to [address_db] using [street_db]
+ osm [address_db] [street_db]                                              conflate osm file in to [address_db] using [street_db]
  vertices [address_db] [street_db]                                         compute fractional house numbers for line vertices
  extract [address_db] [street_db] [lat] [lon] [street_name]                extract street address data for debugging purposes
  server [address_db] [street_db]                                           start a web server
@@ -152,6 +154,16 @@ server listening on port 3000
 
 `html`: `/extract/table?lat=-41.288788&lon=174.766843&names=glasgow%20street`
 
+### GET /street/near/geojson
+> find the 100 nearest streets to a specific lat/lon pair, ordered by distance ASC
+
+`geojson`: `/street/near/geojson?lat=-41.288788&lon=174.766843`
+
+### GET /street/{id}/geojson
+> return the geometry for a specific street id
+
+`geojson`: `/street/10/geojson`
+
 see: [source](https://github.com/pelias/interpolation/blob/master/cmd/server.js) for more information.
 
 # Building the databases
@@ -173,6 +185,23 @@ find data here: https://openaddresses.io/
 ```
 
 note: sorting the openaddresses files so that addresses on the same street are adjacent will significantly speed up imports, you can find an example of the commands required to sort the data in `./script/concat_oa.sh`.
+
+### osm
+> import openstreetmap data and conflate it with the street data
+
+find data here: https://mapzen.com/data/metro-extracts/
+
+the importer expects the OSM data in the JSON format exported by https://github.com/pelias/pbf2json, this format is not strictly equivalent to the http://overpass-api.de/output_formats.html#json standard, be aware.
+
+for now it's best to use `pbf2json` to convert a `.osm.pbf` file in to json, then pipe that data in to `./interpolate osm`:
+
+```bash
+./build/pbf2json.linux-x64 -tags="addr:housenumber+addr:street" /data/extract/greater-london-latest.osm.pbf > osm_data.json
+```
+
+```bash
+./interpolate osm address.db street.db < osm_data.json
+```
 
 ### vertices
 > compute fractional house numbers for the street vertices
