@@ -58,7 +58,7 @@ note: We only support the `polyline` format, you will need to format-shift data 
 
 Next you need to build the `address.db` database.
 
-You will need to download one or more `openaddresses` csv files for the addresses you wish to import, you can find all the data on the [openaddresses website](https://openaddresses.io/).
+You will need to download one or more `openaddresses` or `openstreetmap` files for the addresses you wish to import.
 
 See the [building the databases](https://github.com/pelias/interpolation#building-the-databases) section below for detailed information on which commands to run.
 
@@ -196,7 +196,7 @@ the importer expects the OSM data in the JSON format exported by https://github.
 for now it's best to use `pbf2json` to convert a `.osm.pbf` file in to json, then pipe that data in to `./interpolate osm`:
 
 ```bash
-./build/pbf2json.linux-x64 -tags="addr:housenumber+addr:street" /data/extract/greater-london-latest.osm.pbf > osm_data.json
+./build/pbf2json.linux-x64 -tags="addr:housenumber+addr:street" london.osm.pbf > osm_data.json
 ```
 
 ```bash
