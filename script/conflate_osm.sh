@@ -46,7 +46,6 @@ STREET_DB=${STREET_DB:-"$BUILDDIR/street.db"};
 # location of stdio files
 PROC_STDOUT=${PROC_STDOUT:-"$BUILDDIR/conflate_osm.out"};
 PROC_STDERR=${PROC_STDERR:-"$BUILDDIR/conflate_osm.err"};
-PROC_CONFERR=${PROC_CONFERR:-"$BUILDDIR/conflate_osm.skip"};
 
 # a directory with enough free space to store sqlite tmp files
 export SQLITE_TMPDIR=${SQLITE_TMPDIR:-"$BUILDDIR/tmp"};
@@ -59,4 +58,4 @@ rm -f $PROC_STDOUT $PROC_STDERR $PROC_CONFERR;
 
 # run import
 $PBF2JSON_BIN -tags="$PBF2JSON_TAGS" -leveldb="$PBF2JSON_TMPDIR" $PBF2JSON_FILE |\
- time -p node $DIR/../cmd/osm.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR 3>$PROC_CONFERR;
+ time -p node $DIR/../cmd/osm.js $ADDRESS_DB $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR;

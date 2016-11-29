@@ -22,5 +22,9 @@ git pull -q origin master;
 # update npm dependencies
 npm --loglevel=silent install;
 
+# update openaddresses data (optional)
+export OAPATH="/data/oa"; # base path of openaddresses file system
+$DIR/update_oa.sh;
+
 # run build
 $DIR/build.sh &> build.log;
