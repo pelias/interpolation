@@ -41,7 +41,10 @@ if type pigz >/dev/null
 fi
 
 # run openaddresses conflation
-$DIR/conflate.sh;
+$DIR/conflate_oa.sh;
+
+# run openstreetmap conflation
+$DIR/conflate_osm.sh;
 
 # run vertex interpolation
 $DIR/vertices.sh;

@@ -19,15 +19,15 @@ ADDRESS_DB=${ADDRESS_DB:-"$BUILDDIR/address.db"};
 STREET_DB=${STREET_DB:-"$BUILDDIR/street.db"};
 
 # location of stdio files
-PROC_STDOUT=${PROC_STDOUT:-"$BUILDDIR/conflate.out"};
-PROC_STDERR=${PROC_STDERR:-"$BUILDDIR/conflate.err"};
-PROC_CONFERR=${PROC_CONFERR:-"$BUILDDIR/conflate.skip"};
+PROC_STDOUT=${PROC_STDOUT:-"$BUILDDIR/conflate_oa.out"};
+PROC_STDERR=${PROC_STDERR:-"$BUILDDIR/conflate_oa.err"};
+PROC_CONFERR=${PROC_CONFERR:-"$BUILDDIR/conflate_oa.skip"};
 
 # a directory with enough free space to store sqlite tmp files
 export SQLITE_TMPDIR=${SQLITE_TMPDIR:-"$BUILDDIR/tmp"};
 
 # ensure tmpdir exists
-[ -d $SQLITE_TMPDIR ] || mkdir $SQLITE_TMPDIR;
+[ -d $SQLITE_TMPDIR ] || mkdir -p $SQLITE_TMPDIR;
 
 # delete previous stdio files
 rm -f $PROC_STDOUT $PROC_STDERR $PROC_CONFERR;
