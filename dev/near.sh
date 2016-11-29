@@ -11,5 +11,4 @@ sqlite3 $STREET_DB "SELECT polyline.id, names.name, polyline.line FROM polyline 
   JOIN rtree ON rtree.id = polyline.id \
   JOIN names ON names.id = polyline.id \
   WHERE ( rtree.minX<$LON AND rtree.maxX>$LON AND rtree.minY<$LAT AND rtree.maxY>$LAT ) \
-  GROUP BY polyline.id \
-  LIMIT 150;";
+  GROUP BY polyline.id";
