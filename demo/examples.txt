@@ -8,3 +8,9 @@ http://localhost:3000/demo/#18/51.49117/-0.19861
 
 cul-de-sac
 http://interpolation.wiz.co.nz/demo/#17/39.75060/-76.66723
+
+goethepark
+http://localhost:3000/demo/#18/52.50906/13.30287
+
+aro street
+http://interpolation.wiz.co.nz/demo/#18/-41.29560/174.76492
