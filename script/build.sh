@@ -12,8 +12,12 @@ export LC_ALL=en_US.UTF-8;
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 
 export TIMESTAMP=$(date +"%m-%d-%Y-%H:%M:%S");
+export PBF2JSON_BIN="/var/www/pelias/pbf2json/build/pbf2json.linux-x64";
+
+# location of data files
 export POLYLINE_FILE="/data/polyline/planet.polylines"; # the file containing all the streets
 export OAPATH="/data/oa"; # base path of openaddresses file system
+export PBF2JSON_FILE="/data/pbf/planet.osm.pbf";
 
 # a directory where all builds will live
 BUILDS="/data/builds";
@@ -21,15 +25,13 @@ BUILDS="/data/builds";
 # ensure builds dir exists
 [ -d $BUILDS ] || mkdir -p $BUILDS;
 
-# update openaddresses data (optional)
-$DIR/update_oa.sh;
-
 # a directory where this specific build will live
 export BUILDDIR="$BUILDS/$TIMESTAMP";
 [ -d $BUILDDIR ] || mkdir -p $BUILDDIR;
 
-# a directory with enough free space to store sqlite tmp files
-export SQLITE_TMPDIR="$BUILDDIR/tmp";
+# location of temp files
+export SQLITE_TMPDIR="$BUILDDIR/tmp"; # a directory with enough free space to store sqlite tmp files
+export PBF2JSON_TMPDIR="$BUILDDIR/tmp/leveldb"; # a directory with enough free space to store leveldb tmp files
 
 # run polyline importer
 $DIR/import.sh;
@@ -41,7 +43,10 @@ if type pigz >/dev/null
 fi
 
 # run openaddresses conflation
-$DIR/conflate.sh;
+$DIR/conflate_oa.sh;
+
+# run openstreetmap conflation
+$DIR/conflate_osm.sh;
 
 # run vertex interpolation
 $DIR/vertices.sh;
@@ -53,14 +58,14 @@ if type pigz >/dev/null
 fi
 
 # clean up
-rm -rf "$SQLITE_TMPDIR"; # remove tmp files
+rm -rf "$SQLITE_TMPDIR" "$PBF2JSON_TMPDIR"; # remove tmp files
 
 # record build meta data
 METAFILE="$BUILDDIR/build.meta";
 
 echo "-- file system --" > "$METAFILE";
 ls -lah "$BUILDDIR" >> "$METAFILE";
-shasum "$BUILDDIR/*.db*" >> "$METAFILE";
+shasum $BUILDDIR/*.db* >> "$METAFILE";
 
 echo "-- street db --" >> "$METAFILE";
 sqlite3 -echo "$BUILDDIR/street.db" "SELECT * FROM sqlite_master;" >> "$METAFILE";

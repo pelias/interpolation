@@ -62,7 +62,7 @@ You will need to download one or more `openaddresses` or `openstreetmap` files f
 
 See the [building the databases](https://github.com/pelias/interpolation#building-the-databases) section below for detailed information on which commands to run.
 
-There is also a script named `./script/conflate.sh` in this repository which makes running this process much easier.
+There are scripts named `./script/conflate_oa.sh` and `./script/conflate_osm.sh` in this repository which make running this process much easier.
 
 note: We only support `openaddreses` and `openstreetmap` formats, you will need to create a custom importer for other sources.
 

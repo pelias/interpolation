@@ -27,7 +27,7 @@ PROC_CONFERR=${PROC_CONFERR:-"$BUILDDIR/vertices.skip"};
 export SQLITE_TMPDIR=${SQLITE_TMPDIR:-"$BUILDDIR/tmp"};
 
 # ensure tmpdir exists
-[ -d $SQLITE_TMPDIR ] || mkdir $SQLITE_TMPDIR;
+[ -d $SQLITE_TMPDIR ] || mkdir -p $SQLITE_TMPDIR;
 
 # delete previous stdio files
 rm -f $PROC_STDOUT $PROC_STDERR $PROC_CONFERR;
