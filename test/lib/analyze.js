@@ -59,8 +59,9 @@ module.exports.analyze.housenumber = function(test) {
     t.false(isNaN(analyze.housenumber('326 1/2')), 'half suffix');
     t.false(isNaN(analyze.housenumber('8¼')), 'quarter suffix');
     t.false(isNaN(analyze.housenumber('4701 #B')), 'hash delimited suffix');
-    t.false(isNaN(analyze.housenumber('1434 UNIT #B')), 'remove common label "unit"');
-    t.false(isNaN(analyze.housenumber('1434 SUITE #B')), 'remove common label "suite"');
+    t.false(isNaN(analyze.housenumber('1434 UNIT #B')), 'remove common english label "unit"');
+    t.false(isNaN(analyze.housenumber('1434 SUITE #B')), 'remove common english label "suite"');
+    t.false(isNaN(analyze.housenumber('158號')), 'remove common mandarin label');
     t.end();
   });
 
@@ -161,11 +162,15 @@ module.exports.analyze.housenumber = function(test) {
   //   t.equal(float, 5285.03);
   //   t.end();
   // });
-  test('housenumber: removes common labels', function(t) {
+  test('housenumber: removes common english labels', function(t) {
     var float = analyze.housenumber('4701 UNIT #B');
     t.equal(float, 4701.06);
     var float2 = analyze.housenumber('1 APT A');
     t.equal(float2, 1.03);
+    t.end();
+  });
+  test('housenumber: removes common mandarin labels', function(t) {
+    t.equal(analyze.housenumber('158號'), 158.00);
     t.end();
   });
 };
