@@ -9,7 +9,8 @@ var tests = [
   require('./lib/project.js'),
   require('./lib/interpolate.js'),
   require('./lib/Street.js'),
-  require('./lib/Address.js')
+  require('./lib/Address.js'),
+  require('./stream/osm/delimited_ranges.js')
 ];
 
 tests.map(function(t) {
