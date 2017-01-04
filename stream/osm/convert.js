@@ -26,6 +26,7 @@ function streamFactory(){
     */
 
     try {
+      address.setId( json.id );
       address.setStreet( json.tags['addr:street'] );
       address.setNumber( json.tags['addr:housenumber'] );
       address.setCoord({
@@ -42,9 +43,6 @@ function streamFactory(){
     /*
       optional properties
     */
-
-    try { address.setId( json.id ); }
-    catch( e ){ /* ignore error */ }
 
     try { address.setUnit( json.tags['addr:unit'] ); }
     catch( e ){ /* ignore error */ }

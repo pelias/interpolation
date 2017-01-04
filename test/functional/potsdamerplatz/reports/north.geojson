@@ -5,6 +5,7 @@
       "type": "Feature",
       "properties": {
         "source": "OA",
+        "source_id": "9a8f1cdf2e55e545",
         "housenumber": 3,
         "lat": 52.5101733,
         "lon": 13.3753924,
@@ -26,6 +27,7 @@
       "type": "Feature",
       "properties": {
         "source": "OA",
+        "source_id": "bea1557e7fd88d96",
         "housenumber": 4,
         "lat": 52.510195,
         "lon": 13.3756481,
@@ -47,6 +49,7 @@
       "type": "Feature",
       "properties": {
         "source": "OA",
+        "source_id": "e549add9ac3cfd57",
         "housenumber": 5,
         "lat": 52.5102195,
         "lon": 13.3761822,

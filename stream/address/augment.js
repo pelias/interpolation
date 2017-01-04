@@ -59,6 +59,7 @@ function streamFactory(db, done){
       this.push({
         $id: nearest.street.id,
         $source: address.getSource(),
+        $source_id: address.getId(),
         $housenumber: housenumber,
         $lon: point[0],
         $lat: point[1],

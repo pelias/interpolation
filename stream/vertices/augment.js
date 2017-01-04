@@ -134,6 +134,7 @@ function streamFactory(db, done){
         this.push({
           $id: data.street.id,
           $source: 'VERTEX',
+          $source_id: undefined,
           $housenumber: num.toFixed(3),
           $lon: undefined,
           $lat: undefined,

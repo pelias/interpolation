@@ -57,7 +57,10 @@ function streamFactory( db, table, condition ){
 
       // an error occurred
       if( err ){ return console.error( err ); }
-      if( !row || !row.max || !row.min ){ return console.error( 'no rows in table', table ); }
+      if( !row || !row.max || !row.min ){
+        stream.end();
+        return console.error( 'no rows in table', table );
+      }
 
       // minumum/maximum rowid in table
       max = parseInt( row.max, 10 );

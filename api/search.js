@@ -58,6 +58,7 @@ function setup( addressDbPath, streetDbPath ){
         return cb( null, {
           type: 'exact',
           source: match.source,
+          source_id: match.source_id,
           number: analyze.housenumberFloatToString( match.housenumber ),
           lat: parseFloat( match.lat.toFixed(7) ),
           lon: parseFloat( match.lon.toFixed(7) )
@@ -75,6 +76,7 @@ function setup( addressDbPath, streetDbPath ){
         return cb( null, {
           type: 'close',
           source: match.source,
+          source_id: match.source_id,
           number: analyze.housenumberFloatToString( match.housenumber ),
           lat: parseFloat( match.lat.toFixed(7) ),
           lon: parseFloat( match.lon.toFixed(7) )

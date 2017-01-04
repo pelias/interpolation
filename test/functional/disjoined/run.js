@@ -135,6 +135,7 @@ module.exports.functional.search_north = function(test) {
       t.deepEqual( res, {
         type: 'exact',
         source: 'OA',
+        source_id: '055e663b094ec129',
         number: '21',
         lat: 52.5071733,
         lon: 13.3210882
@@ -154,6 +155,7 @@ module.exports.functional.search_north = function(test) {
       t.deepEqual( res, {
         type: 'close',
         source: 'OA',
+        source_id: '055e663b094ec129',
         number: '21',
         lat: 52.5071733,
         lon: 13.3210882
@@ -223,6 +225,7 @@ module.exports.functional.search_south = function(test) {
       t.deepEqual( res, {
         type: 'exact',
         source: 'OA',
+        source_id: '52701100dae38faf',
         number: '43',
         lat: 52.5042048,
         lon: 13.324045
@@ -242,6 +245,7 @@ module.exports.functional.search_south = function(test) {
       t.deepEqual( res, {
         type: 'close',
         source: 'OA',
+        source_id: '52701100dae38faf',
         number: '43',
         lat: 52.5042048,
         lon: 13.324045

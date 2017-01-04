@@ -28,6 +28,9 @@ function streamFactory(){
     */
 
     try {
+      // see: https://github.com/pelias/pelias/issues/487
+      address.setId( csv.HASH || '0' );
+
       address.setStreet( csv.STREET );
       address.setNumber( csv.NUMBER );
       address.setCoord({ lon: csv.LON, lat: csv.LAT });
@@ -42,8 +45,8 @@ function streamFactory(){
       optional properties
     */
 
-    try { address.setId( csv.ID ); }
-    catch( e ){ /* ignore error */ }
+    // try { address.setId( csv.ID ); }
+    // catch( e ){ /* ignore error */ }
 
     try { address.setUnit( csv.UNIT ); }
     catch( e ){ /* ignore error */ }
