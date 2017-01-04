@@ -45,9 +45,6 @@ function streamFactory(){
       optional properties
     */
 
-    // try { address.setId( csv.ID ); }
-    // catch( e ){ /* ignore error */ }
-
     try { address.setUnit( csv.UNIT ); }
     catch( e ){ /* ignore error */ }
 
