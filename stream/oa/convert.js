@@ -19,6 +19,9 @@ var through = require('through2'),
 //   HASH: '' }
 
 function streamFactory(){
+
+  var autoincrement = 0;
+
   return through.obj(function( csv, _, next ){
 
     var address = new Address().setSource('OA');
@@ -29,7 +32,7 @@ function streamFactory(){
 
     try {
       // see: https://github.com/pelias/pelias/issues/487
-      address.setId( csv.HASH || '0' );
+      address.setId( csv.HASH || ++autoincrement );
 
       address.setStreet( csv.STREET );
       address.setNumber( csv.NUMBER );

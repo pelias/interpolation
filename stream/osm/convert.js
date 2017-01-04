@@ -1,5 +1,6 @@
 
-var through = require('through2'),
+var util = require('util'),
+    through = require('through2'),
     Address = require('../../lib/Address');
 
 /**
@@ -26,7 +27,7 @@ function streamFactory(){
     */
 
     try {
-      address.setId( json.id );
+      address.setId( util.format( '%s:%s', json.type, json.id ) );
       address.setStreet( json.tags['addr:street'] );
       address.setNumber( json.tags['addr:housenumber'] );
       address.setCoord({

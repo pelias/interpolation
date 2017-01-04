@@ -5,7 +5,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "108011457",
+        "source_id": "way:108011457",
         "housenumber": 1,
         "lat": 51.492513,
         "lon": -0.196556,
@@ -27,7 +27,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "108011448",
+        "source_id": "way:108011448",
         "housenumber": 2,
         "lat": 51.492449,
         "lon": -0.196544,
@@ -49,7 +49,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "108011463",
+        "source_id": "way:108011463",
         "housenumber": 3,
         "lat": 51.492401,
         "lon": -0.196488,
@@ -71,7 +71,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "108011456",
+        "source_id": "way:108011456",
         "housenumber": 4,
         "lat": 51.492353,
         "lon": -0.196432,
@@ -93,7 +93,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "108011446",
+        "source_id": "way:108011446",
         "housenumber": 5,
         "lat": 51.492306,
         "lon": -0.196375,
@@ -115,7 +115,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "108011460",
+        "source_id": "way:108011460",
         "housenumber": 6,
         "lat": 51.492258,
         "lon": -0.196319,
@@ -159,7 +159,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "108009866",
+        "source_id": "way:108009866",
         "housenumber": 18,
         "lat": 51.491618,
         "lon": -0.196181,
@@ -181,7 +181,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "108009860",
+        "source_id": "way:108009860",
         "housenumber": 19,
         "lat": 51.491572,
         "lon": -0.196243,
@@ -203,7 +203,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "108009865",
+        "source_id": "way:108009865",
         "housenumber": 20,
         "lat": 51.491497,
         "lon": -0.196344,
@@ -247,7 +247,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "87307121",
+        "source_id": "way:87307121",
         "housenumber": 30,
         "lat": 51.491524,
         "lon": -0.197048,
@@ -269,7 +269,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "87307110",
+        "source_id": "way:87307110",
         "housenumber": 40,
         "lat": 51.49193,
         "lon": -0.197822,
@@ -291,7 +291,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "87307105",
+        "source_id": "way:87307105",
         "housenumber": 41,
         "lat": 51.491973,
         "lon": -0.197903,
@@ -313,7 +313,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "87303089",
+        "source_id": "way:87303089",
         "housenumber": 42,
         "lat": 51.492026,
         "lon": -0.198009,
@@ -335,7 +335,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "87303105",
+        "source_id": "way:87303105",
         "housenumber": 44,
         "lat": 51.491544,
         "lon": -0.197749,
@@ -357,7 +357,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "87313566",
+        "source_id": "way:87313566",
         "housenumber": 59,
         "lat": 51.492682,
         "lon": -0.196952,
@@ -379,7 +379,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "87313555",
+        "source_id": "way:87313555",
         "housenumber": 60,
         "lat": 51.492712,
         "lon": -0.196865,
@@ -401,7 +401,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "87313545",
+        "source_id": "way:87313545",
         "housenumber": 61,
         "lat": 51.492741,
         "lon": -0.196779,
@@ -423,7 +423,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "87313559",
+        "source_id": "way:87313559",
         "housenumber": 62,
         "lat": 51.492771,
         "lon": -0.196692,
@@ -445,7 +445,7 @@
       "type": "Feature",
       "properties": {
         "source": "OSM",
-        "source_id": "87313552",
+        "source_id": "way:87313552",
         "housenumber": 63,
         "lat": 51.4928,
         "lon": -0.196606,
