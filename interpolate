@@ -17,7 +17,7 @@ cat <<EOM
    extract [address_db] [street_db] [lat] [lon] [street_name]                extract street address data for debugging purposes
    server [address_db] [street_db]                                           start a web server
 
-   import                                                                    run the import script
+   build                                                                     run the import script
 EOM
 }
 
@@ -37,19 +37,20 @@ case "$1" in
   env_vars=( 'BUILDDIR' 'POLYLINE_FILE' 'OAPATH' 'PBF2JSON_BIN' 'PBF2JSON_FILE' )
   for var_name in "${env_vars[@]}"; do
     [ -z "${!var_name}" ] && echo "env var $var_name required" && exit 1;
+    export "${var_name}"; # export so child scripts can pick them up
   done
 
   # run polyline importer
-  source $BASEDIR/script/import.sh;
+  /bin/bash $BASEDIR/script/import.sh;
 
   # run openaddresses conflation
-  source $BASEDIR/script/conflate_oa.sh;
+  /bin/bash $BASEDIR/script/conflate_oa.sh;
 
   # run openstreetmap conflation
-  source $BASEDIR/script/conflate_osm.sh;
+  /bin/bash $BASEDIR/script/conflate_osm.sh;
 
   # run vertex interpolation
-  source $BASEDIR/script/vertices.sh;
+  /bin/bash $BASEDIR/script/vertices.sh;
   ;;
 *)
   help;;
