@@ -43,7 +43,7 @@ case "$1" in
 'build')
 
   # validate all ENV vars are explicitly set
-  env_vars=( 'BUILDDIR' 'POLYLINE_FILE' 'OAPATH' 'PBF2JSON_BIN' 'PBF2JSON_FILE' )
+  env_vars=( 'BUILDDIR' 'POLYLINE_FILE' 'OAPATH' 'TIGERPATH' 'PBF2JSON_BIN' 'PBF2JSON_FILE' )
   for var_name in "${env_vars[@]}"; do
     [ -z "${!var_name}" ] && echo "env var $var_name required" && exit 1;
     export "${var_name}"; # export so child scripts can pick them up
@@ -59,6 +59,10 @@ case "$1" in
 
   # run openstreetmap conflation
   /bin/bash $BASEDIR/script/conflate_osm.sh &
+  child=$!; wait "$child";
+
+  # run tiger conflation
+  /bin/bash $BASEDIR/script/conflate_tiger.sh &
   child=$!; wait "$child";
 
   # run vertex interpolation

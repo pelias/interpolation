@@ -44,19 +44,19 @@ rm -f $PROC_STDOUT $PROC_STDERR $PROC_CONFERR;
 
 # download path of tiger files (use default unless param is supplied)
 TIGERPATH=${TIGERPATH:-"/data/tiger"};
-if [ ! -d "$TIGERPATH/downloads" ]; then
+if [ ! -d "$TIGERPATH/shapefiles" ]; then
   echo "tiger download dir does not exist";
   exit 1;
 fi
 
-# recurse through filesystem listing all .zip file names
-find "$TIGERPATH/downloads" -type f -iname "*.zip" -print0 |\
+# recurse through filesystem listing all .shp file names
+find "$TIGERPATH/shapefiles" -type f -iname "*.shp" -print0 |\
   while IFS= read -r -d $'\0' filename; do
 
     # echo filename to stderr
     >&2 echo $(date -u) "$filename";
 
-    # run import
-    cat "$filename" | node $DIR/../cmd/tiger.js $ADDRESS_DB $STREET_DB 1>>$PROC_STDOUT 2>>$PROC_STDERR;
+    ogr2ogr -f GeoJSON -t_srs crs:84 /vsistdout/ "$filename" |\
+      node --max-old-space-size=8192 $DIR/../cmd/tiger.js $ADDRESS_DB $STREET_DB 1>>$PROC_STDOUT 2>>$PROC_STDERR;
 
   done;

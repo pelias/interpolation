@@ -1,12 +1,11 @@
 
 var sqlite3 = require('sqlite3'),
-    shapefile = require('shp2json'),
     requireDir = require('require-dir'),
     stream = requireDir('../stream', { recurse: true }),
     query = requireDir('../query');
 
 // export method
-function tiger(zipStream, addressDbPath, streetDbPath, done){
+function tiger(dataStream, addressDbPath, streetDbPath, done){
 
   // connect to db
   sqlite3.verbose();
@@ -16,7 +15,7 @@ function tiger(zipStream, addressDbPath, streetDbPath, done){
   query.tables.address(db); // create tables only if not already created
   query.attach(db, process.argv[3], 'street'); // attach street database
 
-  shapefile( zipStream )
+  dataStream
     .pipe( stream.tiger.parse() ) // convert openstreetmap data to generic model
     .pipe( stream.tiger.convert() ) // convert openstreetmap data to generic model
     .pipe( stream.address.batch() ) // batch records on the same street
