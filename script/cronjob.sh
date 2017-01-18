@@ -26,5 +26,9 @@ npm --loglevel=silent install;
 export OAPATH="/data/oa"; # base path of openaddresses file system
 $DIR/update_oa.sh;
 
+# update tiger data (optional)
+export TIGERPATH="/data/tiger"; # base path of tiger file system
+$DIR/update_tiger.sh;
+
 # run build
 $DIR/build.sh &> build.log;
