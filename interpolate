@@ -13,6 +13,7 @@ cat <<EOM
    polyline [street_db]                                                      import polyline data in to [street_db]
    oa [address_db] [street_db]                                               conflate oa csv file in to [address_db] using [street_db]
    osm [address_db] [street_db]                                              conflate osm file in to [address_db] using [street_db]
+   tiger [address_db] [street_db]                                            conflate tiger zipped shapefile in to [address_db] using [street_db]
    vertices [address_db] [street_db]                                         compute fractional house numbers for line vertices
    extract [address_db] [street_db] [lat] [lon] [street_name]                extract street address data for debugging purposes
    server [address_db] [street_db]                                           start a web server
@@ -35,6 +36,7 @@ case "$1" in
 'polyline') node "$BASEDIR/cmd/polyline" "$2" &;;
 'oa') node "$BASEDIR/cmd/oa" "$2" "$3" &;;
 'osm') node "$BASEDIR/cmd/osm" "$2" "$3" &;;
+'tiger') node "$BASEDIR/cmd/tiger" "$2" "$3" &;;
 'vertices') node "$BASEDIR/cmd/vertices" "$2" "$3" &;;
 'extract') node "$BASEDIR/cmd/extract" "$2" "$3" "$4" "$5" "$6" &;;
 'server') node "$BASEDIR/cmd/server" "$2" "$3" &;;
