@@ -5,7 +5,7 @@ export LC_ALL=en_US.UTF-8;
 # download all addrfeat files via their FTP site
 # URL="ftp://ftp2.census.gov/geo/tiger/TIGER2016/ADDRFEAT/";
 
-# base path of openaddresses file system (use default unless param is supplied)
+# download path of tiger files (use default unless param is supplied)
 TIGERPATH=${TIGERPATH:-"/data/tiger"};
 if [ ! -d $TIGERPATH ]; then
   echo "tiger data dir does not exist";
