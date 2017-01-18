@@ -31,8 +31,15 @@ module.exports.street.id = function(test) {
   test('setId', function(t) {
     var s = new Address();
     t.equal(s.id, null);
-    s.setId(1);
-    t.equal(s.id, 1);
+    s.setId('1');
+    t.equal(s.id, '1');
+    t.end();
+  });
+  test('setId - type coersion', function(t) {
+    var s = new Address();
+    t.equal(s.id, null);
+    s.setId(22);
+    t.equal(s.id, '22');
     t.end();
   });
   test('setId - invalid', function(t) {
@@ -40,6 +47,8 @@ module.exports.street.id = function(test) {
     t.throws(function(){ s.setId(0); }, /invalid id/);
     t.throws(function(){ s.setId(null); }, /invalid id/);
     t.throws(function(){ s.setId(''); }, /invalid id/);
+    t.throws(function(){ s.setId({}); }, /invalid id/);
+    t.throws(function(){ s.setId([]); }, /invalid id/);
     t.end();
   });
 };

@@ -47,8 +47,8 @@ module.exports.address = function( db, rebuild, done ){
     db.run([
       'CREATE TABLE IF NOT EXISTS address',
       '(',
-        'rowid INTEGER PRIMARY KEY, id INTEGER, source TEXT, housenumber REAL, ',
-        'lat REAL, lon REAL, parity TEXT, proj_lat REAL, proj_lon REAL, ',
+        'rowid INTEGER PRIMARY KEY, id INTEGER, source TEXT, source_id TEXT, housenumber REAL,',
+        'lat REAL, lon REAL, parity TEXT, proj_lat REAL, proj_lon REAL,',
         'UNIQUE( id, housenumber ) ON CONFLICT IGNORE',
       ');'
     ].join(' '));

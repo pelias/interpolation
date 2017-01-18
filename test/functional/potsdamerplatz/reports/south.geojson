@@ -5,6 +5,7 @@
       "type": "Feature",
       "properties": {
         "source": "OA",
+        "source_id": "1a3af8d8b7cc3e3b",
         "housenumber": 10,
         "lat": 52.508305,
         "lon": 13.3771049,

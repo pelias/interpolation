@@ -158,6 +158,7 @@ module.exports.functional.search = function(test) {
       t.deepEqual( res, {
         type: 'exact',
         source: 'OA',
+        source_id: '6285536db072454c',
         number: '18d',
         lat: 52.5168882,
         lon: 13.4585878
@@ -177,6 +178,7 @@ module.exports.functional.search = function(test) {
       t.deepEqual( res, {
         type: 'close',
         source: 'OA',
+        source_id: '12f79e80dfcec775',
         number: '16a',
         lat: 52.5167765,
         lon: 13.4575346

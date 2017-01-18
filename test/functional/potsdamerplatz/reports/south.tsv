@@ -1,2 +1,2 @@
-rowid	id	source	housenumber	lat	lon	parity	proj_lat	proj_lon
-12	41	OA	10.0	52.508305	13.3771049	R	52.508469652861	13.3768711132881
+rowid	id	source	source_id	housenumber	lat	lon	parity	proj_lat	proj_lon
+12	41	OA	1a3af8d8b7cc3e3b	10.0	52.508305	13.3771049	R	52.508469652861	13.3768711132881

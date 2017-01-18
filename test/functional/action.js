@@ -149,12 +149,13 @@ module.exports.check.schema = function(test, paths) {
       '0|rowid|INTEGER|0||1',
       '1|id|INTEGER|0||0',
       '2|source|TEXT|0||0',
-      '3|housenumber|REAL|0||0',
-      '4|lat|REAL|0||0',
-      '5|lon|REAL|0||0',
-      '6|parity|TEXT|0||0',
-      '7|proj_lat|REAL|0||0',
-      '8|proj_lon|REAL|0||0'
+      '3|source_id|TEXT|0||0',
+      '4|housenumber|REAL|0||0',
+      '5|lat|REAL|0||0',
+      '6|lon|REAL|0||0',
+      '7|parity|TEXT|0||0',
+      '8|proj_lat|REAL|0||0',
+      '9|proj_lon|REAL|0||0'
     ], 'table_info(address)');
 
     t.end();
@@ -218,12 +219,13 @@ module.exports.geojson = function(test, paths, condition, filename) {
         // rowid:        row[0],
         // id:           parseInt( row[1], 10),
         source:       row[2],
-        housenumber:  parseFloat( row[3] ),
-        lat:          parseFloat( row[4] ),
-        lon:          parseFloat( row[5] ),
-        parity:       row[6],
-        proj_lat:     parseFloat( row[7] ),
-        proj_lon:     parseFloat( row[8] )
+        source_id:    row[3],
+        housenumber:  parseFloat( row[4] ),
+        lat:          parseFloat( row[5] ),
+        lon:          parseFloat( row[6] ),
+        parity:       row[7],
+        proj_lat:     parseFloat( row[8] ),
+        proj_lon:     parseFloat( row[9] )
       };
     }));
 
@@ -253,7 +255,7 @@ module.exports.tsv = function(test, paths, condition, filename) {
 
     // tsv header
     var header = [
-      'rowid', 'id', 'source', 'housenumber', 'lat', 'lon',
+      'rowid', 'id', 'source', 'source_id', 'housenumber', 'lat', 'lon',
       'parity', 'proj_lat', 'proj_lon'
     ].join('\t');
 
