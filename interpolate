@@ -1,42 +1,65 @@
-#!/usr/bin/env node
+#!/bin/bash
+set -e;
+export LC_ALL=en_US.UTF-8;
+BASEDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 
-// available commands
-var commands = {
-  polyline: './cmd/polyline',
-  oa: './cmd/oa',
-  osm: './cmd/osm',
-  vertices: './cmd/vertices',
-  search: './cmd/search',
-  server: './cmd/server',
-};
+function help(){
+cat <<EOM
+  Usage: interpolate [command] [options]
+  Note: you will need to pipe data in to the import/conflate commands
 
-// remove cmd name from args
-var cmd = process.argv[2];
-process.argv.splice(2, 1);
+   help                                                                      output usage information
+   search [address_db] [street_db] [lat] [lon] [house_number] [street_name]  search database for specified housenumber + street
+   polyline [street_db]                                                      import polyline data in to [street_db]
+   oa [address_db] [street_db]                                               conflate oa csv file in to [address_db] using [street_db]
+   osm [address_db] [street_db]                                              conflate osm file in to [address_db] using [street_db]
+   vertices [address_db] [street_db]                                         compute fractional house numbers for line vertices
+   extract [address_db] [street_db] [lat] [lon] [street_name]                extract street address data for debugging purposes
+   server [address_db] [street_db]                                           start a web server
 
-// run command
-if( cmd in commands ){
-  require( commands[cmd] );
+   build                                                                     run the import script
+EOM
 }
 
-// invalid command
-else {
-  console.error( '\n' + helpText()  + '\n' );
-  process.exit(1);
-}
+# cli runner
+case "$1" in
+'help') help;;
+'search') node "$DIR/cmd/search" $2 $3 $4 $5 $6 $7;;
+'polyline') node "$DIR/cmd/polyline" $2;;
+'oa') node "$DIR/cmd/oa" $2 $3;;
+'osm') node "$DIR/cmd/osm" $2 $3;;
+'vertices') node "$DIR/cmd/vertices" $2 $3;;
+'extract') node "$DIR/cmd/extract" $2 $3 $4 $5 $6;;
+'server') node "$DIR/cmd/server" $2 $3;;
+'build')
 
-function helpText(){
-  return [
-    'Usage: interpolate [command] [options]',
-    'Note: you will need to pipe data in to the import/conflate commands',
-    '',
-    ' help                                                                      output usage information',
-    ' search [address_db] [street_db] [lat] [lon] [house_number] [street_name]  search database for specified housenumber + street',
-    ' polyline [street_db]                                                      import polyline data in to [street_db]',
-    ' oa [address_db] [street_db]                                               conflate oa csv file in to [address_db] using [street_db]',
-    ' osm [address_db] [street_db]                                              conflate osm file in to [address_db] using [street_db]',
-    ' vertices [address_db] [street_db]                                         compute fractional house numbers for line vertices',
-    ' extract [address_db] [street_db] [lat] [lon] [street_name]                extract street address data for debugging purposes',
-    ' server [address_db] [street_db]                                           start a web server'
-  ].join('\n');
-}
+  # validate all ENV vars are explicitly set
+  env_vars=( 'BUILDDIR' 'POLYLINE_FILE' 'OAPATH' 'PBF2JSON_BIN' 'PBF2JSON_FILE' )
+  for var_name in "${env_vars[@]}"; do
+    [ -z "${!var_name}" ] && echo "env var $var_name required" && exit 1;
+    export "${var_name}"; # export so child scripts can pick them up
+  done
+
+  # run polyline importer
+  /bin/bash $BASEDIR/script/import.sh;
+
+  # run openaddresses conflation
+  /bin/bash $BASEDIR/script/conflate_oa.sh;
+
+  # run openstreetmap conflation
+  /bin/bash $BASEDIR/script/conflate_osm.sh;
+
+  # run vertex interpolation
+  /bin/bash $BASEDIR/script/vertices.sh;
+  ;;
+*)
+  help;;
+esac
+
+# build example
+# BUILDDIR=/tmp/tempbuild \
+# POLYLINE_FILE=/data/polyline/berlin.polylines \
+# OAPATH=/data/oa/de \
+# PBF2JSON_BIN=/var/www/pelias/pbf2json/build/pbf2json.linux-x64 \
+# PBF2JSON_FILE=/data/extract/berlin-latest.osm.pbf \
+# ./interpolate build

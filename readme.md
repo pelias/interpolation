@@ -264,6 +264,39 @@ you can run any command supported by `./interpolate` via the docker container, s
 cat /data/new_zealand.polylines | docker run -i -v /data:/data pelias/interpolation polyline /data/nz.db
 ```
 
+### running a build in the docker container
+
+the build scripts are configurable via environment variables, you will need to download your data before running the build command.
+
+```bash
+# prepare a build directory and a data directory to hold the newly created database files
+mkdir -p /tmp/data/berlin
+
+# download polyline street data
+curl -s http://missinglink.files.s3.amazonaws.com/berlin.gz | gzip -d > /tmp/data/berlin.0sv
+
+# download and extract openaddresses data
+curl -s https://s3.amazonaws.com/data.openaddresses.io/runs/142027/de/berlin.zip > /tmp/data/berlin.zip
+unzip /tmp/data/berlin.zip -d /tmp/data
+
+# download openstreetmap data
+curl -s https://s3.amazonaws.com/metro-extracts.mapzen.com/berlin_germany.osm.pbf > /tmp/data/berlin.osm.pbf
+```
+
+we will mount `/tmp/data` on the local machine as `/data` inside the container, so be careful to set paths as they appear inside the container.
+
+```bash
+docker run -i \ # run interactively (optionally daemonize with -d)
+  -v /tmp/data:/data \ # volume mapping
+  -e 'BUILDDIR=/data/berlin' \ # location where the db files will be created
+  -e 'POLYLINE_FILE=/data/berlin.0sv' \ # location of the polyline data
+  -e 'OAPATH=/data/de' \ # location of the openaddresses data
+  -e 'PBF2JSON_FILE=/data/berlin.osm.pbf' \ # location of the openstreetmap data
+  pelias/interpolation build
+```
+
+once completed you should find the newly created `street.db` and `address.db` files in `/tmp/data/berlin` on your local machine.
+
 # development
 
 ### install dependencies
