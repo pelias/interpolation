@@ -13,7 +13,7 @@ cat <<EOM
    polyline [street_db]                                                      import polyline data in to [street_db]
    oa [address_db] [street_db]                                               conflate oa csv file in to [address_db] using [street_db]
    osm [address_db] [street_db]                                              conflate osm file in to [address_db] using [street_db]
-   tiger [address_db] [street_db]                                            conflate tiger zipped shapefile in to [address_db] using [street_db]
+   tiger [address_db] [street_db]                                            conflate tiger address range geojson file in to [address_db] using [street_db]
    vertices [address_db] [street_db]                                         compute fractional house numbers for line vertices
    extract [address_db] [street_db] [lat] [lon] [street_name]                extract street address data for debugging purposes
    server [address_db] [street_db]                                           start a web server
