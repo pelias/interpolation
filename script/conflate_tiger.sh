@@ -16,7 +16,7 @@ if [[ ! -f "$UNZIP_PATH" || ! -x "$UNZIP_PATH" ]]; then
   exit 1;
 fi
 
-# ensure unzip exists and is executable
+# ensure ogr2ogr exists and is executable
 OGR2OGR_PATH=$(which ogr2ogr)
 if [[ ! -f "$OGR2OGR_PATH" || ! -x "$OGR2OGR_PATH" ]]; then
   echo "ogr2ogr not found or is not executable";
