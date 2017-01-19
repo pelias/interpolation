@@ -4,6 +4,8 @@ var through = require('through2'),
 
 /**
   convert tiger data to a generic Address model
+
+  see: http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2016/TGRSHP2016_TechDoc_Ch4.pdf
 **/
 
 // {
@@ -71,9 +73,11 @@ function streamFactory(){
       return next();
     }
 
+    // find start and end coordinates for range
+    var cLen = tiger.geometry.coordinates.length;
     var coords = {
-      start: tiger.geometry.coordinates[0],
-      end: tiger.geometry.coordinates[ tiger.geometry.coordinates.length - 1 ],
+      start: ( cLen > 0 ) ? tiger.geometry.coordinates[0] : null,
+      end: ( cLen > 1 ) ? tiger.geometry.coordinates[ cLen-1 ] : null,
     };
 
     // start of road path
@@ -88,6 +92,9 @@ function streamFactory(){
           lfromhm.setCoord({ lon: coords.start[0], lat: coords.start[1] });
           if( tiger.properties.ZIPL ){
             lfromhm.setPostcode( tiger.properties.ZIPL );
+          }
+          if( tiger.properties.TFIDL ){
+            lfromhm.setId( tiger.properties.TFIDL );
           }
           this.push( lfromhm );
         }
@@ -106,6 +113,9 @@ function streamFactory(){
           rfromhm.setCoord({ lon: coords.start[0], lat: coords.start[1] });
           if( tiger.properties.ZIPR ){
             rfromhm.setPostcode( tiger.properties.ZIPR );
+          }
+          if( tiger.properties.TFIDR ){
+            rfromhm.setId( tiger.properties.TFIDR );
           }
           this.push( rfromhm );
         }
@@ -129,6 +139,9 @@ function streamFactory(){
           if( tiger.properties.ZIPL ){
             ltohm.setPostcode( tiger.properties.ZIPL );
           }
+          if( tiger.properties.TFIDL ){
+            ltohm.setId( tiger.properties.TFIDL );
+          }
           this.push( ltohm );
         }
         catch( e ){
@@ -146,6 +159,9 @@ function streamFactory(){
           rtohm.setCoord({ lon: coords.end[0], lat: coords.end[1] });
           if( tiger.properties.ZIPR ){
             rtohm.setPostcode( tiger.properties.ZIPR );
+          }
+          if( tiger.properties.TFIDR ){
+            rtohm.setId( tiger.properties.TFIDR );
           }
           this.push( rtohm );
         }
