@@ -24,13 +24,13 @@ EOM
 # cli runner
 case "$1" in
 'help') help;;
-'search') node "$DIR/cmd/search" $2 $3 $4 $5 $6 $7;;
-'polyline') node "$DIR/cmd/polyline" $2;;
-'oa') node "$DIR/cmd/oa" $2 $3;;
-'osm') node "$DIR/cmd/osm" $2 $3;;
-'vertices') node "$DIR/cmd/vertices" $2 $3;;
-'extract') node "$DIR/cmd/extract" $2 $3 $4 $5 $6;;
-'server') node "$DIR/cmd/server" $2 $3;;
+'search') node "$BASEDIR/cmd/search" $2 $3 $4 $5 $6 $7;;
+'polyline') node "$BASEDIR/cmd/polyline" $2;;
+'oa') node "$BASEDIR/cmd/oa" $2 $3;;
+'osm') node "$BASEDIR/cmd/osm" $2 $3;;
+'vertices') node "$BASEDIR/cmd/vertices" $2 $3;;
+'extract') node "$BASEDIR/cmd/extract" $2 $3 $4 $5 $6;;
+'server') node "$BASEDIR/cmd/server" $2 $3;;
 'build')
 
   # validate all ENV vars are explicitly set
