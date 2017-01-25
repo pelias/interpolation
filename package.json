@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "cli-table2": "^0.2.0",
-    "csv-parse": "^1.1.7",
+    "csv-parse": "^1.1.12",
     "express": "^4.14.0",
     "node-postal": "^0.3.0",
     "polyline": "^0.2.0",
