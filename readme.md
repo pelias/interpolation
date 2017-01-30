@@ -5,6 +5,8 @@ An open source + open data project to perform global street address interpolatio
 
 # About
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/pelias/interpolation.svg)](https://greenkeeper.io/)
+
 The [Openstreetmap](http://www.openstreetmap.com) and [Openaddresses](http://www.openaddresses.com) projects provide a huge cache of street address information; between them around 250 million address points are freely available to download.
 
 Some countries like Germany and the USA have dense address coverage while other have only sparse data available.
