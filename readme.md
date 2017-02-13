@@ -5,7 +5,7 @@ An open source + open data project to perform global street address interpolatio
 
 # About
 
-The [Openstreetmap](http://www.openstreetmap.com) and [Openaddresses](http://www.openaddresses.com) projects provide a huge cache of street address information; between them around 250 million address points are freely available to download.
+The [Openstreetmap](http://www.openstreetmap.com) and [Openaddresses](http://www.openaddresses.com) projects provide a huge cache of street address information; between them around 500 million address points are freely available to download.
 
 Some countries like Germany and the USA have dense address coverage while other have only sparse data available.
 
@@ -21,11 +21,12 @@ The software is written in javascript to run in nodejs, the storage engine is sq
 
 Client libraries can be written in any language which can read sqlite3. If you wish to write a client in another language please open an issue and we can explain which functions you will need to port.
 
-The software is split in to 5 distinct parts:
+The software is split in to 6 distinct parts:
 
 - the street (polyline) importer
 - the openaddresses address importer
 - the openstreetmap address + address range importer
+- the T.I.G.E.R. block range importer
 - the geometry (vertices) interpolation
 - the client APIs (the webserver and CLI interface)
 
@@ -83,14 +84,17 @@ $ ./interpolate help
 Usage: interpolate [command] [options]
 Note: you will need to pipe data in to the import/conflate commands
 
- help                                                                      output usage information
- search [address_db] [street_db] [lat] [lon] [house_number] [street_name]  search database for specified housenumber + street
- polyline [street_db]                                                      import polyline data in to [street_db]
- oa [address_db] [street_db]                                               conflate oa csv file in to [address_db] using [street_db]
- osm [address_db] [street_db]                                              conflate osm file in to [address_db] using [street_db]
- vertices [address_db] [street_db]                                         compute fractional house numbers for line vertices
- extract [address_db] [street_db] [lat] [lon] [street_name]                extract street address data for debugging purposes
- server [address_db] [street_db]                                           start a web server
+  help                                                                      output usage information
+  search [address_db] [street_db] [lat] [lon] [house_number] [street_name]  search database for specified housenumber + street
+  polyline [street_db]                                                      import polyline data in to [street_db]
+  oa [address_db] [street_db]                                               conflate oa csv file in to [address_db] using [street_db]
+  osm [address_db] [street_db]                                              conflate osm file in to [address_db] using [street_db]
+  tiger [address_db] [street_db]                                            conflate tiger address range geojson file in to [address_db] using [street_db]
+  vertices [address_db] [street_db]                                         compute fractional house numbers for line vertices
+  extract [address_db] [street_db] [lat] [lon] [street_name]                extract street address data for debugging purposes
+  server [address_db] [street_db]                                           start a web server
+
+  build                                                                     run the import script
 ```
 
 ### search
@@ -201,6 +205,17 @@ for now it's best to use `pbf2json` to convert a `.osm.pbf` file in to json, the
 
 ```bash
 ./interpolate osm address.db street.db < osm_data.json
+```
+
+### tiger
+> import US Census Bureau TIGER data and conflate it with the street data
+
+find data here: https://www.census.gov/geo/maps-data/data/tiger-line.html
+
+a script is provided in `./script/update_tiger.sh` which will download files for the whole of the USA, this script is safe to run multiple times as it will only update the data which has changed.
+
+```bash
+./interpolate tiger address.db street.db
 ```
 
 ### vertices

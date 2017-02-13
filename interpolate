@@ -13,6 +13,7 @@ cat <<EOM
    polyline [street_db]                                                      import polyline data in to [street_db]
    oa [address_db] [street_db]                                               conflate oa csv file in to [address_db] using [street_db]
    osm [address_db] [street_db]                                              conflate osm file in to [address_db] using [street_db]
+   tiger [address_db] [street_db]                                            conflate tiger address range geojson file in to [address_db] using [street_db]
    vertices [address_db] [street_db]                                         compute fractional house numbers for line vertices
    extract [address_db] [street_db] [lat] [lon] [street_name]                extract street address data for debugging purposes
    server [address_db] [street_db]                                           start a web server
@@ -35,13 +36,14 @@ case "$1" in
 'polyline') node "$BASEDIR/cmd/polyline" "$2" &;;
 'oa') node "$BASEDIR/cmd/oa" "$2" "$3" &;;
 'osm') node "$BASEDIR/cmd/osm" "$2" "$3" &;;
+'tiger') node "$BASEDIR/cmd/tiger" "$2" "$3" &;;
 'vertices') node "$BASEDIR/cmd/vertices" "$2" "$3" &;;
 'extract') node "$BASEDIR/cmd/extract" "$2" "$3" "$4" "$5" "$6" &;;
 'server') node "$BASEDIR/cmd/server" "$2" "$3" &;;
 'build')
 
   # validate all ENV vars are explicitly set
-  env_vars=( 'BUILDDIR' 'POLYLINE_FILE' 'OAPATH' 'PBF2JSON_BIN' 'PBF2JSON_FILE' )
+  env_vars=( 'BUILDDIR' 'POLYLINE_FILE' 'OAPATH' 'TIGERPATH' 'PBF2JSON_BIN' 'PBF2JSON_FILE' )
   for var_name in "${env_vars[@]}"; do
     [ -z "${!var_name}" ] && echo "env var $var_name required" && exit 1;
     export "${var_name}"; # export so child scripts can pick them up
@@ -57,6 +59,10 @@ case "$1" in
 
   # run openstreetmap conflation
   /bin/bash $BASEDIR/script/conflate_osm.sh &
+  child=$!; wait "$child";
+
+  # run tiger conflation
+  /bin/bash $BASEDIR/script/conflate_tiger.sh &
   child=$!; wait "$child";
 
   # run vertex interpolation

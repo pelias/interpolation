@@ -48,6 +48,9 @@ $DIR/conflate_oa.sh;
 # run openstreetmap conflation
 $DIR/conflate_osm.sh;
 
+# run tiger conflation
+$DIR/conflate_tiger.sh;
+
 # run vertex interpolation
 $DIR/vertices.sh;
 

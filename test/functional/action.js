@@ -9,6 +9,7 @@ var exec = {
   import: path.resolve( __dirname, '../../cmd/polyline' ),
   oa: path.resolve( __dirname, '../../cmd/oa.js' ),
   osm: path.resolve( __dirname, '../../cmd/osm.js' ),
+  tiger: path.resolve( __dirname, '../../cmd/tiger.js' ),
   vertices: path.resolve( __dirname, '../../cmd/vertices.js' )
 };
 
@@ -86,6 +87,25 @@ module.exports.osm = function(test, paths) {
     child.spawnSync( 'sh', [ '-c', cmd ] );
 
     t.pass('perform osm conflate');
+    t.end();
+  });
+};
+
+module.exports.tiger = function(test, paths) {
+  test('tiger', function(t) {
+
+    // conflate openstreetmap addresses
+    var cmd = [
+      'ogr2ogr -f GeoJSON -t_srs crs:84 /vsistdout/', paths.fixture.tiger, '|',
+      'node', exec.tiger, paths.db.address, paths.db.street,
+      '1>', path.resolve( paths.reports, 'tiger.out' ),
+      '2>', path.resolve( paths.reports, 'tiger.err' )
+    ].join(' ');
+
+    // spawn child process
+    child.spawnSync( 'sh', [ '-c', cmd ] );
+
+    t.pass('perform tiger conflate');
     t.end();
   });
 };

@@ -53,7 +53,7 @@ ENV PBF2JSON_BIN /usr/src/repos/pbf2json/build/pbf2json.linux-x64
 # --- node app ---
 
 # dependencies
-RUN apt-get update && apt-get install -y python sqlite3
+RUN apt-get update && apt-get install -y python sqlite3 gdal-bin
 
 # create app directory
 RUN mkdir -p /usr/src/repos/interpolation
