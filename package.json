@@ -42,6 +42,7 @@
     "tape": "^4.6.2"
   },
   "pre-commit": [
-    "lint"
+    "lint",
+    "test"
   ]
 }
