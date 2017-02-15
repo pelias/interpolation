@@ -7,7 +7,8 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "test": "npm run units; npm run funcs;",
+    "test": "npm run units",
+    "travis": "npm run units && npm run funcs",
     "funcs": "node test/_func.js | tap-spec",
     "units": "node test/_unit.js | tap-spec",
     "lint": "jshint .",
@@ -42,6 +43,7 @@
     "tape": "^4.6.2"
   },
   "pre-commit": [
-    "lint"
+    "lint",
+    "test"
   ]
 }
