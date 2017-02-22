@@ -119,7 +119,8 @@ app.get('/street/near/geojson', function( req, res ){
           'properties': {
             'id': o.street.id,
             'name': Array.isArray( o.street.name ) ? o.street.name[0] : o.street.name,
-            'polyline': o.street.line
+            'polyline': o.street.line,
+            'distance': ( Math.floor(( o.proj.dist || 0 ) * 1000000 ) / 1000000 )
           },
           'geometry': {
             'type': 'LineString',
