@@ -7,10 +7,6 @@ export LC_ALL=en_US.UTF-8;
 
 # download path of tiger files (use default unless param is supplied)
 TIGERPATH=${TIGERPATH:-"/data/tiger"};
-if [ ! -d $TIGERPATH ]; then
-  echo "tiger data dir does not exist";
-  exit 1;
-fi
 
 # create directory if it doesn't exist
 mkdir -p $TIGERPATH/downloads;
