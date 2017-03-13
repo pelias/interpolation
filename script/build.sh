@@ -12,7 +12,7 @@ export LC_ALL=en_US.UTF-8;
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 
 export TIMESTAMP=$(date +"%m-%d-%Y-%H:%M:%S");
-export PBF2JSON_BIN="$DIR/node_modules/pbf2json/build/pbf2json.linux-x64";
+export PBF2JSON_BIN="$DIR/../node_modules/pbf2json/build/pbf2json.linux-x64";
 
 # location of data files
 export POLYLINE_FILE="/data/polyline/planet.polylines"; # the file containing all the streets
