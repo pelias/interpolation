@@ -15,12 +15,13 @@ export TIMESTAMP=$(date +"%m-%d-%Y-%H:%M:%S");
 export PBF2JSON_BIN="$DIR/../node_modules/pbf2json/build/pbf2json.linux-x64";
 
 # location of data files
-export POLYLINE_FILE="/data/polyline/planet.polylines"; # the file containing all the streets
-export OAPATH="/data/oa"; # base path of openaddresses file system
-export PBF2JSON_FILE="/data/pbf/planet.osm.pbf";
+export WORKINGDIR="${WORKINGDIR:-"/mnt/pelias"}"
+export POLYLINE_FILE="$WORKINGDIR/data/polylines/planet.polylines"; # the file containing all the streets
+export OAPATH="$WORKINGDIR/data/oa"; # base path of openaddresses file system
+export PBF2JSON_FILE="$WORKINGDIR/data/osm/planet-latest.osm.pbf";
 
 # a directory where all builds will live
-BUILDS="/data/builds";
+BUILDS="$WORKINGDIR/interpolation/builds";
 
 # ensure builds dir exists
 [ -d $BUILDS ] || mkdir -p $BUILDS;

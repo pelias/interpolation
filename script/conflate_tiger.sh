@@ -50,7 +50,7 @@ export SQLITE_TMPDIR=${SQLITE_TMPDIR:-"$BUILDDIR/tmp"};
 rm -f $PROC_STDOUT $PROC_STDERR $PROC_CONFERR;
 
 # download path of tiger files (use default unless param is supplied)
-TIGERPATH=${TIGERPATH:-"/data/tiger"};
+TIGERPATH=${TIGERPATH:-"$WORKINGDIR/data/tiger"};
 if [ ! -d "$TIGERPATH/shapefiles" ]; then
   echo "tiger download dir does not exist";
   exit 1;
