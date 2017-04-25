@@ -9,44 +9,38 @@ let real_libpostal;
  * Changing this to true should not be committed. */
 const use_real_libpostal = false;
 
+// put all desired responses from libpostal here
+let mock_responses = require('../../test/lib/mock_libpostal_responses');
+
 module.exports.expand = {
   expand_address:function(input_string) {
+    const clean_string = input_string.trim().toLowerCase();
     // return a mocked response if one is available
-    if (_.has(mock_responses, input_string)) {
-      return mock_responses[input_string];
+    if (_.has(mock_responses, clean_string)) {
+      return mock_responses[clean_string];
     // if no mock response is available but falling back to real libpostal
-    // is enabled, lazy load real libpostal, print the new mock response set,
-    // and return the real response
+    // is enabled, lazy load real libpostal, and return the real response
     } else if (use_real_libpostal) {
       // lazy load libpostal only when needed
       if (!real_libpostal) { real_libpostal = require('node-postal'); }
 
-      const real_response = real_libpostal.expand.expand_address(input_string);
-      mock_responses[input_string] = real_response;
-      console.log('new mock_responses:');
-      console.log(JSON.stringify(mock_responses, null, 2));
+      const real_response = real_libpostal.expand.expand_address(clean_string);
+      mock_responses[clean_string] = real_response;
 
       return real_response;
     // if there is no mock response and falling back to real libpostal is disabled,
     // throw an error because a human has to run libpostal and find the correct response
     } else {
-      console.error(`mock libpostal has no response for ${input_string}`);
+      console.error(`mock libpostal has no response for ${clean_string}`);
       process.exit(1);
     }
   }
 };
 
-// update this object with responses from libpostal
-const mock_responses = {
-  grolmanstraße: [
-    'grolmanstrasse',
-    'grolman strasse'
-  ],
-  'West 26th st': [
-    'west 26th street',
-    'west 26th saint'
-  ],
-  '': [
-    ''
-  ]
-};
+/* if using libostal to generate mock data, print the final state of the mock responses on exit */
+if (use_real_libpostal) {
+  process.on('exit', function() {
+    console.log('quitting');
+    console.log(JSON.stringify(mock_responses, null, 2));
+  });
+}

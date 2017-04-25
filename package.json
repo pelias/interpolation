@@ -8,8 +8,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run units; npm run funcs;",
-    "funcs": "node test/_func.js | tap-spec",
-    "units": "node test/_unit.js | tap-spec",
+    "funcs": "MOCK_LIBPOSTAL=true node test/_func.js | tap-spec",
+    "units": "MOCK_LIBPOSTAL=true node test/_unit.js | tap-spec",
     "travis": "npm run check-dependencies && npm test",
     "lint": "jshint .",
     "validate": "npm ls",
