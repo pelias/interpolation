@@ -1,11 +1,12 @@
 'use strict';
 
 const _ = require('lodash');
+const fs = require('fs');
 
+// the real libpostal module, if needed will be loaded here
 let real_libpostal;
 
-/* uncomment this to actually use libpostal to print out all the responses.
- * This can be useful for filling in new responses.
+/* Actually use the real libpostal to seed all the responses.
  * Changing this to true should not be committed. */
 const use_real_libpostal = false;
 
@@ -13,7 +14,7 @@ const use_real_libpostal = false;
 let mock_responses = require('../../test/lib/mock_libpostal_responses');
 
 module.exports.expand = {
-  expand_address:function(input_string) {
+  expand_address: function(input_string) {
     const clean_string = input_string.trim().toLowerCase();
     // return a mocked response if one is available
     if (_.has(mock_responses, clean_string)) {
@@ -27,6 +28,10 @@ module.exports.expand = {
       const real_response = real_libpostal.expand.expand_address(clean_string);
       mock_responses[clean_string] = real_response;
 
+      // write the stored list of responses after _every_ new one is added. this is inefficient
+      // but it does not appear using `process.on('exit')` is reliable
+      fs.writeFileSync(__dirname +'/../../test/lib/mock_libpostal_responses.json', JSON.stringify(mock_responses, null, 2));
+
       return real_response;
     // if there is no mock response and falling back to real libpostal is disabled,
     // throw an error because a human has to run libpostal and find the correct response
@@ -36,11 +41,3 @@ module.exports.expand = {
     }
   }
 };
-
-/* if using libostal to generate mock data, print the final state of the mock responses on exit */
-if (use_real_libpostal) {
-  process.on('exit', function() {
-    console.log('quitting');
-    console.log(JSON.stringify(mock_responses, null, 2));
-  });
-}
