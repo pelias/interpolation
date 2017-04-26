@@ -7,10 +7,10 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "test": "npm run units; npm run funcs;",
+    "test": "npm run units",
     "funcs": "MOCK_LIBPOSTAL=true node test/_func.js | tap-spec",
     "units": "MOCK_LIBPOSTAL=true node test/_unit.js | tap-spec",
-    "travis": "npm run check-dependencies && npm test",
+    "travis": "npm run check-dependencies && npm test && npm run funcs",
     "lint": "jshint .",
     "validate": "npm ls",
     "check-dependencies": "node_modules/.bin/npm-check --production --ignore node-postal",
