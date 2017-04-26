@@ -18,6 +18,7 @@ addons:
     packages:
       - g++-4.8
       - sqlite3
+      - gdal-bin
 before_install:
   - npm i -g npm@^3.0.0
 before_script:
