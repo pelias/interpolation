@@ -8,21 +8,32 @@ node_js:
   - 6
 matrix:
   fast_finish: true
-env:
-  global:
-    - CXX=g++-4.8
 script: npm run travis
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
-      - sqlite3
       - gdal-bin
+      - ia32-libs
 before_install:
   - npm i -g npm@^3.0.0
+  - which sqlite3
   - sqlite3 --version
+  - whoami
+  - cd
+  - wget http://sqlite.org/2017/sqlite-tools-linux-x86-3180000.zip
+  - md5sum sqlite-tools-linux-x86-3180000.zip
+  - unzip sqlite-tools-linux-x86-3180000.zip
+  - mkdir -p ~/bin
+  - mv sqlite-tools-linux-x86-3180000/sqlite3 ~/bin/sqlite318
+  - which sqlite3
+  - ls /home/travis/bin -lh
+  - ls ~/bin -lh
+  - echo $PATH
+  - sqlite3 --version
+  - pwd
+  - /home/travis/bin/sqlite318 --version
+  - bash -c "/home/travis/bin/sqlite318 --version"
+  - cd -
 before_script:
   - npm prune
 after_success:
