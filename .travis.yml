@@ -13,18 +13,9 @@ addons:
   apt:
     packages:
       - gdal-bin
+      - proj-bin
 before_install:
   - npm i -g npm@^3.0.0
-  - mkdir -p ~/bin
-  - wget https://sqlite.org/2017/sqlite-autoconf-3180000.tar.gz
-  - tar xvf sqlite-auto*.tar.gz
-  - pushd sqlite-auto*
-  - ./configure
-  - make -j2
-  - cp ./sqlite3 ~/bin/
-  - which sqlite3
-  - popd
-  - sqlite3 --version
 before_script:
   - npm prune
 after_success:
