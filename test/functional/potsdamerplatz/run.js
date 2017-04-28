@@ -59,7 +59,7 @@ module.exports.functional.street_counts = function(test) {
 
     // count names table
     var names = sqlite3.count( paths.db.street, 'names' );
-    t.equal(names, 454, 'count(names)');
+    t.equal(names, 487, 'count(names)');
 
     // count rtree table
     var rtree = sqlite3.count( paths.db.street, 'rtree' );
