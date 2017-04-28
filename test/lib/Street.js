@@ -63,6 +63,13 @@ module.exports.street.names = function(test) {
     t.throws(function(){ s.setNames([]); }, /invalid names/);
     t.end();
   });
+  test('setNames - trim newlines and spaces', function(t) {
+    var s = new Street();
+    t.deepEqual(s.names, []);
+    s.setNames([' a \n', ' b']);
+    t.deepEqual(s.names, ['a', 'b']);
+    t.end();
+  });
 };
 
 module.exports.street.bbox = function(test) {

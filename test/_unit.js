@@ -10,6 +10,7 @@ var tests = [
   require('./lib/interpolate.js'),
   require('./lib/Street.js'),
   require('./lib/Address.js'),
+  require('./stream/split.js'),
   require('./stream/oa/convert.js'),
   require('./stream/osm/convert.js'),
   require('./stream/osm/delimited_ranges.js')
