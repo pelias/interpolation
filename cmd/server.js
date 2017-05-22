@@ -1,7 +1,7 @@
 
 var express = require('express'),
     directory = require('serve-index'),
-    polyline = require('polyline'),
+    polyline = require('@mapbox/polyline'),
     search = require('../api/search'),
     extract = require('../api/extract'),
     street = require('../api/street'),
