@@ -1,6 +1,6 @@
 
 var through = require('through2'),
-    polyline = require('polyline'),
+    polyline = require('@mapbox/polyline'),
     query = { near: require('../../query/near') },
     project = require('../../lib/project'),
     proximity = require('../../lib/proximity');
