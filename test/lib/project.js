@@ -1,6 +1,6 @@
 
 var project = require('../../lib/project'),
-    polyline = require('polyline');
+    polyline = require('@mapbox/polyline');
 
 module.exports.project = {};
 

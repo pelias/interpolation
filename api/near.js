@@ -1,6 +1,6 @@
 
 var sqlite3 = require('sqlite3'),
-    polyline = require('polyline'),
+    polyline = require('@mapbox/polyline'),
     requireDir = require('require-dir'),
     query = requireDir('../query'),
     project = require('../lib/project'),

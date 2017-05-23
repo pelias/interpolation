@@ -1,6 +1,6 @@
 
 var through = require('through2'),
-    polyline = require('polyline'),
+    polyline = require('@mapbox/polyline'),
     project = require('../../lib/project'),
     analyze = require('../../lib/analyze'),
     interpolate = require('../../lib/interpolate');

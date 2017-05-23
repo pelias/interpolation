@@ -1,6 +1,6 @@
 
 var proximity = require('../../lib/proximity'),
-    polyline = require('polyline');
+    polyline = require('@mapbox/polyline');
 
 module.exports.nearest = {};
 
