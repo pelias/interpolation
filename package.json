@@ -26,7 +26,7 @@
   "dependencies": {
     "cli-table2": "^0.2.0",
     "csv-parse": "^1.2.0",
-    "express": "^4.14.0",
+    "express": "^4.14.1",
     "node-postal": "^0.3.0",
     "@mapbox/polyline": "^0.2.0",
     "quadtree": "^1.1.3",
