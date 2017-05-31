@@ -1,4 +1,5 @@
-sudo: false
+sudo: required
+dist: trusty
 language: node_js
 notifications:
   email: false
@@ -7,18 +8,12 @@ node_js:
   - 6
 matrix:
   fast_finish: true
-env:
-  global:
-    - CXX=g++-4.8
 script: npm run travis
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
 before_install:
   - npm i -g npm@^3.0.0
+  - sudo add-apt-repository -y ppa:ubuntugis/ppa
+  - sudo apt-get update -q
+  - sudo apt-get install -y proj-bin gdal-bin
 before_script:
   - npm prune
 after_success:

@@ -11,7 +11,7 @@ module.exports.analyze.street = function(test) {
   });
   test('street: remove ordinals', function(t) {
     var perms = analyze.street('West 26th st');
-    t.deepEqual(perms, ['west 26 saint', 'west 26 street']);
+    t.deepEqual(perms, ['west 26 street', 'west 26 saint']);
     t.end();
   });
   test('street: always returns array', function(t) {
