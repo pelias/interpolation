@@ -100,10 +100,16 @@ app.get('/extract/table', function( req, res ){
 app.get('/street/near/geojson', function( req, res ){
 
   var point = { lat: req.query.lat, lon: req.query.lon };
+  var max_distance = req.query.dist || 0.01;
 
   conn.near.query( point, function( err, ordered ){
     if( err ){ return res.status(400).json( err ); }
     if( !ordered || !ordered.length ){ return res.status(404).json({}); }
+
+    // remove points over a certain distance (in degrees)
+    ordered = ordered.filter( function( o ){
+      return o.proj.dist <= max_distance;
+    });
 
     var geojson = {
       'type': 'FeatureCollection',
@@ -113,7 +119,8 @@ app.get('/street/near/geojson', function( req, res ){
           'properties': {
             'id': o.street.id,
             'name': Array.isArray( o.street.name ) ? o.street.name[0] : o.street.name,
-            'polyline': o.street.line
+            'polyline': o.street.line,
+            'distance': ( Math.floor(( o.proj.dist || 0 ) * 1000000 ) / 1000000 )
           },
           'geometry': {
             'type': 'LineString',
