@@ -13,7 +13,7 @@
     "travis": "npm run check-dependencies && npm test && npm run funcs",
     "lint": "jshint .",
     "validate": "npm ls",
-    "check-dependencies": "node_modules/.bin/npm-check --production --ignore node-postal",
+    "check-dependencies": "node_modules/.bin/npm-check --production --ignore node-postal --ignore pbf2json",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
