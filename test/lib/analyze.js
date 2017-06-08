@@ -6,7 +6,7 @@ module.exports.analyze = {};
 module.exports.analyze.street = function(test) {
   test('street: synonym expansions', function(t) {
     var perms = analyze.street('grolmanstraße');
-    t.deepEqual(perms, ['grolmanstrasse', 'grolman strasse']);
+    t.deepEqual(perms, ['grolmanstraße', 'grolman straße']);
     t.end();
   });
   test('street: remove ordinals', function(t) {

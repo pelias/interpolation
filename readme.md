@@ -423,3 +423,11 @@ cat test/functional/potsdamerplatz/reports/preview.geojson | geojsonio
 once you have completed your tests and committed the files, your preview files will be visible to everyone via github.
 
 the `./reports` directory also contains the `stdio` files from each command that was executed and a list of records which failed to conflate. these files are ignored by `.gitignore` so they don't show up on github.
+
+### Updating the mock libpostal responses
+
+Because of the high memory and disk space requirements of libpostal, tests can be run using a list of known libpostal responses, rather than calling libpostal itself.
+
+These mock responses are stored in `test/lib/mock_libpostal_responses.json`. They will be used by the tests as long as the `MOCK_LIBPOSTAL` environment variable is set.
+
+When libpostal itself changes, these mock responses need to be updated. Running the tests with `SEED_MOCK_LIBPOSTAL` set as well will cause the mock library to actually call libpostal itself, and update `mock_libpostal_responses.json`.

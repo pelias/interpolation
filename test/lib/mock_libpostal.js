@@ -6,9 +6,10 @@ const fs = require('fs');
 // the real libpostal module, if needed will be loaded here
 let real_libpostal;
 
-/* Actually use the real libpostal to seed all the responses.
- * Changing this to true should not be committed. */
-const use_real_libpostal = false;
+/* When `SEED_MOCK_LIBPOSTAL is set, this library will actually
+ * call through to the real libpostal and record the response.
+ * In this way the mock responses can be kept up to date as libpostal changes */
+const use_real_libpostal = process.env.SEED_MOCK_LIBPOSTAL !== undefined;
 
 // put all desired responses from libpostal here
 let mock_responses = require('../../test/lib/mock_libpostal_responses');
