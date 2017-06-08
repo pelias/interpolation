@@ -33,10 +33,10 @@ trap _term SIGTERM
 case "$1" in
 'help') help;;
 'search') node "$BASEDIR/cmd/search" "$2" "$3" "$4" "$5" "$6" "$7" &;;
-'polyline') node "$BASEDIR/cmd/polyline" "$2" &;;
-'oa') node "$BASEDIR/cmd/oa" "$2" "$3" &;;
-'osm') node "$BASEDIR/cmd/osm" "$2" "$3" &;;
-'tiger') node "$BASEDIR/cmd/tiger" "$2" "$3" &;;
+'polyline') cat -| node "$BASEDIR/cmd/polyline" "$2" &;;
+'oa') cat -| node "$BASEDIR/cmd/oa" "$2" "$3" &;;
+'osm') cat -| node "$BASEDIR/cmd/osm" "$2" "$3" &;;
+'tiger') cat -| node "$BASEDIR/cmd/tiger" "$2" "$3" &;;
 'vertices') node "$BASEDIR/cmd/vertices" "$2" "$3" &;;
 'extract') node "$BASEDIR/cmd/extract" "$2" "$3" "$4" "$5" "$6" &;;
 'server') node "$BASEDIR/cmd/server" "$2" "$3" &;;
@@ -74,7 +74,7 @@ esac
 
 # wait for child process(es) to exit before exiting
 child=$!
-wait "$child"
+wait "$child" > /dev/null 2>&1
 
 # build example
 # BUILDDIR=/tmp/tempbuild \
