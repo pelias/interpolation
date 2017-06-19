@@ -73,6 +73,69 @@ Finally we will compute the fractional house numbers for each vertex (corner) of
 
 See the [building the databases](https://github.com/pelias/interpolation#building-the-databases) section below for detailed information on which commands to run.
 
+# Building the databases
+
+### polyline
+> import road network data in the polyline format
+
+find data here: https://github.com/pelias/polylines
+```bash
+./interpolate polyline street.db < /data/new_zealand.polylines
+```
+
+### oa
+> import openaddresses data and conflate it with the street data
+
+find data here: https://openaddresses.io/
+```bash
+./interpolate oa address.db street.db < /data/oa/nz/countrywide.csv
+```
+
+note: sorting the openaddresses files so that addresses on the same street are adjacent will significantly speed up imports, you can find an example of the commands required to sort the data in `./script/concat_oa.sh`.
+
+### osm
+> import openstreetmap data and conflate it with the street data
+
+find data here: https://mapzen.com/data/metro-extracts/
+
+the importer expects the OSM data in the JSON format exported by https://github.com/pelias/pbf2json, this format is not strictly equivalent to the http://overpass-api.de/output_formats.html#json standard, be aware.
+
+for now it's best to use `pbf2json` to convert a `.osm.pbf` file in to json, then pipe that data in to `./interpolate osm`:
+
+```bash
+./build/pbf2json.linux-x64 -tags="addr:housenumber+addr:street" london.osm.pbf > osm_data.json
+```
+
+```bash
+./interpolate osm address.db street.db < osm_data.json
+```
+
+### tiger
+> import US Census Bureau TIGER data and conflate it with the street data
+
+find data here: https://www.census.gov/geo/maps-data/data/tiger-line.html
+
+a script is provided in `./script/update_tiger.sh` which will download files for the whole of the USA, this script is safe to run multiple times as it will only update the data which has changed.
+
+```bash
+./interpolate tiger address.db street.db
+```
+
+### vertices
+> compute fractional house numbers for the street vertices
+
+```bash
+./interpolate vertices address.db street.db
+```
+
+#### logging
+
+you can record a log of addresses which do not find a matching street. simply create an additional file descriptor, this will trigger the process to use it for logging. eg:
+
+```bash
+cat /data/oa/nz/countrywide.csv | ./interpolate oa address.db street.db 3> skip.list
+```
+
 # Using the command line
 
 ### help
@@ -169,69 +232,6 @@ server listening on port 3000
 `geojson`: `/street/10/geojson`
 
 see: [source](https://github.com/pelias/interpolation/blob/master/cmd/server.js) for more information.
-
-# Building the databases
-
-### polyline
-> import road network data in the polyline format
-
-find data here: https://github.com/pelias/polylines
-```bash
-./interpolate polyline street.db < /data/new_zealand.polylines
-```
-
-### oa
-> import openaddresses data and conflate it with the street data
-
-find data here: https://openaddresses.io/
-```bash
-./interpolate oa address.db street.db < /data/oa/nz/countrywide.csv
-```
-
-note: sorting the openaddresses files so that addresses on the same street are adjacent will significantly speed up imports, you can find an example of the commands required to sort the data in `./script/concat_oa.sh`.
-
-### osm
-> import openstreetmap data and conflate it with the street data
-
-find data here: https://mapzen.com/data/metro-extracts/
-
-the importer expects the OSM data in the JSON format exported by https://github.com/pelias/pbf2json, this format is not strictly equivalent to the http://overpass-api.de/output_formats.html#json standard, be aware.
-
-for now it's best to use `pbf2json` to convert a `.osm.pbf` file in to json, then pipe that data in to `./interpolate osm`:
-
-```bash
-./build/pbf2json.linux-x64 -tags="addr:housenumber+addr:street" london.osm.pbf > osm_data.json
-```
-
-```bash
-./interpolate osm address.db street.db < osm_data.json
-```
-
-### tiger
-> import US Census Bureau TIGER data and conflate it with the street data
-
-find data here: https://www.census.gov/geo/maps-data/data/tiger-line.html
-
-a script is provided in `./script/update_tiger.sh` which will download files for the whole of the USA, this script is safe to run multiple times as it will only update the data which has changed.
-
-```bash
-./interpolate tiger address.db street.db
-```
-
-### vertices
-> compute fractional house numbers for the street vertices
-
-```bash
-./interpolate vertices address.db street.db
-```
-
-#### logging
-
-you can record a log of addresses which do not find a matching street. simply create an additional file descriptor, this will trigger the process to use it for logging. eg:
-
-```bash
-cat /data/oa/nz/countrywide.csv | ./interpolate oa address.db street.db 3> skip.list
-```
 
 # docker
 
