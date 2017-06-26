@@ -6,11 +6,7 @@ export LC_ALL=en_US.UTF-8;
 # URL="ftp://ftp2.census.gov/geo/tiger/TIGER2016/ADDRFEAT/";
 
 # download path of tiger files (use default unless param is supplied)
-TIGERPATH=${TIGERPATH:-"/data/tiger"};
-if [ ! -d $TIGERPATH ]; then
-  echo "tiger data dir does not exist";
-  exit 1;
-fi
+TIGERPATH=${TIGERPATH:-"$WORKINGDIR/data/tiger"};
 
 # create directory if it doesn't exist
 mkdir -p $TIGERPATH/downloads;
