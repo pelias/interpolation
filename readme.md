@@ -312,6 +312,10 @@ docker run -i \ # run interactively (optionally daemonize with -d)
 
 once completed you should find the newly created `street.db` and `address.db` files in `/tmp/data/berlin` on your local machine.
 
+# Configuration with Pelias Geocoder API
+
+To use Interpolation service with the Pelias API, [configure the pelias config file](https://github.com/pelias/api#pelias-config) with the port that interpolation is running on.
+
 # development
 
 ### install dependencies
