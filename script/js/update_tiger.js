@@ -3,7 +3,7 @@
 const JSFtp = require('jsftp');
 const async = require('async');
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs-extra');
 const unzip = require('unzip');
 const logger = require('pelias-logger').get('update_tiger');
 
@@ -60,12 +60,18 @@ function getFilteredFileList(context, callback) {
 }
 
 function downloadFilteredFiles(context, callback) {
+  context.downloadsDir = path.join(context.targetDir, 'downloads');
+  context.shapefilesDir = path.join(context.targetDir, 'shapefiles');
+
+  fs.ensureDirSync(context.downloadsDir);
+  fs.ensureDirSync(context.shapefilesDir);
+
   // must use eachSeries here because the ftp connection only allows one download at a time
   async.eachSeries(context.files, downloadFile.bind(null, context), callback);
 }
 
 function downloadFile(context, filename, callback) {
-  const localFile = path.join(context.targetDir, filename);
+  const localFile = path.join(context.downloadsDir, filename);
 
   context.ftp.get(`/geo/tiger/TIGER2016/ADDRFEAT/${filename}`, localFile, (err)=> {
     if (err) {
@@ -75,7 +81,7 @@ function downloadFile(context, filename, callback) {
     logger.info(`Downloaded ${filename}`);
 
     // unzip downloaded file
-    fs.createReadStream(localFile).pipe(unzip.Extract({ path: context.targetDir })).on('finish', (err) => {
+    fs.createReadStream(localFile).pipe(unzip.Extract({ path: context.shapefilesDir })).on('finish', (err) => {
       if (err) {
         logger.error(`Failed to unzip ${filename}`);
         return callback(err);
