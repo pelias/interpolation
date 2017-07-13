@@ -283,6 +283,64 @@ cat /data/new_zealand.polylines | docker run -i -v /data:/data pelias/interpolat
 
 the build scripts are configurable via environment variables, you will need to download your data before running the build command.
 
+To filter the TIGER data download you can set STATE_CODE environment variable to the 2 digit code of the state to be downloaded.
+The state code can found by referencing the table below. If no STATE_CODE value is found, all US data will be downloaded.
+ 
+| code | state |
+| --- | --- |
+| 01 | Alabama              |
+| 02 | Alaska               |
+| 04 | Arizona              |
+| 05 | Arkansas             |
+| 06 | California           |
+| 08 | Colorado             |
+| 09 | Connecticut          |
+| 10 | Delaware             |
+| 11 | District of Columbia |
+| 12 | Florida              |
+| 13 | Georgia              |
+| 15 | Hawaii               |
+| 16 | Idaho                |
+| 17 | Illinois             |
+| 18 | Indiana              |
+| 19 | Iowa                 |
+| 20 | Kansas               |
+| 21 | Kentucky             |
+| 22 | Louisiana            |
+| 23 | Maine                |
+| 24 | Maryland             |
+| 25 | Massachusetts        |
+| 26 | Michigan             |
+| 27 | Minnesota            |
+| 28 | Mississippi          |
+| 29 | Missouri             |
+| 30 | Montana              |
+| 31 | Nebraska             |
+| 32 | Nevada               |
+| 33 | New Hampshire        |
+| 34 | New Jersey           |
+| 35 | New Mexico           |
+| 36 | New York             |
+| 37 | North Carolina       |
+| 38 | North Dakota         |
+| 39 | Ohio                 |
+| 40 | Oklahoma             |
+| 41 | Oregon               |
+| 42 | Pennsylvania         |
+| 72 | Puerto Rico          |
+| 44 | Rhode Island         |
+| 45 | South Carolina       |
+| 46 | South Dakota         |
+| 47 | Tennessee            |
+| 48 | Texas                |
+| 49 | Utah                 |
+| 50 | Vermont              |
+| 51 | Virginia             |
+| 53 | Washington           |
+| 54 | West Virginia        |
+| 55 | Wisconsin            |
+| 56 | Wyoming              |
+
 ```bash
 # prepare a build directory and a data directory to hold the newly created database files
 mkdir -p /tmp/data/berlin
@@ -296,6 +354,11 @@ unzip /tmp/data/berlin.zip -d /tmp/data
 
 # download openstreetmap data
 curl -s https://s3.amazonaws.com/metro-extracts.mapzen.com/berlin_germany.osm.pbf > /tmp/data/berlin.osm.pbf
+
+#download tiger data
+export TIGERPATH=/tmp/data/tiger #make sure that directory exists
+export STATE_CODE=41
+npm run download-tiger
 ```
 
 we will mount `/tmp/data` on the local machine as `/data` inside the container, so be careful to set paths as they appear inside the container.
