@@ -45,7 +45,7 @@ echo "- importing polylines"
 $DIR/import.sh;
 
 # archive street database (using parallel gzip when available)
-echo "- archiving street database
+echo "- archiving street database"
 if type pigz >/dev/null
   then pigz -k -c --best "$BUILDDIR/street.db" > "$BUILDDIR/street.db.gz";
   else gzip -c --best "$BUILDDIR/street.db" > "$BUILDDIR/street.db.gz";
