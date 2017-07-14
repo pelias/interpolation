@@ -6,9 +6,21 @@ const path = require('path');
 const fs = require('fs-extra');
 const unzip = require('unzip');
 const logger = require('pelias-logger').get('update_tiger');
+const config = require('pelias-config').generate();
+const _ = require('lodash');
 
 
-download((err)=>{
+let TARGET_DIR = _.get(config, 'imports.interpolation.download.tiger.datapath', './data/downloads');
+let STATES = _.get(config, 'imports.interpolation.download.tiger.states', []);
+
+if (_.isEmpty(STATES)) {
+  STATES = [ {state_code: '' } ];
+}
+
+console.log(STATES);
+
+// iterate over all the desired states, or get all if no states specified
+async.eachSeries(STATES, download, (err)=>{
   if (err) {
     logger.error(err);
     process.exit(1);
@@ -17,13 +29,12 @@ download((err)=>{
   process.exit(0);
 });
 
-function download(callback) {
+function download(state, callback) {
   const context = {
     ftp: new JSFtp({
       host: 'ftp2.census.gov'
     }),
-    stateCode: process.env.STATE_CODE || '',
-    targetDir: process.env.TIGERPATH || './data/downloads/',
+    stateCode: state.state_code || '',
     files: []
   };
 
@@ -60,8 +71,8 @@ function getFilteredFileList(context, callback) {
 }
 
 function downloadFilteredFiles(context, callback) {
-  context.downloadsDir = path.join(context.targetDir, 'downloads');
-  context.shapefilesDir = path.join(context.targetDir, 'shapefiles');
+  context.downloadsDir = path.join(TARGET_DIR, 'downloads');
+  context.shapefilesDir = path.join(TARGET_DIR, 'shapefiles');
 
   fs.ensureDirSync(context.downloadsDir);
   fs.ensureDirSync(context.shapefilesDir);
