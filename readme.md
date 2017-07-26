@@ -281,10 +281,37 @@ cat /data/new_zealand.polylines | docker run -i -v /data:/data pelias/interpolat
 
 ### running a build in the docker container
 
-the build scripts are configurable via environment variables, you will need to download your data before running the build command.
+The build scripts are configurable via a combination of environment variables and a `pelias-config` json file.
+You will need to download your data before running the build command.
 
-To filter the TIGER data download you can set STATE_CODE environment variable to the 2 digit code of the state to be downloaded.
-The state code can found by referencing the table below. If no STATE_CODE value is found, all US data will be downloaded.
+To make use of the `pelias-config` functionality, you'll need to create a new json file called `pelias.json` for example.
+The relevant parts of that new file should look as follows. To direct to download script to this file, 
+the `PELIAS_CONFIG` environment variable should be set. You can read more details on how to use the `pelias-config` module
+[here](https://github.com/pelias/config).
+
+```javascript
+{
+  "imports": {
+    "interpolation": {
+      "download": {
+        "tiger": {
+          "datapath": "/tmp/data/tiger/",
+          "states": [
+            {
+              "state_code": 41
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+Note that `datapath` will default to `./data/downloads` if not specified.
+
+To filter the TIGER data download you can set `state_code` property in the `pelias-config` file to the 2 digit code of the state to be downloaded.
+The state code can found by referencing the table below. If no `state_code` value is found, all US data will be downloaded.
  
 | code | state |
 | --- | --- |
@@ -355,9 +382,8 @@ unzip /tmp/data/berlin.zip -d /tmp/data
 # download openstreetmap data
 curl -s https://s3.amazonaws.com/metro-extracts.mapzen.com/berlin_germany.osm.pbf > /tmp/data/berlin.osm.pbf
 
-#download tiger data
-export TIGERPATH=/tmp/data/tiger #make sure that directory exists
-export STATE_CODE=41
+# download tiger data (note data directory will be created if it doesn't exist)
+export PELIAS_CONFIG=./pelias.json
 npm run download-tiger
 ```
 
