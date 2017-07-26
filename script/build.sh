@@ -37,9 +37,6 @@ export BUILDDIR="${BUILDDIR:-"$BUILDS/$TIMESTAMP"}";
 export SQLITE_TMPDIR="$BUILDDIR/tmp"; # a directory with enough free space to store sqlite tmp files
 export PBF2JSON_TMPDIR="$BUILDDIR/tmp/leveldb"; # a directory with enough free space to store leveldb tmp files
 
-echo "$BUILDDIR"
-echo "$WORKINGDIR"
-
 # run polyline importer
 echo "- importing polylines"
 $DIR/import.sh;

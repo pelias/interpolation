@@ -17,8 +17,6 @@ if (_.isEmpty(STATES)) {
   STATES = [ {state_code: '' } ];
 }
 
-console.log(STATES);
-
 // iterate over all the desired states, or get all if no states specified
 async.eachSeries(STATES, download, (err)=>{
   if (err) {
