@@ -38,4 +38,4 @@ export SQLITE_TMPDIR=${SQLITE_TMPDIR:-"$BUILDDIR/tmp"};
 rm -f $PROC_STDOUT $PROC_STDERR;
 
 # run import
-cat $POLYLINE_FILE | time -p node $DIR/../cmd/polyline.js $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR;
+cat $POLYLINE_FILE | node $DIR/../cmd/polyline.js $STREET_DB 1>$PROC_STDOUT 2>$PROC_STDERR;

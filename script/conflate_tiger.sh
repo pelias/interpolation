@@ -56,8 +56,9 @@ if [ ! -d "$TIGERPATH/shapefiles" ]; then
   exit 1;
 fi
 
-# recurse through filesystem listing all .shp file names
-find "$TIGERPATH/shapefiles" -type f -iname "*.shp" -print0 |\
+# recurse through filesystem listing all .shx file names
+# some county zip packages are missing .shx which causes the ogr2ogr script to fail
+find "$TIGERPATH/shapefiles" -type f -iname "*.shx" -print0 |\
   while IFS= read -r -d $'\0' filename; do
 
     # echo filename to stderr

@@ -281,7 +281,93 @@ cat /data/new_zealand.polylines | docker run -i -v /data:/data pelias/interpolat
 
 ### running a build in the docker container
 
-the build scripts are configurable via environment variables, you will need to download your data before running the build command.
+The build scripts are configurable via a combination of environment variables and a `pelias-config` json file.
+You will need to download your data before running the build command.
+
+To make use of the `pelias-config` functionality, you'll need to create a new json file called `pelias.json` for example.
+The relevant parts of that new file should look as follows. To direct to download script to this file, 
+the `PELIAS_CONFIG` environment variable should be set. You can read more details on how to use the `pelias-config` module
+[here](https://github.com/pelias/config).
+
+```javascript
+{
+  "imports": {
+    "interpolation": {
+      "download": {
+        "tiger": {
+          "datapath": "/tmp/data/tiger/",
+          "states": [
+            {
+              "state_code": 41
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+Note that `datapath` will default to `./data/downloads` if not specified.
+
+To filter the TIGER data download you can set `state_code` property in the `pelias-config` file to the 2 digit code of the state to be downloaded.
+In the example configuration above, the state code for Oregon, `41`, is used to limit the download.
+The state code can found by referencing the table below. If no `state_code` value is found, all US data will be downloaded.
+ 
+| code | state |
+| --- | --- |
+| 01 | Alabama              |
+| 02 | Alaska               |
+| 04 | Arizona              |
+| 05 | Arkansas             |
+| 06 | California           |
+| 08 | Colorado             |
+| 09 | Connecticut          |
+| 10 | Delaware             |
+| 11 | District of Columbia |
+| 12 | Florida              |
+| 13 | Georgia              |
+| 15 | Hawaii               |
+| 16 | Idaho                |
+| 17 | Illinois             |
+| 18 | Indiana              |
+| 19 | Iowa                 |
+| 20 | Kansas               |
+| 21 | Kentucky             |
+| 22 | Louisiana            |
+| 23 | Maine                |
+| 24 | Maryland             |
+| 25 | Massachusetts        |
+| 26 | Michigan             |
+| 27 | Minnesota            |
+| 28 | Mississippi          |
+| 29 | Missouri             |
+| 30 | Montana              |
+| 31 | Nebraska             |
+| 32 | Nevada               |
+| 33 | New Hampshire        |
+| 34 | New Jersey           |
+| 35 | New Mexico           |
+| 36 | New York             |
+| 37 | North Carolina       |
+| 38 | North Dakota         |
+| 39 | Ohio                 |
+| 40 | Oklahoma             |
+| 41 | Oregon               |
+| 42 | Pennsylvania         |
+| 72 | Puerto Rico          |
+| 44 | Rhode Island         |
+| 45 | South Carolina       |
+| 46 | South Dakota         |
+| 47 | Tennessee            |
+| 48 | Texas                |
+| 49 | Utah                 |
+| 50 | Vermont              |
+| 51 | Virginia             |
+| 53 | Washington           |
+| 54 | West Virginia        |
+| 55 | Wisconsin            |
+| 56 | Wyoming              |
 
 ```bash
 # prepare a build directory and a data directory to hold the newly created database files
@@ -296,6 +382,10 @@ unzip /tmp/data/berlin.zip -d /tmp/data
 
 # download openstreetmap data
 curl -s https://s3.amazonaws.com/metro-extracts.mapzen.com/berlin_germany.osm.pbf > /tmp/data/berlin.osm.pbf
+
+# download tiger data (note data directory will be created if it doesn't exist)
+export PELIAS_CONFIG=./pelias.json
+npm run download-tiger
 ```
 
 we will mount `/tmp/data` on the local machine as `/data` inside the container, so be careful to set paths as they appear inside the container.
