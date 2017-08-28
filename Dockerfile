@@ -1,56 +1,41 @@
 # base image
-FROM ubuntu:16.04
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update
-
-# --- locale ---
-RUN apt-get install locales
-RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
-# --- libpostal ---
+FROM pelias/libpostal_baseimage
 
 # dependencies
-RUN apt-get install -y curl libsnappy-dev autoconf automake libtool pkg-config git time
+RUN apt-get update && \
+    apt-get install -y python sqlite3 gdal-bin lftp unzip pigz time && \
+    rm -rf /var/lib/apt/lists/*
 
-# clone
-RUN mkdir -p /usr/src/repos
-WORKDIR /usr/src/repos
-RUN git clone https://github.com/openvenues/libpostal
+# --- pbf2json ---
 
-# build libpostal
-WORKDIR /usr/src/repos/libpostal
-RUN ./bootstrap.sh
-RUN mkdir -p /opt/libpostal_data
-RUN ./configure --datadir=/opt/libpostal_data
-RUN make
-RUN make install
-RUN ldconfig
+# location where the db files will be created
+ENV BUILDDIR '/data/interpolation'
 
-# --- nodejs ---
+# location of the openstreetmap data
+ENV OSMPATH '/data/openstreetmap'
 
-# clone
-RUN mkdir -p /usr/src/repos
-WORKDIR /usr/src/repos
-RUN git clone https://github.com/isaacs/nave.git
+# location of the polylines data
+ENV POLYLINEPATH '/data/polylines'
 
-# install
-WORKDIR /usr/src/repos/nave
-RUN ./nave.sh usemain 4.4.7
+# location of the openaddresses data
+ENV OAPATH '/data/openaddresses'
 
-# --- node app ---
+# location of TIGER data
+ENV TIGERPATH '/data/tiger/'
 
-# dependencies
-RUN apt-get update && apt-get install -y python sqlite3 gdal-bin
+ENV WORKINGDIR '/'
 
-# create app directory
-RUN mkdir -p /usr/src/repos/interpolation
-WORKDIR /usr/src/repos/interpolation
+# clone app
+RUN git clone https://github.com/pelias/interpolation.git /code/pelias/interpolation
 
-# copy source code
-COPY . /usr/src/repos/interpolation
+# change working dir
+WORKDIR /code/pelias/interpolation
+
+# consume the build variables
+ARG REVISION=production
+
+# switch to desired revision
+RUN git checkout $REVISION
 
 # Install app dependencies
 RUN npm install
@@ -58,14 +43,8 @@ RUN npm install
 # run tests
 RUN npm test
 
-# expose server port
-ENV PORT=3000
-EXPOSE 3000
+# create script for building
+RUN echo 'export PBF2JSON_FILE=$(ls ${OSMPATH}/*.osm.pbf | head -n 1); export POLYLINE_FILE=$(ls ${POLYLINEPATH}/*.0sv | head -n 1); npm run build' > ./docker_build.sh;
 
-# attach data directory
-VOLUME "/data"
 
-# set entry point
-WORKDIR /usr/src/repos/interpolation
-ENTRYPOINT [ "./interpolate" ];
-CMD [ "server", "/data/address.db", "/data/street.db" ]
+CMD [ "./interpolate", "server", "/data/interpolation/address.db", "/data/interpolation/street.db" ]
