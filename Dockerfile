@@ -25,17 +25,11 @@ ENV TIGERPATH '/data/tiger/'
 
 ENV WORKINGDIR '/'
 
-# clone app
-RUN git clone https://github.com/pelias/interpolation.git /code/pelias/interpolation
-
 # change working dir
-WORKDIR /code/pelias/interpolation
+ENV WORKDIR /code/pelias/interpolation
+WORKDIR ${WORKDIR}
 
-# consume the build variables
-ARG REVISION=production
-
-# switch to desired revision
-RUN git checkout $REVISION
+ADD . ${WORKDIR}
 
 # Install app dependencies
 RUN npm install
