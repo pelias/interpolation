@@ -31,7 +31,7 @@
     "cli-table2": "^0.2.0",
     "csv-parse": "^1.2.0",
     "express": "^4.14.0",
-    "fs-extra": "^3.0.1",
+    "fs-extra": "^4.0.2",
     "jsftp": "^2.0.0",
     "lodash": "^4.17.4",
     "node-postal": "^1.0.0",
