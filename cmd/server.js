@@ -40,7 +40,7 @@ app.get('/search/geojson', function( req, res ){
 
   conn.search.query( point, number, street, function( err, point ){
     if( err ){ return res.status(400).json( err ); }
-    if( !point ){ return res.status(404).json({}); }
+    if( !point ){ return res.status(200).json({}); }
 
     res.json( pretty.geojson.point( point, point.lon, point.lat ) );
   });
@@ -56,7 +56,7 @@ app.get('/search/table', function( req, res ){
 
   conn.search.query( point, number, street, function( err, point ){
     if( err ){ return res.status(400).json( err ); }
-    if( !point ){ return res.status(404).send(''); }
+    if( !point ){ return res.status(200).send(''); }
 
     res.setHeader('Content-Type', 'text/html');
     res.send( pretty.htmltable([ point ]) );
@@ -72,7 +72,7 @@ app.get('/extract/geojson', function( req, res ){
 
   conn.extract.query( point, names, function( err, data ){
     if( err ){ return res.status(400).json( err ); }
-    if( !data ){ return res.status(404).json({}); }
+    if( !data ){ return res.status(200).json({}); }
 
     res.json( pretty.geojson( data ) );
   });
@@ -87,8 +87,8 @@ app.get('/extract/table', function( req, res ){
 
   conn.extract.query( point, names, function( err, data ){
     if( err ){ return res.status(400).send( err ); }
-    if( !data ){ return res.status(404).send(''); }
-    if( !data.length ){ return res.status(404).send(''); }
+    if( !data ){ return res.status(200).send(''); }
+    if( !data.length ){ return res.status(200).send(''); }
 
     res.setHeader('Content-Type', 'text/html');
     res.send( pretty.htmltable( data ) );
@@ -104,7 +104,7 @@ app.get('/street/near/geojson', function( req, res ){
 
   conn.near.query( point, function( err, ordered ){
     if( err ){ return res.status(400).json( err ); }
-    if( !ordered || !ordered.length ){ return res.status(404).json({}); }
+    if( !ordered || !ordered.length ){ return res.status(200).json({}); }
 
     // remove points over a certain distance (in degrees)
     ordered = ordered.filter( function( o ){
@@ -140,7 +140,7 @@ app.get('/street/:id/geojson', function( req, res ){
 
   conn.street.query( req.params.id.split(','), function( err, rows ){
     if( err ){ return res.status(400).json( err ); }
-    if( !rows || !rows.length ){ return res.status(404).json({}); }
+    if( !rows || !rows.length ){ return res.status(200).json({}); }
 
     // dedupe
     // @todo: debug and improve this by returning less results
