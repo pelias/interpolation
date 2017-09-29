@@ -6,3 +6,4 @@ play
 *.out
 *.skip
 todo.txt
+.git

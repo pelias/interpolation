@@ -10,7 +10,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 # ---- pbf2json ----
 
 # location of pbf2json binary
-PBF2JSON_BIN=${PBF2JSON_BIN:-"pbf2json.linux-x64"};
+PBF2JSON_BIN=${PBF2JSON_BIN:-"$DIR/../node_modules/pbf2json/build/pbf2json.linux-x64"};
 
 # ensure pbf2json exists and is executable
 if [[ ! -f $PBF2JSON_BIN || ! -x $PBF2JSON_BIN ]]; then
