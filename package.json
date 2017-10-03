@@ -32,6 +32,7 @@
     "csv-parse": "^1.2.0",
     "express": "^4.14.0",
     "fs-extra": "^4.0.2",
+    "morgan": "^1.9.0",
     "jsftp": "^2.0.0",
     "lodash": "^4.17.4",
     "node-postal": "^1.0.0",
