@@ -11,6 +11,11 @@ var express = require('express'),
     project = require('../lib/project'),
     proximity = require('../lib/proximity');
 
+const morgan = require( 'morgan' );
+const logger = require('pelias-logger').get('interpolation');
+const through = require( 'through2' );
+const _ = require('lodash');
+
 // optionally override port using env var
 var PORT = process.env.PORT || 3000;
 
@@ -23,12 +28,33 @@ if( process.argv.length !== 4 ){
 }
 
 var app = express();
+app.use(log());
+
 var conn = {
   search: search( process.argv[2], process.argv[3] ),
   extract: extract( process.argv[2], process.argv[3] ),
   street: street( process.argv[3] ),
   near: near( process.argv[3] )
 };
+
+function log() {
+  morgan.token('url', (req, res) => {
+    // if there's a DNT header, just return '/' as the URL
+    if (['DNT', 'dnt', 'do_not_track'].some(header => _.has(req.headers, header))) {
+      return _.get(req, 'route.path');
+    } else {
+      return req.originalUrl;
+    }
+  });
+
+  // 'short' format includes response time but leaves out date
+  return morgan('short', {
+    stream: through( function write( ln, _, next ){
+      logger.info( ln.toString().trim() );
+      next();
+    })
+  });
+}
 
 // search with geojson view
 // eg: http://localhost:3000/search/geojson?lat=-41.288788&lon=174.766843&number=16&street=glasgow%20street
