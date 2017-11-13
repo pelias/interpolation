@@ -1,11 +1,11 @@
 
-var fs = require('fs'),
-    path = require('path'),
-    sqlite3 = require('../sqlite3'),
-    action = require('../action'),
-    search = require('../../../api/search');
+const fs = require('fs');
+const path = require('path');
+const sqlite3 = require('../sqlite3');
+const action = require('../action');
+const search = require('../../../api/search').setup;
 
-var paths = {
+const paths = {
   reports: path.resolve( __dirname, './reports/' ),
   expected1: path.resolve( __dirname, './fixture/expected.north.dump' ),
   expected2: path.resolve( __dirname, './fixture/expected.south.dump' ),
@@ -55,15 +55,15 @@ module.exports.functional.street_counts = function(test) {
   test('street db table counts', function(t) {
 
     // count polyline table
-    var polylines = sqlite3.count( paths.db.street, 'polyline' );
+    const polylines = sqlite3.count( paths.db.street, 'polyline' );
     t.equal(polylines, 4, 'count(polyline)');
 
     // count names table
-    var names = sqlite3.count( paths.db.street, 'names' );
+    const names = sqlite3.count( paths.db.street, 'names' );
     t.equal(names, 8, 'count(names)');
 
     // count rtree table
-    var rtree = sqlite3.count( paths.db.street, 'rtree' );
+    const rtree = sqlite3.count( paths.db.street, 'rtree' );
     t.equal(rtree, 4, 'count(rtree)');
 
     t.end();
@@ -74,7 +74,7 @@ module.exports.functional.address_counts = function(test) {
   test('address db table counts', function(t) {
 
     // count address table
-    var addresses = sqlite3.count( paths.db.address, 'address' );
+    const addresses = sqlite3.count( paths.db.address, 'address' );
     t.equal(addresses, 41, 'count(address)');
 
     t.end();
@@ -85,15 +85,15 @@ module.exports.functional.spotcheck_north = function(test) {
   test('spot check: north side', function(t) {
 
     // counts for a specific street
-    var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1' );
+    const count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1' );
     t.equal(count1, 22);
 
     // counts for a specific street (open addresses)
-    var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1 AND source="OA"' );
+    const count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1 AND source="OA"' );
     t.equal(count2, 22);
 
     // counts for a specific street (vertexes)
-    var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1 AND source="VERTEX"' );
+    const count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1 AND source="VERTEX"' );
     t.equal(count3, 0);
 
     t.end();
@@ -104,7 +104,7 @@ module.exports.functional.end_to_end_north = function(test) {
   test('end to end: north side', function(t) {
 
     // full interpolation for a single street
-    var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=1 ORDER BY housenumber' );
+    const rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=1 ORDER BY housenumber' );
     t.deepEqual(rows, fs.readFileSync( paths.expected1 ).toString('utf8').trim().split('\n') );
 
     t.end();
@@ -115,7 +115,7 @@ module.exports.functional.end_to_end_north = function(test) {
 module.exports.functional.search_north = function(test) {
 
   // database connection
-  var conn;
+  let conn;
 
   // connect to databases
   test('open connection', function(t) {
@@ -126,42 +126,38 @@ module.exports.functional.search_north = function(test) {
 
   test('search: north: exact', function(t) {
 
-    var coord = { lat: 52.507, lon: 13.32 };
-    var number = '21';
-    var street = 'grolmanstrasse';
+    const coord = { lat: 52.507, lon: 13.32 };
+    const number = '21';
+    const street = 'grolmanstrasse';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'exact',
-        source: 'OA',
-        source_id: '055e663b094ec129',
-        number: '21',
-        lat: 52.5071733,
-        lon: 13.3210882
-      });
-      t.end();
+    const res = conn.query( coord, number, street );
+    t.deepEqual( res, {
+      type: 'exact',
+      source: 'OA',
+      source_id: '055e663b094ec129',
+      number: '21',
+      lat: 52.5071733,
+      lon: 13.3210882
     });
+    t.end();    
   });
 
   test('search: north: close', function(t) {
 
-    var coord = { lat: 52.507, lon: 13.32 };
-    var number = '21d';
-    var street = 'grolmanstrasse';
+    const coord = {lat: 52.507, lon: 13.32};
+    const number = '21d';
+    const street = 'grolmanstrasse';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'close',
-        source: 'OA',
-        source_id: '055e663b094ec129',
-        number: '21',
-        lat: 52.5071733,
-        lon: 13.3210882
-      });
-      t.end();
+    const res = conn.query(coord, number, street);
+    t.deepEqual(res, {
+      type: 'close',
+      source: 'OA',
+      source_id: '055e663b094ec129',
+      number: '21',
+      lat: 52.5071733,
+      lon: 13.3210882
     });
+    t.end();
   });
 
   test('close connection', function(t) {
@@ -175,15 +171,15 @@ module.exports.functional.spotcheck_south = function(test) {
   test('spot check: south side', function(t) {
 
     // counts for a specific street
-    var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=2' );
+    const count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=2' );
     t.equal(count1, 19);
 
     // counts for a specific street (open addresses)
-    var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=2 AND source="OA"' );
+    const count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=2 AND source="OA"' );
     t.equal(count2, 19);
 
     // counts for a specific street (vertexes)
-    var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=2 AND source="VERTEX"' );
+    const count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=2 AND source="VERTEX"' );
     t.equal(count3, 0);
 
     t.end();
@@ -194,7 +190,7 @@ module.exports.functional.end_to_end_south = function(test) {
   test('end to end: south side', function(t) {
 
     // full interpolation for a single street
-    var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=2 ORDER BY housenumber' );
+    const rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=2 ORDER BY housenumber' );
     t.deepEqual(rows, fs.readFileSync( paths.expected2 ).toString('utf8').trim().split('\n') );
 
     t.end();
@@ -205,7 +201,7 @@ module.exports.functional.end_to_end_south = function(test) {
 module.exports.functional.search_south = function(test) {
 
   // database connection
-  var conn;
+  let conn;
 
   // connect to databases
   test('open connection', function(t) {
@@ -216,42 +212,38 @@ module.exports.functional.search_south = function(test) {
 
   test('search: south: exact', function(t) {
 
-    var coord = { lat: 52.503, lon: 13.324 };
-    var number = '43';
-    var street = 'grolmanstrasse';
+    const coord = { lat: 52.503, lon: 13.324 };
+    const number = '43';
+    const street = 'grolmanstrasse';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'exact',
-        source: 'OA',
-        source_id: '52701100dae38faf',
-        number: '43',
-        lat: 52.5042048,
-        lon: 13.324045
-      });
-      t.end();
+    const res = conn.query( coord, number, street );
+    t.deepEqual( res, {
+      type: 'exact',
+      source: 'OA',
+      source_id: '52701100dae38faf',
+      number: '43',
+      lat: 52.5042048,
+      lon: 13.324045
     });
+    t.end();
   });
 
   test('search: south: close', function(t) {
 
-    var coord = { lat: 52.503, lon: 13.324 };
-    var number = '43d';
-    var street = 'grolmanstrasse';
+    const coord = { lat: 52.503, lon: 13.324 };
+    const number = '43d';
+    const street = 'grolmanstrasse';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'close',
-        source: 'OA',
-        source_id: '52701100dae38faf',
-        number: '43',
-        lat: 52.5042048,
-        lon: 13.324045
-      });
-      t.end();
+    const res = conn.query( coord, number, street );
+    t.deepEqual( res, {
+      type: 'close',
+      source: 'OA',
+      source_id: '52701100dae38faf',
+      number: '43',
+      lat: 52.5042048,
+      lon: 13.324045
     });
+    t.end();
   });
 
   test('close connection', function(t) {

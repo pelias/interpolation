@@ -1,11 +1,11 @@
 
-var fs = require('fs'),
-    path = require('path'),
-    sqlite3 = require('../sqlite3'),
-    action = require('../action'),
-    search = require('../../../api/search');
+const fs = require('fs');
+const path = require('path');
+const sqlite3 = require('../sqlite3');
+const action = require('../action');
+const search = require('../../../api/search').setup;
 
-var paths = {
+const paths = {
   reports: path.resolve( __dirname, './reports/' ),
   expected: path.resolve( __dirname, './fixture/expected.dump' ),
   fixture: {
@@ -60,15 +60,15 @@ module.exports.functional.street_counts = function(test) {
   test('street db table counts', function(t) {
 
     // count polyline table
-    var polylines = sqlite3.count( paths.db.street, 'polyline' );
+    const polylines = sqlite3.count( paths.db.street, 'polyline' );
     t.equal(polylines, 100, 'count(polyline)');
 
     // count names table
-    var names = sqlite3.count( paths.db.street, 'names' );
+    const names = sqlite3.count( paths.db.street, 'names' );
     t.equal(names, 106, 'count(names)');
 
     // count rtree table
-    var rtree = sqlite3.count( paths.db.street, 'rtree' );
+    const rtree = sqlite3.count( paths.db.street, 'rtree' );
     t.equal(rtree, 100, 'count(rtree)');
 
     t.end();
@@ -79,7 +79,7 @@ module.exports.functional.address_counts = function(test) {
   test('address db table counts', function(t) {
 
     // count address table
-    var addresses = sqlite3.count( paths.db.address, 'address' );
+    const addresses = sqlite3.count( paths.db.address, 'address' );
     t.equal(addresses, 128, 'count(address)');
 
     t.end();
@@ -90,19 +90,19 @@ module.exports.functional.spotcheck = function(test) {
   test('spot checks', function(t) {
 
     // counts for a specific street
-    var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85' );
+    const count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85' );
     t.equal(count1, 128);
 
     // counts for a specific street (open addresses)
-    var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="OA"' );
+    const count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="OA"' );
     t.equal(count2, 106);
 
     // counts for a specific street (openstreetmap)
-    var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="OSM"' );
+    const count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="OSM"' );
     t.equal(count3, 7);
 
     // counts for a specific street (vertexes)
-    var count4 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="VERTEX"' );
+    const count4 = sqlite3.count( paths.db.address, 'address', 'WHERE id=85 AND source="VERTEX"' );
     t.equal(count4, 15);
 
     t.end();
@@ -113,7 +113,7 @@ module.exports.functional.end_to_end = function(test) {
   test('end to end', function(t) {
 
     // full interpolation for a single street
-    var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=85 ORDER BY housenumber' );
+    const rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=85 ORDER BY housenumber' );
     t.deepEqual(rows, fs.readFileSync( paths.expected ).toString('utf8').trim().split('\n') );
 
     t.end();
@@ -123,7 +123,7 @@ module.exports.functional.end_to_end = function(test) {
 module.exports.functional.search = function(test) {
 
   // database connection
-  var conn;
+  let conn;
 
   // connect to databases
   test('open connection', function(t) {
@@ -134,120 +134,108 @@ module.exports.functional.search = function(test) {
 
   test('search: exact (OA)', function(t) {
 
-    var coord = { lat: 40.749, lon: -74 };
-    var number = '537';
-    var street = 'west 26th street';
+    const coord = { lat: 40.749, lon: -74 };
+    const number = '537';
+    const street = 'west 26th street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'exact',
-        source: 'OA',
-        source_id: '000005',
-        number: '537',
-        lat: 40.7504506,
-        lon: -74.0045915
-      });
-      t.end();
+    const res = conn.query( coord, number, street );
+    t.deepEqual( res, {
+      type: 'exact',
+      source: 'OA',
+      source_id: '000005',
+      number: '537',
+      lat: 40.7504506,
+      lon: -74.0045915
     });
+    t.end();
   });
 
   test('search: exact (OSM)', function(t) {
 
-    var coord = { lat: 40.749, lon: -74 };
-    var number = '36';
-    var street = 'west 26th street';
+    const coord = { lat: 40.749, lon: -74 };
+    const number = '36';
+    const street = 'west 26th street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'exact',
-        source: 'OSM',
-        source_id: 'node:2621559132',
-        number: '36',
-        lat: 40.7443525,
-        lon: -73.9906047
-      });
-      t.end();
+    const res = conn.query( coord, number, street );
+    t.deepEqual( res, {
+      type: 'exact',
+      source: 'OSM',
+      source_id: 'node:2621559132',
+      number: '36',
+      lat: 40.7443525,
+      lon: -73.9906047
     });
+    t.end();
   });
 
   test('search: close (OA)', function(t) {
 
-    var coord = { lat: 40.749, lon: -74 };
-    var number = '537f';
-    var street = 'west 26th street';
+    const coord = { lat: 40.749, lon: -74 };
+    const number = '537f';
+    const street = 'west 26th street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'close',
-        source: 'OA',
-        source_id: '000005',
-        number: '537',
-        lat: 40.7504506,
-        lon: -74.0045915
-      });
-      t.end();
+    const res = conn.query( coord, number, street );
+    t.deepEqual( res, {
+      type: 'close',
+      source: 'OA',
+      source_id: '000005',
+      number: '537',
+      lat: 40.7504506,
+      lon: -74.0045915
     });
+    t.end();
   });
 
   test('search: close (OSM)', function(t) {
 
-    var coord = { lat: 40.749, lon: -74 };
-    var number = '352f';
-    var street = 'west 26th street';
+    const coord = {lat: 40.749, lon: -74};
+    const number = '352f';
+    const street = 'west 26th street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'close',
-        source: 'OSM',
-        source_id: 'node:2703201644',
-        number: '352',
-        lat: 40.7480383,
-        lon: -73.9996074
-      });
-      t.end();
+    const res = conn.query(coord, number, street);
+    t.deepEqual(res, {
+      type: 'close',
+      source: 'OSM',
+      source_id: 'node:2703201644',
+      number: '352',
+      lat: 40.7480383,
+      lon: -73.9996074
     });
+    t.end();
   });
 
   test('search: interpolated', function(t) {
 
-    var coord = { lat: 40.749, lon: -74 };
-    var number = '475';
-    var street = 'west 26th street';
+    const coord = { lat: 40.749, lon: -74 };
+    const number = '475';
+    const street = 'west 26th street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'interpolated',
-        source: 'mixed',
-        number: '475',
-        lat: 40.749529,
-        lon: -74.0026372
-      });
-      t.end();
+    const res = conn.query( coord, number, street);
+    t.deepEqual( res, {
+      type: 'interpolated',
+      source: 'mixed',
+      number: '475',
+      lat: 40.749529,
+      lon: -74.0026372
     });
+    t.end();
   });
 
   test('search: interpolated (between two different datasets)', function(t) {
 
-    var coord = { lat: 40.749, lon: -74 };
-    var number = '257';
-    var street = 'west 26th street';
+    const coord = { lat: 40.749, lon: -74 };
+    const number = '257';
+    const street = 'west 26th street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'interpolated',
-        source: 'mixed',
-        number: '257',
-        lat: 40.7470427,
-        lon: -73.996716
-      });
-      t.end();
+    const res = conn.query( coord, number, street );
+    t.deepEqual( res, {
+      type: 'interpolated',
+      source: 'mixed',
+      number: '257',
+      lat: 40.7470427,
+      lon: -73.996716
     });
+    t.end();
   });
 
   test('close connection', function(t) {

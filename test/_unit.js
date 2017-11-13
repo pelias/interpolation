@@ -1,8 +1,8 @@
 
-var tape = require('tape');
-var common = {};
+const tape = require('tape');
+const common = {};
 
-var tests = [
+const tests = [
   require('./interface.js'),
   require('./lib/analyze.js'),
   require('./lib/proximity.js'),
@@ -13,7 +13,9 @@ var tests = [
   require('./stream/split.js'),
   require('./stream/oa/convert.js'),
   require('./stream/osm/convert.js'),
-  require('./stream/osm/delimited_ranges.js')
+  require('./stream/osm/delimited_ranges.js'),
+  require('./query/search.js'),
+  require('./api/search.js')
 ];
 
 tests.map(function(t) {

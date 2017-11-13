@@ -3,7 +3,7 @@ var fs = require('fs'),
     path = require('path'),
     sqlite3 = require('../sqlite3'),
     action = require('../action'),
-    search = require('../../../api/search');
+    search = require('../../../api/search').setup;
 
 var paths = {
   reports: path.resolve( __dirname, './reports/' ),
@@ -113,7 +113,7 @@ module.exports.functional.end_to_end = function(test) {
 module.exports.functional.search = function(test) {
 
   // database connection
-  var conn;
+  let conn;
 
   // connect to databases
   test('open connection', function(t) {
@@ -124,61 +124,55 @@ module.exports.functional.search = function(test) {
 
   test('search: exact', function(t) {
 
-    var coord = { lat: -41.288788, lon: 174.766843 };
-    var number = '18';
-    var street = 'glasgow street';
+    const coord = {lat: -41.288788, lon: 174.766843};
+    const number = '18';
+    const street = 'glasgow street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'exact',
-        source: 'OA',
-        source_id: 'cfb26db2d9d2f1a8',
-        number: '18',
-        lat: -41.2887878,
-        lon: 174.7668435
-      });
-      t.end();
+    const res = conn.query(coord, number, street);
+    t.deepEqual(res, {
+      type: 'exact',
+      source: 'OA',
+      source_id: 'cfb26db2d9d2f1a8',
+      number: '18',
+      lat: -41.2887878,
+      lon: 174.7668435
     });
+    t.end();
   });
 
   test('search: close', function(t) {
 
-    var coord = { lat: -41.288788, lon: 174.766843 };
-    var number = '18a';
-    var street = 'glasgow street';
+    const coord = {lat: -41.288788, lon: 174.766843};
+    const number = '18a';
+    const street = 'glasgow street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'close',
-        source: 'OA',
-        source_id: 'cfb26db2d9d2f1a8',
-        number: '18',
-        lat: -41.2887878,
-        lon: 174.7668435
-      });
-      t.end();
+    const res = conn.query(coord, number, street);
+    t.deepEqual(res, {
+      type: 'close',
+      source: 'OA',
+      source_id: 'cfb26db2d9d2f1a8',
+      number: '18',
+      lat: -41.2887878,
+      lon: 174.7668435
     });
+    t.end();
   });
 
   test('search: interpolated', function(t) {
 
-    var coord = { lat: -41.288788, lon: 174.766843 };
-    var number = '16';
-    var street = 'glasgow street';
+    const coord = { lat: -41.288788, lon: 174.766843 };
+    const number = '16';
+    const street = 'glasgow street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'interpolated',
-        source: 'mixed',
-        number: '16',
-        lat: -41.2886487,
-        lon: 174.7670925
-      });
-      t.end();
+    const res = conn.query( coord, number, street );
+    t.deepEqual( res, {
+      type: 'interpolated',
+      source: 'mixed',
+      number: '16',
+      lat: -41.2886487,
+      lon: 174.7670925
     });
+    t.end();
   });
 
   test('close connection', function(t) {

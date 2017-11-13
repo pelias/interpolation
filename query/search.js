@@ -98,16 +98,15 @@ module.exports = ( db, point, number, names ) => {
 
   // execute query
   try {
-    const res = db.prepare( sql ).get( params );
+    const res = db.prepare( sql ).all( params );
 
-    logger.info(`successfully performed search query ${sql} with params ${JSON.stringify(params)}`);
-    logger.info('query results: ', res);
+    logger.debug(`successfully performed search query ${sql} with params ${JSON.stringify(params)}`);
+    logger.debug('query results: ', res);
 
     return res;
   }
   catch (err) {
-    logger.error(`failed to perform search query ${sql} with params ${JSON.stringify(params)}`);
-    logger.error(err.message);
-    throw new Error(`failed to perform search query ${sql} with params ${JSON.stringify(params)}`, err);
+    logger.error(`failed to perform search query ${sql} with params ${JSON.stringify(params)} due to ${err.message}`);
+    throw new Error(`failed to perform search query ${sql} with params ${JSON.stringify(params)} due to ${err.message}`, err);
   }
 };
