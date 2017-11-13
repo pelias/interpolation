@@ -1,9 +1,11 @@
+const _ = require('lodash');
+const logger = require('pelias-logger').get('interpolation');
 
 // maximum names to match on
-var MAX_NAMES = 10;
+const MAX_NAMES = 10;
 
 // maximum address records to return
-var MAX_MATCHES = 20;
+const MAX_MATCHES = 20;
 
 /**
   this query should only ever return max 3 rows.
@@ -11,65 +13,101 @@ var MAX_MATCHES = 20;
   exact match was found or not.
 **/
 
-var SQL = [
-  'WITH base AS (',
-    'SELECT address.* FROM street.rtree',
-    'JOIN street.names ON street.names.id = street.rtree.id',
-    'JOIN address ON address.id = street.rtree.id',
-    'WHERE (',
-      'street.rtree.minX<=?1 AND street.rtree.maxX>=?1 AND',
-      'street.rtree.minY<=?2 AND street.rtree.maxY>=?2',
-    ')',
-    'AND ( %%NAME_CONDITIONS%% )',
-    'ORDER BY address.housenumber ASC', // @warning business logic depends on this
-  ')',
-  'SELECT * FROM (',
-    '(',
-      'SELECT * FROM base',
-      'WHERE housenumber < "%%TARGET_HOUSENUMBER%%"',
-      'GROUP BY id HAVING( MAX( housenumber ) )',
-      'ORDER BY housenumber DESC',
-    ')',
-  ') UNION SELECT * FROM (',
-    '(',
-      'SELECT * FROM base',
-      'WHERE housenumber >= "%%TARGET_HOUSENUMBER%%"',
-      'GROUP BY id HAVING( MIN( housenumber ) )',
-      'ORDER BY housenumber ASC',
-    ')',
-  ')',
-  'ORDER BY housenumber ASC', // @warning business logic depends on this
-  'LIMIT %%MAX_MATCHES%%;'
+const SQL = [
+  `WITH base AS (`,
+    `SELECT address.* FROM street.rtree`,
+    `JOIN street.names ON street.names.id = street.rtree.id`,
+    `JOIN address ON address.id = street.rtree.id`,
+    `WHERE (`,
+      `street.rtree.minX<=@lon AND street.rtree.maxX>=@lon AND`,
+      `street.rtree.minY<=@lat AND street.rtree.maxY>=@lat`,
+    `)`,
+    `AND ( %%NAME_CONDITIONS%% )`,
+    `ORDER BY address.housenumber ASC`, // @warning business logic depends on this
+  `)`,
+  `SELECT * FROM (`,
+    `(`,
+      `SELECT * FROM base`,
+      `WHERE housenumber < @housenmbr`,
+      `GROUP BY id HAVING( MAX( housenumber ) )`,
+      `ORDER BY housenumber DESC`,
+    `)`,
+  `) UNION SELECT * FROM (`,
+    `(`,
+      `SELECT * FROM base`,
+      `WHERE housenumber >= @housenmbr`,
+      `GROUP BY id HAVING( MIN( housenumber ) )`,
+      `ORDER BY housenumber ASC`,
+    `)`,
+  `)`,
+  `ORDER BY housenumber ASC`, // @warning business logic depends on this
+  `LIMIT ${MAX_MATCHES};`
 ].join(' ');
 
-var NAME_SQL = '(street.names.name=?)';
-
-module.exports = function( db, point, number, names, cb ){
+/**
+ * sample results:
+ *  rowid=77188,
+ *  id=9353,
+ *  source=OA,
+ *  source_id=us/or/portland_metro:7ebedc8b8a6fc9dc,
+ *  housenumber=3745,
+ *  lat=45.5503511,
+ *  lon=-122.5905319,
+ *  parity=L,
+ *  proj_lat=45.55035006263763,
+ *  proj_lon=-122.59023003810346
+ *
+ * @param {better-sqlite3.Database} db
+ * @param {object} point
+ * @param {number} point.lat
+ * @param {number} point.lon
+ * @param {number} number :housenumber
+ * @param {Array} names :all possible street name variations, such as ["west 26 street", "west 26 saint"]
+ * @returns {Array}
+ */
+module.exports = ( db, point, number, names ) => {
 
   // error checking
   if( !names || !names.length ){
-    return cb( null, [] );
+    logger.warn('[query/search] no names provided');
+    return [];
   }
 
-  // max conditions to search on
-  var max = { names: Math.min( names.length, MAX_NAMES ) };
+  const nameConditions = [];
 
-  // use named parameters to avoid sending coordinates twice for rtree conditions
-  var position = 3; // 1 and 2 are used by lon and lat.
-
-  // add name conditions to query
-  var nameConditions = Array.apply(null, new Array(max.names)).map( function(){
-    return NAME_SQL.replace('?', '?' + position++);
-  });
-
-  // build unique sql statement
-  var sql = SQL.replace( '%%NAME_CONDITIONS%%', nameConditions.join(' OR ') )
-               .replace( '%%MAX_MATCHES%%', MAX_MATCHES )
-               .split( '%%TARGET_HOUSENUMBER%%' ).join( number );
+  const params = _.reduce(
+    // array of names, truncated to max_names length
+    _.slice(names, 0, MAX_NAMES),
+    // collection function
+    (accum, name, key) => {
+      accum[`name${key}`] = name;
+      nameConditions.push(`street.names.name=@name${key}`);
+      return accum;
+    },
+    // accumulator object
+    {}
+  );
 
   // create a variable array of params for the query
-  var params = [ point.lon, point.lat ].concat( names.slice(0, max.names) );
+  params.lon = point.lon;
+  params.lat = point.lat;
+  params.housenmbr = number;
+
+  // build unique sql statement
+  const sql = SQL.replace( '%%NAME_CONDITIONS%%', nameConditions.join(' OR ') );
 
   // execute query
-  db.all( sql, params, cb );
+  try {
+    const res = db.prepare( sql ).get( params );
+
+    logger.info(`successfully performed search query ${sql} with params ${JSON.stringify(params)}`);
+    logger.info('query results: ', res);
+
+    return res;
+  }
+  catch (err) {
+    logger.error(`failed to perform search query ${sql} with params ${JSON.stringify(params)}`);
+    logger.error(err.message);
+    throw new Error(`failed to perform search query ${sql} with params ${JSON.stringify(params)}`, err);
+  }
 };
