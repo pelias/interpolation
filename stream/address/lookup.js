@@ -8,8 +8,11 @@ var fs = require('fs'),
 // open file descriptor 3 for logging conflation errors (when available)
 // note: to enable logging you need to attach the fd with a command such as:
 // $ node oa.js 3> conflate.skip
-process.conferr = fs.createWriteStream( null, { fd: 3 } );
-process.conferr.on( 'error', function(){ process.conferr = { write: function noop(){} }; });
+const hasFD3 = fs.statSync('/dev/fd/3').isFile();
+if( hasFD3 ){
+  process.conferr = fs.createWriteStream( null, { fd: 3 } );
+  process.conferr.on( 'error', function(){ process.conferr = { write: function noop(){} }; });
+}
 
 function streamFactory(db){
 
@@ -51,7 +54,7 @@ function streamFactory(db){
       if( !rows || !rows.length ){
 
         // log addresss which do not conflate to file descriptor 3 (when available)
-        if( process.conferr.writable ){
+        if( hasFD3 ){
           batch.forEach( function( address ){
             process.conferr.write( JSON.stringify( address ) + '\n' );
           });
