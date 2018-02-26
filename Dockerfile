@@ -28,7 +28,6 @@ ENV WORKINGDIR '/'
 # change working dir
 ENV WORKDIR /code/pelias/interpolation
 WORKDIR ${WORKDIR}
-
 ADD . ${WORKDIR}
 
 # Install app dependencies
@@ -37,8 +36,5 @@ RUN npm install
 # run tests
 RUN npm test
 
-# create script for building
-RUN echo 'export PBF2JSON_FILE=$(ls ${OSMPATH}/*.osm.pbf | head -n 1); export POLYLINE_FILE=$(ls ${POLYLINEPATH}/*.0sv | head -n 1); npm run build' > ./docker_build.sh;
-
-
+# entrypoint
 CMD [ "./interpolate", "server", "/data/interpolation/address.db", "/data/interpolation/street.db" ]
