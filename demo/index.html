@@ -14,8 +14,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-hash/0.2.1/leaflet-hash.min.js"></script>
 
   <!-- Load geocoding plugin after Leaflet -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.7.1/leaflet-geocoder-mapzen.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.7.1/leaflet-geocoder-mapzen.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.4/leaflet-geocoder-mapzen.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.4/leaflet-geocoder-mapzen.js"></script>
 
   <link rel="stylesheet" href="map.css">
 </head>
@@ -36,16 +36,28 @@
       attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     }).addTo(map);
 
-    // record position hash
+    // init location
     var hash = new L.Hash(map);
+    if( 'string' !== typeof location.hash || location.hash.split('/').length !== 3 ){
 
-    var API_KEY = 'search-S0p1Seg';
+      // on error, set NYC
+      map.on('locationerror', function(){ map.setView([40.7259, -73.9805], 12); });
+
+      // try to locate using browser geolocation API
+      map.locate({ setView: true, maxZoom: 16 });
+    }
 
     // Add geocoding plugin
+    var API_KEY = 'ge-6361345754ea1287';
     var params = {};
-    var options = { focus: false, expanded: true, params: params };
+    var options = {
+      focus: false,
+      expanded: true,
+      params: params,
+      url: 'https://api.geocode.earth/v1',
+      attribution: 'Geocoding by <a href="https://geocode.earth/">geocode.earth</a>'
+    };
     var geocoder = L.control.geocoder(API_KEY, options).addTo(map);
-    // map.locate({ setView: true, maxZoom: 16 });
 
     var layer = {
       lines: newSimpleStyleLayer().setZIndex(1).addTo(map),
