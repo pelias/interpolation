@@ -16,8 +16,8 @@ function tiger(dataStream, addressDbPath, streetDbPath, done){
   query.attach(db, process.argv[3], 'street'); // attach street database
 
   dataStream
-    .pipe( stream.tiger.parse() ) // convert openstreetmap data to generic model
-    .pipe( stream.tiger.convert() ) // convert openstreetmap data to generic model
+    .pipe( stream.tiger.parse() ) // convert tiger data to generic model
+    .pipe( stream.tiger.convert() ) // convert tiger data to generic model
     .pipe( stream.address.batch() ) // batch records on the same street
     .pipe( stream.address.lookup( db ) ) // look up from db
     .pipe( stream.address.augment() ) // perform interpolation

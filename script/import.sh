@@ -17,7 +17,7 @@ fi
 # location of input polyline file
 POLYLINE_FILE=${POLYLINE_FILE:-"$BUILDDIR/polyline/planet.polylines"};
 if [ ! -f $POLYLINE_FILE ]; then
-  echo "poyline line not found";
+  echo "polyline line not found";
   exit 1
 fi
 
