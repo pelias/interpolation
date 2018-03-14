@@ -258,10 +258,10 @@ notes:
 - `-v` controls volume mapping (`/data` in the container maps to `/data` in the host)
 - `-d` tells docker to run the container in the background (daemonize)
 
-by default this will launch the server using the databases `/data/address.db` and `/data/street.db` which must be present on the host machine
+this will launch the server using the databases `/tmp/address.db` and `/tmp/street.db` which must be present on the host machine
 
 ```bash
-docker run -p 5000:3000 -v /data:/data -d pelias/interpolation
+docker run -p 5000:3000 -v /tmp:/data -d pelias/interpolation ./interpolate server /tmp/address.db /tmp/street.db
 ```
 
 you can confirm that worked with:
@@ -287,7 +287,7 @@ The build scripts are configurable via a combination of environment variables an
 You will need to download your data before running the build command.
 
 To make use of the `pelias-config` functionality, you'll need to create a new json file called `pelias.json` for example.
-The relevant parts of that new file should look as follows. To direct to download script to this file, 
+The relevant parts of that new file should look as follows. To direct to download script to this file,
 the `PELIAS_CONFIG` environment variable should be set. You can read more details on how to use the `pelias-config` module
 [here](https://github.com/pelias/config).
 
@@ -315,7 +315,7 @@ Note that `datapath` will default to `./data/downloads` if not specified.
 To filter the TIGER data download you can set `state_code` property in the `pelias-config` file to the 2 digit code of the state to be downloaded.
 In the example configuration above, the state code for Oregon, `41`, is used to limit the download.
 The state code can found by referencing the table below. If no `state_code` value is found, all US data will be downloaded.
- 
+
 | code | state |
 | --- | --- |
 | 01 | Alabama              |
