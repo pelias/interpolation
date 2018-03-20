@@ -37,5 +37,4 @@ RUN npm install
 RUN npm test
 
 # entrypoint
-ENTRYPOINT [ "./interpolate" ]
-CMD [ "server", "/data/interpolation/address.db", "/data/interpolation/street.db" ]
+CMD [ "./interpolate", "server", "/data/interpolation/address.db", "/data/interpolation/street.db" ]
