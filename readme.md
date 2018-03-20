@@ -278,7 +278,7 @@ you should now be able to access the web server locally at `http://localhost:500
 you can run any command supported by `./interpolate` via the docker container, such as:
 
 ```bash
-cat /data/new_zealand.polylines | docker run -i -v /data:/data pelias/interpolation polyline /data/nz.db
+cat /data/new_zealand.polylines | docker run --rm -it -v /data:/data pelias/interpolation ./interpolate polyline /data/nz.db
 ```
 
 ### running a build in the docker container
@@ -287,7 +287,7 @@ The build scripts are configurable via a combination of environment variables an
 You will need to download your data before running the build command.
 
 To make use of the `pelias-config` functionality, you'll need to create a new json file called `pelias.json` for example.
-The relevant parts of that new file should look as follows. To direct to download script to this file, 
+The relevant parts of that new file should look as follows. To direct to download script to this file,
 the `PELIAS_CONFIG` environment variable should be set. You can read more details on how to use the `pelias-config` module
 [here](https://github.com/pelias/config).
 
@@ -315,7 +315,7 @@ Note that `datapath` will default to `./data/downloads` if not specified.
 To filter the TIGER data download you can set `state_code` property in the `pelias-config` file to the 2 digit code of the state to be downloaded.
 In the example configuration above, the state code for Oregon, `41`, is used to limit the download.
 The state code can found by referencing the table below. If no `state_code` value is found, all US data will be downloaded.
- 
+
 | code | state |
 | --- | --- |
 | 01 | Alabama              |
@@ -399,7 +399,7 @@ docker run -i \ # run interactively (optionally daemonize with -d)
   -e 'POLYLINE_FILE=/data/berlin.0sv' \ # location of the polyline data
   -e 'OAPATH=/data/de' \ # location of the openaddresses data
   -e 'PBF2JSON_FILE=/data/berlin.osm.pbf' \ # location of the openstreetmap data
-  pelias/interpolation build
+  pelias/interpolation ./interpolate build
 ```
 
 once completed you should find the newly created `street.db` and `address.db` files in `/tmp/data/berlin` on your local machine.
