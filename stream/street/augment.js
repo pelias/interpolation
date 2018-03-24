@@ -22,6 +22,14 @@ function streamFactory(){
     street.getNames().forEach( function( name ){
       names = names.concat( analyze.street( name ) );
     });
+
+    // if the source file contains no valid names for this polyline
+    if( !names.length ){
+      console.error( 'street has no valid names, check your 0sv file:' );
+      console.error( street.getEncodedPolyline() );
+      return next();
+    }
+
     street.setNames( names );
 
     // expand bbox
