@@ -23,7 +23,7 @@
     "url": "https://github.com/pelias/interpolation.git"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6.0.0"
   },
   "dependencies": {
     "@mapbox/polyline": "^0.2.0",
