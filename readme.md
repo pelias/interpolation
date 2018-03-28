@@ -258,10 +258,10 @@ notes:
 - `-v` controls volume mapping (`/data` in the container maps to `/data` in the host)
 - `-d` tells docker to run the container in the background (daemonize)
 
-by default this will launch the server using the databases `/data/address.db` and `/data/street.db` which must be present on the host machine
+this will launch the server using the databases `/tmp/address.db` and `/tmp/street.db` which must be present on the host machine
 
 ```bash
-docker run -p 5000:3000 -v /data:/data -d pelias/interpolation
+docker run -p 5000:3000 -v /tmp:/data -d pelias/interpolation ./interpolate server /tmp/address.db /tmp/street.db
 ```
 
 you can confirm that worked with:
