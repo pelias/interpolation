@@ -1,5 +1,3 @@
-'use strict';
-
 const JSFtp = require('jsftp');
 const async = require('async');
 const path = require('path');
