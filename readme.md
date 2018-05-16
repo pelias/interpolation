@@ -375,16 +375,16 @@ The state code can found by referencing the table below. If no `state_code` valu
 | 55 | Wisconsin            |
 | 56 | Wyoming              |
 
-For more fine-grained control, you can also set the `county_code` property in the `pelias-config` file to the 3 digit code of the state to be downloaded.
+For more fine-grained control, you can also set the `county_code` property in the `pelias-config` file to the 3 digit code of the county to be downloaded.
 
 Note: some county codes begin with a leading zero, you may specify a string value or omit the extra zero and provide an integer value.
 
-Note: you must specify a 'state_code' when specifying a 'county_code'.
+Note: you must specify a `state_code` when specifying a `county_code`.
 
 ```
 "states": [
   {
-    "state_code": 41, county_code: 1
+    "state_code": 41, "county_code": 1
   }
 ]
 ```
