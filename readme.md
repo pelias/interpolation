@@ -313,7 +313,11 @@ the `PELIAS_CONFIG` environment variable should be set. You can read more detail
 Note that `datapath` will default to `./data/downloads` if not specified.
 
 To filter the TIGER data download you can set `state_code` property in the `pelias-config` file to the 2 digit code of the state to be downloaded.
+
+Note: some state codes begin with a leading zero, you may specify a string value or omit the extra zero and provide an integer value.
+
 In the example configuration above, the state code for Oregon, `41`, is used to limit the download.
+
 The state code can found by referencing the table below. If no `state_code` value is found, all US data will be downloaded.
 
 | code | state |
@@ -370,6 +374,24 @@ The state code can found by referencing the table below. If no `state_code` valu
 | 54 | West Virginia        |
 | 55 | Wisconsin            |
 | 56 | Wyoming              |
+
+For more fine-grained control, you can also set the `county_code` property in the `pelias-config` file to the 3 digit code of the state to be downloaded.
+
+Note: some county codes begin with a leading zero, you may specify a string value or omit the extra zero and provide an integer value.
+
+Note: you must specify a 'state_code' when specifying a 'county_code'.
+
+```
+"states": [
+  {
+    "state_code": 41, county_code: 1
+  }
+]
+```
+
+Check [the census website](https://www.census.gov/geographies/reference-files/2016/demo/popest/2016-fips.html) for a complete list of state and county FIPS codes.
+
+### docker example
 
 ```bash
 # prepare a build directory and a data directory to hold the newly created database files
