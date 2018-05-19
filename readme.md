@@ -1,5 +1,11 @@
+>This repository is part of the [Pelias](https://github.com/pelias/pelias)
+>project. Pelias is an open-source, open-data geocoder originally sponsored by
+>[Mapzen](https://www.mapzen.com/). Our official user documentation is
+>[here](https://github.com/pelias/documentation).
 
-An open source + open data project to perform global street address interpolation queries. Sponsored by [mapzen](http://www.mapzen.com).
+# Pelias Interpolation Service
+
+An open source + open data project to perform global street address interpolation queries.
 
 ![header](http://missinglink.embed.s3.amazonaws.com/interpolation-title.png)
 
