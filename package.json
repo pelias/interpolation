@@ -49,7 +49,7 @@
   "devDependencies": {
     "jshint": "^2.9.3",
     "precommit-hook": "^3.0.0",
-    "proxyquire": "^1.7.11",
+    "proxyquire": "^2.0.0",
     "semantic-release": "^15.0.0",
     "tap-dot": "^1.0.5",
     "tap-spec": "^4.1.1",
