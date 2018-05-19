@@ -13,7 +13,6 @@
     "travis": "npm test && npm run funcs",
     "lint": "jshint .",
     "validate": "npm ls",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "download-tiger": "node script/js/update_tiger.js",
     "build": "./script/build.sh"
   },
@@ -60,5 +59,9 @@
     "lint",
     "validate",
     "test"
-  ]
+  ],
+  "release": {
+    "branch": "production",
+    "success": []
+  }
 }
