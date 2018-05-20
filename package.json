@@ -24,7 +24,7 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
-    "@mapbox/polyline": "^0.2.0",
+    "@mapbox/polyline": "^1.0.0",
     "async": "^2.5.0",
     "cli-table2": "^0.2.0",
     "csv-parse": "^2.0.0",
