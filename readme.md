@@ -1,5 +1,11 @@
+>This repository is part of the [Pelias](https://github.com/pelias/pelias)
+>project. Pelias is an open-source, open-data geocoder originally sponsored by
+>[Mapzen](https://www.mapzen.com/). Our official user documentation is
+>[here](https://github.com/pelias/documentation).
 
-An open source + open data project to perform global street address interpolation queries. Sponsored by [mapzen](http://www.mapzen.com).
+# Pelias Interpolation Service
+
+An open source + open data project to perform global street address interpolation queries.
 
 ![header](http://missinglink.embed.s3.amazonaws.com/interpolation-title.png)
 
@@ -258,10 +264,10 @@ notes:
 - `-v` controls volume mapping (`/data` in the container maps to `/data` in the host)
 - `-d` tells docker to run the container in the background (daemonize)
 
-by default this will launch the server using the databases `/data/address.db` and `/data/street.db` which must be present on the host machine
+this will launch the server using the databases `/tmp/address.db` and `/tmp/street.db` which must be present on the host machine
 
 ```bash
-docker run -p 5000:3000 -v /data:/data -d pelias/interpolation
+docker run -p 5000:3000 -v /tmp:/data -d pelias/interpolation ./interpolate server /tmp/address.db /tmp/street.db
 ```
 
 you can confirm that worked with:
@@ -313,7 +319,11 @@ the `PELIAS_CONFIG` environment variable should be set. You can read more detail
 Note that `datapath` will default to `./data/downloads` if not specified.
 
 To filter the TIGER data download you can set `state_code` property in the `pelias-config` file to the 2 digit code of the state to be downloaded.
+
+Note: some state codes begin with a leading zero, you may specify a string value or omit the extra zero and provide an integer value.
+
 In the example configuration above, the state code for Oregon, `41`, is used to limit the download.
+
 The state code can found by referencing the table below. If no `state_code` value is found, all US data will be downloaded.
 
 | code | state |
@@ -370,6 +380,24 @@ The state code can found by referencing the table below. If no `state_code` valu
 | 54 | West Virginia        |
 | 55 | Wisconsin            |
 | 56 | Wyoming              |
+
+For more fine-grained control, you can also set the `county_code` property in the `pelias-config` file to the 3 digit code of the county to be downloaded.
+
+Note: some county codes begin with a leading zero, you may specify a string value or omit the extra zero and provide an integer value.
+
+Note: you must specify a `state_code` when specifying a `county_code`.
+
+```
+"states": [
+  {
+    "state_code": 41, "county_code": 1
+  }
+]
+```
+
+Check [the census website](https://www.census.gov/geographies/reference-files/2016/demo/popest/2016-fips.html) for a complete list of state and county FIPS codes.
+
+### docker example
 
 ```bash
 # prepare a build directory and a data directory to hold the newly created database files
