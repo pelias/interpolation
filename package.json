@@ -28,6 +28,7 @@
     "async": "^2.5.0",
     "cli-table2": "^0.2.0",
     "csv-parse": "^2.0.0",
+    "deasync": "^0.1.13",
     "express": "^4.14.0",
     "fs-extra": "^5.0.0",
     "jsftp": "^2.0.0",

@@ -22,7 +22,7 @@ module.exports.expand = {
     // is enabled, lazy load real libpostal, and return the real response
     } else if (use_real_libpostal) {
       // lazy load libpostal only when needed
-      if (!real_libpostal) { real_libpostal = require('node-postal'); }
+      if (!real_libpostal) { real_libpostal = require('../../libpostal/service'); }
 
       const real_response = real_libpostal.expand.expand_address(clean_string);
       mock_responses[clean_string] = real_response;
