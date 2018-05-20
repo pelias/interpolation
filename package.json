@@ -38,6 +38,7 @@
     "pbf2json": "^6.4.0",
     "pelias-config": "^4.0.0",
     "pelias-logger": "^1.2.1",
+    "pelias-microservice-wrapper": "^1.8.3",
     "quadtree": "^1.1.3",
     "require-dir": "^1.0.0",
     "serve-index": "^1.8.0",
