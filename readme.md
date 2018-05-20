@@ -238,7 +238,6 @@ see: [source](https://github.com/pelias/interpolation/blob/master/cmd/server.js)
 # docker
 
 ### build docker image
-this can take some time for the first build due to installing libpostal from source
 ```bash
 docker build -t pelias/interpolation .
 ```
@@ -433,8 +432,6 @@ To use Interpolation service with the Pelias API, [configure the pelias config f
 # development
 
 ### install dependencies
-
-*note:* [libpostal](https://github.com/openvenues/node-postal#troubleshooting) **must** be installed on your system before you continue!
 
 The `Dockerfile` in this repo has complete instructions on how to install everything from scratch on Ubuntu.
 
