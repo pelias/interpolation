@@ -211,7 +211,7 @@ app.use('/demo', express.static('demo'));
 app.listen( PORT, function() {
 
   // force loading of libpostal
-  analyze.street( 'test street' );
+  //analyze.street( 'test street', function() {} );
 
   console.log( 'server listening on port', PORT );
 });

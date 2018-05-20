@@ -1,5 +1,5 @@
-
 var fs = require('fs'),
+    util = require('util'),
     through = require('through2'),
     query = { lookup: require('../../query/lookup') },
     project = require('../../lib/project'),
@@ -15,9 +15,11 @@ if( hasFD3 ){
   process.conferr.on( 'error', function(){ process.conferr = { write: function noop(){} }; });
 }
 
+const analyze_street = util.promisify(analyze.street);
+
 function streamFactory(db){
 
-  return through.obj(function( batch, _, next ){
+  return through.obj(async function( batch, _, next ){
 
     // invalid batch
     if( !batch || !batch.length ){
@@ -30,7 +32,8 @@ function streamFactory(db){
 
     // all street names in batch should be the same
     // perform libpostal normalization
-    var names = analyze.street( result.getStreet() );
+
+    var names = await analyze_street( result.getStreet() );
 
     // ensure at least one name was produced
     if( !names.length ){
