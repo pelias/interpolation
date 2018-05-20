@@ -28,10 +28,12 @@ ENV WORKINGDIR '/'
 # change working dir
 ENV WORKDIR /code/pelias/interpolation
 WORKDIR ${WORKDIR}
-ADD . ${WORKDIR}
 
-# Install app dependencies
+# Install app dependencies first
+ADD package.json ${WORKDIR}
 RUN npm install
+
+ADD . ${WORKDIR}
 
 # run tests
 RUN npm test
