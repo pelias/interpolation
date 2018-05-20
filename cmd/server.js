@@ -209,9 +209,5 @@ app.use('/demo', express.static('demo'));
 // app.use('/builds', directory('/data/builds', { hidden: false, icons: false, view: 'details' }));
 
 app.listen( PORT, function() {
-
-  // force loading of libpostal
-  //analyze.street( 'test street', function() {} );
-
   console.log( 'server listening on port', PORT );
 });
