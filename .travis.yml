@@ -3,21 +3,21 @@ language: node_js
 notifications:
   email: false
 node_js:
-  - 4
   - 6
+  - 8
+  - 10
 matrix:
   fast_finish: true
-env:
-  global:
-    - BUILD_LEADER_ID=2
 script: npm run travis
 before_install:
-  - npm i -g npm@^3.0.0
+  - npm i -g npm
   - sudo add-apt-repository -y ppa:ubuntugis/ppa
   - sudo apt-get update -q
   - sudo apt-get install -y proj-bin gdal-bin
 before_script:
   - npm prune
 after_success:
-  - npm install -g npx
-  - npx -p node@8 npm run semantic-release
+  - npm run semantic-release
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
