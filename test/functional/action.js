@@ -191,7 +191,7 @@ module.exports.check.indexes = function(test, paths) {
 
     // names_name_idx index
     var namesName = sqlite3.exec( paths.db.street, 'PRAGMA index_info(names_name_idx)' );
-    t.deepEqual(namesName, ['0|2|name'], 'index_info(names_name_idx)');
+    t.deepEqual(namesName, ['0|2|name', '1|1|id'], 'index_info(names_name_idx)');
 
     t.end();
   });
