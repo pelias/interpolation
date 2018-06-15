@@ -96,7 +96,7 @@ module.exports.tiger = function(test, paths) {
 
     // conflate openstreetmap addresses
     var cmd = [
-      'ogr2ogr -f GeoJSON -t_srs crs:84 /vsistdout/', paths.fixture.tiger, '|',
+      'ogr2ogr -f GeoJSON -lco \'COORDINATE_PRECISION=7\' -t_srs crs:84 /vsistdout/', paths.fixture.tiger, '|',
       'node', exec.tiger, paths.db.address, paths.db.street,
       '1>', path.resolve( paths.reports, 'tiger.out' ),
       '2>', path.resolve( paths.reports, 'tiger.err' )
