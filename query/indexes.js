@@ -4,7 +4,7 @@ module.exports.street = function( db, done ){
 
     // names
     db.run('CREATE INDEX IF NOT EXISTS names_id_idx ON names(id);');
-    db.run('CREATE INDEX IF NOT EXISTS names_name_idx ON names(name);');
+    db.run('CREATE INDEX IF NOT EXISTS names_name_idx ON names(name, id);');
 
     db.wait(done);
   });
