@@ -305,7 +305,7 @@
             'pin-' +
             // Internet Explorer does not support the `size[0]` syntax.
             size.charAt(0) + symbol + '+' + color +
-            ((window.devicePixelRatio === 2) ? '@2x' : '') +
+            '' + // ((window.devicePixelRatio === 2) ? '@2x' : '') +
             '.png';
 
       var table = '<table class="marker-properties"><tbody>';
