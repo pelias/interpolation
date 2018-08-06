@@ -96,7 +96,7 @@ module.exports.tiger = function(test, paths) {
 
     // conflate openstreetmap addresses
     var cmd = [
-      'ogr2ogr -f GeoJSON -t_srs crs:84 /vsistdout/', paths.fixture.tiger, '|',
+      'ogr2ogr -f GeoJSON -lco \'COORDINATE_PRECISION=7\' -t_srs crs:84 /vsistdout/', paths.fixture.tiger, '|',
       'node', exec.tiger, paths.db.address, paths.db.street,
       '1>', path.resolve( paths.reports, 'tiger.out' ),
       '2>', path.resolve( paths.reports, 'tiger.err' )
@@ -191,7 +191,7 @@ module.exports.check.indexes = function(test, paths) {
 
     // names_name_idx index
     var namesName = sqlite3.exec( paths.db.street, 'PRAGMA index_info(names_name_idx)' );
-    t.deepEqual(namesName, ['0|2|name'], 'index_info(names_name_idx)');
+    t.deepEqual(namesName, ['0|2|name', '1|1|id'], 'index_info(names_name_idx)');
 
     t.end();
   });

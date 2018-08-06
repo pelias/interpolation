@@ -8,7 +8,8 @@ var fs = require('fs'),
 // open file descriptor 3 for logging conflation errors (when available)
 // note: to enable logging you need to attach the fd with a command such as:
 // $ node oa.js 3> conflate.skip
-const hasFD3 = fs.statSync('/dev/fd/3').isFile();
+var hasFD3 = false;
+try { hasFD3 = fs.statSync('/dev/fd/3').isFile(); } catch(e){}
 if( hasFD3 ){
   process.conferr = fs.createWriteStream( null, { fd: 3 } );
   process.conferr.on( 'error', function(){ process.conferr = { write: function noop(){} }; });
