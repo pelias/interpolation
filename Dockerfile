@@ -37,7 +37,7 @@ ENV OAPATH '/data/openaddresses'
 # location of TIGER data
 ENV TIGERPATH '/data/tiger/'
 
-ENV WORKINGDIR '/'
+ENV WORKINGDIR '/data'
 
 # run as a pelias user
 USER pelias
