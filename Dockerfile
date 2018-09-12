@@ -39,9 +39,6 @@ ENV TIGERPATH '/data/tiger/'
 
 ENV WORKINGDIR '/'
 
-# run tests
-RUN npm test
-
 # run as a pelias user
 USER pelias
 
