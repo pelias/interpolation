@@ -8,6 +8,20 @@ RUN apt-get update && \
 
 # --- pbf2json ---
 
+# change working dir
+ENV WORKDIR /code/pelias/interpolation
+WORKDIR ${WORKDIR}
+
+# copy package.json first to prevent npm install being rerun when only code changes
+COPY ./package.json ${WORK}
+RUN npm install
+
+# add the rest of the code
+ADD . ${WORKDIR}
+
+# run tests
+RUN npm test
+
 # location where the db files will be created
 ENV BUILDDIR '/data/interpolation'
 
@@ -25,17 +39,10 @@ ENV TIGERPATH '/data/tiger/'
 
 ENV WORKINGDIR '/'
 
-# change working dir
-ENV WORKDIR /code/pelias/interpolation
-WORKDIR ${WORKDIR}
-ADD . ${WORKDIR}
-
-# Install app dependencies
-RUN npm install
-
 # run tests
 RUN npm test
 
+# run as a pelias user
 USER pelias
 
 # entrypoint
