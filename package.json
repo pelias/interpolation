@@ -13,7 +13,7 @@
     "travis": "npm test && npm run funcs",
     "lint": "jshint .",
     "validate": "npm ls",
-    "download-tiger": "node script/js/update_tiger.js",
+    "download-tiger": "./bin/download-tiger",
     "build": "./script/build.sh"
   },
   "repository": {
