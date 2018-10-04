@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec node script/js/update_tiger.js

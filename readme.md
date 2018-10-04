@@ -444,6 +444,12 @@ To use Interpolation service with the Pelias API, [configure the pelias config f
 
 The `Dockerfile` in this repo has complete instructions on how to install everything from scratch on Ubuntu.
 
+### TIGER dependency on GDAL
+
+The TIGER importer requires the `ogr2ogr` binary from `gdal` version 2+ in order to extract data from the `.shp` files provided by the US Census Bureau.
+
+On linux this you can install this with a command such as `sudo apt-get install gdal-bin`, on OSX you will need to follow [this guide](https://www.karambelkar.info/2016/10/gdal-2-on-mac-with-homebrew/).
+
 ```bash
 npm install
 ```
