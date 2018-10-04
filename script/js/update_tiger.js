@@ -3,7 +3,7 @@ const async = require('async');
 const path = require('path');
 const fs = require('fs-extra');
 const unzip = require('unzip');
-const logger = require('pelias-logger').get('update_tiger');
+const logger = require('pelias-logger').get('interpolation(TIGER)');
 const config = require('pelias-config').generate();
 const _ = require('lodash');
 
@@ -11,7 +11,13 @@ const _ = require('lodash');
 let TARGET_DIR = _.get(config, 'imports.interpolation.download.tiger.datapath', './data/downloads');
 let STATES = _.get(config, 'imports.interpolation.download.tiger.states', []);
 
+if (_.isUndefined(_.get(config, 'imports.interpolation.download.tiger'))) {
+  logger.warn('pelias.json has no \'imports.interpolation.download.tiger\' section, quitting');
+  process.exit(0);
+}
+
 if (_.isEmpty(STATES)) {
+  logger.info('downloading all TIGER data');
   STATES = [ {state_code: '', county_code: ''} ];
 }
 
