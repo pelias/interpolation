@@ -43,12 +43,6 @@ The data is split in to 2 different sqlite3 databases:
 - street.db (holds information about streets, geometry, their names and bounding boxes)
 - address.db (holds address point data, both rooftop accuracy and pre-interpolated vertex data)
 
-# Downloading pre-built data
-
-Mapzen provides data extracts which you can download and get going immediately.
-
-[coming soon]
-
 # Workflow
 
 ### street database
