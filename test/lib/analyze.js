@@ -62,6 +62,8 @@ module.exports.analyze.housenumber = function(test) {
     t.false(isNaN(analyze.housenumber('1434 UNIT #B')), 'remove common english label "unit"');
     t.false(isNaN(analyze.housenumber('1434 SUITE #B')), 'remove common english label "suite"');
     t.false(isNaN(analyze.housenumber('158號')), 'remove common mandarin label');
+    t.false(isNaN(analyze.housenumber('240 4t')), 'remove unknown numeric component');
+    t.false(isNaN(analyze.housenumber('27, 2º, 4ª')), 'spanish address');
     t.end();
   });
 
@@ -171,6 +173,17 @@ module.exports.analyze.housenumber = function(test) {
   });
   test('housenumber: removes common mandarin labels', function(t) {
     t.equal(analyze.housenumber('158號'), 158.00);
+    t.end();
+  });
+
+  // spanish housenumbers
+  // https://www.openstreetmap.org/node/672948135
+  test('housenumber: 240 4t', function (t) {
+    t.equal(analyze.housenumber('240 4t'), 240);
+    t.end();
+  });
+  test('housenumber: 27, 2º, 4ª ', function (t) {
+    t.equal(analyze.housenumber('27, 2º, 4ª'), 27);
     t.end();
   });
 };
