@@ -186,6 +186,12 @@ module.exports.analyze.housenumber = function(test) {
     t.equal(analyze.housenumber('27, 2º, 4ª'), 27);
     t.end();
   });
+
+  // non-latin apartment letters
+  test('housenumber: 18Č', function (t) {
+    t.equal(analyze.housenumber('18Č'), 18.09);
+    t.end();
+  });
 };
 module.exports.analyze.housenumberFloatToString = function(test) {
   test('housenumberFloatToString: invalid', function(t) {
