@@ -75,7 +75,7 @@ module.exports.functional.address_counts = function(test) {
 
     // count address table
     var addresses = sqlite3.count( paths.db.address, 'address' );
-    t.equal(addresses, 272, 'count(address)');
+    t.equal(addresses, 271, 'count(address)');
 
     t.end();
   });
