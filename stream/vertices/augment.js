@@ -1,4 +1,4 @@
-
+const _ = require('lodash');
 var through = require('through2'),
     polyline = require('@mapbox/polyline'),
     project = require('../../lib/project'),
@@ -15,7 +15,7 @@ var PRECISION = 6;
 function streamFactory(db, done){
 
   // create a new stream
-  return through.obj( function( data, _, next ){
+  return through.obj( function( data, enc, next ){
 
     // decode polyline
     var coordinates = project.dedupe( polyline.toGeoJSON( data.street.line, PRECISION ).coordinates );
@@ -43,9 +43,8 @@ function streamFactory(db, done){
     // ensure distances are sorted by distance ascending
     // this is important because now the distances and coordinates
     // arrays will run from the start of the street to the end.
-    distances.sort( function( a, b ){
-      return ( a.dist > b.dist ) ? 1 : -1;
-    });
+    // in case of distance ties, sort on housenumber
+    distances = _.orderBy(distances, ['dist', 'housenumber'], [ 'asc', 'desc']);
 
     // ----
 

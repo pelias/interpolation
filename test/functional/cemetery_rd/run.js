@@ -174,8 +174,8 @@ module.exports.functional.search = function(test) {
         type: 'interpolated',
         source: 'mixed',
         number: '120',
-        lat: 46.5338592,
-        lon: -110.9375007
+        lat: 46.5338602,
+        lon: -110.9374236
       });
       t.end();
     });
