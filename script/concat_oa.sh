@@ -39,20 +39,23 @@ find $OAPATH -type f -iname "*.csv" ! -name '*summary*' -print0 |\
       # remove windows® newlines
       sed $'s/\r//' |\
 
-        # remove newline characters inside quoted text
-        awk -v RS='"' 'NR % 2 == 0 { gsub(/\r?\n|\r/, " ") } { printf("%s%s", $0, RT) }' |\
+        # prevent performance degration if no " in the file
+        sed 's/$/,""/' |\
 
-          # create a HASH column for those which don't have one (or a very short one)
-          awk -F ',' 'BEGIN { OFS = "," } { if( length($NF) < 2 ) $NF = sprintf( "%d", NR ); print }' |\
+          # remove newline characters inside quoted text
+          awk -v RS='"' 'NR % 2 == 0 { gsub(/\r?\n|\r/, " ") } { printf("%s%s", $0, RT) }' |\
 
-            # prepend the file name to the HASH column
-            awk -F',' -v prefix=$HASH_PREFIX 'BEGIN { OFS = "," } { $NF = sprintf( "%s:%s", prefix, $NF ); print }' |\
+            # create a HASH column for those which don't have one (or a very short one)
+            awk -F ',' 'BEGIN { OFS = "," } { if( length($NF) < 2 ) $NF = sprintf( "%d", NR ); print }' |\
 
-              # sort the file by STREET, CITY, DISTRICT, REGION, NUMBER
-              sort -t, -k 4,4d -k 6,6d -k 7,7d -k 8,8d -k 3,3n |\
+              # prepend the file name to the HASH column
+              awk -F',' -v prefix=$HASH_PREFIX 'BEGIN { OFS = "," } { $NF = sprintf( "%s:%s", prefix, $NF ); print }' |\
 
-                # remove duplicates
-                uniq;
+                # sort the file by STREET, CITY, DISTRICT, REGION, NUMBER
+                sort -t, -k 4,4d -k 6,6d -k 7,7d -k 8,8d -k 3,3n |\
+
+                  # remove duplicates
+                  uniq;
   done;
 
 # awk test case:
