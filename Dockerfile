@@ -3,7 +3,7 @@ FROM pelias/libpostal_baseimage
 
 # dependencies
 RUN apt-get update && \
-    apt-get install -y python sqlite3 gdal-bin lftp unzip pigz time && \
+    apt-get install -y python sqlite3 gdal-bin lftp unzip pigz time gawk && \
     rm -rf /var/lib/apt/lists/*
 
 # --- pbf2json ---
