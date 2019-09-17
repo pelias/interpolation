@@ -412,7 +412,7 @@ export PELIAS_CONFIG=./pelias.json
 npm run download-tiger
 ```
 
-we will mount `/tmp/data` on the local machine as `/data` inside the container, so be careful to set paths as they appear inside the container.
+We will mount `/tmp/data` on the local machine as `/data` inside the container, so be careful to set paths as they appear inside the container. [pbf2json](https://github.com/pelias/pbf2json) needs to be available on your local machine.
 
 ```bash
 docker run -i \ # run interactively (optionally daemonize with -d)
@@ -421,10 +421,11 @@ docker run -i \ # run interactively (optionally daemonize with -d)
   -e 'POLYLINE_FILE=/data/berlin.0sv' \ # location of the polyline data
   -e 'OAPATH=/data/de' \ # location of the openaddresses data
   -e 'PBF2JSON_FILE=/data/berlin.osm.pbf' \ # location of the openstreetmap data
+  -e 'PBF2JSON_BIN=/data/pbf2json.linux-x64' \ # location of the pbf2json binary
   pelias/interpolation ./interpolate build
 ```
 
-once completed you should find the newly created `street.db` and `address.db` files in `/tmp/data/berlin` on your local machine.
+Once completed, you should find the newly created `street.db` and `address.db` files in `/tmp/data/berlin` on your local machine.
 
 # Configuration with Pelias Geocoder API
 
