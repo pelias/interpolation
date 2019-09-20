@@ -51,10 +51,8 @@ rm -f $PROC_STDOUT $PROC_STDERR $PROC_CONFERR;
 
 # download path of tiger files (use default unless param is supplied)
 TIGERPATH=${TIGERPATH:-"$WORKINGDIR/data/tiger"};
-if [ ! -d "$TIGERPATH/shapefiles" ]; then
-  echo "tiger download dir does not exist";
-  exit 1;
-fi
+# ensure shapefiles directory exists
+[ -d "$TIGERPATH/shapefiles" ] || mkdir -p "$TIGERPATH/shapefiles";
 
 # recurse through filesystem listing all .shx file names
 # some county zip packages are missing .shx which causes the ogr2ogr script to fail
