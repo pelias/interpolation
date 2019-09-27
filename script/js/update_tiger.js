@@ -119,6 +119,7 @@ function downloadFile(context, filename, callback) {
     });
 
     // unzip downloaded file
+    logger.info(`Decompressing ${filename}`);
     fs.createReadStream(localFile)
       .pipe(decompress)
       .on('finish', () => {
