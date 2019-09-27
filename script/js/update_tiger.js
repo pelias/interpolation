@@ -105,20 +105,30 @@ function downloadFile(context, filename, callback) {
   adapter.get(filename, localFile, (err) => {
     logger.info(`Downloading ${filename}`);
     if (err) { return callback(err); }
-    logger.info(`Downloaded ${filename}`);
+    logger.debug(`Downloaded ${filename}`);
+
+    // record unzip errors
+    let unzipError = null;
+
+    // decompress files to shapefile directory
+    const decompress = unzip.Extract({ path: context.shapefilesDir });
+    decompress.on('error', (err) => {
+      unzipError = err;
+      logger.error(`Failed to unzip ${filename}`);
+      logger.error(err);
+    });
 
     // unzip downloaded file
     fs.createReadStream(localFile)
-      .pipe(unzip.Extract({ path: context.shapefilesDir }))
-      .on('finish', (err) => {
-        if (err) {
-          logger.error(`Failed to unzip ${filename}`);
-          return callback(err);
-        }
+      .pipe(decompress)
+      .on('finish', () => {
+        logger.debug(`Decompressed ${filename}`);
 
         // delete zip file after unzip is done
         fs.unlinkSync(localFile);
-        callback();
+
+        // return unzip error if one occurred
+        callback(unzipError);
       });
   });
 }
