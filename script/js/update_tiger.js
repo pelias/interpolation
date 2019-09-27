@@ -1,4 +1,3 @@
-const JSFtp = require('jsftp');
 const async = require('async');
 const path = require('path');
 const fs = require('fs-extra');
@@ -7,6 +6,8 @@ const logger = require('pelias-logger').get('interpolation(TIGER)');
 const config = require('pelias-config').generate();
 const _ = require('lodash');
 
+const CensusS3Mirror = require('./adapter/CensusS3Mirror');
+const adapter = new CensusS3Mirror();
 
 let TARGET_DIR = _.get(config, 'imports.interpolation.download.tiger.datapath', './data/downloads');
 let STATES = _.get(config, 'imports.interpolation.download.tiger.states', []);
@@ -40,9 +41,6 @@ async.eachSeries(STATES, download, (err)=>{
 
 function download(state, callback) {
   const context = {
-    ftp: new JSFtp({
-      host: 'ftp2.census.gov'
-    }),
     stateCode: state.hasOwnProperty('state_code') ? parseInt(state.state_code, 10) : '',
     countyCode: state.hasOwnProperty('county_code') ? parseInt(state.county_code, 10) : '',
     files: []
@@ -77,17 +75,10 @@ function getFilteredFileList(context, callback) {
       return callback();
     }
   }
-  context.ftp.list(`/geo/tiger/TIGER2016/ADDRFEAT/tl_2016_${filter}*.zip`, (err, res) => {
-    if (err) {
-      return callback(err);
-    }
-
-    // output of the list command looks like a typical ls command in unix
-    // this line will split the output into lines, and from each line grab the end of the file
-    // (all filenames are fixed length 27 chars)
-    // then it will trim the names and filter out any empty ones
-    context.files = res.split('\n').map((file)=>(file.substr(-27).trim())).filter((file)=>(file.length > 0));
-
+  adapter.list(`tl_2016_${filter}*.zip`, (err, files) => {
+    if (err) { return callback(err); }
+    logger.info(`Queuing ${files.length} downloads`);
+    context.files = files;
     callback();
   });
 }
@@ -96,8 +87,13 @@ function downloadFilteredFiles(context, callback) {
   context.downloadsDir = path.join(TARGET_DIR, 'downloads');
   context.shapefilesDir = path.join(TARGET_DIR, 'shapefiles');
 
+  // ensure directories exist
   fs.ensureDirSync(context.downloadsDir);
   fs.ensureDirSync(context.shapefilesDir);
+
+  // ensure directories are writable
+  fs.accessSync(context.downloadsDir, fs.constants.R_OK | fs.constants.W_OK);
+  fs.accessSync(context.shapefilesDir, fs.constants.R_OK | fs.constants.W_OK);
 
   // must use eachSeries here because the ftp connection only allows one download at a time
   async.eachSeries(context.files, downloadFile.bind(null, context), callback);
@@ -106,23 +102,23 @@ function downloadFilteredFiles(context, callback) {
 function downloadFile(context, filename, callback) {
   const localFile = path.join(context.downloadsDir, filename);
 
-  context.ftp.get(`/geo/tiger/TIGER2016/ADDRFEAT/${filename}`, localFile, (err)=> {
-    if (err) {
-      return callback(err);
-    }
-
+  adapter.get(filename, localFile, (err) => {
+    logger.info(`Downloading ${filename}`);
+    if (err) { return callback(err); }
     logger.info(`Downloaded ${filename}`);
 
     // unzip downloaded file
-    fs.createReadStream(localFile).pipe(unzip.Extract({ path: context.shapefilesDir })).on('finish', (err) => {
-      if (err) {
-        logger.error(`Failed to unzip ${filename}`);
-        return callback(err);
-      }
+    fs.createReadStream(localFile)
+      .pipe(unzip.Extract({ path: context.shapefilesDir }))
+      .on('finish', (err) => {
+        if (err) {
+          logger.error(`Failed to unzip ${filename}`);
+          return callback(err);
+        }
 
-      // delete zip file after unzip is done
-      fs.unlinkSync(localFile);
-      callback();
-    });
+        // delete zip file after unzip is done
+        fs.unlinkSync(localFile);
+        callback();
+      });
   });
 }
