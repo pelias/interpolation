@@ -13,7 +13,9 @@ var tests = [
   require('./stream/split.js'),
   require('./stream/oa/convert.js'),
   require('./stream/osm/convert.js'),
-  require('./stream/osm/delimited_ranges.js')
+  require('./stream/osm/delimited_ranges.js'),
+  // require('./script/js/adapter/CensusFTP'),
+  require('./script/js/adapter/CensusS3Mirror')
 ];
 
 tests.map(function(t) {
