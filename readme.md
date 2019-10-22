@@ -254,8 +254,8 @@ pelias/interpolation   latest              7ca651b86a63        16 minutes ago   
 This will run a new container based off the image created above.
 
 Notes:
-- `-p` controls port mapping (port `3000` in the container maps to `5000` in the host)
-- `-v` controls volume mapping (`/data` in the container maps to `/tmp` in the host)
+- `-p` controls port mapping (port `5000` on the host maps to `3000` in the container)
+- `-v` controls volume mapping (`/tmp` on the host maps to `/data` in the container)
 - `-d` tells docker to run the container in the background (daemonize)
 
 this will launch the server using the databases `/tmp/address.db` and `/tmp/street.db` which must be present on the host machine
