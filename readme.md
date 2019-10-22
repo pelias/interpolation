@@ -258,7 +258,7 @@ Notes:
 - `-v` controls volume mapping (`/tmp` on the host maps to `/data` in the container)
 - `-d` tells docker to run the container in the background (daemonize)
 
-this will launch the server using the databases `/tmp/address.db` and `/tmp/street.db` which must be present on the host machine
+This will launch the server using the databases `/tmp/address.db` and `/tmp/street.db` which must be present on the host machine
 
 ```bash
 docker run -p 5000:3000 -v /tmp:/data -d pelias/interpolation ./interpolate server /data/address.db /data/street.db
@@ -278,8 +278,12 @@ You should now be able to access the web server locally at `http://localhost:500
 You can run any command supported by `./interpolate` via the docker container, such as:
 
 ```bash
-cat /data/new_zealand.polylines | docker run --rm -it -v /data:/data pelias/interpolation ./interpolate polyline /data/nz.db
+cat /tmp/new_zealand.polylines | docker run --rm -v /tmp:/data pelias/interpolation ./interpolate polyline /data/nz.db
 ```
+
+This will pipe the `/tmp/new_zealand.polylines` file from your host machine to the `./interpolate polyline`
+script running in the container. The script generates an SQLite database `/data/nz.db` in the container,
+which is available under `/tmp/nz.db` on your host, because we use the mapping `-v /tmp:/data`.
 
 ### running a build in the docker container
 
