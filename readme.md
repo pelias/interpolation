@@ -238,12 +238,12 @@ see: [source](https://github.com/pelias/interpolation/blob/master/cmd/server.js)
 # docker
 
 ### build docker image
-this can take some time for the first build due to installing libpostal from source
+This can take some time for the first build due to installing libpostal from source.
 ```bash
 docker build -t pelias/interpolation .
 ```
 
-you can confirm that worked with:
+You can confirm that worked with:
 ```bash
 docker images
 REPOSITORY             TAG                 IMAGE ID            CREATED             SIZE
@@ -251,35 +251,39 @@ pelias/interpolation   latest              7ca651b86a63        16 minutes ago   
 ```
 
 ### run docker image
-this will run a new container based off the image created above
+This will run a new container based off the image created above.
 
-notes:
-- `-p` controls port mapping (port `3000` in the container maps to `5000` in the host)
-- `-v` controls volume mapping (`/data` in the container maps to `/data` in the host)
+Notes:
+- `-p` controls port mapping (port `5000` on the host maps to `3000` in the container)
+- `-v` controls volume mapping (`/tmp` on the host maps to `/data` in the container)
 - `-d` tells docker to run the container in the background (daemonize)
 
-this will launch the server using the databases `/tmp/address.db` and `/tmp/street.db` which must be present on the host machine
+This will launch the server using the databases `/tmp/address.db` and `/tmp/street.db` which must be present on the host machine
 
 ```bash
-docker run -p 5000:3000 -v /tmp:/data -d pelias/interpolation ./interpolate server /tmp/address.db /tmp/street.db
+docker run -p 5000:3000 -v /tmp:/data -d pelias/interpolation ./interpolate server /data/address.db /data/street.db
 ```
 
-you can confirm that worked with:
+You can confirm that worked with:
 ```bash
 $ docker ps
 CONTAINER ID        IMAGE                  COMMAND                  CREATED             STATUS              PORTS                    NAMES
 ac9c8f607b2e        pelias/interpolation   "./interpolate server"   14 minutes ago      Up 14 minutes       0.0.0.0:5000->3000/tcp   jolly_hamilton
 ```
 
-you should now be able to access the web server locally at `http://localhost:5000/demo/`
+You should now be able to access the web server locally at `http://localhost:5000/demo/`
 
 ### running scripts other than `server` in the docker container
 
-you can run any command supported by `./interpolate` via the docker container, such as:
+You can run any command supported by `./interpolate` via the docker container, such as:
 
 ```bash
-cat /data/new_zealand.polylines | docker run --rm -it -v /data:/data pelias/interpolation ./interpolate polyline /data/nz.db
+cat /tmp/new_zealand.polylines | docker run --rm -v /tmp:/data pelias/interpolation ./interpolate polyline /data/nz.db
 ```
+
+This will pipe the `/tmp/new_zealand.polylines` file from your host machine to the `./interpolate polyline`
+script running in the container. The script generates an SQLite database `/data/nz.db` in the container,
+which is available under `/tmp/nz.db` on your host, because we use the mapping `-v /tmp:/data`.
 
 ### running a build in the docker container
 
