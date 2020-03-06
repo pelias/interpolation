@@ -97,6 +97,11 @@ table.marker-properties th {
   padding-top: 6px;
 }
 
+#controls ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: lightgrey;
+  opacity: 1; /* Firefox */
+}
+
 #controls #streetname {
   margin: 0; padding: 0; border: 0;
   width: 230px;
@@ -115,4 +120,14 @@ input[type=number]::-webkit-outer-spin-button {
 
 textarea:focus, input:focus{
   outline: none;
+}
+
+
+#interpolateInstructions {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui;
+  color: darkslateblue;
 }
