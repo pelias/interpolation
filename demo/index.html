@@ -22,8 +22,11 @@
 <body>
   <div id="map"></div>
   <div id="controls">
-    <div class="leaflet-pelias-control leaflet-bar leaflet-control leaflet-pelias-expanded">
-      <input id="housenumber" type="text" min="1" max="1000" value="" />
+    <div id="interpolateInstructions" class="leaflet-pelias-control leaflet-bar leaflet-control leaflet-pelias-expanded">
+      Click on a street to see interpolation data
+    </div>
+    <div id="interpolateControls" class="leaflet-pelias-control leaflet-bar leaflet-control leaflet-pelias-expanded" style="display: none;">
+      <input id="housenumber" type="text" min="1" max="1000" value="" placeholder="123"/>
       <input id="streetname" disabled="disabled" value="" />
       <input id="lat" type="hidden" />
       <input id="lon" type="hidden" />
@@ -48,14 +51,15 @@
     }
 
     // Add geocoding plugin
-    var API_KEY = 'ge-6361345754ea1287';
+    var API_KEY = 'ge-5673e2c135b93a30';
     var params = {};
     var options = {
       focus: false,
       expanded: true,
       params: params,
       url: 'https://api.geocode.earth/v1',
-      attribution: 'Geocoding by <a href="https://geocode.earth/">geocode.earth</a>'
+      attribution: 'Geocoding by <a href="https://geocode.earth/">geocode.earth</a>',
+      placeholder: 'Search to center map'
     };
     var geocoder = L.control.geocoder(API_KEY, options).addTo(map);
 
@@ -187,12 +191,16 @@
 
     function update( latlng ){
 
+      $('#interpolateInstructions').hide();
+      $('#interpolateControls').show();
+
       // use map center when latlng not supplied
       if( !latlng ){ latlng = map.getCenter(); }
 
       streetsNear( latlng, function( err, data ){
 
         if( data && data.features.length ){
+          console.log('got a feaure', data.features[0])
 
           var centroid = latlng;
           // var names = data.features.map( function( street ){
