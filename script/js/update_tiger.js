@@ -1,7 +1,6 @@
 const async = require('async');
 const path = require('path');
 const fs = require('fs-extra');
-const unzip = require('unzipper');
 const logger = require('pelias-logger').get('interpolation(TIGER)');
 const config = require('pelias-config').generate();
 const _ = require('lodash');
@@ -35,8 +34,6 @@ async.eachSeries(STATES, download, (err)=>{
     logger.error(err);
     process.exit(1);
   }
-
-  process.exit(0);
 });
 
 function download(state, callback) {
@@ -85,15 +82,12 @@ function getFilteredFileList(context, callback) {
 
 function downloadFilteredFiles(context, callback) {
   context.downloadsDir = path.join(TARGET_DIR, 'downloads');
-  context.shapefilesDir = path.join(TARGET_DIR, 'shapefiles');
 
   // ensure directories exist
   fs.ensureDirSync(context.downloadsDir);
-  fs.ensureDirSync(context.shapefilesDir);
 
   // ensure directories are writable
   fs.accessSync(context.downloadsDir, fs.constants.R_OK | fs.constants.W_OK);
-  fs.accessSync(context.shapefilesDir, fs.constants.R_OK | fs.constants.W_OK);
 
   // must use eachSeries here because the ftp connection only allows one download at a time
   async.eachSeries(context.files, downloadFile.bind(null, context), callback);
@@ -106,30 +100,6 @@ function downloadFile(context, filename, callback) {
     logger.info(`Downloading ${filename}`);
     if (err) { return callback(err); }
     logger.debug(`Downloaded ${filename}`);
-
-    // record unzip errors
-    let unzipError = null;
-
-    // decompress files to shapefile directory
-    const decompress = unzip.Extract({ path: context.shapefilesDir });
-    decompress.on('error', (err) => {
-      unzipError = err;
-      logger.error(`Failed to unzip ${filename}`);
-      logger.error(err);
-    });
-
-    // unzip downloaded file
-    logger.info(`Decompressing ${filename}`);
-    fs.createReadStream(localFile)
-      .pipe(decompress)
-      .on('finish', () => {
-        logger.debug(`Decompressed ${filename}`);
-
-        // delete zip file after unzip is done
-        fs.unlinkSync(localFile);
-
-        // return unzip error if one occurred
-        callback(unzipError);
-      });
+    callback();
   });
 }
