@@ -51,18 +51,18 @@ rm -f $PROC_STDOUT $PROC_STDERR $PROC_CONFERR;
 
 # download path of tiger files (use default unless param is supplied)
 TIGERPATH=${TIGERPATH:-"$WORKINGDIR/data/tiger"};
-# ensure shapefiles directory exists
-[ -d "$TIGERPATH/shapefiles" ] || mkdir -p "$TIGERPATH/shapefiles";
+# ensure downloads directory exists
+[ -d "$TIGERPATH/downloads" ] || mkdir -p "$TIGERPATH/downloads";
 
-# recurse through filesystem listing all .shx file names
+# recurse through filesystem listing all .zip file names
 # some county zip packages are missing .shx which causes the ogr2ogr script to fail
-find "$TIGERPATH/shapefiles" -type f -iname "*.shx" -print0 |\
+find "$TIGERPATH/downloads" -type f -iname "*.zip" -print0 |\
   while IFS= read -r -d $'\0' filename; do
 
     # echo filename to stderr
     >&2 echo $(date -u) "$filename";
 
-    ogr2ogr -f GeoJSON -t_srs crs:84 /vsistdout/ "$filename" |\
+    ogr2ogr -f GeoJSON -t_srs crs:84 /vsistdout/ /vsizip/$filename |\
       node --max-old-space-size=8192 $DIR/../cmd/tiger.js $ADDRESS_DB $STREET_DB 1>>$PROC_STDOUT 2>>$PROC_STDERR;
 
   done;
