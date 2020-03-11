@@ -5,6 +5,12 @@ var sqlite3 = require('sqlite3'),
     query = requireDir('../query'),
     analyze = require('../lib/analyze');
 
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
 // export setup method
 function setup( addressDbPath, streetDbPath ){
 
@@ -16,7 +22,7 @@ function setup( addressDbPath, streetDbPath ){
   query.attach( db, streetDbPath, 'street' );
 
   // query method
-  var q = function( coord, names, cb ){
+  var q = async function( coord, names, cb ){
 
     var point = {
       lat: parseFloat( coord.lat ),
@@ -24,8 +30,8 @@ function setup( addressDbPath, streetDbPath ){
     };
 
     var normalized = [];
-    names.forEach( function( name ){
-      normalized = normalized.concat( analyze.street( name ) );
+    await asyncForEach(names, async function( name ){
+      normalized = normalized.concat( await analyze.street( name ) );
     });
 
     // error checking

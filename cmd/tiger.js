@@ -1,6 +1,7 @@
 
-var tty = require('tty'),
-    tiger = require('../api/tiger');
+const tty = require('tty');
+const tiger = require('../api/tiger');
+const postal = require('../lib/libpostal');
 
 // help text
 if( process.argv.length !== 4 ){
@@ -16,4 +17,4 @@ if( tty.isatty( process.stdin ) ){
 }
 
 // run script
-tiger( process.stdin, process.argv[2], process.argv[3] );
+tiger( process.stdin, process.argv[2], process.argv[3], postal.close );

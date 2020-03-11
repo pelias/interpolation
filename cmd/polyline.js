@@ -1,6 +1,7 @@
 
-var tty = require('tty'),
-    polyline = require('../api/polyline');
+const tty = require('tty');
+const polyline = require('../api/polyline');
+const postal = require('../lib/libpostal');
 
 // help text
 if( process.argv.length < 3 ){
@@ -16,4 +17,4 @@ if( tty.isatty( process.stdin ) ){
 }
 
 // run script
-polyline( process.stdin, process.argv[2] );
+polyline(process.stdin, process.argv[2], postal.close);

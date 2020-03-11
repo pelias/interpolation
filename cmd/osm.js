@@ -1,6 +1,7 @@
 
-var tty = require('tty'),
-    osm = require('../api/osm');
+const tty = require('tty');
+const osm = require('../api/osm');
+const postal = require('../lib/libpostal');
 
 // help text
 if( process.argv.length !== 4 ){
@@ -16,4 +17,4 @@ if( tty.isatty( process.stdin ) ){
 }
 
 // run script
-osm( process.stdin, process.argv[2], process.argv[3] );
+osm( process.stdin, process.argv[2], process.argv[3], postal.close );

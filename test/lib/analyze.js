@@ -4,18 +4,18 @@ var analyze = require('../../lib/analyze');
 module.exports.analyze = {};
 
 module.exports.analyze.street = function(test) {
-  test('street: synonym expansions', function(t) {
-    var perms = analyze.street('grolmanstraße');
+  test('street: synonym expansions', async function(t) {
+    var perms = await analyze.street('grolmanstraße');
     t.deepEqual(perms, ['grolmanstraße', 'grolman straße']);
     t.end();
   });
-  test('street: remove ordinals', function(t) {
-    var perms = analyze.street('West 26th st');
+  test('street: remove ordinals', async function(t) {
+    var perms = await analyze.street('West 26th st');
     t.deepEqual(perms, ['west 26 street', 'west 26 saint']);
     t.end();
   });
-  test('street: always returns array', function(t) {
-    var perms = analyze.street('');
+  test('street: always returns array', async function(t) {
+    var perms = await analyze.street('');
     t.deepEqual(perms, ['']);
     t.end();
   });

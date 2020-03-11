@@ -1,6 +1,6 @@
-
-var extract = require('../api/extract'),
-    pretty = require('../lib/pretty');
+const extract = require('../api/extract');
+const pretty = require('../lib/pretty');
+const postal = require('../lib/libpostal');
 
 // help text
 if( process.argv.length !== 7 ){
@@ -36,3 +36,4 @@ conn.query( point, names, function( err, res ){
 });
 
 conn.close();
+postal.close();

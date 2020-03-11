@@ -7,6 +7,13 @@ var through = require('through2'),
 // eg: http://geojson.io/#id=gist:anonymous/ce8b0cdd2ba83ef24cfaab49d36d8cdd&map=15/52.5011/13.3222
 var FUDGE_FACTOR = 0.005;
 
+// async version of forEach
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
 /**
   this stream augments the parsed data with additional fields.
 
@@ -15,12 +22,13 @@ var FUDGE_FACTOR = 0.005;
    - apply 'fudge factor' to bbox
 **/
 function streamFactory(){
-  return through.obj(function( street, _, next ){
+  return through.obj(async function( street, _, next ){
 
     // normalize all names
     var names = [];
-    street.getNames().forEach( function( name ){
-      names = names.concat( analyze.street( name ) );
+    await asyncForEach(street.getNames(), async function (name) {
+      const analyzed = await analyze.street(name);
+      names = names.concat(analyzed);
     });
 
     // if the source file contains no valid names for this polyline
