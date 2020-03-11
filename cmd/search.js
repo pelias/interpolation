@@ -1,5 +1,6 @@
 
-var search = require('../api/search');
+const search = require('../api/search');
+const postal = require('../lib/libpostal');
 
 // help text
 if( process.argv.length < 8 || process.argv.length > 9 ){
@@ -35,3 +36,4 @@ conn.query( point, number, street, function( err, res ){
 });
 
 conn.close();
+postal.close();

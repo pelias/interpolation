@@ -1,19 +1,16 @@
 
-var express = require('express'),
-    directory = require('serve-index'),
-    polyline = require('@mapbox/polyline'),
-    search = require('../api/search'),
-    extract = require('../api/extract'),
-    street = require('../api/street'),
-    near = require('../api/near'),
-    pretty = require('../lib/pretty'),
-    analyze = require('../lib/analyze'),
-    project = require('../lib/project'),
-    proximity = require('../lib/proximity');
+const express = require('express');
+const polyline = require('@mapbox/polyline');
+const search = require('../api/search');
+const extract = require('../api/extract');
+const street = require('../api/street');
+const near = require('../api/near');
+const pretty = require('../lib/pretty');
+const analyze = require('../lib/analyze');
 
-const morgan = require( 'morgan' );
+const morgan = require('morgan');
 const logger = require('pelias-logger').get('interpolation');
-const through = require( 'through2' );
+const through = require('through2');
 const _ = require('lodash');
 
 // optionally override port using env var
@@ -208,10 +205,10 @@ app.use('/demo', express.static('demo'));
 // app.use('/builds', express.static('/data/builds'));
 // app.use('/builds', directory('/data/builds', { hidden: false, icons: false, view: 'details' }));
 
-app.listen( PORT, function() {
+app.listen( PORT, async function() {
 
   // force loading of libpostal
-  analyze.street( 'test street' );
+  await analyze.street( 'test street' );
 
   console.log( 'server listening on port', PORT );
 });

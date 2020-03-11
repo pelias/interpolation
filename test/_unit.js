@@ -2,6 +2,9 @@
 var tape = require('tape');
 var common = {};
 
+var postal = require('../lib/libpostal');
+tape.onFinish(postal.close);
+
 var tests = [
   require('./interface.js'),
   require('./lib/analyze.js'),
