@@ -1,9 +1,8 @@
-
 // maximum names to match on
-var MAX_NAMES = 10;
+const MAX_NAMES = 10;
 
 // maximum address records to return
-var MAX_MATCHES = 20;
+const MAX_MATCHES = 20;
 
 /**
   this query should only ever return max 3 rows.
@@ -11,7 +10,7 @@ var MAX_MATCHES = 20;
   exact match was found or not.
 **/
 
-var SQL = [
+const SQL = [
   'WITH base AS (',
     'SELECT id, housenumber, rowid',
     'FROM address',
@@ -22,8 +21,8 @@ var SQL = [
         'SELECT id',
         'FROM street.rtree',
         'WHERE (',
-          'street.rtree.minX<=?1 AND street.rtree.maxX>=?1 AND',
-          'street.rtree.minY<=?2 AND street.rtree.maxY>=?2',
+          'street.rtree.minX<=$lon AND street.rtree.maxX>=$lon AND',
+          'street.rtree.minY<=$lat AND street.rtree.maxY>=$lat',
         ')',
       ')',
       'AND ( %%NAME_CONDITIONS%% )',
@@ -33,50 +32,66 @@ var SQL = [
   'WHERE rowid IN (',
     'SELECT rowid FROM (',
       'SELECT * FROM base',
-      'WHERE housenumber < "%%TARGET_HOUSENUMBER%%"',
+      'WHERE housenumber < $housenumber',
       'GROUP BY id HAVING( MAX( housenumber ) )',
       'ORDER BY housenumber DESC',
     ')',
     'UNION',
     'SELECT rowid FROM (',
       'SELECT * FROM base',
-      'WHERE housenumber >= "%%TARGET_HOUSENUMBER%%"',
+      'WHERE housenumber >= $housenumber',
       'GROUP BY id HAVING( MIN( housenumber ) )',
       'ORDER BY housenumber ASC',
     ')',
   ')',
   'ORDER BY housenumber ASC', // @warning business logic depends on this
-  'LIMIT %%MAX_MATCHES%%;'
+  `LIMIT ${MAX_MATCHES};`
 ].join(' ');
 
-var NAME_SQL = '(street.names.name=?)';
+// SQL prepared statements dont easily support variable length inputs.
+// This function dynamically generates a SQL query based on the number
+// of 'name' conditions required.
+function generateDynamicSQL(count){
+  const conditions = new Array(count)
+    .fill('(street.names.name=?)')
+    .map((sql, pos) => sql.replace('?', `$name${pos}`));
+
+  return SQL.replace('%%NAME_CONDITIONS%%', conditions.join(' OR '));
+}
+
+// Reusing prepared statements can have a ~10% perf benefit
+const cache = [];
+function statementCache(db, count){
+  if (!cache[count]) {
+    cache[count] = db.prepare(generateDynamicSQL(count));
+  }
+  return cache[count];
+}
 
 module.exports = function( db, point, number, names, cb ){
-
   // error checking
   if( !names || !names.length ){
     return cb( null, [] );
   }
 
   // max conditions to search on
-  var max = { names: Math.min( names.length, MAX_NAMES ) };
+  const max = { names: Math.min( names.length, MAX_NAMES ) };
 
-  // use named parameters to avoid sending coordinates twice for rtree conditions
-  var position = 3; // 1 and 2 are used by lon and lat.
+  // use a prepared statement from cache (or generate one if not yet cached)
+  const stmt = statementCache(db, max.names);
 
-  // add name conditions to query
-  var nameConditions = Array.apply(null, new Array(max.names)).map( function(){
-    return NAME_SQL.replace('?', '?' + position++);
+  // query params
+  const params = {
+    $lon: point.lon,
+    $lat: point.lat,
+    $housenumber: number
+  };
+
+  // each name is added in the format: $name0=x, $name1=y
+  names.slice(0, max.names).forEach((name, pos) => {
+    params[`$name${pos}`] = name;
   });
 
-  // build unique sql statement
-  var sql = SQL.replace( '%%NAME_CONDITIONS%%', nameConditions.join(' OR ') )
-               .replace( '%%MAX_MATCHES%%', MAX_MATCHES )
-               .split( '%%TARGET_HOUSENUMBER%%' ).join( number );
-
-  // create a variable array of params for the query
-  var params = [ point.lon, point.lat ].concat( names.slice(0, max.names) );
-
   // execute query
-  db.all( sql, params, cb );
+  stmt.all(params, cb);
 };
