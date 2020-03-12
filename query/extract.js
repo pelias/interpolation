@@ -1,50 +1,68 @@
-
 // maximum names to match on
-var MAX_NAMES = 10;
+const MAX_NAMES = 10;
 
 // maximum address records to return
-var MAX_MATCHES = 5000; // note: this query should only be used for debugging purposes
+const MAX_MATCHES = 5000; // note: this query should only be used for debugging purposes
 
-var SQL = [
-  'SELECT address.* FROM street.rtree',
-  'JOIN street.names ON street.names.id = street.rtree.id',
-  'JOIN address ON address.id = street.rtree.id',
-  'WHERE (',
-    'street.rtree.minX<=?1 AND street.rtree.maxX>=?1 AND',
-    'street.rtree.minY<=?2 AND street.rtree.maxY>=?2',
-  ')',
-  'AND ( %%NAME_CONDITIONS%% )',
-  'ORDER BY address.housenumber ASC', // @warning business logic depends on this
-  'LIMIT %%MAX_MATCHES%%;'
-].join(' ');
+const SQL = `
+  SELECT address.* FROM street.rtree
+  JOIN street.names ON street.names.id = street.rtree.id
+  JOIN address ON address.id = street.rtree.id
+  WHERE (
+    street.rtree.minX<=$lon AND street.rtree.maxX>=$lon AND
+    street.rtree.minY<=$lat AND street.rtree.maxY>=$lat
+  )
+  AND ( %%NAME_CONDITIONS%% )
+  ORDER BY address.housenumber ASC // @warning business logic depends on this
+  LIMIT ${MAX_MATCHES};
+`;
 
-var NAME_SQL = '(street.names.name=?)';
+// SQL prepared statements dont easily support variable length inputs.
+// This function dynamically generates a SQL query based on the number
+// of 'name' conditions required.
+function generateDynamicSQL(max) {
+  const conditions = new Array(max.names)
+    .fill('(street.names.name=$name)')
+    .map((sql, pos) => sql.replace('$name', `$name${pos}`));
 
-module.exports = function( db, point, names, cb ){
+  return SQL.replace('%%NAME_CONDITIONS%%', conditions.join(' OR '));
+}
+
+// Reusing prepared statements can have a ~10% perf benefit
+// Note: the cache is global and so must be unique per database.
+const cache = [];
+function statementCache(db, max) {
+  const key = `${max.names}:${db.name}`;
+  if (!cache[key]) {
+    cache[key] = db.prepare(generateDynamicSQL(max));
+  }
+  return cache[key];
+}
+
+module.exports = function( db, point, names ){
 
   // error checking
   if( !names || !names.length ){
-    return cb( null, [] );
+    return [];
   }
 
   // max conditions to search on
-  var max = { names: Math.min( names.length, MAX_NAMES ) };
+  const max = { names: Math.min( names.length, MAX_NAMES ) };
 
-  // use named parameters to avoid sending coordinates twice for rtree conditions
-  var position = 3; // 1 and 2 are used by lon and lat.
+  // use a prepared statement from cache (or generate one if not yet cached)
+  const stmt = statementCache(db, max);
 
-  // add name conditions to query
-  var nameConditions = Array.apply(null, new Array(max.names)).map( function(){
-    return NAME_SQL.replace('?', '?' + position++);
+  // query params
+  const params = {
+    lon: point.lon,
+    lat: point.lat,
+  };
+
+  // each name is added in the format: $name0=x, $name1=y
+  names.slice(0, max.names).forEach((name, pos) => {
+    params[`name${pos}`] = name;
   });
 
-  // build unique sql statement
-  var sql = SQL.replace( '%%NAME_CONDITIONS%%', nameConditions.join(' OR ') )
-               .replace( '%%MAX_MATCHES%%', MAX_MATCHES );
-
-  // create a variable array of params for the query
-  var params = [ point.lon, point.lat ].concat( names.slice(0, max.names) );
-
   // execute query
-  db.all( sql, params, cb );
+  return stmt.all(params);
 };

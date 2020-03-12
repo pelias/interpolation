@@ -1,6 +1,5 @@
 
 var through = require('through2'),
-    assert = require('../../lib/assert'),
     Statistics = require('../../lib/statistics');
 
 function streamFactory(db, done){
@@ -20,52 +19,30 @@ function streamFactory(db, done){
   // create a new stream
   return through.obj({ highWaterMark: 2 }, function( batch, _, next ){
 
-    // run serially so we can use transactions
-    db.serialize(function() {
+    // start transaction
+    db.transaction(() => {
 
-      // start transaction
-      db.run('BEGIN TRANSACTION', function(err){
+      // import batch
+      batch.forEach( function( address ){
 
-        // error checking
-        assert.transaction.start(err);
-
-        // import batch
-        batch.forEach( function( address ){
-
-          // insert points in address table
-          stmt.address.run(address, assert.statement.address);
-        });
+        // insert points in address table
+        stmt.address.run(address);
       });
+    })();
 
-      // commit transaction
-      db.run('END TRANSACTION', function(err){
+    // update statistics
+    stats.inc( batch.length );
 
-        // error checking
-        assert.transaction.end(err);
-
-        // update statistics
-        stats.inc( batch.length );
-
-        // wait for transaction to complete before continuing
-        next();
-      });
-    });
+    // wait for transaction to complete before continuing
+    next();
 
   }, function( next ){
 
     // stop stats ticker
     stats.tick( false );
 
-    // clean up
-    db.serialize(function(){
-
-      // finalize prepared statements
-      stmt.address.finalize( assert.log('finalize address') );
-
-      // we are done
-      db.wait(done);
-      next();
-    });
+    done();
+    next();
   });
 }
 

@@ -1,7 +1,6 @@
 
-var sqlite3 = require('sqlite3'),
+var Database = require('better-sqlite3'),
     requireDir = require('require-dir'),
-    pretty = require('../lib/pretty'),
     query = requireDir('../query'),
     analyze = require('../lib/analyze');
 
@@ -9,11 +8,13 @@ var sqlite3 = require('sqlite3'),
 function setup( addressDbPath, streetDbPath ){
 
   // connect to db
-  sqlite3.verbose();
-  var db = new sqlite3.Database( addressDbPath, sqlite3.OPEN_READONLY );
+  var db = new Database( addressDbPath, {
+    readonly: true,
+    verbose: console.log
+  });
 
   // attach street database
-  query.attach( db, streetDbPath, 'street' );
+  db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
 
   // query method
   var q = function( coord, names, cb ){
@@ -34,7 +35,13 @@ function setup( addressDbPath, streetDbPath ){
     if( !normalized.length ){ return cb( 'invalid names' ); }
 
     // perform a db lookup for the specified street
-    query.extract( db, point, normalized, cb );
+    try {
+      const rows = query.extract( db, point, normalized );
+      cb(null, rows);
+    } catch (err) {
+      // an error occurred
+      return cb(err, null);
+    }
   };
 
   // close method to close db

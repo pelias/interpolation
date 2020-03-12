@@ -1,5 +1,5 @@
 
-var sqlite3 = require('sqlite3'),
+var Database = require('better-sqlite3'),
     polyline = require('@mapbox/polyline'),
     requireDir = require('require-dir'),
     query = requireDir('../query'),
@@ -13,12 +13,15 @@ var PRECISION = 6;
 function setup( streetDbPath ){
 
   // connect to db
-  sqlite3.verbose();
   // @todo: this is required as the query uses the 'street.' prefix for tables
-  var db = new sqlite3.Database( ':memory:', sqlite3.OPEN_READONLY );
+  var db = new Database( '/tmp/path', {
+    memory: true,
+    readonly: false,
+    verbose: console.log
+  });
 
   // attach street database
-  query.attach( db, streetDbPath, 'street' );
+  db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
 
   // query method
   var q = function( coord, cb ){
@@ -32,11 +35,12 @@ function setup( streetDbPath ){
     if( isNaN( point.lat ) ){ return cb( 'invalid latitude' ); }
     if( isNaN( point.lon ) ){ return cb( 'invalid longitude' ); }
 
-    // perform a db lookup for nearby streets
-    query.near( db, point, function( err, res ){
+    try {
+      // perform a db lookup for nearby streets
+      const res = query.near( db, point );
 
-      // an error occurred or no results were found
-      if( err || !res || !res.length ){ return cb( err, null ); }
+      // no results were found
+      if( !res || !res.length ){ return cb( null, null ); }
 
       // decode polylines
       res.forEach( function( street, i ){
@@ -48,7 +52,10 @@ function setup( streetDbPath ){
 
       // return streets ordered ASC by distance from point
       cb( null, ordered );
-    });
+    } catch (err) {
+      // an error occurred
+      return cb(err, null);
+    }
   };
 
   // return methods
