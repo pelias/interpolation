@@ -1,15 +1,12 @@
 
-var express = require('express'),
-    directory = require('serve-index'),
-    polyline = require('@mapbox/polyline'),
-    search = require('../api/search'),
-    extract = require('../api/extract'),
-    street = require('../api/street'),
-    near = require('../api/near'),
-    pretty = require('../lib/pretty'),
-    analyze = require('../lib/analyze'),
-    project = require('../lib/project'),
-    proximity = require('../lib/proximity');
+const express = require('express');
+const polyline = require('@mapbox/polyline');
+const search = require('../api/search');
+const extract = require('../api/extract');
+const street = require('../api/street');
+const near = require('../api/near');
+const pretty = require('../lib/pretty');
+const analyze = require('../lib/analyze');
 
 const morgan = require( 'morgan' );
 const logger = require('pelias-logger').get('interpolation');
@@ -38,6 +35,15 @@ var conn = {
 };
 
 function log() {
+  const verboseLevels = ['info', 'debug'];
+  const logLevel = _.get(logger, 'transports.console.level', '');
+  if (process.stdout.isTTY && verboseLevels.includes(logLevel)){
+    logger.warn(
+      `usage of verbose logging levels (${verboseLevels.join(',')})` +
+      `where stdout is a TTY can have a severe negative performance impact.`
+    );
+  }
+
   morgan.token('url', (req, res) => {
     // if there's a DNT header, just return '/' as the URL
     if (['DNT', 'dnt', 'do_not_track'].some(header => _.has(req.headers, header))) {
