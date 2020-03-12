@@ -1,5 +1,5 @@
 
-var sqlite3 = require('sqlite3'),
+var Database = require('better-sqlite3'),
     requireDir = require('require-dir'),
     stream = requireDir('../stream', { recurse: true }),
     query = requireDir('../query');
@@ -8,8 +8,9 @@ var sqlite3 = require('sqlite3'),
 function polyline(dataStream, streetDbPath, done){
 
   // connect to db
-  sqlite3.verbose();
-  var db = new sqlite3.Database(streetDbPath);
+  var db = new Database(streetDbPath, {
+    verbose: console.log
+  });
 
   query.configure(db); // configure database
   query.tables.street(db, true); // reset database and create tables

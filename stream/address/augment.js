@@ -57,15 +57,15 @@ function streamFactory(db, done){
 
       // push openaddresses values to db
       this.push({
-        $id: nearest.street.id,
-        $source: address.getSource(),
-        $source_id: address.getId(),
-        $housenumber: housenumber,
-        $lon: point[0],
-        $lat: point[1],
-        $parity: parity,
-        $proj_lon: nearest.proj.point[0],
-        $proj_lat: nearest.proj.point[1]
+        id: nearest.street.id,
+        source: address.getSource(),
+        source_id: address.getId(),
+        housenumber: housenumber,
+        lon: point[0],
+        lat: point[1],
+        parity: parity,
+        proj_lon: nearest.proj.point[0],
+        proj_lat: nearest.proj.point[1]
       });
 
     }, this);

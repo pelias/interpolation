@@ -1,5 +1,5 @@
 
-var sqlite3 = require('sqlite3'),
+var Database = require('better-sqlite3'),
     requireDir = require('require-dir'),
     query = requireDir('../query');
 
@@ -7,8 +7,10 @@ var sqlite3 = require('sqlite3'),
 function setup( streetDbPath ){
 
   // connect to db
-  sqlite3.verbose();
-  var db = new sqlite3.Database( streetDbPath, sqlite3.OPEN_READONLY );
+  var db = new Database( streetDbPath, {
+    readonly: true,
+    verbose: console.log
+  });
 
   // query method
   var q = function( ids, cb ){
@@ -24,15 +26,19 @@ function setup( streetDbPath ){
     });
     if( fail ){ return cb( 'non-numeric id' ); }
 
-    // perform a db lookup for the specified street
-    query.street( db, ids, function( err, res ){
+    try {
+      // perform a db lookup for the specified street
+      const res = query.street( db, ids );
 
-      // an error occurred or no results were found
-      if( err || !res ){ return cb( err, null ); }
+      // results were found
+      if( !res ){ return cb( null, null ); }
 
       // call callback
-      cb( err, res );
-    });
+      cb( null, res );
+    } catch (err) {
+      // an error occurred
+      return cb(err, null);
+    }
   };
 
   // close method to close db

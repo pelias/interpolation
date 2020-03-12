@@ -163,12 +163,6 @@ module.exports.functional.search_north = function(test) {
       t.end();
     });
   });
-
-  test('close connection', function(t) {
-    conn.close();
-    t.pass();
-    t.end();
-  });
 };
 
 module.exports.functional.spotcheck_south = function(test) {
