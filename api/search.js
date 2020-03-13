@@ -17,8 +17,8 @@ function setup( addressDbPath, streetDbPath ){
   db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
 
   // enable memmapping of database pages
-  db.run('PRAGMA mmap_size=268435456;');
-  db.run('PRAGMA street.mmap_size=268435456;');
+  db.exec('PRAGMA mmap_size=268435456;');
+  db.exec('PRAGMA street.mmap_size=268435456;');
 
   // query method
   var q = function( coord, number, street, cb ){
