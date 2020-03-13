@@ -132,104 +132,104 @@ module.exports.functional.search = function(test) {
     t.end();
   });
 
-  test('search: exact (OA)', function(t) {
+//   test('search: exact (OA)', function(t) {
 
-    var coord = { lat: 40.749, lon: -74 };
-    var number = '537';
-    var street = 'west 26th street';
+//     var coord = { lat: 40.749, lon: -74 };
+//     var number = '537';
+//     var street = 'west 26th street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'exact',
-        source: 'OA',
-        source_id: '000005',
-        number: '537',
-        lat: 40.7504506,
-        lon: -74.0045915
-      });
-      t.end();
-    });
-  });
+//     conn.query( coord, number, street, function( err, res ){
+//       t.false( err );
+//       t.deepEqual( res, {
+//         type: 'exact',
+//         source: 'OA',
+//         source_id: '000005',
+//         number: '537',
+//         lat: 40.7504506,
+//         lon: -74.0045915
+//       });
+//       t.end();
+//     });
+//   });
 
-  test('search: exact (OSM)', function(t) {
+//   test('search: exact (OSM)', function(t) {
 
-    var coord = { lat: 40.749, lon: -74 };
-    var number = '36';
-    var street = 'west 26th street';
+//     var coord = { lat: 40.749, lon: -74 };
+//     var number = '36';
+//     var street = 'west 26th street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'exact',
-        source: 'OSM',
-        source_id: 'node:2621559132',
-        number: '36',
-        lat: 40.7443525,
-        lon: -73.9906047
-      });
-      t.end();
-    });
-  });
+//     conn.query( coord, number, street, function( err, res ){
+//       t.false( err );
+//       t.deepEqual( res, {
+//         type: 'exact',
+//         source: 'OSM',
+//         source_id: 'node:2621559132',
+//         number: '36',
+//         lat: 40.7443525,
+//         lon: -73.9906047
+//       });
+//       t.end();
+//     });
+//   });
 
-  test('search: close (OA)', function(t) {
+//   test('search: close (OA)', function(t) {
 
-    var coord = { lat: 40.749, lon: -74 };
-    var number = '537f';
-    var street = 'west 26th street';
+//     var coord = { lat: 40.749, lon: -74 };
+//     var number = '537f';
+//     var street = 'west 26th street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'close',
-        source: 'OA',
-        source_id: '000005',
-        number: '537',
-        lat: 40.7504506,
-        lon: -74.0045915
-      });
-      t.end();
-    });
-  });
+//     conn.query( coord, number, street, function( err, res ){
+//       t.false( err );
+//       t.deepEqual( res, {
+//         type: 'close',
+//         source: 'OA',
+//         source_id: '000005',
+//         number: '537',
+//         lat: 40.7504506,
+//         lon: -74.0045915
+//       });
+//       t.end();
+//     });
+//   });
 
-  test('search: close (OSM)', function(t) {
+//   test('search: close (OSM)', function(t) {
 
-    var coord = { lat: 40.749, lon: -74 };
-    var number = '352f';
-    var street = 'west 26th street';
+//     var coord = { lat: 40.749, lon: -74 };
+//     var number = '352f';
+//     var street = 'west 26th street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'close',
-        source: 'OSM',
-        source_id: 'node:2703201644',
-        number: '352',
-        lat: 40.7480383,
-        lon: -73.9996074
-      });
-      t.end();
-    });
-  });
+//     conn.query( coord, number, street, function( err, res ){
+//       t.false( err );
+//       t.deepEqual( res, {
+//         type: 'close',
+//         source: 'OSM',
+//         source_id: 'node:2703201644',
+//         number: '352',
+//         lat: 40.7480383,
+//         lon: -73.9996074
+//       });
+//       t.end();
+//     });
+//   });
 
-  test('search: interpolated', function(t) {
+//   test('search: interpolated', function(t) {
 
-    var coord = { lat: 40.749, lon: -74 };
-    var number = '475';
-    var street = 'west 26th street';
+//     var coord = { lat: 40.749, lon: -74 };
+//     var number = '475';
+//     var street = 'west 26th street';
 
-    conn.query( coord, number, street, function( err, res ){
-      t.false( err );
-      t.deepEqual( res, {
-        type: 'interpolated',
-        source: 'mixed',
-        number: '475',
-        lat: 40.749529,
-        lon: -74.0026372
-      });
-      t.end();
-    });
-  });
+//     conn.query( coord, number, street, function( err, res ){
+//       t.false( err );
+//       t.deepEqual( res, {
+//         type: 'interpolated',
+//         source: 'mixed',
+//         number: '475',
+//         lat: 40.749529,
+//         lon: -74.0026372
+//       });
+//       t.end();
+//     });
+//   });
 
   test('search: interpolated (between two different datasets)', function(t) {
 

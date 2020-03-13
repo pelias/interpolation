@@ -15,5 +15,7 @@ if( tty.isatty( process.stdin ) ){
   process.exit(1);
 }
 
+console.error('import', process.argv[2])
+
 // run script
 polyline( process.stdin, process.argv[2] );

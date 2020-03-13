@@ -23,13 +23,15 @@ function streamFactory(db, done){
     db.serialize(function() {
 
       // start transaction
-      db.run('BEGIN TRANSACTION', function(err){
+      console.error('transaction create')
+      db.transaction((b) => {
+      // db.run('BEGIN TRANSACTION', function(err){
 
         // error checking
-        assert.transaction.start(err);
+        // assert.transaction.start(err);
 
         // import batch
-        batch.forEach( function( street ){
+        b.forEach( function( street ){
 
           // insert names in to lookup table
           street.getNames().forEach( function( name ){
@@ -55,21 +57,24 @@ function streamFactory(db, done){
             $line: street.getEncodedPolyline()
           }, assert.statement.line);
 
-        });
-      });
+          console.error('transaction queue')
 
-      // commit transaction
-      db.run('END TRANSACTION', function(err){
+        });
+      })(batch);
+      console.error('transaction executed')
+
+      // // commit transaction
+      // db.run('END TRANSACTION', function(err){
 
         // error checking
-        assert.transaction.end(err);
+        // assert.transaction.end(err);
 
         // update statistics
         stats.inc( batch.length );
 
         // wait for transaction to complete before continuing
         next();
-      });
+      // });
     });
 
   }, function( next ){

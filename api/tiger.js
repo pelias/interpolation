@@ -1,5 +1,5 @@
 
-var sqlite3 = require('sqlite3'),
+var sqlite3 = require('../lib/Sqlite'),
     requireDir = require('require-dir'),
     stream = requireDir('../stream', { recurse: true }),
     query = requireDir('../query');

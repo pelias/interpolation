@@ -34,4 +34,4 @@ conn.query( point, number, street, function( err, res ){
 
 });
 
-conn.close();
+// conn.close();

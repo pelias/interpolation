@@ -1,5 +1,5 @@
 
-var sqlite3 = require('sqlite3'),
+var sqlite3 = require('../lib/Sqlite'),
     requireDir = require('require-dir'),
     query = requireDir('../query'),
     project = require('../lib/project'),
@@ -42,9 +42,13 @@ function setup( addressDbPath, streetDbPath ){
     if( isNaN( normalized.number ) ){ return cb( 'invalid number' ); }
     if( !normalized.street.length ){ return cb( 'invalid street' ); }
 
+    console.error('do search')
+
     // perform a db lookup for the specified street
     // @todo: perofmance: only query for part of the table
     query.search( db, point, normalized.number, normalized.street, function( err, res ){
+
+      console.error('search result', err, res)
 
       // @note: results can be from multiple different street ids.
 

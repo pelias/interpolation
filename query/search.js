@@ -53,8 +53,8 @@ const SQL = [
 // of 'name' conditions required.
 function generateDynamicSQL(count){
   const conditions = new Array(count)
-    .fill('(street.names.name=?)')
-    .map((sql, pos) => sql.replace('?', `$name${pos}`));
+    .fill('(street.names.name=$name)')
+    .map((sql, pos) => sql.replace('$name', `$name${pos}`));
 
   return SQL.replace('%%NAME_CONDITIONS%%', conditions.join(' OR '));
 }
@@ -62,10 +62,12 @@ function generateDynamicSQL(count){
 // Reusing prepared statements can have a ~10% perf benefit
 const cache = [];
 function statementCache(db, count){
-  if (!cache[count]) {
-    cache[count] = db.prepare(generateDynamicSQL(count));
+  // console.error(db.db.name)
+  const key = `${count}:${db.db.name}`
+  if (!cache[key]) {
+    cache[key] = db.prepare(generateDynamicSQL(count));
   }
-  return cache[count];
+  return cache[key];
 }
 
 module.exports = function( db, point, number, names, cb ){
@@ -79,6 +81,7 @@ module.exports = function( db, point, number, names, cb ){
 
   // use a prepared statement from cache (or generate one if not yet cached)
   const stmt = statementCache(db, max.names);
+  // const stmt = db.prepare(generateDynamicSQL(max.names));
 
   // query params
   const params = {
@@ -92,6 +95,11 @@ module.exports = function( db, point, number, names, cb ){
     params[`$name${pos}`] = name;
   });
 
+  // console.error('QUERY SEARCH', params)
+
   // execute query
-  stmt.all(params, cb);
+  stmt.all(params, (err, rows) => {
+    console.error('QUERY RESULT SEARCH', params, err, rows)
+    cb(err, rows);
+  });
 };

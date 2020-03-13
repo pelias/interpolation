@@ -14,11 +14,11 @@ var SQL = [
   'JOIN street.names ON street.names.id = street.rtree.id',
   'WHERE ( %%POINT_CONDITIONS%% )',
   'AND ( %%NAME_CONDITIONS%% )',
-  'LIMIT %%MAX_MATCHES%%;'
+  `LIMIT ${MAX_MATCHES};`
 ].join(' ');
 
-var POINT_SQL = '(street.rtree.minX<?A AND street.rtree.maxX>?B AND street.rtree.minY<?C AND street.rtree.maxY>?D)';
-var NAME_SQL = '(street.names.name=?)';
+var POINT_SQL = '(street.rtree.minX<$lon AND street.rtree.maxX>$lon AND street.rtree.minY<$lat AND street.rtree.maxY>$lat)';
+var NAME_SQL = '(street.names.name=$name)';
 
 // sqlite3 prepared statements
 var stmt = {};
@@ -42,44 +42,43 @@ module.exports = function( db, names, points, cb ){
   // create prepared statement if one doesn't exist
   if( !stmt.hasOwnProperty( hash ) ){
 
-    // use named parameters to avoid sending coordinates twice for rtree conditions
-    var position = 1;
-
     // add point confitions to query
-    var pointConditions = Array.apply(null, new Array(max.points)).map(function(){
-      return POINT_SQL.replace('?A', '?' + position)
-                      .replace('?B', '?' + position++)
-                      .replace('?C', '?' + position)
-                      .replace('?D', '?' + position++);
+    var pointConditions = Array.apply(null, new Array(max.points)).map(function(__, i){
+      return POINT_SQL.replace(/\$lon/g, `$point${i}x`)
+                      .replace(/\$lat/g, `$point${i}y`);
     });
 
     // add name conditions to query
-    var nameConditions = Array.apply(null, new Array(max.names)).map( function(){
-      return NAME_SQL.replace('?', '?' + position++);
+    var nameConditions = Array.apply(null, new Array(max.names)).map(function(__, i){
+      return NAME_SQL.replace('$name', `$name${i}`);
     });
 
     // build unique sql statement
     var sql = SQL.replace( '%%NAME_CONDITIONS%%', nameConditions.join(' OR ') )
-                 .replace( '%%POINT_CONDITIONS%%', pointConditions.join(' OR ') )
-                 .replace( '%%MAX_MATCHES%%', MAX_MATCHES );
+                 .replace( '%%POINT_CONDITIONS%%', pointConditions.join(' OR ') );
 
     // create new prepared statement
     stmt[hash] = db.prepare( sql );
  }
 
   // create a variable array of args to bind to query
-  var args = [];
+  var args = {};
 
   // add points
-  points.slice(0, max.points).forEach( function( point ){
-    args.push( point.lon, point.lat );
+  points.slice(0, max.points).forEach( function( point, i ){
+    args[`$point${i}x`] = point.lon;
+    args[`$point${i}y`] = point.lat;
+    // args.push( point.lon, point.lat );
   });
 
   // add names and callback
-  args = args.concat( names.slice(0, max.names), cb );
+  names.slice(0, max.names).forEach(( name, i ) => {
+    args[`$name${i}`] = name;
+  })
+  // args = args.concat( names.slice(0, max.names), cb );
 
   // execute statement
-  stmt[hash].all.apply(stmt[hash], args);
+  stmt[hash].all(args, cb);
 };
 
 module.exports.finalize = function(){

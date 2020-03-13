@@ -7,7 +7,7 @@ var through = require('through2');
 function streamFactory( db, table, condition ){
 
   // create prepared statement
-  var stmt = db.prepare( 'SELECT * FROM ' + table + ' WHERE id = ?' );
+  var stmt = db.prepare( 'SELECT * FROM ' + table + ' WHERE id = $id' );
   var readOne;
 
   // create a passthrough stream which also requests a new record from the
@@ -33,7 +33,7 @@ function streamFactory( db, table, condition ){
       if( cur > max ){ return stream.end(); }
 
       // get record by id
-      stmt.get([ cur++ ], function( err, row ){
+      stmt.get({ $id: cur++ }, function( err, row ){
 
         // an error occurred
         if( err ){ console.error( err ); }

@@ -35,4 +35,4 @@ conn.query( point, names, function( err, res ){
 
 });
 
-conn.close();
+// conn.close();

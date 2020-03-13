@@ -24,31 +24,32 @@ function streamFactory(db, done){
     db.serialize(function() {
 
       // start transaction
-      db.run('BEGIN TRANSACTION', function(err){
+      // db.run('BEGIN TRANSACTION', function(err){
+      db.transaction((b) => {
 
         // error checking
-        assert.transaction.start(err);
+        // assert.transaction.start(err);
 
         // import batch
-        batch.forEach( function( address ){
+        b.forEach( function( address ){
 
           // insert points in address table
           stmt.address.run(address, assert.statement.address);
         });
-      });
+      })(batch);
 
       // commit transaction
-      db.run('END TRANSACTION', function(err){
+      // db.run('END TRANSACTION', function(err){
 
         // error checking
-        assert.transaction.end(err);
+        // assert.transaction.end(err);
 
         // update statistics
         stats.inc( batch.length );
+      // })(batch);
 
-        // wait for transaction to complete before continuing
-        next();
-      });
+      // wait for transaction to complete before continuing
+      next();
     });
 
   }, function( next ){
