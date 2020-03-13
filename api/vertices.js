@@ -9,11 +9,11 @@ function vertices(addressDbPath, streetDbPath, done){
 
   // connect to db
   sqlite3.verbose();
-  var db = new sqlite3.Database( process.argv[2] );
+  var db = new sqlite3.Database( addressDbPath );
 
   query.configure(db); // configure database
   query.tables.address(db); // create tables only if not already created
-  query.attach(db, process.argv[3], 'street'); // attach street database
+  db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
 
   stream.each( db, 'street.polyline', 'WHERE id IN ( SELECT DISTINCT id FROM address )' )
           .pipe( stream.vertices.lookup( db ) )

@@ -16,9 +16,6 @@ function streamFactory( db, table, condition ){
     this.push( row );
     readOne();
     next();
-  }, function flush( next ){
-    stmt.finalize(); // finalize prepared statement
-    next();
   });
 
   db.serialize( function(){

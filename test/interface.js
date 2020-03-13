@@ -54,7 +54,6 @@ module.exports.interface.query = function(test) {
   test('queries', function(t) {
     t.equal(typeof index.query.extract, 'function', 'valid function');
     t.equal(typeof index.query.search, 'function', 'valid function');
-    t.equal(typeof index.query.attach, 'function', 'valid function');
     t.equal(typeof index.query.configure, 'function', 'valid function');
     t.equal(typeof index.query.indexes, 'object', 'valid object');
     t.equal(typeof index.query.indexes.street, 'function', 'valid function');

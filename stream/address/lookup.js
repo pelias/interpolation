@@ -90,10 +90,6 @@ function streamFactory(db){
 
       next();
     }.bind(this));
-
-  }, function flush(next){
-    query.lookup.finalize();
-    next();
   });
 }
 

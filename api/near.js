@@ -18,7 +18,7 @@ function setup( streetDbPath ){
   var db = new sqlite3.Database( ':memory:', sqlite3.OPEN_READONLY );
 
   // attach street database
-  query.attach( db, streetDbPath, 'street' );
+  db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
 
   // query method
   var q = function( coord, cb ){

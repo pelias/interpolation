@@ -30,9 +30,3 @@ module.exports = function( db, point, cb ){
     $LIMIT: MAX_MATCHES
   }, cb);
 };
-
-module.exports.finalize = function(){
-  if( stmt ){
-    stmt.finalize();
-  }
-};

@@ -34,9 +34,6 @@ function streamFactory( db ){
 
     }.bind(this) );
 
-  }, function flush( next ){
-    stmt.finalize(); // finalize prepared statement
-    next();
   });
 }
 

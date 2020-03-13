@@ -11,10 +11,8 @@ function polyline(dataStream, streetDbPath, done){
   sqlite3.verbose();
   var db = new sqlite3.Database(streetDbPath);
 
-  console.error('setup tasks')
   query.configure(db); // configure database
   query.tables.street(db, true); // reset database and create tables
-  console.error('setup tasks')
 
   // run pipeline
   dataStream

@@ -57,16 +57,8 @@ function streamFactory(db, done){
     // stop stats ticker
     stats.tick( false );
 
-    // clean up
-    db.serialize(function(){
-
-      // finalize prepared statements
-      stmt.address.finalize( assert.log('finalize address') );
-
-      // we are done
-      db.wait(done);
-      next();
-    });
+    done();
+    next();
   });
 }
 

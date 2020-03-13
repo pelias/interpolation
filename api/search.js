@@ -14,7 +14,7 @@ function setup( addressDbPath, streetDbPath ){
   var db = new sqlite3.Database( addressDbPath, sqlite3.OPEN_READONLY );
 
   // attach street database
-  query.attach( db, streetDbPath, 'street' );
+  db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
 
   // enable memmapping of database pages
   db.run('PRAGMA mmap_size=268435456;');
@@ -42,13 +42,9 @@ function setup( addressDbPath, streetDbPath ){
     if( isNaN( normalized.number ) ){ return cb( 'invalid number' ); }
     if( !normalized.street.length ){ return cb( 'invalid street' ); }
 
-    console.error('do search')
-
     // perform a db lookup for the specified street
     // @todo: perofmance: only query for part of the table
     query.search( db, point, normalized.number, normalized.street, function( err, res ){
-
-      console.error('search result', err, res)
 
       // @note: results can be from multiple different street ids.
 

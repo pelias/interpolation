@@ -1,7 +1,6 @@
 
 var sqlite3 = require('../lib/Sqlite'),
     requireDir = require('require-dir'),
-    pretty = require('../lib/pretty'),
     query = requireDir('../query'),
     analyze = require('../lib/analyze');
 
@@ -13,7 +12,7 @@ function setup( addressDbPath, streetDbPath ){
   var db = new sqlite3.Database( addressDbPath, sqlite3.OPEN_READONLY );
 
   // attach street database
-  query.attach( db, streetDbPath, 'street' );
+  db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
 
   // query method
   var q = function( coord, names, cb ){
