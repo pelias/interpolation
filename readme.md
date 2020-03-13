@@ -21,7 +21,7 @@ This project aims to 'fill in the gaps' in the data by intelligently estimating 
 
 The service was designed for use with the [pelias geocoder](https://github.com/pelias/pelias), however it can also be used as a stand-alone application or included with other geographic software / search engines.
 
-more info: [[design doc](https://github.com/pelias/pelias/wiki/Interpolation:-design-doc)] [[relationship to pelias](https://github.com/pelias/pelias/wiki/Interpolation:-introduction)] [[existing standards](https://github.com/pelias/pelias/wiki/Interpolation:-existing-standards)] [[conflation](https://github.com/pelias/pelias/wiki/Interpolation:-conflation)]
+more info: [[design doc](docs/design-doc.md)] [[relationship to pelias](docs/introduction.md)] [[existing standards](docs/existing-standards.md)] [[conflation](docs/conflation.md)]
 
 # Architecture
 
