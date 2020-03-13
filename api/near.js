@@ -32,11 +32,12 @@ function setup( streetDbPath ){
     if( isNaN( point.lat ) ){ return cb( 'invalid latitude' ); }
     if( isNaN( point.lon ) ){ return cb( 'invalid longitude' ); }
 
-    // perform a db lookup for nearby streets
-    query.near( db, point, function( err, res ){
+    try {
+      // perform a db lookup for nearby streets
+      const res = query.near( db, point );
 
-      // an error occurred or no results were found
-      if( err || !res || !res.length ){ return cb( err, null ); }
+      // no results were found
+      if( !res || !res.length ){ return cb( null, null ); }
 
       // decode polylines
       res.forEach( function( street, i ){
@@ -48,7 +49,10 @@ function setup( streetDbPath ){
 
       // return streets ordered ASC by distance from point
       cb( null, ordered );
-    });
+    } catch (err) {
+      // an error occurred
+      return cb(err, null);
+    }
   };
 
   // return methods

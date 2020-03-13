@@ -40,14 +40,10 @@ function streamFactory(db){
     // select points to search on
     var points = selectPoints( batch );
 
-    // console.error( points );
-    query.lookup(db, names, points, function( err, rows ){
+    try {
 
-      // error debug
-      if( err ){
-        console.error( err );
-        return next();
-      }
+      // console.error( points );
+      let rows = query.lookup(db, names, points );
 
       // no results found
       if( !rows || !rows.length ){
@@ -81,14 +77,16 @@ function streamFactory(db){
       **/
 
       // push downstream
-      this.push({
+      next(null, {
         batch: batch,
-        streets: ( longLinesOnly.length > 1 ) ? longLinesOnly : rows
+        streets: (longLinesOnly.length > 1) ? longLinesOnly : rows
       });
 
+    } catch (err) {
+      console.error(err);
       next();
-    }.bind(this));
-  });
+    }
+  }.bind(this));
 }
 
 /**

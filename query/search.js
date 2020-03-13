@@ -70,10 +70,10 @@ function statementCache(db, max){
   return cache[key];
 }
 
-module.exports = function( db, point, number, names, cb ){
+module.exports = function( db, point, number, names ){
   // error checking
   if( !names || !names.length ){
-    return cb( null, [] );
+    return [];
   }
 
   // max conditions to search on
@@ -84,16 +84,16 @@ module.exports = function( db, point, number, names, cb ){
 
   // query params
   const params = {
-    $lon: point.lon,
-    $lat: point.lat,
-    $housenumber: number
+    lon: point.lon,
+    lat: point.lat,
+    housenumber: number
   };
 
   // each name is added in the format: $name0=x, $name1=y
   names.slice(0, max.names).forEach((name, pos) => {
-    params[`$name${pos}`] = name;
+    params[`name${pos}`] = name;
   });
 
   // execute query
-  stmt.all(params, cb);
+  return stmt.all(params);
 };

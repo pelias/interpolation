@@ -18,15 +18,15 @@ var SQL = [
 // sqlite3 prepared statements
 var stmt;
 
-module.exports = function( db, point, cb ){
+module.exports = function( db, point ){
 
   // create prepared statement if one doesn't exist
   if( !stmt ){ stmt = db.prepare( SQL ); }
 
   // execute statement
-  stmt.all({
-    $LON: point.lon,
-    $LAT: point.lat,
-    $LIMIT: MAX_MATCHES
-  }, cb);
+  return stmt.all({
+    LON: point.lon,
+    LAT: point.lat,
+    LIMIT: MAX_MATCHES
+  });
 };

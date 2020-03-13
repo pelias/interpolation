@@ -1,6 +1,5 @@
 
 var through = require('through2'),
-    assert = require('../../lib/assert'),
     Statistics = require('../../lib/statistics');
 
 function streamFactory(db, done){
@@ -27,7 +26,7 @@ function streamFactory(db, done){
       batch.forEach( function( address ){
 
         // insert points in address table
-        stmt.address.run(address, assert.statement.address);
+        stmt.address.run(address);
       });
     })();
 

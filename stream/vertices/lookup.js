@@ -15,14 +15,12 @@ function streamFactory( db ){
 
   return through.obj( function( street, _, next ){
 
-    // select all addresses which correspond to street.id (excluding existing vertices)
-    stmt.all({ $id: street.id }, function( err, addresses ){
-
-      // an error occurred
-      if( err ){ console.error( err ); }
+    try {
+      // select all addresses which correspond to street.id (excluding existing vertices)
+      const addresses = stmt.all({ id: street.id });
 
       // push street and addresses downstream
-      else if( addresses && addresses.length ){
+      if( addresses && addresses.length ){
         this.push({
           street: street,
           addresses: addresses
@@ -31,8 +29,11 @@ function streamFactory( db ){
 
       // continue
       next();
-
-    }.bind(this) );
+    } catch(err){
+      // an error occurred
+      console.error(err);
+      next();
+    }
 
   });
 }

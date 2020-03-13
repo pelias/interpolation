@@ -22,11 +22,11 @@ const NAME_SQL = '(street.names.name=$name)';
 // sqlite3 prepared statements
 var stmt = {};
 
-module.exports = function( db, names, points, cb ){
+module.exports = function( db, names, points ){
 
   // error checking
   if( !names || !names.length || !points || !points.length ){
-    return cb( null, [] );
+    return [];
   }
 
   // max conditions to search on
@@ -65,16 +65,15 @@ module.exports = function( db, names, points, cb ){
 
   // add points
   points.slice(0, max.points).forEach( function( point, i ){
-    args[`$point${i}x`] = point.lon;
-    args[`$point${i}y`] = point.lat;
-    // args.push( point.lon, point.lat );
+    args[`point${i}x`] = point.lon;
+    args[`point${i}y`] = point.lat;
   });
 
   // add names and callback
   names.slice(0, max.names).forEach(( name, i ) => {
-    args[`$name${i}`] = name;
+    args[`name${i}`] = name;
   });
 
   // execute statement
-  stmt[hash].all(args, cb);
+  return stmt[hash].all(args);
 };

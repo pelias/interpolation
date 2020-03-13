@@ -27,7 +27,7 @@ function statementCache(db, max) {
   return cache[key];
 }
 
-module.exports = function( db, ids, cb ){
+module.exports = function( db, ids ){
   const stmt = statementCache(db, { ids: ids.length });
 
   // query params
@@ -35,9 +35,9 @@ module.exports = function( db, ids, cb ){
 
   // each name is added in the format: $id0=x, $id1=y
   ids.forEach((id, pos) => {
-    params[`$id${pos}`] = id;
+    params[`id${pos}`] = id;
   });
 
   // execute statement
-  stmt.all(params, cb);
+  return stmt.all(params);
 };

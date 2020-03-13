@@ -33,7 +33,13 @@ function setup( addressDbPath, streetDbPath ){
     if( !normalized.length ){ return cb( 'invalid names' ); }
 
     // perform a db lookup for the specified street
-    query.extract( db, point, normalized, cb );
+    try {
+      const rows = query.extract( db, point, normalized );
+      cb(null, rows);
+    } catch (err) {
+      // an error occurred
+      return cb(err, null);
+    }
   };
 
   // close method to close db

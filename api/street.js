@@ -24,15 +24,19 @@ function setup( streetDbPath ){
     });
     if( fail ){ return cb( 'non-numeric id' ); }
 
-    // perform a db lookup for the specified street
-    query.street( db, ids, function( err, res ){
+    try {
+      // perform a db lookup for the specified street
+      const res = query.street( db, ids );
 
-      // an error occurred or no results were found
-      if( err || !res ){ return cb( err, null ); }
+      // results were found
+      if( !res ){ return cb( null, null ); }
 
       // call callback
-      cb( err, res );
-    });
+      cb( null, res );
+    } catch (err) {
+      // an error occurred
+      return cb(err, null);
+    }
   };
 
   // close method to close db

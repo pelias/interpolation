@@ -42,14 +42,16 @@ function setup( addressDbPath, streetDbPath ){
     if( isNaN( normalized.number ) ){ return cb( 'invalid number' ); }
     if( !normalized.street.length ){ return cb( 'invalid street' ); }
 
-    // perform a db lookup for the specified street
-    // @todo: perofmance: only query for part of the table
-    query.search( db, point, normalized.number, normalized.street, function( err, res ){
+    try {
+
+      // perform a db lookup for the specified street
+      // @todo: perofmance: only query for part of the table
+      const res = query.search( db, point, normalized.number, normalized.street );
 
       // @note: results can be from multiple different street ids.
 
-      // an error occurred or no results were found
-      if( err || !res || !res.length ){ return cb( err, null ); }
+      // no results were found
+      if( !res || !res.length ){ return cb( null, null ); }
 
       // try to find an exact match
       var match = res.find( function( row ){
@@ -132,10 +134,10 @@ function setup( addressDbPath, streetDbPath ){
 
       // if distance = 0 then we can simply use either A or B (they are the same lat/lon)
       // else we interpolate between the two positions
-      var point = A;
+      var point2 = A;
       if( distance > 0 ){
         var ratio = ((normalized.number - before.housenumber) / (after.housenumber - before.housenumber));
-        point = geodesic.interpolate( distance, ratio, A, B );
+        point2 = geodesic.interpolate( distance, ratio, A, B );
       }
 
       // return interpolated address
@@ -143,10 +145,13 @@ function setup( addressDbPath, streetDbPath ){
         type: 'interpolated',
         source: 'mixed',
         number: '' + Math.floor( normalized.number ),
-        lat: parseFloat( project.toDeg( point.lat ).toFixed(7) ),
-        lon: parseFloat( project.toDeg( point.lon ).toFixed(7) )
+        lat: parseFloat( project.toDeg( point2.lat ).toFixed(7) ),
+        lon: parseFloat( project.toDeg( point2.lon ).toFixed(7) )
       });
-    });
+    } catch (err) {
+      // an error occurred
+      return cb(err, null);
+    }
   };
 
   // close method to close db

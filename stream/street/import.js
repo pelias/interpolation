@@ -1,6 +1,5 @@
 
 const through = require('through2');
-const assert = require('../../lib/assert');
 const Statistics = require('../../lib/statistics');
 
 function streamFactory(db, done) {
@@ -28,26 +27,26 @@ function streamFactory(db, done) {
         // insert names in to lookup table
         street.getNames().forEach(function (name) {
           stmt.names.run({
-            $id: street.getId(),
-            $name: name
-          }, assert.statement.names);
+            id: street.getId(),
+            name: name
+          });
         });
 
         // insert bbox in to rtree table
         var bbox = street.getBbox();
         stmt.rtree.run({
-          $id: street.getId(),
-          $minX: bbox.minX,
-          $maxX: bbox.maxX,
-          $minY: bbox.minY,
-          $maxY: bbox.maxY
-        }, assert.statement.rtree);
+          id: street.getId(),
+          minX: bbox.minX,
+          maxX: bbox.maxX,
+          minY: bbox.minY,
+          maxY: bbox.maxY
+        });
 
         // insert line in to polyline table
         stmt.line.run({
-          $id: street.getId(),
-          $line: street.getEncodedPolyline()
-        }, assert.statement.line);
+          id: street.getId(),
+          line: street.getEncodedPolyline()
+        });
 
       });
     }).deferred();

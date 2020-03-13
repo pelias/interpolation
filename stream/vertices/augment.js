@@ -131,15 +131,15 @@ function streamFactory(db, done){
       housenumbers.forEach( function( num ){
         if( !num ){ return; } // skip null interpolations
         this.push({
-          $id: data.street.id,
-          $source: 'VERTEX',
-          $source_id: undefined,
-          $housenumber: num.toFixed(3),
-          $lon: undefined,
-          $lat: undefined,
-          $parity: undefined,
-          $proj_lon: vertex[0],
-          $proj_lat: vertex[1]
+          id: data.street.id,
+          source: 'VERTEX',
+          source_id: undefined,
+          housenumber: num.toFixed(3),
+          lon: undefined,
+          lat: undefined,
+          parity: undefined,
+          proj_lon: vertex[0],
+          proj_lat: vertex[1]
         });
       }, this);
 
