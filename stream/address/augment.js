@@ -3,8 +3,7 @@ var through = require('through2'),
     polyline = require('@mapbox/polyline'),
     project = require('../../lib/project'),
     proximity = require('../../lib/proximity'),
-    analyze = require('../../lib/analyze'),
-    interpolate = require('../../lib/interpolate');
+    analyze = require('../../lib/analyze');
 
 // polyline precision
 var PRECISION = 6;
@@ -13,13 +12,13 @@ var PRECISION = 6;
   this stream performs all the interpolation math for a road segment and pushes
   downstream rows to be inserted in the 'street_address' table.
 **/
-function streamFactory(db, done){
+function streamFactory(_db, _done){
 
   // create a new stream
   return through.obj(function( lookup, _, next ){
 
     // decode polylines
-    lookup.streets.forEach( function( street, i ){
+    lookup.streets.forEach( function( street ){
       street.coordinates = project.dedupe( polyline.toGeoJSON(street.line, PRECISION).coordinates );
     });
 

@@ -2,7 +2,6 @@ const _ = require('lodash');
 var through = require('through2'),
     polyline = require('@mapbox/polyline'),
     project = require('../../lib/project'),
-    analyze = require('../../lib/analyze'),
     interpolate = require('../../lib/interpolate');
 
 // polyline precision
@@ -12,7 +11,7 @@ var PRECISION = 6;
   this stream performs all the interpolation math for a road segment and pushes
   downstream rows to be inserted in the 'street_address' table.
 **/
-function streamFactory(db, done){
+function streamFactory(_db, _done){
 
   // create a new stream
   return through.obj( function( data, enc, next ){

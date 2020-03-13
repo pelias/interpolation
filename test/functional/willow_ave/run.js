@@ -1,10 +1,7 @@
 
-var fs = require('fs'),
-    path = require('path'),
+var path = require('path'),
     sqlite3 = require('../sqlite3'),
-    action = require('../action'),
-    search = require('../../../api/search');
-
+    action = require('../action');
 /**
   issue: https://github.com/pelias/interpolation/issues/13
 **/

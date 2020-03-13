@@ -1,15 +1,12 @@
 
 var express = require('express'),
-    directory = require('serve-index'),
     polyline = require('@mapbox/polyline'),
     search = require('../api/search'),
     extract = require('../api/extract'),
     street = require('../api/street'),
     near = require('../api/near'),
     pretty = require('../lib/pretty'),
-    analyze = require('../lib/analyze'),
-    project = require('../lib/project'),
-    proximity = require('../lib/proximity');
+    analyze = require('../lib/analyze');
 
 const morgan = require( 'morgan' );
 const logger = require('pelias-logger').get('interpolation');
@@ -38,7 +35,7 @@ var conn = {
 };
 
 function log() {
-  morgan.token('url', (req, res) => {
+  morgan.token('url', (req) => {
     // if there's a DNT header, just return '/' as the URL
     if (['DNT', 'dnt', 'do_not_track'].some(header => _.has(req.headers, header))) {
       return _.get(req, 'route.path');

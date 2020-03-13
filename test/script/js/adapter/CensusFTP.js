@@ -61,7 +61,7 @@ module.exports.tests.get = function (test) {
   test('get - single file', function (t) {
     const adapter = new CensusFTP();
     const tmpFile = path.join(os.tmpdir(), crypto.randomBytes(16).toString('hex'));
-    adapter.get('tl_2016_72149_addrfeat.zip', tmpFile, (err) => {
+    adapter.get('tl_2016_72149_addrfeat.zip', tmpFile, (_err) => {
       const stats = fs.statSync(tmpFile);
       t.equal(stats.size, 42950);
       adapter.client.socket.end();

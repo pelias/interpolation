@@ -11,7 +11,7 @@
     "funcs": "./bin/funcs",
     "units": "./bin/units",
     "travis": "npm test && npm run funcs",
-    "lint": "jshint .",
+    "lint": "eslint .",
     "validate": "npm ls",
     "download-tiger": "./bin/download-tiger",
     "build": "./script/build.sh"
@@ -48,7 +48,7 @@
     "through2-batch": "^1.0.1"
   },
   "devDependencies": {
-    "jshint": "^2.9.3",
+    "eslint": "^6.8.0",
     "precommit-hook": "^3.0.0",
     "proxyquire": "^2.0.0",
     "tap-dot": "^2.0.0",

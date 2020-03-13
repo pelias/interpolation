@@ -38,7 +38,7 @@ function streamFactory( db ){
       }
 
       // decode polylines
-      streets.forEach( function( street, i ){
+      streets.forEach( function( street ){
         street.coordinates = project.dedupe( polyline.toGeoJSON(street.line, PRECISION).coordinates );
       });
 

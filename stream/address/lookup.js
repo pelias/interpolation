@@ -9,6 +9,7 @@ var fs = require('fs'),
 // note: to enable logging you need to attach the fd with a command such as:
 // $ node oa.js 3> conflate.skip
 var hasFD3 = false;
+// eslint-disable-next-line no-empty
 try { hasFD3 = fs.statSync('/dev/fd/3').isFile(); } catch(e){}
 if( hasFD3 ){
   process.conferr = fs.createWriteStream( null, { fd: 3 } );

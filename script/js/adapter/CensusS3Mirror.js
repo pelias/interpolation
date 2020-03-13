@@ -23,7 +23,7 @@ class CensusS3Mirror {
 
         // parse HTML
         const $ = cheerio.load(res.text);
-        let links = $('a').map(function (i) {
+        let links = $('a').map(function () {
           return $(this).attr('href');
         }).get();
 

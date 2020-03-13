@@ -7,7 +7,7 @@ module.exports.street = {};
 module.exports.street.noop = function(test) {
   test('missing housenumber', function(t) {
     var json = { no: 'housenumber' };
-    var records = stream( json, function( records ){
+    stream( json, function( records ){
       t.equal( records.length, 1 );
       t.deepEqual( records[0], json );
       t.end();
@@ -15,7 +15,7 @@ module.exports.street.noop = function(test) {
   });
   test('housenumber does not contain delimiter', function(t) {
     var json = { tags: { 'addr:housenumber': '1A' } };
-    var records = stream( json, function( records ){
+    stream( json, function( records ){
       t.equal( records.length, 1 );
       t.deepEqual( records[0], json );
       t.end();
@@ -26,7 +26,7 @@ module.exports.street.noop = function(test) {
 module.exports.street.range = function(test) {
   test('split on comma', function(t) {
     var json = { tags: { 'addr:housenumber': '1A,2B' }, misc: 'value' };
-    var records = stream( json, function( records ){
+    stream( json, function( records ){
       t.equal( records.length, 2 );
       t.equal( records[0].tags['addr:housenumber'], '1A' );
       t.equal( records[0].misc, 'value', 'preserve values' );
@@ -37,7 +37,7 @@ module.exports.street.range = function(test) {
   });
   test('split on semi-colon', function(t) {
     var json = { tags: { 'addr:housenumber': '1A;2B' }, misc: 'value' };
-    var records = stream( json, function( records ){
+    stream( json, function( records ){
       t.equal( records.length, 2 );
       t.equal( records[0].tags['addr:housenumber'], '1A' );
       t.equal( records[0].misc, 'value', 'preserve values' );
@@ -51,7 +51,7 @@ module.exports.street.range = function(test) {
 module.exports.street.range_with_whitespace = function(test) {
   test('superfluous whitespace', function(t) {
     var json = { tags: { 'addr:housenumber': ' 1A, 2B ' }, misc: 'value' };
-    var records = stream( json, function( records ){
+    stream( json, function( records ){
       t.equal( records.length, 2 );
       t.equal( records[0].tags['addr:housenumber'], '1A' );
       t.equal( records[0].misc, 'value', 'preserve values' );
@@ -65,7 +65,7 @@ module.exports.street.range_with_whitespace = function(test) {
 module.exports.street.empty_members = function(test) {
   test('remove empty members', function(t) {
     var json = { tags: { 'addr:housenumber': '1A,,2B;' }, misc: 'value' };
-    var records = stream( json, function( records ){
+    stream( json, function( records ){
       t.equal( records.length, 2 );
       t.equal( records[0].tags['addr:housenumber'], '1A' );
       t.equal( records[0].misc, 'value', 'preserve values' );
@@ -79,7 +79,7 @@ module.exports.street.empty_members = function(test) {
 module.exports.street.duplicates = function(test) {
   test('remove duplicates', function(t) {
     var json = { tags: { 'addr:housenumber': '1A,1A,2B' }, misc: 'value' };
-    var records = stream( json, function( records ){
+    stream( json, function( records ){
       t.equal( records.length, 2 );
       t.equal( records[0].tags['addr:housenumber'], '1A' );
       t.equal( records[0].misc, 'value', 'preserve values' );
