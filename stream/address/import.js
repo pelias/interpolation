@@ -14,8 +14,8 @@ function streamFactory(db, done){
   };
 
   // tick import stats
-  var stats = new Statistics();
-  stats.tick();
+  var stats = new Statistics('addresses');
+  stats.start();
 
   // create a new stream
   return through.obj({ highWaterMark: 2 }, function( batch, _, next ){
@@ -54,7 +54,7 @@ function streamFactory(db, done){
   }, function( next ){
 
     // stop stats ticker
-    stats.tick( false );
+    stats.stop();
 
     // clean up
     db.serialize(function(){

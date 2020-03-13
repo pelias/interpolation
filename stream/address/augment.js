@@ -31,7 +31,7 @@ function streamFactory(db, done){
 
       // invalid / unusual housenumber
       if( isNaN( housenumber ) ){
-        console.error( 'could not reliably parse housenumber', address.getNumber() );
+        // console.error( 'could not reliably parse housenumber', address.getNumber() );
         return;
       }
 
