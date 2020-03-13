@@ -15,7 +15,8 @@ function vertices(addressDbPath, streetDbPath, done){
   query.tables.address(db); // create tables only if not already created
   db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
 
-  stream.each( db, 'street.polyline', 'WHERE id IN ( SELECT DISTINCT id FROM address )' )
+  const sql = `SELECT * FROM street.polyline WHERE id IN (SELECT DISTINCT id FROM address)`;
+  stream.each(db, sql)
           .pipe( stream.vertices.lookup( db ) )
           .pipe( stream.vertices.augment() )
           .pipe( stream.batch( 1000 ) ) // batch up data to import
