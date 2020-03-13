@@ -20,37 +20,22 @@ function streamFactory(db, done){
   // create a new stream
   return through.obj({ highWaterMark: 2 }, function( batch, _, next ){
 
-    // run serially so we can use transactions
-    db.serialize(function() {
+    // start transaction
+    db.transaction(() => {
 
-      // start transaction
-      // db.run('BEGIN TRANSACTION', function(err){
-      db.transaction((b) => {
+      // import batch
+      batch.forEach( function( address ){
 
-        // error checking
-        // assert.transaction.start(err);
+        // insert points in address table
+        stmt.address.run(address, assert.statement.address);
+      });
+    })();
 
-        // import batch
-        b.forEach( function( address ){
+    // update statistics
+    stats.inc( batch.length );
 
-          // insert points in address table
-          stmt.address.run(address, assert.statement.address);
-        });
-      })(batch);
-
-      // commit transaction
-      // db.run('END TRANSACTION', function(err){
-
-        // error checking
-        // assert.transaction.end(err);
-
-        // update statistics
-        stats.inc( batch.length );
-      // })(batch);
-
-      // wait for transaction to complete before continuing
-      next();
-    });
+    // wait for transaction to complete before continuing
+    next();
 
   }, function( next ){
 
