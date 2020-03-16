@@ -1,3 +1,5 @@
+const DynamicQueryCache = require('./DynamicQueryCache');
+
 /**
   find all streets which have a bbox which envelops the specified point; regardless of their names.
 **/
@@ -14,13 +16,12 @@ const SQL = `
   LIMIT ${MAX_MATCHES}
 `;
 
-// prepared statement cache
-var stmt;
+const cache = new DynamicQueryCache(SQL);
 
 module.exports = ( db, point ) => {
 
-  // create prepared statement if one doesn't exist
-  if( !stmt ){ stmt = db.prepare( SQL ); }
+  // use a prepared statement from cache (or generate one if not yet cached)
+  const stmt = cache.getStatement(db);
 
   // execute statement
   return stmt.all({
