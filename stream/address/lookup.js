@@ -41,8 +41,6 @@ function streamFactory(db){
     var points = selectPoints( batch );
 
     try {
-
-      // console.error( points );
       let rows = query.lookup(db, names, points );
 
       // no results found

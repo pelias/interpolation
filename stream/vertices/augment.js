@@ -2,7 +2,6 @@ const _ = require('lodash');
 var through = require('through2'),
     polyline = require('@mapbox/polyline'),
     project = require('../../lib/project'),
-    analyze = require('../../lib/analyze'),
     interpolate = require('../../lib/interpolate');
 
 // polyline precision

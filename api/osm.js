@@ -1,16 +1,13 @@
-
-var Database = require('better-sqlite3'),
-    requireDir = require('require-dir'),
-    stream = requireDir('../stream', { recurse: true }),
-    query = requireDir('../query');
+const Database = require('better-sqlite3');
+const requireDir = require('require-dir');
+const stream = requireDir('../stream', { recurse: true });
+const query = requireDir('../query');
 
 // export method
 function osm(dataStream, addressDbPath, streetDbPath, done){
 
   // connect to db
-  var db = new Database( addressDbPath, {
-    verbose: console.log
-  });
+  const db = new Database(addressDbPath);
 
   query.configure(db); // configure database
   query.tables.address(db); // create tables only if not already created

@@ -1,4 +1,3 @@
-
 /**
   find all streets which have a bbox which envelops the specified point; regardless of their names.
 **/
@@ -6,27 +5,26 @@
 // maximum street segments to return
 var MAX_MATCHES = 100;
 
-var SQL = [
-  'SELECT street.polyline.id, street.polyline.line, street.names.name FROM street.polyline',
-  'JOIN street.rtree ON street.rtree.id = street.polyline.id',
-  'JOIN street.names ON street.names.id = street.polyline.id',
-  'WHERE (street.rtree.minX<$LON AND street.rtree.maxX>$LON AND street.rtree.minY<$LAT AND street.rtree.maxY>$LAT)',
-  'GROUP BY street.polyline.id',
-  'LIMIT $LIMIT;'
-].join(' ');
+const SQL = `
+  SELECT street.polyline.id, street.polyline.line, street.names.name FROM street.polyline
+  JOIN street.rtree ON street.rtree.id = street.polyline.id
+  JOIN street.names ON street.names.id = street.polyline.id
+  WHERE (street.rtree.minX<$lon AND street.rtree.maxX>$lon AND street.rtree.minY<$lat AND street.rtree.maxY>$lat)
+  GROUP BY street.polyline.id
+  LIMIT ${MAX_MATCHES}
+`;
 
-// sqlite3 prepared statements
+// prepared statement cache
 var stmt;
 
-module.exports = function( db, point ){
+module.exports = ( db, point ) => {
 
   // create prepared statement if one doesn't exist
   if( !stmt ){ stmt = db.prepare( SQL ); }
 
   // execute statement
   return stmt.all({
-    LON: point.lon,
-    LAT: point.lat,
-    LIMIT: MAX_MATCHES
+    lon: point.lon,
+    lat: point.lat
   });
 };

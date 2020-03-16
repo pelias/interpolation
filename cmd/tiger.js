@@ -1,6 +1,4 @@
-
-var tty = require('tty'),
-    tiger = require('../api/tiger');
+const tiger = require('../api/tiger');
 
 // help text
 if( process.argv.length !== 4 ){
@@ -10,7 +8,7 @@ if( process.argv.length !== 4 ){
   process.exit(1);
 }
 
-if( tty.isatty( process.stdin ) ){
+if( process.stdin.isTTY ){
   console.error('no data piped to stdin');
   process.exit(1);
 }

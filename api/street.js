@@ -1,16 +1,12 @@
-
-var Database = require('better-sqlite3'),
-    requireDir = require('require-dir'),
-    query = requireDir('../query');
+const Database = require('better-sqlite3');
+const requireDir = require('require-dir');
+const query = requireDir('../query');
 
 // export setup method
 function setup( streetDbPath ){
 
   // connect to db
-  var db = new Database( streetDbPath, {
-    readonly: true,
-    verbose: console.log
-  });
+  const db = new Database(streetDbPath, { readonly: true });
 
   // query method
   var q = function( ids, cb ){
