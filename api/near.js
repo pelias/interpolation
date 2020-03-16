@@ -1,24 +1,18 @@
-
-var Database = require('better-sqlite3'),
-    polyline = require('@mapbox/polyline'),
-    requireDir = require('require-dir'),
-    query = requireDir('../query'),
-    project = require('../lib/project'),
-    proximity = require('../lib/proximity');
+const Database = require('better-sqlite3');
+const polyline = require('@mapbox/polyline');
+const query = { near: require('../query/near') };
+const project = require('../lib/project');
+const proximity = require('../lib/proximity');
 
 // polyline precision
-var PRECISION = 6;
+const PRECISION = 6;
 
 // export setup method
 function setup( streetDbPath ){
 
   // connect to db
   // @todo: this is required as the query uses the 'street.' prefix for tables
-  var db = new Database( '/tmp/path', {
-    memory: true,
-    readonly: false,
-    verbose: console.log
-  });
+  const db = new Database('/tmp/path', { memory: true });
 
   // attach street database
   db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);

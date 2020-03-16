@@ -1,17 +1,12 @@
-
-var Database = require('better-sqlite3'),
-    requireDir = require('require-dir'),
-    query = requireDir('../query'),
-    analyze = require('../lib/analyze');
+const Database = require('better-sqlite3');
+const query = { extract: require('../query/extract') };
+const analyze = require('../lib/analyze');
 
 // export setup method
 function setup( addressDbPath, streetDbPath ){
 
   // connect to db
-  var db = new Database( addressDbPath, {
-    readonly: true,
-    verbose: console.log
-  });
+  const db = new Database(addressDbPath, { readonly: true });
 
   // attach street database
   db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);

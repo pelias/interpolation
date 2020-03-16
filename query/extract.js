@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 // maximum names to match on
 const MAX_NAMES = 10;
 
@@ -20,21 +22,18 @@ const SQL = `
 // SQL prepared statements dont easily support variable length inputs.
 // This function dynamically generates a SQL query based on the number
 // of 'name' conditions required.
-function generateDynamicSQL(max) {
-  const conditions = new Array(max.names)
-    .fill('(street.names.name=$name)')
-    .map((sql, pos) => sql.replace('$name', `$name${pos}`));
-
+function generateDynamicSQL(nameCount) {
+  const conditions = _.times(nameCount, (i) => `(street.names.name=$name${i})`);
   return SQL.replace('%%NAME_CONDITIONS%%', conditions.join(' OR '));
 }
 
 // Reusing prepared statements can have a ~10% perf benefit
 // Note: the cache is global and so must be unique per database.
 const cache = [];
-function statementCache(db, max) {
-  const key = `${max.names}:${db.name}`;
+function statementCache(db, nameCount) {
+  const key = `${nameCount}:${db.name}`;
   if (!cache[key]) {
-    cache[key] = db.prepare(generateDynamicSQL(max));
+    cache[key] = db.prepare(generateDynamicSQL(nameCount));
   }
   return cache[key];
 }
@@ -46,11 +45,11 @@ module.exports = function( db, point, names ){
     return [];
   }
 
-  // max conditions to search on
-  const max = { names: Math.min( names.length, MAX_NAMES ) };
+  // total amount of names to consider for search
+  const nameCount = Math.min( names.length, MAX_NAMES );
 
   // use a prepared statement from cache (or generate one if not yet cached)
-  const stmt = statementCache(db, max);
+  const stmt = statementCache(db, nameCount);
 
   // query params
   const params = {
@@ -59,7 +58,7 @@ module.exports = function( db, point, names ){
   };
 
   // each name is added in the format: $name0=x, $name1=y
-  names.slice(0, max.names).forEach((name, pos) => {
+  names.slice(0, nameCount).forEach((name, pos) => {
     params[`name${pos}`] = name;
   });
 

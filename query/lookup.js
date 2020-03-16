@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 // maximum names to match on
 const MAX_NAMES = 10;
 
@@ -16,11 +18,31 @@ const SQL = `
   LIMIT ${MAX_MATCHES}
 `;
 
-const POINT_SQL = '(street.rtree.minX<$lon AND street.rtree.maxX>$lon AND street.rtree.minY<$lat AND street.rtree.maxY>$lat)';
-const NAME_SQL = '(street.names.name=$name)';
+// SQL prepared statements dont easily support variable length inputs.
+// This function dynamically generates a SQL query based on the number
+// of 'name' and 'point' conditions required.
+function generateDynamicSQL(pointCount, nameCount) {
+  const nameConditions = _.times(nameCount, (i) => `(street.names.name=$name${i})`);
+  const pointConditions = _.times(pointCount, (i) => `(
+    street.rtree.minX<$point${i}x AND street.rtree.maxX>$point${i}x AND
+    street.rtree.minY<$point${i}y AND street.rtree.maxY>$point${i}y
+  )`);
 
-// sqlite3 prepared statements
-var stmt = {};
+  return SQL
+    .replace('%%POINT_CONDITIONS%%', pointConditions.join(' OR '))
+    .replace('%%NAME_CONDITIONS%%', nameConditions.join(' OR '));
+}
+
+// Reusing prepared statements can have a ~10% perf benefit
+// Note: the cache is global and so must be unique per database.
+const cache = [];
+function statementCache(db, pointCount, nameCount) {
+  const key = `${nameCount}:${pointCount}:${db.name}`;
+  if (!cache[key]) {
+    cache[key] = db.prepare(generateDynamicSQL(pointCount, nameCount));
+  }
+  return cache[key];
+}
 
 module.exports = function( db, names, points ){
 
@@ -29,51 +51,27 @@ module.exports = function( db, names, points ){
     return [];
   }
 
-  // max conditions to search on
-  var max = {
-    names: Math.min( names.length, MAX_NAMES ),
-    points: Math.min( points.length, MAX_POINTS )
-  };
+  // total amount of names/points to consider for search
+  const nameCount = Math.min(names.length, MAX_NAMES);
+  const pointCount = Math.min(points.length, MAX_POINTS);
 
-  // give this statement a unique key
-  var hash = '' + max.names + '|' + max.points;
+  // use a prepared statement from cache (or generate one if not yet cached)
+  const stmt = statementCache(db, pointCount, nameCount);
 
-  // create prepared statement if one doesn't exist
-  if( !stmt.hasOwnProperty( hash ) ){
-
-    // add point confitions to query
-    var pointConditions = Array.apply(null, new Array(max.points)).map(function(__, i){
-      return POINT_SQL.replace(/\$lon/g, `$point${i}x`)
-                      .replace(/\$lat/g, `$point${i}y`);
-    });
-
-    // add name conditions to query
-    var nameConditions = Array.apply(null, new Array(max.names)).map(function(__, i){
-      return NAME_SQL.replace('$name', `$name${i}`);
-    });
-
-    // build unique sql statement
-    var sql = SQL.replace( '%%NAME_CONDITIONS%%', nameConditions.join(' OR ') )
-                 .replace( '%%POINT_CONDITIONS%%', pointConditions.join(' OR ') );
-
-    // create new prepared statement
-    stmt[hash] = db.prepare( sql );
- }
-
-  // create a variable array of args to bind to query
-  var args = {};
+  // create a variable array of params to bind to query
+  var params = {};
 
   // add points
-  points.slice(0, max.points).forEach( function( point, i ){
-    args[`point${i}x`] = point.lon;
-    args[`point${i}y`] = point.lat;
+  points.slice(0, pointCount).forEach((point, i) => {
+    params[`point${i}x`] = point.lon;
+    params[`point${i}y`] = point.lat;
   });
 
-  // add names and callback
-  names.slice(0, max.names).forEach(( name, i ) => {
-    args[`name${i}`] = name;
+  // add names
+  names.slice(0, nameCount).forEach((name, i) => {
+    params[`name${i}`] = name;
   });
 
   // execute statement
-  return stmt[hash].all(args);
+  return stmt.all(params);
 };

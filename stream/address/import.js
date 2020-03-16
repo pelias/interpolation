@@ -1,6 +1,5 @@
-
-var through = require('through2'),
-    Statistics = require('../../lib/statistics');
+const through = require('through2');
+const Statistics = require('../../lib/statistics');
 
 function streamFactory(db, done){
 
@@ -17,7 +16,7 @@ function streamFactory(db, done){
   stats.tick();
 
   // create a new stream
-  return through.obj({ highWaterMark: 2 }, function( batch, _, next ){
+  return through.obj(function( batch, _, next ){
 
     // start transaction
     db.transaction(() => {
@@ -28,7 +27,7 @@ function streamFactory(db, done){
         // insert points in address table
         stmt.address.run(address);
       });
-    })();
+    }).deferred();
 
     // update statistics
     stats.inc( batch.length );

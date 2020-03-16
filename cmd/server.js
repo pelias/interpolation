@@ -1,15 +1,11 @@
-
-var express = require('express'),
-    directory = require('serve-index'),
-    polyline = require('@mapbox/polyline'),
-    search = require('../api/search'),
-    extract = require('../api/extract'),
-    street = require('../api/street'),
-    near = require('../api/near'),
-    pretty = require('../lib/pretty'),
-    analyze = require('../lib/analyze'),
-    project = require('../lib/project'),
-    proximity = require('../lib/proximity');
+const express = require('express');
+const polyline = require('@mapbox/polyline');
+const search = require('../api/search');
+const extract = require('../api/extract');
+const street = require('../api/street');
+const near = require('../api/near');
+const pretty = require('../lib/pretty');
+const analyze = require('../lib/analyze');
 
 const morgan = require( 'morgan' );
 const logger = require('pelias-logger').get('interpolation');
@@ -17,7 +13,7 @@ const through = require( 'through2' );
 const _ = require('lodash');
 
 // optionally override port using env var
-var PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 // help text
 if( process.argv.length !== 4 ){
@@ -27,10 +23,10 @@ if( process.argv.length !== 4 ){
   process.exit(1);
 }
 
-var app = express();
+const app = express();
 app.use(log());
 
-var conn = {
+const conn = {
   search: search( process.argv[2], process.argv[3] ),
   extract: extract( process.argv[2], process.argv[3] ),
   street: street( process.argv[3] ),

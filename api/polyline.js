@@ -1,16 +1,13 @@
-
-var Database = require('better-sqlite3'),
-    requireDir = require('require-dir'),
-    stream = requireDir('../stream', { recurse: true }),
-    query = requireDir('../query');
+const Database = require('better-sqlite3');
+const requireDir = require('require-dir');
+const stream = requireDir('../stream', { recurse: true });
+const query = requireDir('../query');
 
 // export method
 function polyline(dataStream, streetDbPath, done){
 
   // connect to db
-  var db = new Database(streetDbPath, {
-    verbose: console.log
-  });
+  const db = new Database(streetDbPath);
 
   query.configure(db); // configure database
   query.tables.street(db, true); // reset database and create tables

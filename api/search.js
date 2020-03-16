@@ -1,19 +1,15 @@
-
-var Database = require('better-sqlite3'),
-    requireDir = require('require-dir'),
-    query = requireDir('../query'),
-    project = require('../lib/project'),
-    geodesic = require('../lib/geodesic'),
-    analyze = require('../lib/analyze');
+const Database = require('better-sqlite3');
+const requireDir = require('require-dir');
+const query = requireDir('../query');
+const project = require('../lib/project');
+const geodesic = require('../lib/geodesic');
+const analyze = require('../lib/analyze');
 
 // export setup method
 function setup( addressDbPath, streetDbPath ){
 
   // connect to db
-  var db = new Database( addressDbPath, {
-    readonly: true,
-    verbose: console.log
-  });
+  const db = new Database(addressDbPath, {readonly: true});
 
   // attach street database
   db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
@@ -136,10 +132,10 @@ function setup( addressDbPath, streetDbPath ){
 
       // if distance = 0 then we can simply use either A or B (they are the same lat/lon)
       // else we interpolate between the two positions
-      var point2 = A;
+      var interpolatedPoint = A;
       if( distance > 0 ){
         var ratio = ((normalized.number - before.housenumber) / (after.housenumber - before.housenumber));
-        point2 = geodesic.interpolate( distance, ratio, A, B );
+        interpolatedPoint = geodesic.interpolate( distance, ratio, A, B );
       }
 
       // return interpolated address
@@ -147,8 +143,8 @@ function setup( addressDbPath, streetDbPath ){
         type: 'interpolated',
         source: 'mixed',
         number: '' + Math.floor( normalized.number ),
-        lat: parseFloat( project.toDeg( point2.lat ).toFixed(7) ),
-        lon: parseFloat( project.toDeg( point2.lon ).toFixed(7) )
+        lat: parseFloat( project.toDeg( interpolatedPoint.lat ).toFixed(7) ),
+        lon: parseFloat( project.toDeg( interpolatedPoint.lon ).toFixed(7) )
       });
     } catch (err) {
       // an error occurred
