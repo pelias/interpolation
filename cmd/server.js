@@ -217,10 +217,10 @@ app.use('/demo', express.static('demo'));
 // app.use('/builds', express.static('/data/builds'));
 // app.use('/builds', directory('/data/builds', { hidden: false, icons: false, view: 'details' }));
 
-app.listen( PORT, function() {
+app.listen( PORT, async function() {
 
   // force loading of libpostal
-  analyze.street( 'test street' );
+  await analyze.street( 'test street' );
 
   console.log( 'server listening on port', PORT );
 });

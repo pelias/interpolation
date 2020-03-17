@@ -19,7 +19,7 @@ function setup( addressDbPath, streetDbPath ){
   db.exec('PRAGMA street.mmap_size=268435456;');
 
   // query method
-  var q = function( coord, number, street, cb ){
+  var q = async function( coord, number, street, cb ){
 
     var point = {
       lat: parseFloat( coord.lat ),
@@ -31,7 +31,7 @@ function setup( addressDbPath, streetDbPath ){
 
     var normalized = {
       number: analyze.housenumber( number ),
-      street: analyze.street( street )
+      street: await analyze.street( street )
     };
 
     // error checking
