@@ -1,6 +1,6 @@
 const async = require('async');
 const path = require('path');
-const fs = require('fs-extra');
+const fs = require('fs');
 const logger = require('pelias-logger').get('interpolation(TIGER)');
 const config = require('pelias-config').generate();
 const _ = require('lodash');
@@ -84,7 +84,7 @@ function downloadFilteredFiles(context, callback) {
   context.downloadsDir = path.join(TARGET_DIR, 'downloads');
 
   // ensure directories exist
-  fs.ensureDirSync(context.downloadsDir);
+  fs.mkdirSync(context.downloadsDir, { recursive: true });
 
   // ensure directories are writable
   fs.accessSync(context.downloadsDir, fs.constants.R_OK | fs.constants.W_OK);
