@@ -1,23 +1,42 @@
+/**
+  The http server improves performance on multicore machines by using the
+  node core 'cluster' module to fork worker processes.
 
-var express = require('express'),
-    directory = require('serve-index'),
-    polyline = require('@mapbox/polyline'),
-    search = require('../api/search'),
-    extract = require('../api/extract'),
-    street = require('../api/street'),
-    near = require('../api/near'),
-    pretty = require('../lib/pretty'),
-    analyze = require('../lib/analyze'),
-    project = require('../lib/project'),
-    proximity = require('../lib/proximity');
+  The default setting is to use all available CPUs, this will spawn 32 child
+  processes on a 32 core machine.
+
+  If you would like to disable this feature (maybe because you are running
+  inside a container) then you can do so by setting the env var CPUS=1
+
+  You may also specify exactly how many child processes you would like to
+  spawn by setting the env var to a numeric value >1, eg CPUS=4
+
+  If the CPUS env var is set less than 1 or greater than os.cpus().length
+  then the default setting will be used (using all available cores).
+**/
+
+const os = require('os');
+const express = require('express');
+const cluster = require('cluster');
+const polyline = require('@mapbox/polyline');
+const search = require('../api/search');
+const extract = require('../api/extract');
+const street = require('../api/street');
+const near = require('../api/near');
+const pretty = require('../lib/pretty');
 
 const morgan = require( 'morgan' );
 const logger = require('pelias-logger').get('interpolation');
 const through = require( 'through2' );
 const _ = require('lodash');
 
-// optionally override port using env var
-var PORT = process.env.PORT || 3000;
+// select the amount of cpus we will use
+const envCpus = parseInt(process.env.CPUS, 10);
+const cpus = Math.min(Math.max(envCpus || Infinity, 1), os.cpus().length);
+
+// optionally override port/host using env var
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || undefined;
 
 // help text
 if( process.argv.length !== 4 ){
@@ -27,10 +46,10 @@ if( process.argv.length !== 4 ){
   process.exit(1);
 }
 
-var app = express();
+const app = express();
 app.use(log());
 
-var conn = {
+const conn = {
   search: search( process.argv[2], process.argv[3] ),
   extract: extract( process.argv[2], process.argv[3] ),
   street: street( process.argv[3] ),
@@ -56,6 +75,19 @@ function log() {
   });
 }
 
+// handle errors as either Error objects or strings
+function formatError( err )  {
+  if (err instanceof Error) {
+    return {
+      type: err.name,
+      message: err.message
+    };
+  }
+  return {
+    message: err
+  };
+}
+
 // search with geojson view
 // eg: http://localhost:3000/search/geojson?lat=-41.288788&lon=174.766843&number=16&street=glasgow%20street
 app.get('/search/geojson', function( req, res ){
@@ -65,7 +97,7 @@ app.get('/search/geojson', function( req, res ){
   var street = req.query.street;
 
   conn.search.query( point, number, street, function( err, point ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !point ){ return res.status(200).json({}); }
 
     res.json( pretty.geojson.point( point, point.lon, point.lat ) );
@@ -81,7 +113,7 @@ app.get('/search/table', function( req, res ){
   var street = req.query.street;
 
   conn.search.query( point, number, street, function( err, point ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !point ){ return res.status(200).send(''); }
 
     res.setHeader('Content-Type', 'text/html');
@@ -97,7 +129,7 @@ app.get('/extract/geojson', function( req, res ){
   var names = req.query.names ? req.query.names.split(',') : [];
 
   conn.extract.query( point, names, function( err, data ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !data ){ return res.status(200).json({}); }
 
     res.json( pretty.geojson( data ) );
@@ -129,7 +161,7 @@ app.get('/street/near/geojson', function( req, res ){
   var max_distance = req.query.dist || 0.01;
 
   conn.near.query( point, function( err, ordered ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !ordered || !ordered.length ){ return res.status(200).json({}); }
 
     // remove points over a certain distance (in degrees)
@@ -165,7 +197,7 @@ app.get('/street/near/geojson', function( req, res ){
 app.get('/street/:id/geojson', function( req, res ){
 
   conn.street.query( req.params.id.split(','), function( err, rows ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !rows || !rows.length ){ return res.status(200).json({}); }
 
     // dedupe
@@ -208,10 +240,38 @@ app.use('/demo', express.static('demo'));
 // app.use('/builds', express.static('/data/builds'));
 // app.use('/builds', directory('/data/builds', { hidden: false, icons: false, view: 'details' }));
 
-app.listen( PORT, function() {
+// start multi-threaded server
+if (cpus > 1) {
+  if (cluster.isMaster) {
+    logger.info('[master] using %d cpus', cpus);
 
-  // force loading of libpostal
-  analyze.street( 'test street' );
+    // worker exit event
+    cluster.on('exit', (worker, code, signal) => {
+      logger.error('[master] worker died', worker.process.pid);
+    });
 
-  console.log( 'server listening on port', PORT );
-});
+    // worker fork event
+    cluster.on('fork', (worker, code, signal) => {
+      logger.info('[master] worker forked', worker.process.pid);
+    });
+
+    // fork workers
+    for (var c = 0; c < cpus; c++) {
+      cluster.fork();
+    }
+
+  } else {
+    app.listen(PORT, HOST, () => {
+      logger.info('[worker %d] listening on %s:%s', process.pid, HOST || '0.0.0.0', PORT);
+    });
+  }
+}
+
+// start single-threaded server
+else {
+  logger.info('[master] using %d cpus', cpus);
+
+  app.listen(PORT, HOST, async () => {
+    logger.info('[master] listening on %s:%s', HOST || '0.0.0.0', PORT);
+  });
+}

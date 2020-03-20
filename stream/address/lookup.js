@@ -17,7 +17,7 @@ if( hasFD3 ){
 
 function streamFactory(db){
 
-  return through.obj(function( batch, _, next ){
+  return through.obj(async function( batch, _, next ){
 
     // invalid batch
     if( !batch || !batch.length ){
@@ -30,7 +30,7 @@ function streamFactory(db){
 
     // all street names in batch should be the same
     // perform libpostal normalization
-    var names = analyze.street( result.getStreet() );
+    var names = await analyze.street( result.getStreet() );
 
     // ensure at least one name was produced
     if( !names.length ){
@@ -40,16 +40,8 @@ function streamFactory(db){
     // select points to search on
     var points = selectPoints( batch );
 
-    // console.error( points );
-
-    // call db.all(), appending the callback function
-    query.lookup(db, names, points, function( err, rows ){
-
-      // error debug
-      if( err ){
-        console.error( err );
-        return next();
-      }
+    try {
+      let rows = query.lookup(db, names, points );
 
       // no results found
       if( !rows || !rows.length ){
@@ -83,18 +75,16 @@ function streamFactory(db){
       **/
 
       // push downstream
-      this.push({
+      next(null, {
         batch: batch,
-        streets: ( longLinesOnly.length > 1 ) ? longLinesOnly : rows
+        streets: (longLinesOnly.length > 1) ? longLinesOnly : rows
       });
 
+    } catch (err) {
+      console.error(err);
       next();
-    }.bind(this));
-
-  }, function flush(next){
-    query.lookup.finalize();
-    next();
-  });
+    }
+  }.bind(this));
 }
 
 /**

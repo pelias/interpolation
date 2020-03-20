@@ -73,9 +73,6 @@ function streamFactory( db ){
       next();
 
     }.bind(this));
-  }, function flush(next){
-    query.near.finalize();
-    next();
   });
 }
 
