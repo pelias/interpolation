@@ -15,7 +15,7 @@ const SQL = `
     street.rtree.minY<=$lat AND street.rtree.maxY>=$lat
   )
   AND ( %%NAME_CONDITIONS%% )
-  ORDER BY address.housenumber ASC // @warning business logic depends on this
+  ORDER BY address.housenumber ASC -- @warning business logic depends on this
   LIMIT ${MAX_MATCHES};
 `;
 
