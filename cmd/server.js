@@ -52,6 +52,19 @@ function log() {
   });
 }
 
+// handle errors as either Error objects or strings
+function formatError( err )  {
+  if (err instanceof Error) {
+    return {
+      type: err.name,
+      message: err.message
+    };
+  }
+  return {
+    message: err
+  };
+}
+
 // search with geojson view
 // eg: http://localhost:3000/search/geojson?lat=-41.288788&lon=174.766843&number=16&street=glasgow%20street
 app.get('/search/geojson', function( req, res ){
@@ -61,7 +74,7 @@ app.get('/search/geojson', function( req, res ){
   var street = req.query.street;
 
   conn.search.query( point, number, street, function( err, point ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !point ){ return res.status(200).json({}); }
 
     res.json( pretty.geojson.point( point, point.lon, point.lat ) );
@@ -77,7 +90,7 @@ app.get('/search/table', function( req, res ){
   var street = req.query.street;
 
   conn.search.query( point, number, street, function( err, point ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !point ){ return res.status(200).send(''); }
 
     res.setHeader('Content-Type', 'text/html');
@@ -93,7 +106,7 @@ app.get('/extract/geojson', function( req, res ){
   var names = req.query.names ? req.query.names.split(',') : [];
 
   conn.extract.query( point, names, function( err, data ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !data ){ return res.status(200).json({}); }
 
     res.json( pretty.geojson( data ) );
@@ -125,7 +138,7 @@ app.get('/street/near/geojson', function( req, res ){
   var max_distance = req.query.dist || 0.01;
 
   conn.near.query( point, function( err, ordered ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !ordered || !ordered.length ){ return res.status(200).json({}); }
 
     // remove points over a certain distance (in degrees)
@@ -161,7 +174,7 @@ app.get('/street/near/geojson', function( req, res ){
 app.get('/street/:id/geojson', function( req, res ){
 
   conn.street.query( req.params.id.split(','), function( err, rows ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !rows || !rows.length ){ return res.status(200).json({}); }
 
     // dedupe
