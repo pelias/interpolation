@@ -5,19 +5,22 @@ module.exports.analyze = {};
 
 module.exports.analyze.street = function(test) {
   test('street: synonym expansions', function(t) {
-    var perms = analyze.street('grolmanstraße');
-    t.deepEqual(perms, ['grolmanstraße', 'grolman straße']);
-    t.end();
+    analyze.street('grolmanstraße', function(err, perms) {
+      t.deepEqual(perms, ['grolmanstraße', 'grolman straße']);
+      t.end();
+    });
   });
   test('street: remove ordinals', function(t) {
-    var perms = analyze.street('West 26th st');
-    t.deepEqual(perms, ['west 26 street', 'west 26 saint']);
-    t.end();
+    analyze.street('West 26th st', function(err, perms) {
+      t.deepEqual(perms, ['west 26 street', 'west 26 saint']);
+      t.end();
+    });
   });
   test('street: always returns array', function(t) {
-    var perms = analyze.street('');
-    t.deepEqual(perms, ['']);
-    t.end();
+    analyze.street('', function(err, perms) {
+      t.deepEqual(perms, ['']);
+      t.end();
+    });
   });
 };
 
