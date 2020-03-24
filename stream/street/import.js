@@ -72,7 +72,14 @@ function streamFactory(db, done) {
   };
 
   // create a new stream
-  return through.obj(transform, flush);
+  const stream = through.obj(transform, flush);
+
+  // stop stats ticker on stream error
+  stream.on('error', () => {
+    stats.tick(false);
+  });
+
+  return stream;
 }
 
 module.exports = streamFactory;

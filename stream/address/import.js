@@ -4,19 +4,25 @@ const Statistics = require('../../lib/statistics');
 function streamFactory(db, done){
 
   // sqlite3 prepared stmt
-  var stmt = {
-    address: db.prepare([
-      'INSERT INTO address (rowid, id, source, source_id, housenumber, lat, lon, parity, proj_lat, proj_lon)',
-      'VALUES (NULL, $id, $source, $source_id, $housenumber, $lat, $lon, $parity, $proj_lat, $proj_lon);'
-    ].join(' '))
+  const stmt = {
+    address: db.prepare(`
+      INSERT INTO address (
+        rowid, id, source, source_id, housenumber,
+        lat, lon, parity, proj_lat, proj_lon
+      )
+      VALUES (
+        NULL, $id, $source, $source_id, $housenumber,
+        $lat, $lon, $parity, $proj_lat, $proj_lon
+      )
+    `)
   };
 
   // tick import stats
-  var stats = new Statistics();
+  const stats = new Statistics();
   stats.tick();
 
   // create a new stream
-  return through.obj(function( batch, _, next ){
+  const stream = through.obj(function( batch, _, next ){
 
     // start transaction
     db.transaction(() => {
@@ -38,11 +44,18 @@ function streamFactory(db, done){
   }, function( next ){
 
     // stop stats ticker
-    stats.tick( false );
+    stats.tick(false);
 
     done();
     next();
   });
+
+  // stop stats ticker on stream error
+  stream.on('error', () => {
+    stats.tick(false);
+  });
+
+  return stream;
 }
 
 module.exports = streamFactory;
