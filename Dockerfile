@@ -14,7 +14,10 @@ WORKDIR ${WORKDIR}
 
 # copy package.json first to prevent npm install being rerun when only code changes
 COPY ./package.json ${WORK}
-RUN npm install
+
+# note: 'unsafe-perm' is only required when running a fork of 'better-sqlite3' as root, when
+# the 'unsafe mode' PR is merged we can revert to using the prebuilt releases of the module.
+RUN npm install --unsafe-perm
 
 # add the rest of the code
 ADD . ${WORKDIR}
