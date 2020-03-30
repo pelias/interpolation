@@ -1,95 +1,85 @@
+const through = require('through2');
+const Statistics = require('../../lib/statistics');
 
-var through = require('through2'),
-    assert = require('../../lib/assert'),
-    Statistics = require('../../lib/statistics');
-
-function streamFactory(db, done){
+function streamFactory(db, done) {
 
   // sqlite3 prepared statements
-  var stmt = {
-    rtree: db.prepare('INSERT INTO rtree (id, minX, maxX, minY, maxY) VALUES ($id, $minX, $maxX, $minY, $maxY);'),
-    names: db.prepare('INSERT INTO names (rowid, id, name) VALUES (NULL, $id, $name);'),
-    line: db.prepare('INSERT INTO polyline (id, line) VALUES ($id, $line);')
+  const stmt = {
+    rtree: db.prepare(`INSERT INTO rtree (id, minX, maxX, minY, maxY) VALUES ($id, $minX, $maxX, $minY, $maxY)`),
+    names: db.prepare(`INSERT INTO names (rowid, id, name) VALUES (NULL, $id, $name)`),
+    line: db.prepare(`INSERT INTO polyline (id, line) VALUES ($id, $line)`)
   };
 
   // tick import stats
-  var stats = new Statistics();
+  const stats = new Statistics();
   stats.tick();
 
-  // create a new stream
-  return through.obj(function( batch, _, next ){
+  // the insert function imports data from each batch
+  // into the database.
+  const insert = (batch) => {
+    batch.forEach((street) => {
 
-    // run serially so we can use transactions
-    db.serialize(function() {
-
-      // start transaction
-      db.run('BEGIN TRANSACTION', function(err){
-
-        // error checking
-        assert.transaction.start(err);
-
-        // import batch
-        batch.forEach( function( street ){
-
-          // insert names in to lookup table
-          street.getNames().forEach( function( name ){
-            stmt.names.run({
-              $id:   street.getId(),
-              $name: name
-            }, assert.statement.names);
-          });
-
-          // insert bbox in to rtree table
-          var bbox = street.getBbox();
-          stmt.rtree.run({
-            $id:   street.getId(),
-            $minX: bbox.minX,
-            $maxX: bbox.maxX,
-            $minY: bbox.minY,
-            $maxY: bbox.maxY
-          }, assert.statement.rtree);
-
-          // insert line in to polyline table
-          stmt.line.run({
-            $id:   street.getId(),
-            $line: street.getEncodedPolyline()
-          }, assert.statement.line);
-
+      // insert names in to lookup table
+      street.getNames().forEach((name) => {
+        stmt.names.run({
+          id: street.getId(),
+          name: name
         });
       });
 
-      // commit transaction
-      db.run('END TRANSACTION', function(err){
+      // insert bbox in to rtree table
+      const bbox = street.getBbox();
+      stmt.rtree.run({
+        id: street.getId(),
+        minX: bbox.minX,
+        maxX: bbox.maxX,
+        minY: bbox.minY,
+        maxY: bbox.maxY
+      });
 
-        // error checking
-        assert.transaction.end(err);
-
-        // update statistics
-        stats.inc( batch.length );
-
-        // wait for transaction to complete before continuing
-        next();
+      // insert line in to polyline table
+      stmt.line.run({
+        id: street.getId(),
+        line: street.getEncodedPolyline()
       });
     });
+  };
 
-  }, function( next ){
+  // the transform function is executed once per batch in the stream.
+  const transform = (batch, encoding, next) => {
+
+    // execute transaction
+    db.transaction(insert).deferred(batch);
+
+    // update statistics
+    stats.inc(batch.length);
+
+    // ready for more data
+    next();
+  };
+
+  // the flush function is executed once at the end of the stream.
+  const flush = (next) => {
 
     // stop stats ticker
-    stats.tick( false );
+    stats.tick(false);
 
-    // clean up
-    db.serialize(function(){
+    // call streamFactory callback to indicate the stream is complete.
+    done();
 
-      // finalize prepared statements
-      stmt.rtree.finalize( assert.log('finalize rtree') );
-      stmt.names.finalize( assert.log('finalize names') );
-      stmt.line.finalize( assert.log('finalize line') );
+    // indicate the stream has ended and all work has been complete.
+    next();
+  };
 
-      // we are done
-      db.wait(done);
-      next();
-    });
+  // create a new stream
+  const stream = through.obj(transform, flush);
+
+  // stop stats ticker on stream error
+  stream.on('error', () => {
+    stats.tick(false);
   });
+
+  return stream;
 }
 
 module.exports = streamFactory;

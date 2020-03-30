@@ -1,24 +1,22 @@
-
-var sqlite3 = require('sqlite3'),
-    requireDir = require('require-dir'),
-    query = requireDir('../query'),
-    project = require('../lib/project'),
-    geodesic = require('../lib/geodesic'),
-    analyze = require('../lib/analyze');
+const Database = require('better-sqlite3');
+const requireDir = require('require-dir');
+const query = requireDir('../query');
+const project = require('../lib/project');
+const geodesic = require('../lib/geodesic');
+const analyze = require('../lib/analyze');
 
 // export setup method
 function setup( addressDbPath, streetDbPath ){
 
   // connect to db
-  sqlite3.verbose();
-  var db = new sqlite3.Database( addressDbPath, sqlite3.OPEN_READONLY );
+  const db = new Database(addressDbPath, {readonly: true});
 
   // attach street database
-  query.attach( db, streetDbPath, 'street' );
+  db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
 
   // enable memmapping of database pages
-  db.run('PRAGMA mmap_size=268435456;');
-  db.run('PRAGMA street.mmap_size=268435456;');
+  db.exec('PRAGMA mmap_size=268435456;');
+  db.exec('PRAGMA street.mmap_size=268435456;');
 
   // query method
   var q = function( coord, number, street, cb ){
@@ -42,14 +40,16 @@ function setup( addressDbPath, streetDbPath ){
     if( isNaN( normalized.number ) ){ return cb( 'invalid number' ); }
     if( !normalized.street.length ){ return cb( 'invalid street' ); }
 
-    // perform a db lookup for the specified street
-    // @todo: perofmance: only query for part of the table
-    query.search( db, point, normalized.number, normalized.street, function( err, res ){
+    try {
+
+      // perform a db lookup for the specified street
+      // @todo: perofmance: only query for part of the table
+      const res = query.search( db, point, normalized.number, normalized.street );
 
       // @note: results can be from multiple different street ids.
 
-      // an error occurred or no results were found
-      if( err || !res || !res.length ){ return cb( err, null ); }
+      // no results were found
+      if( !res || !res.length ){ return cb( null, null ); }
 
       // try to find an exact match
       var match = res.find( function( row ){
@@ -132,10 +132,10 @@ function setup( addressDbPath, streetDbPath ){
 
       // if distance = 0 then we can simply use either A or B (they are the same lat/lon)
       // else we interpolate between the two positions
-      var point = A;
+      var interpolatedPoint = A;
       if( distance > 0 ){
         var ratio = ((normalized.number - before.housenumber) / (after.housenumber - before.housenumber));
-        point = geodesic.interpolate( distance, ratio, A, B );
+        interpolatedPoint = geodesic.interpolate( distance, ratio, A, B );
       }
 
       // return interpolated address
@@ -143,10 +143,13 @@ function setup( addressDbPath, streetDbPath ){
         type: 'interpolated',
         source: 'mixed',
         number: '' + Math.floor( normalized.number ),
-        lat: parseFloat( project.toDeg( point.lat ).toFixed(7) ),
-        lon: parseFloat( project.toDeg( point.lon ).toFixed(7) )
+        lat: parseFloat( project.toDeg( interpolatedPoint.lat ).toFixed(7) ),
+        lon: parseFloat( project.toDeg( interpolatedPoint.lon ).toFixed(7) )
       });
-    });
+    } catch (err) {
+      // an error occurred
+      return cb(err, null);
+    }
   };
 
   // close method to close db

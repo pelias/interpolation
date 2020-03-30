@@ -1,5 +1,4 @@
-
-var vertices = require('../api/vertices');
+const vertices = require('../api/vertices');
 
 // help text
 if( process.argv.length !== 4 ){

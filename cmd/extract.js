@@ -1,6 +1,5 @@
-
-var extract = require('../api/extract'),
-    pretty = require('../lib/pretty');
+const extract = require('../api/extract');
+const pretty = require('../lib/pretty');
 
 // help text
 if( process.argv.length !== 7 ){

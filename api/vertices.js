@@ -1,21 +1,20 @@
-
-var sqlite3 = require('sqlite3'),
-    requireDir = require('require-dir'),
-    stream = requireDir('../stream', { recurse: true }),
-    query = requireDir('../query');
+const Database = require('better-sqlite3');
+const requireDir = require('require-dir');
+const stream = requireDir('../stream', { recurse: true });
+const query = requireDir('../query');
 
 // export method
 function vertices(addressDbPath, streetDbPath, done){
 
   // connect to db
-  sqlite3.verbose();
-  var db = new sqlite3.Database( process.argv[2] );
+  const db = new Database(addressDbPath, { unsafe: true });
 
   query.configure(db); // configure database
   query.tables.address(db); // create tables only if not already created
-  query.attach(db, process.argv[3], 'street'); // attach street database
+  db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
 
-  stream.each( db, 'street.polyline', 'WHERE id IN ( SELECT DISTINCT id FROM address )' )
+  const sql = `SELECT * FROM street.polyline WHERE EXISTS (SELECT id FROM address WHERE id = polyline.id LIMIT 1)`;
+  stream.each(db, sql)
           .pipe( stream.vertices.lookup( db ) )
           .pipe( stream.vertices.augment() )
           .pipe( stream.batch( 1000 ) ) // batch up data to import

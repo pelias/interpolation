@@ -1,5 +1,4 @@
-
-var search = require('../api/search');
+const search = require('../api/search');
 
 // help text
 if( process.argv.length < 8 || process.argv.length > 9 ){
@@ -9,11 +8,11 @@ if( process.argv.length < 8 || process.argv.length > 9 ){
   process.exit(1);
 }
 
-var conn = search( process.argv[2], process.argv[3] );
-var number = process.argv[6];
-var street = process.argv[7];
+const conn = search( process.argv[2], process.argv[3] );
+const number = process.argv[6];
+const street = process.argv[7];
 
-var point = {
+const point = {
   lat: parseFloat( process.argv[4] ),
   lon: parseFloat( process.argv[5] )
 };

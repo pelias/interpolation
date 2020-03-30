@@ -11,18 +11,16 @@ var through = require('through2');
 function streamFactory( db ){
 
   // create prepared statement
-  var stmt = db.prepare( 'SELECT * FROM address WHERE source != "VERTEX" AND id = ? ORDER BY housenumber ASC' );
+  var stmt = db.prepare( `SELECT * FROM address WHERE source != 'VERTEX' AND id = $id ORDER BY housenumber ASC` );
 
   return through.obj( function( street, _, next ){
 
-    // select all addresses which correspond to street.id (excluding existing vertices)
-    stmt.all([ street.id ], function( err, addresses ){
-
-      // an error occurred
-      if( err ){ console.error( err ); }
+    try {
+      // select all addresses which correspond to street.id (excluding existing vertices)
+      const addresses = stmt.all({ id: street.id });
 
       // push street and addresses downstream
-      else if( addresses && addresses.length ){
+      if( addresses && addresses.length ){
         this.push({
           street: street,
           addresses: addresses
@@ -31,12 +29,12 @@ function streamFactory( db ){
 
       // continue
       next();
+    } catch(err){
+      // an error occurred
+      console.error(err);
+      next();
+    }
 
-    }.bind(this) );
-
-  }, function flush( next ){
-    stmt.finalize(); // finalize prepared statement
-    next();
   });
 }
 

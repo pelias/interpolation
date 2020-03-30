@@ -54,7 +54,6 @@ module.exports.interface.query = function(test) {
   test('queries', function(t) {
     t.equal(typeof index.query.extract, 'function', 'valid function');
     t.equal(typeof index.query.search, 'function', 'valid function');
-    t.equal(typeof index.query.attach, 'function', 'valid function');
     t.equal(typeof index.query.configure, 'function', 'valid function');
     t.equal(typeof index.query.indexes, 'object', 'valid object');
     t.equal(typeof index.query.indexes.street, 'function', 'valid function');
@@ -72,8 +71,6 @@ module.exports.interface.lib = function(test) {
     t.equal(typeof index.lib.analyze, 'object', 'valid object');
     t.equal(typeof index.lib.analyze.street, 'function', 'valid function');
     t.equal(typeof index.lib.analyze.housenumber, 'function', 'valid function');
-    t.equal(typeof index.lib.assert, 'object', 'valid object');
-    t.equal(typeof index.lib.assert.log, 'function', 'valid function');
     t.equal(typeof index.lib.proximity, 'object', 'valid object');
     t.equal(typeof index.lib.proximity.nearest.street, 'function', 'valid function');
     t.equal(typeof index.lib.pretty, 'object', 'valid object');

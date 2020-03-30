@@ -1,19 +1,17 @@
-
-var sqlite3 = require('sqlite3'),
-    requireDir = require('require-dir'),
-    stream = requireDir('../stream', { recurse: true }),
-    query = requireDir('../query');
+const Database = require('better-sqlite3');
+const requireDir = require('require-dir');
+const stream = requireDir('../stream', { recurse: true });
+const query = requireDir('../query');
 
 // export method
 function oa(dataStream, addressDbPath, streetDbPath, done){
 
   // connect to db
-  sqlite3.verbose();
-  var db = new sqlite3.Database( process.argv[2] );
+  const db = new Database(addressDbPath);
 
   query.configure(db); // configure database
   query.tables.address(db); // create tables only if not already created
-  query.attach(db, process.argv[3], 'street'); // attach street database
+  db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
 
   dataStream
     .pipe( stream.oa.parse() ) // parse openaddresses csv data

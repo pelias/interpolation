@@ -1,15 +1,11 @@
-
-var express = require('express'),
-    directory = require('serve-index'),
-    polyline = require('@mapbox/polyline'),
-    search = require('../api/search'),
-    extract = require('../api/extract'),
-    street = require('../api/street'),
-    near = require('../api/near'),
-    pretty = require('../lib/pretty'),
-    analyze = require('../lib/analyze'),
-    project = require('../lib/project'),
-    proximity = require('../lib/proximity');
+const express = require('express');
+const polyline = require('@mapbox/polyline');
+const search = require('../api/search');
+const extract = require('../api/extract');
+const street = require('../api/street');
+const near = require('../api/near');
+const pretty = require('../lib/pretty');
+const analyze = require('../lib/analyze');
 
 const morgan = require( 'morgan' );
 const logger = require('pelias-logger').get('interpolation');
@@ -17,7 +13,7 @@ const through = require( 'through2' );
 const _ = require('lodash');
 
 // optionally override port using env var
-var PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 // help text
 if( process.argv.length !== 4 ){
@@ -27,10 +23,10 @@ if( process.argv.length !== 4 ){
   process.exit(1);
 }
 
-var app = express();
+const app = express();
 app.use(log());
 
-var conn = {
+const conn = {
   search: search( process.argv[2], process.argv[3] ),
   extract: extract( process.argv[2], process.argv[3] ),
   street: street( process.argv[3] ),
@@ -56,6 +52,19 @@ function log() {
   });
 }
 
+// handle errors as either Error objects or strings
+function formatError( err )  {
+  if (err instanceof Error) {
+    return {
+      type: err.name,
+      message: err.message
+    };
+  }
+  return {
+    message: err
+  };
+}
+
 // search with geojson view
 // eg: http://localhost:3000/search/geojson?lat=-41.288788&lon=174.766843&number=16&street=glasgow%20street
 app.get('/search/geojson', function( req, res ){
@@ -65,7 +74,7 @@ app.get('/search/geojson', function( req, res ){
   var street = req.query.street;
 
   conn.search.query( point, number, street, function( err, point ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !point ){ return res.status(200).json({}); }
 
     res.json( pretty.geojson.point( point, point.lon, point.lat ) );
@@ -81,7 +90,7 @@ app.get('/search/table', function( req, res ){
   var street = req.query.street;
 
   conn.search.query( point, number, street, function( err, point ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !point ){ return res.status(200).send(''); }
 
     res.setHeader('Content-Type', 'text/html');
@@ -97,7 +106,7 @@ app.get('/extract/geojson', function( req, res ){
   var names = req.query.names ? req.query.names.split(',') : [];
 
   conn.extract.query( point, names, function( err, data ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !data ){ return res.status(200).json({}); }
 
     res.json( pretty.geojson( data ) );
@@ -129,7 +138,7 @@ app.get('/street/near/geojson', function( req, res ){
   var max_distance = req.query.dist || 0.01;
 
   conn.near.query( point, function( err, ordered ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !ordered || !ordered.length ){ return res.status(200).json({}); }
 
     // remove points over a certain distance (in degrees)
@@ -165,7 +174,7 @@ app.get('/street/near/geojson', function( req, res ){
 app.get('/street/:id/geojson', function( req, res ){
 
   conn.street.query( req.params.id.split(','), function( err, rows ){
-    if( err ){ return res.status(400).json( err ); }
+    if( err ){ return res.status(400).json( formatError( err ) ); }
     if( !rows || !rows.length ){ return res.status(200).json({}); }
 
     // dedupe
