@@ -7,15 +7,13 @@ const query = requireDir('../query');
 function vertices(addressDbPath, streetDbPath, done){
 
   // connect to db
-  var db = new Database(addressDbPath, {
-    verbose: console.log
-  });
+  const db = new Database(addressDbPath, { unsafe: true });
 
   query.configure(db); // configure database
   query.tables.address(db); // create tables only if not already created
   db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
 
-  const sql = `SELECT * FROM street.polyline WHERE id IN (SELECT DISTINCT id FROM address)`;
+  const sql = `SELECT * FROM street.polyline WHERE EXISTS (SELECT id FROM address WHERE id = polyline.id LIMIT 1)`;
   stream.each(db, sql)
           .pipe( stream.vertices.lookup( db ) )
           .pipe( stream.vertices.augment() )
