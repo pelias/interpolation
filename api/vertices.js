@@ -7,9 +7,7 @@ const query = requireDir('../query');
 function vertices(addressDbPath, streetDbPath, done){
 
   // connect to db
-  var db = new Database(addressDbPath, {
-    verbose: console.log
-  });
+  var db = new Database(addressDbPath);
 
   query.configure(db); // configure database
   query.tables.address(db); // create tables only if not already created
