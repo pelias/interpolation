@@ -28,7 +28,7 @@ An open source + open data project to perform global street address interpolatio
 
 ![header](http://missinglink.embed.s3.amazonaws.com/interpolation-title.png)
 
-# Overview
+## Overview
 
 The [Openstreetmap](http://www.openstreetmap.com) and [Openaddresses](http://www.openaddresses.io) projects provide a huge cache of street address information; between them around 500 million address points are freely available to download.
 
@@ -40,7 +40,7 @@ The service was designed for use with the [pelias geocoder](https://github.com/p
 
 more info: [[design doc](docs/design-doc.md)] [[relationship to pelias](docs/introduction.md)] [[existing standards](docs/existing-standards.md)] [[conflation](docs/conflation.md)] [[database schema](docs/database-schema.md)]
 
-# Architecture
+## Architecture
 
 The software is written in javascript to run in nodejs, the storage engine is sqlite3.
 
@@ -60,7 +60,7 @@ The data is split in to 2 different sqlite3 databases:
 - street.db (holds information about streets, geometry, their names and bounding boxes)
 - address.db (holds address point data, both rooftop accuracy and pre-interpolated vertex data)
 
-# Workflow
+## Workflow
 
 ### street database
 
@@ -92,7 +92,7 @@ Finally we will compute the fractional house numbers for each vertex (corner) of
 
 See the [building the databases](https://github.com/pelias/interpolation#building-the-databases) section below for detailed information on which commands to run.
 
-# Building the databases
+## Building the databases
 
 ### polyline
 > import road network data in the polyline format
@@ -155,7 +155,7 @@ you can record a log of addresses which do not find a matching street. simply cr
 cat /data/oa/nz/countrywide.csv | ./interpolate oa address.db street.db 3> skip.list
 ```
 
-# Using the command line
+## Using the command line
 
 ### help
 > get information about which commands are available and list the arguments they accept
@@ -214,7 +214,7 @@ note: the lat/lon values you provide are in order to disambiguate the street, th
 ...
 ```
 
-# Using the web server
+## Using the web server
 
 ### Start the web server
 > run a web server which exposes the search APIs via an HTTP interface
@@ -252,7 +252,7 @@ server listening on port 3000
 
 see: [source](https://github.com/pelias/interpolation/blob/master/cmd/server.js) for more information.
 
-# docker
+## docker
 
 ### build docker image
 This can take some time for the first build due to installing libpostal from source.
@@ -447,11 +447,11 @@ docker run -i \ # run interactively (optionally daemonize with -d)
 
 once completed you should find the newly created `street.db` and `address.db` files in `/tmp/data/berlin` on your local machine.
 
-# Configuration with Pelias Geocoder API
+## Configuration with Pelias Geocoder API
 
 To use Interpolation service with the Pelias API, [configure the pelias config file](https://github.com/pelias/api#pelias-config) with the port that interpolation is running on.
 
-# development
+## development
 
 ### install dependencies
 
@@ -480,7 +480,7 @@ note: if you are using the `atom` editor, we recommend the [jshint](https://atom
 git commit
 ```
 
-# functional tests
+## functional tests
 
 this repo contains a bunch of functional end-to-end tests in the [./test/functional](https://github.com/pelias/interpolation/tree/master/test/functional) directory.
 
