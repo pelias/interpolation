@@ -219,12 +219,20 @@ note: the lat/lon values you provide are in order to disambiguate the street, th
 ### Start the web server
 > run a web server which exposes the search APIs via an HTTP interface
 
-note: you can set an environment variable named 'PORT' to change the port number.
 ```bash
 ./interpolate server address.db street.db
 
 server listening on port 3000
 ```
+
+#### Configuration via Environment Variables
+
+The API supports additional environment variables that affect its operation:
+
+| Environment Variable | Default | Description |
+| -------------------- | ------- | ----------- |
+| `HOST` | `undefined` | The network address that interpolation will bind to. Defaults to whatever the current Node.js default is, which is currently to listen on `0.0.0.0` (all interfaces). See the [Node.js Net documentation](https://nodejs.org/api/net.html#net_server_listen_port_host_backlog_callback) for more information. |
+| `PORT` | `3000` | The TCP port that interpolation will use for incoming network connections |
 
 ### GET /search/{format}
 > search the db for an address, return an interpolated value if an exact match does not exist

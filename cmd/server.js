@@ -11,9 +11,11 @@ const morgan = require( 'morgan' );
 const logger = require('pelias-logger').get('interpolation');
 const through = require( 'through2' );
 const _ = require('lodash');
+const util = require( 'util' );
 
-// optionally override port using env var
+// optionally override port/host using env var
 const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || undefined;
 
 // help text
 if( process.argv.length !== 4 ){
@@ -218,10 +220,10 @@ app.use('/demo', express.static('demo'));
 // app.use('/builds', express.static('/data/builds'));
 // app.use('/builds', directory('/data/builds', { hidden: false, icons: false, view: 'details' }));
 
-app.listen( PORT, function() {
+app.listen( PORT, HOST, function() {
 
   // force loading of libpostal
   analyze.street( 'test street' );
 
-  console.log( 'server listening on port', PORT );
+  console.log(util.format( 'server listening on %s:%s', HOST || '0.0.0.0', PORT ));
 });
