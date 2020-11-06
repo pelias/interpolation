@@ -6,8 +6,8 @@ const conform = /^tl_2016_(\d{5})_addrfeat\.zip$/;
 
 class CensusS3Mirror {
   constructor() {
-    this.host = 'https://census-backup.s3.amazonaws.com';
-    this.prefix = '/tiger/2016/ADDRFEAT';
+    this.host = 'https://data.geocode.earth';
+    this.prefix = '/uscensus/geo/tiger/TIGER2016/ADDRFEAT';
   }
   list(pattern, cb) {
 
