@@ -1,5 +1,5 @@
 # base image
-FROM pelias/libpostal_baseimage
+FROM pelias/baseimage
 
 # dependencies
 RUN apt-get update && \
