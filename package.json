@@ -27,7 +27,7 @@
   "dependencies": {
     "@mapbox/polyline": "^1.0.0",
     "async": "^3.1.0",
-    "better-sqlite3": "github:missinglink/better-sqlite3#unsafe_mode",
+    "better-sqlite3": "^7.4.3",
     "cheerio": "^1.0.0-rc.3",
     "cli-table3": "^0.6.0",
     "csv-parse": "^4.4.6",

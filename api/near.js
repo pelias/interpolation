@@ -12,7 +12,7 @@ function setup( streetDbPath ){
 
   // connect to db
   // @todo: this is required as the query uses the 'street.' prefix for tables
-  const db = new Database('/tmp/path', { memory: true });
+  const db = new Database(':memory:');
 
   // attach street database
   db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
