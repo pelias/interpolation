@@ -2,7 +2,7 @@
   "name": "pelias-interpolation",
   "version": "0.0.0-development",
   "description": "street address interpolation service",
-  "homepage": "https://github.com/pelias/api",
+  "homepage": "https://github.com/pelias/interpolation",
   "author": "mapzen",
   "license": "MIT",
   "main": "index.js",
