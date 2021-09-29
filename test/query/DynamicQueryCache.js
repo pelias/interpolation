@@ -122,7 +122,7 @@ module.exports.tests.getStatement = function (test) {
     const cache = new DynamicQueryCache(`SELECT * WHERE %%TEST%%`);
     const db = new MockDatabase();
     const stmt = cache.getStatement(db);
-    t.deepEquals(cache.cache, { mock: { name: 'mock', sql: 'SELECT * WHERE %%TEST%%' } });
+    t.deepLooseEqual(cache.cache, { mock: { name: 'mock', sql: 'SELECT * WHERE %%TEST%%' } });
     t.equals(stmt.sql, `SELECT * WHERE %%TEST%%`);
     t.end();
   });
@@ -138,7 +138,7 @@ module.exports.tests.getStatement = function (test) {
     const db = new MockDatabase();
     cache.addDynamicCondition('%%TEST%%', (i) => `$test${i}`);
     const stmt = cache.getStatement(db, 3);
-    t.deepEquals(cache.cache, { 'mock:3': { name: 'mock', sql: `SELECT * WHERE $test0 OR $test1 OR $test2` } });
+    t.deepLooseEqual(cache.cache, { 'mock:3': { name: 'mock', sql: `SELECT * WHERE $test0 OR $test1 OR $test2` } });
     t.equals(stmt.sql, `SELECT * WHERE $test0 OR $test1 OR $test2`);
     t.end();
   });
