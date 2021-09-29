@@ -11,7 +11,7 @@
     "test": "npm run units",
     "funcs": "./bin/funcs",
     "units": "./bin/units",
-    "travis": "npm test && npm run funcs",
+    "ci": "npm test && npm run funcs",
     "lint": "jshint .",
     "validate": "npm ls",
     "download-tiger": "./bin/download-tiger",
