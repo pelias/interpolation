@@ -7,7 +7,6 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "postinstall": "npm install --build-from-source missinglink/better-sqlite3#unsafe_mode",
     "test": "npm run units",
     "funcs": "./bin/funcs",
     "units": "./bin/units",
