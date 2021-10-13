@@ -1,15 +1,14 @@
+const fs = require('fs');
+const path = require('path');
+const sqlite3 = require('../sqlite3');
+const action = require('../action');
+const search = require('../../../api/search');
 
-var fs = require('fs'),
-    path = require('path'),
-    sqlite3 = require('../sqlite3'),
-    action = require('../action'),
-    search = require('../../../api/search');
-
-var paths = {
+const paths = {
   reports: path.resolve( __dirname, './reports/' ),
   expected: path.resolve( __dirname, './fixture/expected.dump' ),
   fixture: {
-    tiger: path.resolve( __dirname, './shapefiles/tl_2016_30059_addrfeat.shp' ),
+    tiger: path.resolve( __dirname, './shapefiles/tl_2021_30059_addrfeat.shp' ),
     polyline: path.resolve( __dirname, './osm.polylines' )
   },
   db: {
