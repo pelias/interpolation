@@ -72,7 +72,7 @@ function getFilteredFileList(context, callback) {
       return callback();
     }
   }
-  adapter.list(`tl_2016_${filter}*.zip`, (err, files) => {
+  adapter.list(`tl_2021_${filter}*.zip`, (err, files) => {
     if (err) { return callback(err); }
     logger.info(`Queuing ${files.length} downloads`);
     context.files = files;

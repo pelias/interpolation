@@ -2,12 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const request = require('superagent');
 const cheerio = require('cheerio');
-const conform = /^tl_2016_(\d{5})_addrfeat\.zip$/;
+const conform = /^tl_2021_(\d{5})_addrfeat\.zip$/;
 
 class CensusS3Mirror {
   constructor() {
     this.host = 'https://data.geocode.earth';
-    this.prefix = '/uscensus/geo/tiger/TIGER2016/ADDRFEAT';
+    this.prefix = '/uscensus/geo/tiger/TIGER2021/ADDRFEAT';
   }
   list(pattern, cb) {
 
