@@ -8,6 +8,7 @@ function polyline(dataStream, streetDbPath, done){
 
   // connect to db
   const db = new Database(streetDbPath);
+  db.unsafeMode(true);
 
   query.configure(db); // configure database
   query.tables.street(db, true); // reset database and create tables

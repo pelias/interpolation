@@ -8,6 +8,7 @@ function tiger(dataStream, addressDbPath, streetDbPath, done){
 
   // connect to db
   var db = new Database( addressDbPath );
+  db.unsafeMode(true);
 
   query.configure(db); // configure database
   query.tables.address(db); // create tables only if not already created

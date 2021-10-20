@@ -8,6 +8,7 @@ function oa(dataStream, addressDbPath, streetDbPath, done){
 
   // connect to db
   const db = new Database(addressDbPath);
+  db.unsafeMode(true);
 
   query.configure(db); // configure database
   query.tables.address(db); // create tables only if not already created
