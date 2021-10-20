@@ -39,7 +39,7 @@ ENV POLYLINEPATH '/data/polylines'
 ENV OAPATH '/data/openaddresses'
 
 # location of TIGER data
-ENV TIGERPATH '/data/tiger/'
+ENV TIGERPATH '/data/tiger'
 
 # root location of data files
 ENV WORKINGDIR '/data'
