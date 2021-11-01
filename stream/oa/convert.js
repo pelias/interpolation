@@ -39,7 +39,7 @@ function streamFactory(){
       address.setCoord({ lon: csv.LON, lat: csv.LAT });
     }
     catch( e ){
-      console.error( 'invalid csv row', e );
+      console.error( 'invalid csv row', e.message );
       console.error( csv );
       return next();
     }
