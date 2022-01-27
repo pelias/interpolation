@@ -33,6 +33,8 @@ async.eachSeries(STATES, download, (err)=>{
   if (err) {
     logger.error(err);
     process.exit(1);
+  } else {
+    logger.info(`downloads complete`);
   }
 });
 
@@ -52,7 +54,6 @@ function download(state, callback) {
     ],
     (err) => {
       if (err) { logger.error(err); }
-      else { logger.info(`downloads complete`); }
       callback(err);
     });
 }
