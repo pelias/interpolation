@@ -51,9 +51,8 @@ function download(state, callback) {
       downloadFilteredFiles.bind(null, context)
     ],
     (err) => {
-      if (err) {
-        logger.error(err);
-      }
+      if (err) { logger.error(err); }
+      else { logger.info(`downloads complete`); }
       callback(err);
     });
 }
@@ -74,7 +73,7 @@ function getFilteredFileList(context, callback) {
   }
   adapter.list(`tl_2021_${filter}*.zip`, (err, files) => {
     if (err) { return callback(err); }
-    logger.info(`Queuing ${files.length} downloads`);
+    logger.debug(`queuing ${files.length} downloads`);
     context.files = files;
     callback();
   });
@@ -97,9 +96,9 @@ function downloadFile(context, filename, callback) {
   const localFile = path.join(context.downloadsDir, filename);
 
   adapter.get(filename, localFile, (err) => {
-    logger.info(`Downloading ${filename}`);
+    logger.debug(`downloading ${filename}`);
     if (err) { return callback(err); }
-    logger.debug(`Downloaded ${filename}`);
+    logger.info(`downloaded ${filename}`);
     callback();
   });
 }
