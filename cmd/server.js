@@ -4,6 +4,7 @@ const search = require('../api/search');
 const extract = require('../api/extract');
 const street = require('../api/street');
 const near = require('../api/near');
+const within= require('../api/within');
 const pretty = require('../lib/pretty');
 const analyze = require('../lib/analyze');
 
@@ -32,7 +33,8 @@ const conn = {
   search: search( process.argv[2], process.argv[3] ),
   extract: extract( process.argv[2], process.argv[3] ),
   street: street( process.argv[3] ),
-  near: near( process.argv[3] )
+  near: near( process.argv[3] ),
+  within: within( process.argv[3] )
 };
 
 function log() {
@@ -147,6 +149,41 @@ app.get('/street/near/geojson', function( req, res ){
     ordered = ordered.filter( function( o ){
       return o.proj.dist <= max_distance;
     });
+
+    var geojson = {
+      'type': 'FeatureCollection',
+      'features': ordered.map( function( o ){
+        return {
+          'type': 'Feature',
+          'properties': {
+            'id': o.street.id,
+            'name': Array.isArray( o.street.name ) ? o.street.name[0] : o.street.name,
+            'polyline': o.street.line,
+            'distance': ( Math.floor(( o.proj.dist || 0 ) * 1000000 ) / 1000000 ),
+            'projection': o.proj.point
+          },
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': o.street.coordinates
+          }
+        };
+      })
+    };
+
+    res.json( geojson );
+  });
+});
+
+// get streets within bounding box
+// eg: http://localhost:3000/street/within/geojson
+app.get('/street/within/geojson', function( req, res ){
+
+  var topLeft = { lat: req.query.topLeftLat, lon: req.query.topLeftLon };
+  var bottomRight = { lat: req.query.bottomRightLat, lon: req.query.bottomRightLon };
+
+  conn.within.query( topLeft, bottomRight, function( err, ordered ){
+    if( err ){ return res.status(400).json( formatError( err ) ); }
+    if( !ordered || !ordered.length ){ return res.status(200).json({}); }
 
     var geojson = {
       'type': 'FeatureCollection',
