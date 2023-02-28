@@ -38,15 +38,15 @@ This project aims to 'fill in the gaps' in the data by intelligently estimating 
 
 The service was designed for use with the [pelias geocoder](https://github.com/pelias/pelias), however it can also be used as a stand-alone application or included with other geographic software / search engines.
 
-more info: [[design doc](docs/design-doc.md)] [[relationship to pelias](docs/introduction.md)] [[existing standards](docs/existing-standards.md)] [[conflation](docs/conflation.md)] [[database schema](docs/database-schema.md)]
+more info: \[[design doc](docs/design-doc.md)] \[[relationship to pelias](docs/introduction.md)] \[[existing standards](docs/existing-standards.md)] \[[conflation](docs/conflation.md)] \[[database schema](docs/database-schema.md)]
 
 ## Architecture
 
 The software is written in javascript to run in nodejs, the storage engine is sqlite3.
 
-Client libraries can be written in any language which can read sqlite3. If you wish to write a client in another language please open an issue and we can explain which functions you will need to port.
+Client libraries can be written in any language which can read sqlite3. If you wish to write a client in another language please open an issue, and we can explain which functions you will need to port.
 
-The software is split in to 6 distinct parts:
+The software is split into 6 distinct parts:
 
 - the street (polyline) importer
 - the openaddresses address importer
@@ -55,7 +55,7 @@ The software is split in to 6 distinct parts:
 - the geometry (vertices) interpolation
 - the client APIs (the webserver and CLI interface)
 
-The data is split in to 2 different sqlite3 databases:
+The data is split into 2 different sqlite3 databases:
 
 - street.db (holds information about streets, geometry, their names and bounding boxes)
 - address.db (holds address point data, both rooftop accuracy and pre-interpolated vertex data)
@@ -88,7 +88,7 @@ note: We only support `openaddreses` and `openstreetmap` formats, you will need 
 
 ### precompute geometry
 
-Finally we will compute the fractional house numbers for each vertex (corner) of the street and add them to the `address.db` database.
+Finally, we will compute the fractional house numbers for each vertex (corner) of the street and add them to the `address.db` database.
 
 See the [building the databases](https://github.com/pelias/interpolation#building-the-databases) section below for detailed information on which commands to run.
 
@@ -320,7 +320,7 @@ The relevant parts of that new file should look as follows. To direct to downloa
 the `PELIAS_CONFIG` environment variable should be set. You can read more details on how to use the `pelias-config` module
 [here](https://github.com/pelias/config).
 
-```javascript
+```json
 {
   "imports": {
     "interpolation": {
@@ -341,68 +341,68 @@ the `PELIAS_CONFIG` environment variable should be set. You can read more detail
 
 Note that `datapath` will default to `./data/downloads` if not specified.
 
-To filter the TIGER data download you can set `state_code` property in the `pelias-config` file to the 2 digit code of the state to be downloaded.
+To filter the TIGER data download you can set `state_code` property in the `pelias-config` file to the 2-digit code of the state to be downloaded.
 
 Note: some state codes begin with a leading zero, you may specify a string value or omit the extra zero and provide an integer value.
 
 In the example configuration above, the state code for Oregon, `41`, is used to limit the download.
 
-The state code can found by referencing the table below. If no `state_code` value is found, all US data will be downloaded.
+The state code can be found by referencing the table below. If no `state_code` value is found, all US data will be downloaded.
 
-| code | state |
-| --- | --- |
-| 01 | Alabama              |
-| 02 | Alaska               |
-| 04 | Arizona              |
-| 05 | Arkansas             |
-| 06 | California           |
-| 08 | Colorado             |
-| 09 | Connecticut          |
-| 10 | Delaware             |
-| 11 | District of Columbia |
-| 12 | Florida              |
-| 13 | Georgia              |
-| 15 | Hawaii               |
-| 16 | Idaho                |
-| 17 | Illinois             |
-| 18 | Indiana              |
-| 19 | Iowa                 |
-| 20 | Kansas               |
-| 21 | Kentucky             |
-| 22 | Louisiana            |
-| 23 | Maine                |
-| 24 | Maryland             |
-| 25 | Massachusetts        |
-| 26 | Michigan             |
-| 27 | Minnesota            |
-| 28 | Mississippi          |
-| 29 | Missouri             |
-| 30 | Montana              |
-| 31 | Nebraska             |
-| 32 | Nevada               |
-| 33 | New Hampshire        |
-| 34 | New Jersey           |
-| 35 | New Mexico           |
-| 36 | New York             |
-| 37 | North Carolina       |
-| 38 | North Dakota         |
-| 39 | Ohio                 |
-| 40 | Oklahoma             |
-| 41 | Oregon               |
-| 42 | Pennsylvania         |
-| 72 | Puerto Rico          |
-| 44 | Rhode Island         |
-| 45 | South Carolina       |
-| 46 | South Dakota         |
-| 47 | Tennessee            |
-| 48 | Texas                |
-| 49 | Utah                 |
-| 50 | Vermont              |
-| 51 | Virginia             |
-| 53 | Washington           |
-| 54 | West Virginia        |
-| 55 | Wisconsin            |
-| 56 | Wyoming              |
+| code | state                |
+|------|----------------------|
+| 01   | Alabama              |
+| 02   | Alaska               |
+| 04   | Arizona              |
+| 05   | Arkansas             |
+| 06   | California           |
+| 08   | Colorado             |
+| 09   | Connecticut          |
+| 10   | Delaware             |
+| 11   | District of Columbia |
+| 12   | Florida              |
+| 13   | Georgia              |
+| 15   | Hawaii               |
+| 16   | Idaho                |
+| 17   | Illinois             |
+| 18   | Indiana              |
+| 19   | Iowa                 |
+| 20   | Kansas               |
+| 21   | Kentucky             |
+| 22   | Louisiana            |
+| 23   | Maine                |
+| 24   | Maryland             |
+| 25   | Massachusetts        |
+| 26   | Michigan             |
+| 27   | Minnesota            |
+| 28   | Mississippi          |
+| 29   | Missouri             |
+| 30   | Montana              |
+| 31   | Nebraska             |
+| 32   | Nevada               |
+| 33   | New Hampshire        |
+| 34   | New Jersey           |
+| 35   | New Mexico           |
+| 36   | New York             |
+| 37   | North Carolina       |
+| 38   | North Dakota         |
+| 39   | Ohio                 |
+| 40   | Oklahoma             |
+| 41   | Oregon               |
+| 42   | Pennsylvania         |
+| 72   | Puerto Rico          |
+| 44   | Rhode Island         |
+| 45   | South Carolina       |
+| 46   | South Dakota         |
+| 47   | Tennessee            |
+| 48   | Texas                |
+| 49   | Utah                 |
+| 50   | Vermont              |
+| 51   | Virginia             |
+| 53   | Washington           |
+| 54   | West Virginia        |
+| 55   | Wisconsin            |
+| 56   | Wyoming              |
 
 For more fine-grained control, you can also set the `county_code` property in the `pelias-config` file to the 3 digit code of the county to be downloaded.
 
