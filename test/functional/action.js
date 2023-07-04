@@ -13,6 +13,13 @@ var exec = {
   vertices: path.resolve( __dirname, '../../cmd/vertices.js' )
 };
 
+// handle non-zero status code errors from shell commands
+var must = (res) => {
+  if (res.status === 0) { return; }
+  console.error(res.stderr.toString());
+  process.exit(res.status);
+};
+
 // clean working directory
 module.exports.clean = function(test, paths) {
   test('clean', function(t) {
@@ -25,7 +32,7 @@ module.exports.clean = function(test, paths) {
     ].join(' ');
 
     // spawn child process
-    child.spawnSync( 'sh', [ '-c', cmd ] );
+    must( child.spawnSync( 'sh', [ '-c', cmd ] ) );
 
     t.pass('perform clean');
     t.end();
@@ -44,7 +51,7 @@ module.exports.import = function(test, paths) {
     ].join(' ');
 
     // spawn child process
-    child.spawnSync( 'sh', [ '-c', cmd ] );
+    must( child.spawnSync( 'sh', [ '-c', cmd ] ) );
 
     t.pass('perform import');
     t.end();
@@ -64,7 +71,7 @@ module.exports.oa = function(test, paths) {
     ].join(' ');
 
     // spawn child process
-    child.spawnSync( 'sh', [ '-c', cmd ] );
+    must( child.spawnSync( 'sh', [ '-c', cmd ] ) );
 
     t.pass('perform oa conflate');
     t.end();
@@ -84,7 +91,7 @@ module.exports.osm = function(test, paths) {
     ].join(' ');
 
     // spawn child process
-    child.spawnSync( 'sh', [ '-c', cmd ] );
+    must( child.spawnSync( 'sh', [ '-c', cmd ] ) );
 
     t.pass('perform osm conflate');
     t.end();
@@ -96,14 +103,14 @@ module.exports.tiger = function(test, paths) {
 
     // conflate openstreetmap addresses
     var cmd = [
-      'ogr2ogr -f GeoJSON -lco \'COORDINATE_PRECISION=7\' -t_srs crs:84 /vsistdout/', paths.fixture.tiger, '|',
+      'ogr2ogr -f GeoJSON -lco \'COORDINATE_PRECISION=7\' /vsistdout/', paths.fixture.tiger, '|',
       'node', exec.tiger, paths.db.address, paths.db.street,
       '1>', path.resolve( paths.reports, 'tiger.out' ),
       '2>', path.resolve( paths.reports, 'tiger.err' )
     ].join(' ');
 
     // spawn child process
-    child.spawnSync( 'sh', [ '-c', cmd ] );
+    must( child.spawnSync( 'sh', [ '-c', cmd ] ) );
 
     t.pass('perform tiger conflate');
     t.end();
@@ -121,7 +128,7 @@ module.exports.vertices = function(test, paths) {
     ].join(' ');
 
     // spawn child process
-    child.spawnSync( 'sh', [ '-c', cmd ] );
+    must( child.spawnSync( 'sh', [ '-c', cmd ] ) );
 
     t.pass('perform vertex interpolation');
     t.end();
@@ -148,9 +155,13 @@ module.exports.check.schema = function(test, paths) {
       '2|name|TEXT|0||0'
     ], 'table_info(names)');
 
+    // some versions of sqlite return the type 'NUM' for rtree columns while others do not.
+    // this method removes the type information so the tests are consistent between versions.
+    const rmtype = (row) => row.split('|').map((v, i) => i === 2 ? '' : v).join('|');
+
     // rtree schema
     var rtree = sqlite3.exec( paths.db.street, 'PRAGMA table_info(rtree)' );
-    t.deepEqual(rtree, [
+    t.deepEqual(rtree.map(rmtype), [
       '0|id||0||0',
       '1|minX||0||0',
       '2|maxX||0||0',
