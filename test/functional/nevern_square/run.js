@@ -99,12 +99,12 @@ module.exports.functional.spotcheck = function(test) {
   });
 };
 
-module.exports.functional.end_to_end = function(test) {
+module.exports.functional.end_to_end = function(test, { fuzzy }) {
   test('end to end', function(t) {
 
     // full interpolation for a single street
     var rows = sqlite3.exec( paths.db.address, 'SELECT * FROM address WHERE id=1 ORDER BY housenumber' );
-    t.deepEqual(rows, fs.readFileSync( paths.expected ).toString('utf8').trim().split('\n') );
+    t.deepEqual(rows.map(fuzzy), fs.readFileSync( paths.expected ).toString('utf8').trim().split('\n').map(fuzzy) );
 
     t.end();
   });
@@ -225,13 +225,13 @@ module.exports.functional.tsv = function(test) {
   action.tsv(test, paths, 'id=1');
 };
 
-module.exports.all = function (tape) {
+module.exports.all = function (tape, common) {
 
   function test(name, testFunction) {
     return tape('functional: nevern square: ' + name, testFunction);
   }
 
   for( var testCase in module.exports.functional ){
-    module.exports.functional[testCase](test);
+    module.exports.functional[testCase](test, common);
   }
 };

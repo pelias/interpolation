@@ -1,6 +1,11 @@
 
 var tape = require('tape');
-var common = {};
+
+var common = {
+  // fuzzy rewrites SQL table dumps to reduce floating point precision to max 8
+  truncate: (s) => s.match(/^-?[0-9]+\.[0-9]+$/) ? s.split('.').map(c => c.substring(0, 8)).join('.') : s,
+  fuzzy: (row) => row.split('|').map(common.truncate).join('|'),
+};
 
 var tests = [
   require('./functional/basic/run.js'),
