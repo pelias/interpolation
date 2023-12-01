@@ -12,7 +12,8 @@ export LC_ALL=en_US.UTF-8;
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 
 export TIMESTAMP=$(date +"%m-%d-%Y-%H:%M:%S");
-export PBF2JSON_BIN="${PBF2JSON_BIN:-"$DIR/../node_modules/pbf2json/build/pbf2json.linux-x64"}";
+export PBF2JSON_FILENAME=$(node -e "console.log(require('util').format('pbf2json.%s-%s', os.platform(), os.arch()))")
+export PBF2JSON_BIN="${PBF2JSON_BIN:-"$DIR/../node_modules/pbf2json/build/$PBF2JSON_FILENAME"}";
 
 # location of data files
 export WORKINGDIR="${WORKINGDIR:-"/mnt/pelias"}";
