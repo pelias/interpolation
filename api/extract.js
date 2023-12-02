@@ -1,6 +1,7 @@
 const Database = require('better-sqlite3');
 const query = { extract: require('../query/extract') };
 const analyze = require('../lib/analyze');
+const asyncForEach = require('../lib/asyncForEach');
 
 // export setup method
 function setup( addressDbPath, streetDbPath ){
@@ -12,7 +13,7 @@ function setup( addressDbPath, streetDbPath ){
   db.exec(`ATTACH DATABASE '${streetDbPath}' as 'street'`);
 
   // query method
-  var q = function( coord, names, cb ){
+  var q = async function( coord, names, cb ){
 
     var point = {
       lat: parseFloat( coord.lat ),
@@ -20,8 +21,8 @@ function setup( addressDbPath, streetDbPath ){
     };
 
     var normalized = [];
-    names.forEach( function( name ){
-      normalized = normalized.concat( analyze.street( name ) );
+    await asyncForEach(names, async (name) => {
+      normalized = normalized.concat( await analyze.street( name ) );
     });
 
     // error checking
