@@ -1,5 +1,5 @@
 # builder image for node-postal (requires c++ toolchain and python3)
-FROM pelias/libpostal_baseimage as builder
+FROM pelias/libpostal_baseimage:nodejs-18 as builder
 
 ENV WORKDIR /code/pelias/interpolation
 WORKDIR ${WORKDIR}
@@ -12,7 +12,7 @@ COPY --chown=pelias ./package.json ${WORKDIR}
 RUN npm install
 
 # base image
-FROM pelias/libpostal_baseimage
+FROM pelias/libpostal_baseimage:nodejs-18
 
 # interpolation dependencies
 RUN apt-get update && \
