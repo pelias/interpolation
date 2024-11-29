@@ -6,12 +6,8 @@ jobs:
     strategy:
       matrix:
         os:
-          - ${{ vars.UBUNTU_VERSION }}
-        node-version:
-          - 12.x
-          - 14.x
-          - 16.x
-          - 18.x
+          - ubuntu-22.04
+        node-version: [ 18.x ]
     steps:
       - uses: actions/checkout@v4
       - name: 'Install node.js ${{ matrix.node-version }}'
