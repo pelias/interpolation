@@ -15,7 +15,7 @@ mkdir -p "$BUILDDIR/shapefiles";
 export STREET_DB="/data/builds/street.db";
 
 # shapefile to use (update this to represent your local filesystem)
-TIGER="/data/tiger/shapefiles/tl_2021_30059_addrfeat.*";
+TIGER="/data/tiger/shapefiles/tl_2024_30059_addrfeat.*";
 cp $TIGER "$BUILDDIR/shapefiles";
 
 # run

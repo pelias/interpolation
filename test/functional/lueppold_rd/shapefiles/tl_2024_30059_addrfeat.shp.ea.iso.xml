@@ -5,31 +5,33 @@
                          xmlns:gml="http://www.opengis.net/gml/3.2"
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xmlns:gmi="http://www.isotc211.org/2005/gmi"
+                         xmlns:srv="http://www.isotc211.org/2005/srv"
                          xmlns:gmx="http://www.isotc211.org/2005/gmx"
                          xmlns:gfc="http://www.isotc211.org/2005/gfc">
    <gmx:name>
-      <gco:CharacterString/>
+      <gco:CharacterString>Feature Catalog for the 2024 Address Features TIGER/Line Shapefiles</gco:CharacterString>
    </gmx:name>
    <gmx:scope>
-      <gco:CharacterString/>
+      <gco:CharacterString>Address features</gco:CharacterString>
    </gmx:scope>
    <gmx:versionNumber>
-      <gco:CharacterString>2021</gco:CharacterString>
+      <gco:CharacterString>2024</gco:CharacterString>
    </gmx:versionNumber>
    <gmx:versionDate>
-      <gco:Date>20210523</gco:Date>
+      <gco:Date>2024-09-21</gco:Date>
    </gmx:versionDate>
    <gmx:language>
-      <gco:CharacterString>eng</gco:CharacterString>
+      <gco:CharacterString>eng; USA</gco:CharacterString>
    </gmx:language>
    <gmx:characterSet>
       <gmd:MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode"
-                               codeListValue="UTF-8">UTF-8</gmd:MD_CharacterSetCode>
+                               codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
    </gmx:characterSet>
    <gfc:producer>
       <gmd:CI_ResponsibleParty>
          <gmd:organisationName>
-            <gco:CharacterString>U.S. Department of Commerce, U.S. Census Bureau, Geography Division, Spatial Data Collection and Products Branch</gco:CharacterString>
+            <gco:CharacterString>U.S. Department of Commerce, U.S. Census Bureau, Geography Division
+                        </gco:CharacterString>
          </gmd:organisationName>
          <gmd:contactInfo>
             <gmd:CI_Contact>
@@ -69,8 +71,7 @@
          </gmd:contactInfo>
          <gmd:role>
             <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode"
-                             codeListValue="custodian">custodian
-                </gmd:CI_RoleCode>
+                             codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
          </gmd:role>
       </gmd:CI_ResponsibleParty>
    </gfc:producer>
@@ -85,7 +86,7 @@
          <gfc:isAbstract>
             <gco:Boolean>false</gco:Boolean>
          </gfc:isAbstract>
-         <gfc:featureCatalogue uuidref="tl_2021_30059_addrfeat.ea.iso.xml"/>
+         <gfc:featureCatalogue uuidref="tl_2024_addrfeat.shp.ea.iso.xml"/>
          <gfc:carrierOfCharacteristics>
             <gfc:FC_FeatureAttribute>
                <gfc:memberName>
