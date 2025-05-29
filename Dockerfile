@@ -12,7 +12,7 @@ COPY --chown=pelias ./package.json ${WORKDIR}
 RUN npm install
 
 # base image
-FROM pelias/libpostal_baseimage
+FROM pelias/libpostal_baseimage:ubuntu-24-noble
 
 # interpolation dependencies
 RUN apt-get update && \
