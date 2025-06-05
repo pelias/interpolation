@@ -115,6 +115,50 @@
       "type": "Feature",
       "properties": {
         "source": "TIGER",
+        "source_id": "265358645",
+        "housenumber": 16,
+        "lat": 46.534084,
+        "lon": -110.908557,
+        "parity": "L",
+        "proj_lat": 46.5340609148833,
+        "proj_lon": -110.908556832798,
+        "marker-color": "#3366ff",
+        "marker-symbol": "e"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.908557,
+          46.534084
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "TIGER",
+        "source_id": "264157170",
+        "housenumber": 18,
+        "lat": 46.533963,
+        "lon": -110.921554,
+        "parity": "R",
+        "proj_lat": 46.5339709946063,
+        "proj_lon": -110.921554171819,
+        "marker-color": "#ff0000",
+        "marker-symbol": "e"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.921554,
+          46.533963
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "TIGER",
         "source_id": "208773790",
         "housenumber": 53,
         "lat": 46.534033,
@@ -160,7 +204,7 @@
       "properties": {
         "source": "VERTEX",
         "source_id": "",
-        "housenumber": 81.111,
+        "housenumber": 80.518,
         "lat": null,
         "lon": null,
         "parity": "",
@@ -180,53 +224,9 @@
     {
       "type": "Feature",
       "properties": {
-        "source": "TIGER",
-        "source_id": "208773736",
-        "housenumber": 97,
-        "lat": 46.533963,
-        "lon": -110.921554,
-        "parity": "R",
-        "proj_lat": 46.5339709946063,
-        "proj_lon": -110.921554171819,
-        "marker-color": "#ff0000",
-        "marker-symbol": "o"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -110.921554,
-          46.533963
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "source": "TIGER",
-        "source_id": "265358645",
-        "housenumber": 98,
-        "lat": 46.534084,
-        "lon": -110.908557,
-        "parity": "L",
-        "proj_lat": 46.5340609148833,
-        "proj_lon": -110.908556832798,
-        "marker-color": "#3366ff",
-        "marker-symbol": "e"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -110.908557,
-          46.534084
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "source": "VERTEX",
         "source_id": "",
-        "housenumber": 98.997,
+        "housenumber": 97.997,
         "lat": null,
         "lon": null,
         "parity": "",
@@ -247,21 +247,43 @@
       "type": "Feature",
       "properties": {
         "source": "TIGER",
-        "source_id": "208773717",
-        "housenumber": 99,
+        "source_id": "264157170",
+        "housenumber": 98,
         "lat": 46.533924,
         "lon": -110.926569,
         "parity": "L",
         "proj_lat": 46.5339199948835,
         "proj_lon": -110.92656895464,
         "marker-color": "#3366ff",
-        "marker-symbol": "o"
+        "marker-symbol": "e"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
           -110.926569,
           46.533924
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "TIGER",
+        "source_id": "208773736",
+        "housenumber": 99,
+        "lat": 46.533963,
+        "lon": -110.921554,
+        "parity": "R",
+        "proj_lat": 46.5339709946063,
+        "proj_lon": -110.921554171819,
+        "marker-color": "#ff0000",
+        "marker-symbol": "o"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.921554,
+          46.533963
         ]
       }
     },
@@ -290,9 +312,31 @@
     {
       "type": "Feature",
       "properties": {
+        "source": "TIGER",
+        "source_id": "208773717",
+        "housenumber": 101,
+        "lat": 46.533924,
+        "lon": -110.926569,
+        "parity": "L",
+        "proj_lat": 46.5339199948835,
+        "proj_lon": -110.92656895464,
+        "marker-color": "#3366ff",
+        "marker-symbol": "o"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.926569,
+          46.533924
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
         "source": "VERTEX",
         "source_id": "",
-        "housenumber": 116.503,
+        "housenumber": 118.117,
         "lat": null,
         "lon": null,
         "parity": "",
@@ -314,7 +358,7 @@
       "properties": {
         "source": "VERTEX",
         "source_id": "",
-        "housenumber": 157.868,
+        "housenumber": 158.663,
         "lat": null,
         "lon": null,
         "parity": "",
@@ -336,7 +380,7 @@
       "properties": {
         "source": "VERTEX",
         "source_id": "",
-        "housenumber": 161.517,
+        "housenumber": 162.24,
         "lat": null,
         "lon": null,
         "parity": "",
@@ -362,7 +406,7 @@
         "lat": 46.53376,
         "lon": -110.94752,
         "parity": "R",
-        "proj_lat": 46.5337752241148,
+        "proj_lat": 46.5337752241147,
         "proj_lon": -110.947520259902,
         "marker-color": "#ff0000",
         "marker-symbol": "e"
@@ -384,7 +428,7 @@
         "lat": 46.53376,
         "lon": -110.94752,
         "parity": "R",
-        "proj_lat": 46.5337752241148,
+        "proj_lat": 46.5337752241147,
         "proj_lon": -110.947520259902,
         "marker-color": "#ff0000",
         "marker-symbol": "o"
@@ -487,32 +531,12 @@
         "type": "LineString",
         "coordinates": [
           [
-            -110.913749,
-            46.534033
+            -110.908557,
+            46.534084
           ],
           [
-            -110.913748968026,
-            46.5340310156856
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "parity": "L",
-        "stroke": "#3366ff"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            -110.913749,
-            46.534033
-          ],
-          [
-            -110.913748968026,
-            46.5340310156856
+            -110.908556832798,
+            46.5340609148833
           ]
         ]
       }
@@ -547,12 +571,72 @@
         "type": "LineString",
         "coordinates": [
           [
-            -110.908557,
-            46.534084
+            -110.913749,
+            46.534033
           ],
           [
-            -110.908556832798,
-            46.5340609148833
+            -110.913748968026,
+            46.5340310156856
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parity": "L",
+        "stroke": "#3366ff"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -110.913749,
+            46.534033
+          ],
+          [
+            -110.913748968026,
+            46.5340310156856
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parity": "L",
+        "stroke": "#3366ff"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -110.926569,
+            46.533924
+          ],
+          [
+            -110.92656895464,
+            46.5339199948835
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "parity": "R",
+        "stroke": "#ff0000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -110.921554,
+            46.533963
+          ],
+          [
+            -110.921554171819,
+            46.5339709946063
           ]
         ]
       }
@@ -612,7 +696,7 @@
           ],
           [
             -110.947520259902,
-            46.5337752241148
+            46.5337752241147
           ]
         ]
       }
@@ -632,7 +716,7 @@
           ],
           [
             -110.947520259902,
-            46.5337752241148
+            46.5337752241147
           ]
         ]
       }

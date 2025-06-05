@@ -418,7 +418,7 @@ Note: you must specify a `state_code` when specifying a `county_code`.
 ]
 ```
 
-Check [the census website](https://www.census.gov/geographies/reference-files/2020/demo/popest/2020-fips.html) for a complete list of state and county FIPS codes.
+Check [the census website](https://www.census.gov/geographies/reference-files/2023/demo/popest/2023-fips.html) for a complete list of state and county FIPS codes.
 
 ### docker example
 
