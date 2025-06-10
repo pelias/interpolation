@@ -220,10 +220,10 @@ app.use('/demo', express.static('demo'));
 // app.use('/builds', express.static('/data/builds'));
 // app.use('/builds', directory('/data/builds', { hidden: false, icons: false, view: 'details' }));
 
-app.listen( PORT, HOST, function() {
+app.listen( PORT, HOST, async function() {
 
   // force loading of libpostal
-  analyze.street( 'test street' );
+  await analyze.street( 'test street' );
 
   console.log(util.format( 'server listening on %s:%s', HOST || '0.0.0.0', PORT ));
 });

@@ -1,5 +1,6 @@
 const through = require('through2');
 const analyze = require('../../lib/analyze');
+const asyncForEach = require('../../lib/asyncForEach');
 
 // increase/decrease bbox bounds by this much in order to find houses which
 // might be slighly outside the bounds.
@@ -15,12 +16,12 @@ const FUDGE_FACTOR = 0.005;
 **/
 
 // the transform function is executed once per batch in the stream.
-const transform = (street, _, next) => {
+const transform = async (street, _, next) => {
 
   // normalize all names
   let names = [];
-  street.getNames().forEach(function (name) {
-    names = names.concat(analyze.street(name));
+  await asyncForEach(street.getNames(), async (name) => {
+    names = names.concat(await analyze.street(name));
   });
 
   // if the source file contains no valid names for this polyline
