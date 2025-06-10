@@ -253,6 +253,11 @@ The API supports additional environment variables that affect its operation:
 
 `geojson`: `/street/near/geojson?lat=-41.288788&lon=174.766843`
 
+### GET /street/within/geojson
+> Get all streets within a lat/lon bounding box, ordered by distance to the center, ASC. The top/left pair should contain the minimum longitude and the maximum latitude, and the bottom/left pair should contain the maximum longitude and the minimum latitude.
+
+`geojson`: `/street/within/geojson?topLeftLat=-41.28&topLeftLon=174.76&bottomRightLat=-41.38&bottomRightLon=174.86`
+
 ### GET /street/{id}/geojson
 > return the geometry for a specific street id
 
