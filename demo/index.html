@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 
   <!-- jquery -->
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
   <!-- Load Leaflet from CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.css">
@@ -103,34 +103,6 @@
       }
     });
 
-    function reverse( latlng, cb ){
-      // use map center when latlng not supplied
-      if( !latlng ){ latlng = map.getCenter(); }
-
-      var qs =  '?point.lat=' + latlng.lat;
-          qs += '&point.lon=' + latlng.lng;
-          qs += '&sources=oa,osm';
-          qs += '&layers=address';
-          qs += '&size=1';
-          qs += '&api_key=' + API_KEY;
-
-      // find nearest street
-      $.ajax({
-        url: "https://search.mapzen.com/v1/reverse" + qs,
-        method: "GET",
-        dataType: "json",
-        traditional: true,
-        success: function( data, status, jqxhr ){
-          // console.log( "Request received:", data );
-          cb( null, data );
-        },
-        error: function( jqxhr, status, error ){
-          // console.log( "Something went wrong!" );
-          cb( error );
-        }
-      });
-    }
-
     function extract( latlng, names, cb ){
       // use map center when latlng not supplied
       if( !latlng ){ latlng = map.getCenter(); }
@@ -142,7 +114,7 @@
           // console.error( JSON.stringify( data, null, 2 ) );
           cb( null, data );
         }
-      }).error(function( err ) {
+      }).fail(function( err ) {
         console.error( err );
         cb( err );
       });
@@ -156,7 +128,7 @@
           // console.error( JSON.stringify( data, null, 2 ) );
           cb( null, data );
         }
-      }).error(function( err ) {
+      }).fail(function( err ) {
         console.error( err );
         cb( err );
       });
@@ -170,7 +142,7 @@
           // console.error( JSON.stringify( data, null, 2 ) );
           cb( null, data );
         }
-      }).error(function( err ) {
+      }).fail(function( err ) {
         console.error( err );
         cb( err );
       });
@@ -184,7 +156,7 @@
           // console.error( JSON.stringify( data, null, 2 ) );
           cb( null, data );
         }
-      }).error(function( err ) {
+      }).fail(function( err ) {
         console.error( err );
         cb( err );
       });
