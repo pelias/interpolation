@@ -173,8 +173,6 @@
       streetsNear( latlng, function( err, data ){
 
         if( data && data.features.length ){
-          console.log('got a feaure', data.features[0])
-
           var centroid = latlng;
           // var names = data.features.map( function( street ){
           //   return street.properties.name;
@@ -253,7 +251,7 @@
       interpolate( number, name, lat, lon, function( err, data ){
         layer.interpolated.clearLayers();
         layer.interpolated.setZIndex(999);
-        if( !err && data ){
+        if( !err && data && data.properties ){
           data.properties['marker-color'] = '#008000';
           layer.interpolated.addData( data );
         }
@@ -282,7 +280,7 @@
       var color = fp['marker-color'] || '7e7e7e';
       color = color.replace('#', '');
 
-      var url = 'http://a.tiles.mapbox.com/v2/marker/' +
+      var url = '/demo/' +
             'pin-' +
             // Internet Explorer does not support the `size[0]` syntax.
             size.charAt(0) + symbol + '+' + color +
