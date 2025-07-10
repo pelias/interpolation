@@ -173,8 +173,6 @@
       streetsNear( latlng, function( err, data ){
 
         if( data && data.features.length ){
-          console.log('got a feaure', data.features[0])
-
           var centroid = latlng;
           // var names = data.features.map( function( street ){
           //   return street.properties.name;
