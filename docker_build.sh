@@ -37,4 +37,4 @@ export PBF2JSON_FILE="${PBF_FILES[0]}"
 export POLYLINE_FILE="${POLYLINE_FILES[0]}"
 
 # run the build
-exec ./script/build.sh
+exec ./script/build.sh $@

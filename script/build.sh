@@ -48,22 +48,43 @@ if type pigz >/dev/null
   then pigz -k -c --best "$BUILDDIR/street.db" > "$BUILDDIR/street.db.gz";
   else gzip -c --best "$BUILDDIR/street.db" > "$BUILDDIR/street.db.gz";
 fi
-
+joined="$*"
+#If we have arguments only conflate the ones specified
+if [[ $# -gt 0 ]]; then
+  if [[ "$joined" =~ "oa" ]]; then
+   # run openaddresses conflation
+    echo "- conflating only openaddresses"
+    $DIR/conflate_oa.sh;
+  fi
+  if [[ "$joined" =~ "osm" ]]; then
+    # run openstreetmap conflation
+    echo "- conflating only openstreetmap"
+    $DIR/conflate_osm.sh;
+  fi
+  if [[ "$joined" =~ "tiger" ]]; then
+    # run tiger conflation
+    echo "- conflating only tiger"
+    $DIR/conflate_tiger.sh;
+  fi
+#If no arguments are given, run all conflations (backwards compatible)  
+else 
 # run openaddresses conflation
-echo "- conflating openaddresses"
-$DIR/conflate_oa.sh;
+  echo "- conflating openaddresses"
+  $DIR/conflate_oa.sh;
 
-# run openstreetmap conflation
-echo "- conflating openstreetmap"
-$DIR/conflate_osm.sh;
+  # run openstreetmap conflation
+  echo "- conflating openstreetmap"
+  $DIR/conflate_osm.sh;
 
-# run tiger conflation
-echo "- conflating tiger"
-$DIR/conflate_tiger.sh;
+  # run tiger conflation
+  echo "- conflating tiger"
+  $DIR/conflate_tiger.sh;
 
-# run vertex interpolation
-echo "- interpolating vertices"
-$DIR/vertices.sh;
+  # run vertex interpolation
+  echo "- interpolating vertices"
+  $DIR/vertices.sh;
+fi
+
 
 # archive address database (using parallel gzip when available)
 echo "- archiving address database"
