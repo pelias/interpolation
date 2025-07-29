@@ -80,11 +80,11 @@ else
   echo "- conflating tiger"
   $DIR/conflate_tiger.sh;
 
-  # run vertex interpolation
-  echo "- interpolating vertices"
-  $DIR/vertices.sh;
 fi
 
+# run vertex interpolation
+  echo "- interpolating vertices"
+  $DIR/vertices.sh;
 
 # archive address database (using parallel gzip when available)
 echo "- archiving address database"
