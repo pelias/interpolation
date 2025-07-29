@@ -66,6 +66,10 @@ if [[ $# -gt 0 ]]; then
     echo "- conflating only tiger"
     $DIR/conflate_tiger.sh;
   fi
+  #If we don't hit any of the above, we don't run any conflation
+  if [[ ! "$joined" =~ "tiger" ]] && [[ ! "$joined" =~ "osm" ]] && [[ ! "$joined" =~ "oa" ]]; then
+    echo "No valid conflation source specified, running no conflations"; exit 22;
+  fi
 #If no arguments are given, run all conflations (backwards compatible)  
 else 
 # run openaddresses conflation
