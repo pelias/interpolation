@@ -49,41 +49,24 @@ if type pigz >/dev/null
   else gzip -c --best "$BUILDDIR/street.db" > "$BUILDDIR/street.db.gz";
 fi
 joined="$*"
-#If we have arguments only conflate the ones specified
-if [[ $# -gt 0 ]]; then
-  if [[ "$joined" =~ "oa" ]]; then
-   # run openaddresses conflation
-    echo "- conflating only openaddresses"
-    $DIR/conflate_oa.sh;
-  fi
-  if [[ "$joined" =~ "osm" ]]; then
-    # run openstreetmap conflation
-    echo "- conflating only openstreetmap"
-    $DIR/conflate_osm.sh;
-  fi
-  if [[ "$joined" =~ "tiger" ]]; then
-    # run tiger conflation
-    echo "- conflating only tiger"
-    $DIR/conflate_tiger.sh;
-  fi
-  #If we don't hit any of the above, we don't run any conflation
-  if [[ ! "$joined" =~ "tiger" ]] && [[ ! "$joined" =~ "osm" ]] && [[ ! "$joined" =~ "oa" ]]; then
-    echo "No valid conflation source specified, running no conflations"; exit 22;
-  fi
-#If no arguments are given, run all conflations (backwards compatible)  
-else 
-# run openaddresses conflation
-  echo "- conflating openaddresses"
+if [[ "$joined" =~ "oa" || $# -eq 0 ]]; then
+ # run openaddresses conflation
+  echo "- conflating only openaddresses"
   $DIR/conflate_oa.sh;
-
+fi
+if [[ "$joined" =~ "osm" || $# -eq 0 ]]; then
   # run openstreetmap conflation
-  echo "- conflating openstreetmap"
+  echo "- conflating only openstreetmap"
   $DIR/conflate_osm.sh;
-
+fi
+if [[ "$joined" =~ "tiger" || $# -eq 0 ]]; then
   # run tiger conflation
-  echo "- conflating tiger"
+  echo "- conflating only tiger"
   $DIR/conflate_tiger.sh;
-
+fi
+#If we don't hit any of the above, we don't run any conflation
+if [[ ! "$joined" =~ "tiger" ]] && [[ ! "$joined" =~ "osm" ]] && [[ ! "$joined" =~ "oa" ]] && [[ $# -gt 0 ]]; then
+  echo "No valid conflation source specified, running no conflations"; exit 22;
 fi
 
 # run vertex interpolation
