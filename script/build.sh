@@ -48,30 +48,31 @@ if type pigz >/dev/null
   then pigz -k -c --best "$BUILDDIR/street.db" > "$BUILDDIR/street.db.gz";
   else gzip -c --best "$BUILDDIR/street.db" > "$BUILDDIR/street.db.gz";
 fi
+#joined catches all additional arguments given to the script into a single string
 joined="$*"
 if [[ "$joined" =~ "oa" || $# -eq 0 ]]; then
  # run openaddresses conflation
-  echo "- conflating only openaddresses"
+  echo "- conflating openaddresses"
   $DIR/conflate_oa.sh;
 fi
 if [[ "$joined" =~ "osm" || $# -eq 0 ]]; then
   # run openstreetmap conflation
-  echo "- conflating only openstreetmap"
+  echo "- conflating openstreetmap"
   $DIR/conflate_osm.sh;
 fi
 if [[ "$joined" =~ "tiger" || $# -eq 0 ]]; then
   # run tiger conflation
-  echo "- conflating only tiger"
+  echo "- conflating tiger"
   $DIR/conflate_tiger.sh;
 fi
-#If we don't hit any of the above, we don't run any conflation
+#If we don't hit any of the above, but additional arguments were given we don't run any conflation and exit with 22.
 if [[ ! "$joined" =~ "tiger" ]] && [[ ! "$joined" =~ "osm" ]] && [[ ! "$joined" =~ "oa" ]] && [[ $# -gt 0 ]]; then
   echo "No valid conflation source specified, running no conflations"; exit 22;
 fi
 
 # run vertex interpolation
-  echo "- interpolating vertices"
-  $DIR/vertices.sh;
+echo "- interpolating vertices"
+$DIR/vertices.sh;
 
 # archive address database (using parallel gzip when available)
 echo "- archiving address database"
