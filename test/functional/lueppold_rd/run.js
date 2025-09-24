@@ -8,7 +8,7 @@ const paths = {
   reports: path.resolve( __dirname, './reports/' ),
   expected: path.resolve( __dirname, './fixture/expected.dump' ),
   fixture: {
-    tiger: path.resolve( __dirname, './shapefiles/tl_2021_30059_addrfeat.shp' ),
+    tiger: path.resolve( __dirname, './shapefiles/tl_2024_30059_addrfeat.shp' ),
     polyline: path.resolve( __dirname, './osm.polylines' )
   },
   db: {
@@ -73,7 +73,7 @@ module.exports.functional.address_counts = function(test) {
 
     // count address table
     var addresses = sqlite3.count( paths.db.address, 'address' );
-    t.equal(addresses, 18, 'count(address)');
+    t.equal(addresses, 20, 'count(address)');
 
     t.end();
   });
@@ -84,11 +84,11 @@ module.exports.functional.spotcheck = function(test) {
 
     // counts for a specific street
     var count1 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1' );
-    t.equal(count1, 18);
+    t.equal(count1, 20);
 
     // counts for a specific street (open addresses)
     var count2 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1 AND source="TIGER"' );
-    t.equal(count2, 12);
+    t.equal(count2, 14);
 
     // counts for a specific street (vertexes)
     var count3 = sqlite3.count( paths.db.address, 'address', 'WHERE id=1 AND source="VERTEX"' );
@@ -173,8 +173,8 @@ module.exports.functional.search = function(test) {
         type: 'interpolated',
         source: 'mixed',
         number: '120',
-        lat: 46.5339152,
-        lon: -110.9274671
+        lat: 46.5339174,
+        lon: -110.9270619
       });
       t.end();
     });

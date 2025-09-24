@@ -1,7 +1,7 @@
 
 var through = require('through2');
 
-// see: https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2021/TGRSHP2021_TechDoc_Ch4.pdf
+// see: https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2024/TGRSHP2024_TechDoc_Ch4.pdf
 
 function streamFactory(){
 
