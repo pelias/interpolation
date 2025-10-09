@@ -12,7 +12,7 @@ COPY --chown=pelias ./package.json ${WORKDIR}
 RUN npm install
 
 # base image
-FROM pelias/libpostal_baseimage
+FROM pelias/baseimage
 
 # interpolation dependencies
 RUN apt-get update && \
@@ -33,9 +33,6 @@ COPY --chown=pelias --from=builder $WORKDIR/node_modules node_modules/
 
 # add the code
 COPY --chown=pelias . ${WORKDIR}
-
-# run a quick test that libpostal and node-postal are fully working
-RUN node test/test_libpostal.js
 
 # run tests
 RUN npm test && npm run funcs && rm -rf test

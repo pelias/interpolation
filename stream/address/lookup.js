@@ -17,7 +17,7 @@ if( hasFD3 ){
 
 function streamFactory(db){
 
-  return through.obj(function( batch, _, next ){
+  return through.obj(async function( batch, _, next ){
 
     // invalid batch
     if( !batch || !batch.length ){
@@ -30,7 +30,7 @@ function streamFactory(db){
 
     // all street names in batch should be the same
     // perform libpostal normalization
-    var names = analyze.street( result.getStreet() );
+    var names = await analyze.street( result.getStreet() );
 
     // ensure at least one name was produced
     if( !names.length ){
