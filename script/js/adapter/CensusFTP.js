@@ -3,7 +3,7 @@ const JSFtp = require('jsftp');
 class CensusFTP {
   constructor(){
     this.client = new JSFtp({ host: 'ftp2.census.gov' });
-    this.prefix = '/geo/tiger/TIGER2021/ADDRFEAT';
+    this.prefix = '/geo/tiger/TIGER2024/ADDRFEAT';
   }
   list(pattern, cb){
     this.client.list(`${this.prefix}/${pattern}`, (err, res) => {

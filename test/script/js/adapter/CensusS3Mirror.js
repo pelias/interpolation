@@ -16,18 +16,18 @@ module.exports.tests.constructor = function (test) {
 };
 
 module.exports.tests.list = function (test) {
-  const conform = /^tl_2021_(\d{5})_addrfeat\.zip$/;
+  const conform = /^tl_2024_(\d{5})_addrfeat\.zip$/;
   test('list - all', function (t) {
     const adapter = new CensusS3Mirror();
-    adapter.list('tl_2021_*_addrfeat.zip', (err, files) => {
-      t.equal(files.length, 3221);
+    adapter.list('tl_2024_*_addrfeat.zip', (err, files) => {
+      t.equal(files.length, 3227);
       t.true(files.every(f => conform.test(f)));
       t.end();
     });
   });
   test('list - whole state', function (t) {
     const adapter = new CensusS3Mirror();
-    adapter.list('tl_2021_72*_addrfeat.zip', (err, files) => {
+    adapter.list('tl_2024_72*_addrfeat.zip', (err, files) => {
       t.equal(files.length, 78);
       t.true(files.every(f => conform.test(f)));
       t.end();
@@ -35,7 +35,7 @@ module.exports.tests.list = function (test) {
   });
   test('list - subset of state', function (t) {
     const adapter = new CensusS3Mirror();
-    adapter.list('tl_2021_7200*_addrfeat.zip', (err, files) => {
+    adapter.list('tl_2024_7200*_addrfeat.zip', (err, files) => {
       t.equal(files.length, 5);
       t.true(files.every(f => conform.test(f)));
       t.end();
@@ -43,7 +43,7 @@ module.exports.tests.list = function (test) {
   });
   test('list - single file', function (t) {
     const adapter = new CensusS3Mirror();
-    adapter.list('tl_2021_72001_addrfeat.zip', (err, files) => {
+    adapter.list('tl_2024_72001_addrfeat.zip', (err, files) => {
       t.equal(files.length, 1);
       t.true(files.every(f => conform.test(f)));
       t.end();
@@ -55,9 +55,9 @@ module.exports.tests.get = function (test) {
   test('get - single file', function (t) {
     const adapter = new CensusS3Mirror();
     const tmpFile = path.join(os.tmpdir(), crypto.randomBytes(16).toString('hex'));
-    adapter.get('tl_2021_72149_addrfeat.zip', tmpFile, (err) => {
+    adapter.get('tl_2024_72149_addrfeat.zip', tmpFile, (err) => {
       const stats = fs.statSync(tmpFile);
-      t.equal(stats.size, 49644);
+      t.equal(stats.size, 52192);
       fs.unlinkSync(tmpFile); // clean up
       t.end();
     });

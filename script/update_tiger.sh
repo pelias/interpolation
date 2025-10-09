@@ -3,7 +3,7 @@ set -e;
 export LC_ALL=en_US.UTF-8;
 
 # download all addrfeat files via their FTP site
-# URL="ftp://ftp2.census.gov/geo/tiger/TIGER2021/ADDRFEAT/";
+# URL="ftp://ftp2.census.gov/geo/tiger/TIGER2024/ADDRFEAT/";
 
 # download path of tiger files (use default unless param is supplied)
 TIGERPATH=${TIGERPATH:-"$WORKINGDIR/data/tiger"};
@@ -20,6 +20,6 @@ fi
 # sync files from FTP server
 lftp <<-SCRIPT
   open ftp2.census.gov
-  mirror -e -n -r --parallel=20 --ignore-time /geo/tiger/TIGER2021/ADDRFEAT/ $TIGERPATH/downloads
+  mirror -e -n -r --parallel=20 --ignore-time /geo/tiger/TIGER2024/ADDRFEAT/ $TIGERPATH/downloads
   exit
 SCRIPT
