@@ -6,11 +6,11 @@ jobs:
   npm-publish:
     needs: unit-tests
     if: github.ref == 'refs/heads/master' && needs.unit-tests.result == 'success'
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 20.x
       - name: Run semantic-release
@@ -26,9 +26,9 @@ jobs:
     # note: github actions won't run a job if you don't call one of the status check functions, so `always()` is called since it evalutes to `true`
     if: ${{ always() && needs.unit-tests.result == 'success' && (needs.npm-publish.result == 'success' || needs.npm-publish.result == 'skipped') }}
     needs: [unit-tests, npm-publish]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build Docker images
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
