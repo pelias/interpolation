@@ -28,10 +28,12 @@ function osm(dataStream, addressDbPath, streetDbPath, done){
 
       // create the indexes after the data is imported
       // for performance reasons.
-      query.indexes.address(db);
-
-      // close the db handle when done
-      db.close();
+      try {
+        query.indexes.address(db);
+      } finally {
+        // close the db handle on success or indexing failure
+        db.close();
+      }
 
       // done
       if( 'function' === typeof done ){ done(); }
