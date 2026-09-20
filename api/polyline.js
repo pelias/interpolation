@@ -24,15 +24,15 @@ function polyline(dataStream, streetDbPath, done){
 
       // create the indexes after the data is imported
       // for performance reasons.
-      query.indexes.street(db, function(){
-
-        // close the db handle when done
+      try {
+        query.indexes.street(db);
+      } finally {
+        // close the db handle on success or indexing failure
         db.close();
+      }
 
-        // done
-        if( 'function' === typeof done ){ done(); }
-
-      });
+      // done
+      if( 'function' === typeof done ){ done(); }
     })); // save to db
 }
 
