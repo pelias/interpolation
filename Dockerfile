@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y python3 build-essential
 
 COPY --chown=pelias ./package.json ${WORKDIR}
 
-RUN npm install
+RUN echo 'allow-scripts=node-postal' > .npmrc && npm install
 
 # base image
 FROM pelias/libpostal_baseimage
