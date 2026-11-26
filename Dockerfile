@@ -16,7 +16,7 @@ FROM pelias/libpostal_baseimage
 
 # interpolation dependencies
 RUN apt-get update && \
-    apt-get install -y sqlite3 gdal-bin lftp unzip pigz time gawk && \
+    apt-get install -y sqlite3 gdal-bin lftp unzip pigz time gawk jq && \
     rm -rf /var/lib/apt/lists/*
 
 # change working dir

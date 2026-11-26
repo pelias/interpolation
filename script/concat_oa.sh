@@ -1,8 +1,8 @@
 #!/bin/bash
-set -e;
+set -eo pipefail;
 export LC_ALL=en_US.UTF-8;
 
-# concatenate all openaddresses csv files in to a single stream
+# concatenate all openaddresses csv and geojson files in to a single stream
 # note: deduplicates lines in each file
 
 # base path of openaddresses file system (use default unless param is supplied)
@@ -12,19 +12,29 @@ if [ ! -d $OAPATH ]; then
   exit 1;
 fi
 
-# only output the csv header once
-HAS_OUTPUT_HEADER=false;
+# OpenAddresses no longer publish CSV files, convert their GeoJSON format to
+# the legacy CSV format with HASH as the final (unquoted) column
+function geojson_to_csv() {
+  jq -r 'select(.geometry.type == "Point") | ([
+    .geometry.coordinates[0],
+    .geometry.coordinates[1],
+    .properties.number,
+    .properties.street,
+    .properties.unit,
+    .properties.city,
+    .properties.district,
+    .properties.region,
+    .properties.postcode,
+    .properties.id
+  ] | @csv) + "," + (.properties.hash // "")' "$1"
+}
 
-# recurse through filesystem listing all .csv file names not containing the text "summary"
-find $OAPATH -type f -iname "*.csv" ! -name '*summary*' -print0 |\
+# output the header
+echo 'LON,LAT,NUMBER,STREET,UNIT,CITY,DISTRICT,REGION,POSTCODE,ID,HASH';
+
+# exclude OpenAddresses summary files, they contain statistics rather than addresses
+find $OAPATH -type f \( -iname "*.csv" -o -iname "*.geojson" \) ! -name '*summary*' -print0 |\
   while IFS= read -r -d $'\0' filename; do
-
-    # output the header
-    # LON,LAT,NUMBER,STREET,UNIT,CITY,DISTRICT,REGION,POSTCODE,ID,HASH
-    if [ "$HAS_OUTPUT_HEADER" = false ] ; then
-      HAS_OUTPUT_HEADER=true;
-      head -n1 $filename | sed $'s/\r//'; # remove windows® newlines
-    fi
 
     # echo filename to stderr
     >&2 echo $(date -u) "$filename";
@@ -33,8 +43,12 @@ find $OAPATH -type f -iname "*.csv" ! -name '*summary*' -print0 |\
     HASH_PREFIX="${filename#$OAPATH/}";
     HASH_PREFIX="${HASH_PREFIX%.*}";
 
-    # start reading from line 2 (discard header)
-    tail -n +2 $filename |\
+    if [[ "${filename,,}" == *.geojson ]]; then
+      geojson_to_csv "$filename";
+    else
+      # start reading from line 2 (discard header)
+      tail -n +2 "$filename";
+    fi |\
 
       # remove windows® newlines
       sed $'s/\r//' |\
