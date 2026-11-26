@@ -16,7 +16,8 @@ var tests = [
   require('./stream/osm/delimited_ranges.js'),
   // require('./script/js/adapter/CensusFTP'),
   require('./script/js/adapter/CensusS3Mirror'),
-  require('./query/DynamicQueryCache')
+  require('./query/DynamicQueryCache'),
+  require('./api/completion.js')
 ];
 
 tests.map(function(t) {

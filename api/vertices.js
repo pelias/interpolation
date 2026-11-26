@@ -23,15 +23,15 @@ function vertices(addressDbPath, streetDbPath, done){
 
             // create the indexes after the data is imported
             // for performance reasons.
-            query.indexes.address(db, function(){
-
-              // close the db handle when done
+            try {
+              query.indexes.address(db);
+            } finally {
+              // close the db handle on success or indexing failure
               db.close();
+            }
 
-              // done
-              if( 'function' === typeof done ){ done(); }
-
-            });
+            // done
+            if( 'function' === typeof done ){ done(); }
 
           })); // save to db
 }
