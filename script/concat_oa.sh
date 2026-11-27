@@ -7,10 +7,6 @@ export LC_ALL=en_US.UTF-8;
 
 # base path of openaddresses file system (use default unless param is supplied)
 OAPATH=${OAPATH:-"/data/oa"};
-if [ ! -d $OAPATH ]; then
-  echo "openaddresses data dir does not exist";
-  exit 1;
-fi
 
 # OpenAddresses no longer publish CSV files, convert their GeoJSON format to
 # the legacy CSV format with HASH as the final (unquoted) column
@@ -31,6 +27,12 @@ function geojson_to_csv() {
 
 # output the header
 echo 'LON,LAT,NUMBER,STREET,UNIT,CITY,DISTRICT,REGION,POSTCODE,ID,HASH';
+
+# projects without OpenAddresses data have no data dir, which isn't an error
+if [ ! -d $OAPATH ]; then
+  >&2 echo "openaddresses data dir does not exist, skipping";
+  exit 0;
+fi
 
 # exclude OpenAddresses summary files, they contain statistics rather than addresses
 find $OAPATH -type f \( -iname "*.csv" -o -iname "*.geojson" \) ! -name '*summary*' -print0 |\
