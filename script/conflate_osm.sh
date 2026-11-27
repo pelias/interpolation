@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e;
+set -eo pipefail;
 export LC_ALL=en_US.UTF-8;
 
 # import openstreetmap data and conflate it with $STREET_DB
